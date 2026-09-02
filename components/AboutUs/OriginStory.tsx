@@ -89,16 +89,16 @@ export default function OriginStory() {
             </p>
 
             <p>
-              We believe the way someone travels reflects how they live, or how
+              We believe the way someone travels reflects how they live — or how
               they wish to live. Every traveller, regardless of budget or
               experience level, deserves to experience the version of a journey
               that genuinely fits them. Not a compromised version.
             </p>
 
             <p>
-              With 30+ years of combined experience across land, air, and cruises,
-              and across very different travel budgets and expectations, we&apos;ve
-              taken everything we know about systems, logistics, on-ground
+              With 30+ years of combined experience across land, air, and cruise,
+              and across very different travel budgets and expectations — we&apos;ve
+              taken everything we know — about systems, logistics, on-ground
               operations and high-expectations, to build a travel company that
               leads with honesty. We&apos;re here to meet you where you are and then
               expand on what&apos;s possible.
