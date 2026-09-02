@@ -7,7 +7,7 @@ import img from "./img.png";
 
 export default function ExploreAllJourneys() {
   return (
-    <section className="w-full border-t border-[#D9D9D9] bg-white">
+    <section className="w-full border-t border-[#D9D9D9]">
       <div className="max-w-[1920px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-[50%_50%]">
 
@@ -17,34 +17,34 @@ export default function ExploreAllJourneys() {
 
               {/* Desktop Heading */}
               <h2 className="hidden lg:block font-[Taprom] text-[54px] leading-[1.2] text-ink">
-                <span className="block w-fit bg-[#F2E2DA] mb-4">
+                <span className="block w-fit sub-title-bg mb-4">
                   There’s a version of the
                 </span>
 
-                <span className="block w-fit bg-[#F2E2DA] mb-4">
+                <span className="block w-fit sub-title-bg mb-4">
                   world out there with your
                 </span>
 
-                <span className="block w-fit bg-[#F2E2DA]">
+                <span className="block w-fit sub-title-bg">
                   name on it
                 </span>
               </h2>
 
               {/* Mobile Heading */}
               <h2 className="block lg:hidden font-[Taprom] font-normal max-w-[336px] mx-auto text-[40px] leading-[48px] tracking-[0.05em] text-[#000000] text-center">
-                <span className="block w-fit mx-auto bg-[#F2E2DA] mb-[15px]">
+                <span className="w-fit mx-auto block sub-title-bg mb-[15px]">
                   There’s a version of
                 </span>
 
-                <span className="block sub-title-bg des mb-[15px]">
+                <span className="block sub-title-bg sub-title-bg des mb-[15px]">
                   the world out there
                 </span>
 
-                <span className="block sub-title-bg des mb-[15px]">
+                <span className="block sub-title-bg sub-title-bg des mb-[15px]">
                   that has your name
                 </span>
 
-                <span className="block sub-title-bg des-on">
+                <span className="block sub-title-bg sub-title-bg des-on">
                   on it.
                 </span>
               </h2>

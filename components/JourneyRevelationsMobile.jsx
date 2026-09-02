@@ -24,7 +24,7 @@ export default function GroupRevelationsSectionMobile({
   return (
     <div className="block md:hidden w-full px-4 py-2 font-sans antialiased select-none">
       <section
-        className={`w-full max-w-[336px] mx-auto rounded-[10px] border-2 overflow-hidden flex flex-col shadow-sm ${
+        className={`w-full mx-auto rounded-[10px] border-2 overflow-hidden flex flex-col shadow-sm ${
           !isHex(borderStyle) ? borderStyle : ""
         } ${!isHex(cardBgStyle) ? cardBgStyle : ""}`}
         style={{
@@ -55,7 +55,7 @@ export default function GroupRevelationsSectionMobile({
           {features.map((item, index) => (
             <div key={index} className="flex flex-col gap-2.5 w-full">
               <div
-                className={`relative rounded-xl overflow-hidden border shadow-xs bg-stone-100 shrink-0 w-full h-[185px] ${
+                className={`relative rounded-xl overflow-hidden border shadow-xs bg-stone-100 shrink-0 w-full ${
                   !isHex(borderStyle) ? borderStyle : ""
                 }`}
                 style={{

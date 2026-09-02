@@ -52,49 +52,33 @@ export default function SearchHeader({
   />
 </Link>
 
-          <div className="hidden md:flex items-center gap-9 text-[14px] font-medium text-[#1E1E1E]">
-  <Link href="/about-us">About</Link>
+            <div className="hidden md:flex items-center gap-9 text-[14px] font-medium text-[#1E1E1E]">
+              <Link href="/about-us">About</Link>
 
-  <Link href="/group-rtb-journeys">
-    Group Journeys
-  </Link>
+              <Link href="/group-rtb-journeys">Group Journeys</Link>
 
-  <Link href="/private-rtb-journeys">
-    Private Journeys
-  </Link>
+              <Link href="/private-rtb-journeys">Private Journeys</Link>
 
-  <Link href="/tailor-made-journeys">
-    Tailor-made Journeys
-  </Link>
+              <Link href="/tailor-made-journeys">Tailor-made Journeys</Link>
 
-  {showAllJourneys && (
-    <Link href="/itinerary">
-      All Journeys
-    </Link>
-  )}
+              {showAllJourneys && <Link href="/itinerary">All Journeys</Link>}
 
-  <Link href="/destination">
-    Destinations
-  </Link>
+              <Link href="/destination">Destinations</Link>
 
-  <Link href="/offers">
-    Offers
-  </Link>
-</div>
+              <Link href="/offers">Offers</Link>
+            </div>
 
-          <button
-            onClick={() => setShowFindJourneyMobile(true)}
-          >
-            <Image
-              src="/Search.svg"
-              alt="Search"
-              width={16}
-              height={16}
-              className="block md:hidden"
-            />
-          </button>
+            <button onClick={() => setShowFindJourneyMobile(true)}>
+              <Image
+                src="/Search.svg"
+                alt="Search"
+                width={16}
+                height={16}
+                className="block md:hidden"
+              />
+            </button>
+          </div>
         </div>
-      </div>
       </div>
     </>
   );

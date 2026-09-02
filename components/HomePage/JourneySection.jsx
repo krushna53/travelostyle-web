@@ -37,8 +37,11 @@ export default function JourneySection() {
           {/* =========================
               LEFT TEXT
           ========================== */}
-          <div className="absolute left-[5.625%] top-[50%] w-[57.14%]">
-
+          <div className="absolute left-[5.625%] top-[50%]
+                  max-[1250px]:top-[40%]
+                  max-[1281px]:top-[45%]
+                  max-[1910px]:top-[48%]
+                  min-[1919px]:top-[50%] w-[57.14%]">
             <div className="inline-block px-[1px]">
               <h2
                 className="
@@ -47,8 +50,11 @@ export default function JourneySection() {
                   font-taprom
                   font-normal
                   text-[54px]
-                  lg:text-[44px]
-                  xl:text-[54px]
+                  max-[1200px]:text-[28px]
+                  max-[1250px]:text-[32px]
+                  max-[1281px]:text-[38px]
+                  max-[1910px]:text-[44px]
+                  min-[1919px]:text-[54px]
                   text-ink
                 "
                 style={{
@@ -60,18 +66,19 @@ export default function JourneySection() {
               </h2>
             </div>
 
-            <p
-    className="
-      mt-[8px]
-      w-full
-      max-w-[1097px]
-      font-nohemi
-      font-normal
-      text-[18px]
-      leading-[36px]
-      tracking-[0.05em]
-      text-[#1A1A1A]
-    "
+            <p className="
+                mt-[8px]
+                w-full
+                max-w-[1097px]
+                font-nohemi
+                font-normal
+                text-[18px]
+                max-[1910px]:text-[16px]
+                leading-[36px]
+                max-[1910px]:leading-[28px]
+                tracking-[0.05em]
+                text-[#1A1A1A]
+              "
             >
               Make travel feel calmer, clearer, and more worth it with
               TravelOstyle. Our journeys are designed around real people —
@@ -107,7 +114,7 @@ export default function JourneySection() {
             </div>
 
             {/* Star - right */}
-            <div className="absolute right-[16%] top-[50%] z-30">
+            <div className="absolute right-[16%] bottom-[29%] z-30">
               <Image
                 src="/star.svg"
                 alt="star"

@@ -131,7 +131,7 @@ export default function FooterNewsletterForm() {
   };
 
   return (
-    <div className="min-w-0 mt-4 md:mt-0">
+    <div className="max-w-[350px] mt-4 md:mt-0">
       {submitted ? (
         <div className="py-4">
           <h3 className="text-[16px] font-semibold">

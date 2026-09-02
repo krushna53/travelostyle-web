@@ -31,7 +31,7 @@ export default function TravelJourneyCard({
 }) {
   return (
     <div className="w-full  mx-auto pt-6 md:pb-12 overflow-hidden">
-      <div className="flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pt-2 pb-6 pl-4 pr-12 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:justify-center md:justify-items-center xl:grid-cols-3 2xl:grid-cols-4 md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:pt-0">
+      <div className="flex flex-row flex-wrap overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pt-2 pb-6 pl-4 pr-12 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:pt-0">
         {journeys.map((journey) => {
           const trip = mapJourneyToTrip(journey);
           return (
