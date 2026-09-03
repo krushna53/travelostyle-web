@@ -20,7 +20,15 @@ const months = [
 
 const durations = ["2–5 Days", "6–10 Days", "11–20 Days", "20+ Days"];
 
-export default function TravelDateMobile({ onClose,selectedMonths,setSelectedMonths,selectedDuration,setSelectedDuration }) {
+export default function TravelDateMobile({ onClose,selectedMonths,setSelectedMonths,selectedDuration,setSelectedDuration, months: monthsFromDrupal = [], popularMonths = [] }) {
+
+  // Months marked popular first; otherwise whatever Month terms actually
+  // exist in Drupal; the static 12-month list is a last resort only.
+  const monthOptions = popularMonths.length
+    ? popularMonths
+    : monthsFromDrupal.length
+      ? monthsFromDrupal
+      : months;
 
   const toggleMonth = (month) => {
     setSelectedMonths((prev) =>
@@ -50,7 +58,7 @@ export default function TravelDateMobile({ onClose,selectedMonths,setSelectedMon
         </h3>
 
         <div className="flex flex-wrap gap-2">
-          {months.map((month) => (
+          {monthOptions.map((month) => (
             <button
               key={month}
               onClick={() => toggleMonth(month)}

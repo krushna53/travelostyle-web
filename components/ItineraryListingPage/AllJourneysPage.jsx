@@ -311,11 +311,11 @@ offer: item.attributes.field_offer_message || "",
     async function loadFilters() {
       try {
         const endpoints = {
-   region: `${API_BASE_URL}/jsonapi/taxonomy_term/region`,
-  style: `${API_BASE_URL}/jsonapi/taxonomy_term/tags`,
-  offer: `${API_BASE_URL}/jsonapi/taxonomy_term/offers`,
-  category: `${API_BASE_URL}/jsonapi/taxonomy_term/category`,
-  month: `${API_BASE_URL}/jsonapi/taxonomy_term/month`,
+   region: `${API_BASE_URL}/jsonapi/taxonomy_term/region?sort=-drupal_internal__tid`,
+  style: `${API_BASE_URL}/jsonapi/taxonomy_term/tags?sort=-drupal_internal__tid`,
+  offer: `${API_BASE_URL}/jsonapi/taxonomy_term/offers?sort=-drupal_internal__tid`,
+  category: `${API_BASE_URL}/jsonapi/taxonomy_term/category?sort=-drupal_internal__tid`,
+  month: `${API_BASE_URL}/jsonapi/taxonomy_term/month?sort=-drupal_internal__tid`,
 };
 
         const results = {};

@@ -265,8 +265,16 @@ export default function FilterSidebar({
           sessionJourneyFilters.months || sessionJourneyFilters.month || [];
 
         // Region
+        // "destinations" is the key the homepage's TravelForm /
+        // FindYourJourneyMobile widgets actually store the selected
+        // popular-destination values under (they also push the same
+        // values as the URL `?region=` param on navigation — this is a
+        // same-tab fallback in case that param is ever missing/stripped).
         const selectedRegion =
-          sessionJourneyFilters.region || sessionJourneyFilters.regions || [];
+          sessionJourneyFilters.region ||
+          sessionJourneyFilters.regions ||
+          sessionJourneyFilters.destinations ||
+          [];
 
         // Pricing
         const selectedPricing = sessionJourneyFilters.pricing || [];
