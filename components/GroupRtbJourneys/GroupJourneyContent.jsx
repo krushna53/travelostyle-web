@@ -88,7 +88,7 @@ function mapBookingSteps(result) {
 }
 
 export default async function GroupJourneyContent() {
-  const [matrixResult, whyResult, stepsResult, heroResult, advisorResult] = await Promise.all([
+  const [matrixResult, whyResult, stepsResult, advisorResult] = await Promise.all([
     getBlock("journey_type_matrix", MATRIX_INCLUDE, {
       filter: { field_journey_type: "group" },
     }),
@@ -97,10 +97,6 @@ export default async function GroupJourneyContent() {
     }),
     getBlock("booking_steps", STEPS_INCLUDE, {
       filter: { field_journey_type: "group" },
-    }),
-    getBlock("page_hero", undefined, {
-      filter: { field_page_key: "group" },
-      revalidate: 60,
     }),
     getBlock("advisor_callout", undefined, {
       filter: { field_journey_type: "group" },
@@ -114,8 +110,6 @@ export default async function GroupJourneyContent() {
       whyTakeContent={mapWhyTake(whyResult)}
       bookingStepsContent={mapBookingSteps(stepsResult)}
       advisorCalloutContent={mapAdvisorCallout(advisorResult)}
-      heroHeading={heroResult?.block?.attributes?.field_heading}
-      heroDescription={stripHtml(heroResult?.block?.attributes?.field_description?.value || "")}
     />
   );
 }
