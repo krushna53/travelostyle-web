@@ -12,14 +12,14 @@ export default function SearchHeader({
 }) {
   return (
     <>
-      <div className="flex items-center justify-between bg-[#2E2787] px-4 md:px-28 py-2 text-[10px] md:text-[11px] text-white">
+      <div className="flex items-center justify-between bg-[#2E2787] px-4 md:px-14 py-2 text-[10px] md:text-[11px] text-white">
         <p className="truncate">
           Speak to our travel advisor (773) 983-8067 | open 10am-7pm CST
         </p>
 
         <div className="flex items-center gap-4 md:gap-6">
           <button>FAQs</button>
-          <button className="hidden md:block">Contact Us</button>
+          <button className="hidden min-[1191px]:block">Contact Us</button>
         </div>
       </div>
 
@@ -29,12 +29,12 @@ export default function SearchHeader({
         showAllJourneys={showAllJourneys}
       />
 
-      <div className="bg-[#FAFAFA] md:bg-transparent">
+      <div className="bg-[#FAFAFA] min-[1191px]:bg-transparent">
         <div className="px-4 md:px-14 py-3">
-          <div className="relative flex items-center justify-between max-md:pt-4 pb-4">
+          <div className="relative flex items-center justify-between max-[1190px]:pt-2 pb-4">
             <button
               onClick={() => setMenuOpen(true)}
-              className="block md:hidden"
+              className="block min-[1191px]:hidden"
             >
               <Image src="/MenuToggle.svg" alt="Menu" width={24} height={16} />
             </button>
@@ -43,11 +43,11 @@ export default function SearchHeader({
               <img
                 src="/TravelOStyleBlack.svg"
                 alt="TravelOStyle"
-                className="h-auto w-[184px] md:w-[309px] md:static absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:translate-x-0 md:translate-y-0 cursor-pointer"
+                className="h-auto w-[184px] md:w-[309px] max-[1190px]:absolute max-[1190px]:left-1/2 max-[1190px]:top-1/2 max-[1190px]:-translate-x-1/2 max-[1190px]:-translate-y-1/2 min-[1191px]:static min-[1191px]:translate-x-0 min-[1191px]:translate-y-0 cursor-pointer"
               />
             </Link>
 
-            <div className="hidden md:flex items-center gap-9 text-[14px] font-medium text-[#1E1E1E]">
+            <div className="hidden min-[1191px]:flex items-center gap-9 text-[18px] font-medium text-[#1E1E1E]">
               <Link href="/about-us">About</Link>
 
               <Link href="/group-rtb-journeys">Group Journeys</Link>
@@ -69,7 +69,7 @@ export default function SearchHeader({
                 alt="Search"
                 width={16}
                 height={16}
-                className="block md:hidden"
+                className="block min-[1191px]:hidden"
               />
             </button>
           </div>
