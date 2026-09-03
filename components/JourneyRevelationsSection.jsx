@@ -55,7 +55,7 @@ export default function JourneyRevelationsSection({
           </div>
         )}
 
-        <div className="flex flex-row items-stretch">
+        <div className="flex items-stretch">
           <div
             className={`shrink-0 px-[clamp(24px,4.5vw,140px)] py-7 flex flex-col gap-7 border-r-2 ${borderClass}`}
             style={{ borderColor: borderVar }}
@@ -98,7 +98,7 @@ export default function JourneyRevelationsSection({
               return (
                 <div
                   key={index}
-                  className={`flex flex-row flex-1 ${
+                  className={`flex flex-1 ${
                     !isLast || footerText ? `border-b-2 ${borderClass}` : ""
                   }`}
                   style={

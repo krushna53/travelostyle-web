@@ -2,10 +2,10 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export default function GoodCompaneyJourney({ heroHeading, heroDescription }) {
+export default function GoodCompaneyJourney() {
   const router = useRouter();
-  const description = heroDescription || "";
-  const heading = heroHeading || "Coming Soon";
+  const description =
+    "TravelOStyle group journeys are made to explore a destination beyond its postcard alongside like-minded people. Bonus? There's no chaos of co-ordinating it yourself. The routes are planned, the price is fixed, the dates are set, the logistics are sorted and your group is waiting. All you have to do is decide whether you want to come along!";
   const polaroids = [
     {
       id: 1,
@@ -69,12 +69,21 @@ export default function GoodCompaneyJourney({ heroHeading, heroDescription }) {
           className="absolute bottom-[8%] left-[-35px] w-[70%] max-w-[700px] h-auto"
         />
       </div>
-      <div className="relative max-w-4xl w-full text-center z-10 flex flex-col items-center mt-6">
-        <h2 className="font-taprom text-[58px] max-[1100px]:text-[48px] leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg px-4 py-1">
-          {heading}
+      <div className="relative w-full text-center z-10 flex flex-col items-center mt-6">
+        <h2
+          className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg group-hero-line1 px-4 py-1"
+          style={{ fontSize: "clamp(28px, 3.4vw, 65px)" }}
+        >
+          Journeys that get better in good
+        </h2>
+        <h2
+          className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg px-4 py-1"
+          style={{ fontSize: "clamp(28px, 3.4vw, 65px)" }}
+        >
+          company
         </h2>
 
-        <p className="mt-8 text-[21px] md:text-[14px] text-[#333333] max-w-[780px] leading-[1.7] tracking-normal px-4 font-normal">
+        <p className="mt-8 text-[21px] md:text-[13px] text-[#333333] max-w-[780px] leading-[1.7] tracking-normal px-4 font-normal">
           {description}
         </p>
       </div>

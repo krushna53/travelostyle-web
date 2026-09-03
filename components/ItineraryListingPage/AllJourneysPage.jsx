@@ -478,16 +478,19 @@ offer: item.attributes.field_offer_message || "",
         {/* Script heading with the beige highlight sitting behind each line
             (per Figma). inline decoration-clone keeps the band tight to the
             glyphs and wrapping onto three lines, rather than one flat block. */}
-        <h1 className="mt-5 max-w-[290px] font-taprom text-[40px] relative z-0 font-normal leading-[46px] tracking-[0.02em] text-ink">
-          <span className="inline-block sub-title-bg feel hear md:px-[6px] mx-auto">
-            The range is wide
+        <h1 className="ml-5 mt-5 w-full font-taprom text-[40px] relative z-0 font-normal leading-[1.3] tracking-[0.02em] text-ink flex flex-col items-start gap-3">
+          <span className="inline-block" style={{ backgroundColor: "#f6dbc9", padding: "2px 4px" }}>
+            We&apos;ve never believed
           </span>
-            <span className="block sub-title-bg feel who md:px-[6px] mx-auto">
-            because we&apos;ve never believed
-            </span>
-            <span className="inline-block sub-title-bg feel with md:px-[6px] mx-auto">
-            in a one-size-fits-all approach
-            </span>
+          <span className="inline-block" style={{ backgroundColor: "#f6dbc9", padding: "2px 4px" }}>
+            in a one-size-fits-
+          </span>
+          <span className="inline-block" style={{ backgroundColor: "#f6dbc9", padding: "2px 4px" }}>
+           all approach to the
+          </span>
+          <span className="inline-block" style={{ backgroundColor: "#f6dbc9", padding: "2px 4px" }}>
+            world
+          </span>
         </h1>
 
         <div className="mt-[48px] md:mt-6 flex items-center justify-between border-b-2 border-ink pb-3">

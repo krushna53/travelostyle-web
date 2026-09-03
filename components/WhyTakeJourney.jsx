@@ -18,7 +18,7 @@ export default function WhyTakeJourney({
 
       <div className="relative z-10 max-w-[1600px] w-full mx-auto">
         {title && (
-          <h3 className="font-nohemi text-[16px] md:text-[24px] font-semibold leading-[28px] md:leading-[40px] tracking-[0.05em] text-[#FAFAFA] mb-3">
+          <h3 className="font-nohemi max-w-[374px] md:max-w-[1016px] mx-auto text-[32px] md:text-[64px] font-semibold leading-[40px] md:leading-[80px] tracking-[0.05em] text-[#FAFAFA] text-center mb-3 md:-mt-6">
               {title}
           </h3>
         )}

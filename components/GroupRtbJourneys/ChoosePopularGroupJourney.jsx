@@ -107,6 +107,8 @@ export default function ChoosePopularGroupJourney() {
         journeys={journeys}
         selectedTrips={selectedTrips}
         onCompare={handleCompareSelection}
+        mobileSlider
+        mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
       />
       <div className="flex justify-center">
         <button
