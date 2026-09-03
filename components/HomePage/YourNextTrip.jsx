@@ -8,7 +8,7 @@ export default function YourNextTrip({ initialJourneys = null }) {
 
   return (
     <section className="overflow-hidden py-8 md:py-[5vw]">
-      <div className="mx-auto w-full">
+      <div className="mx-auto w-[95%]">
         <div className="flex flex-col items-start text-left px-4 md:items-center md:text-center md:px-0">
           <h2 className="font-nohemi max-w-[391px] md:max-w-none text-[32px] leading-[40px] font-semibold tracking-[0.05em] text-[#1A1A1A] md:text-[3vw] md:leading-[1.25] md:tracking-[-0.08vw] md:text-ink">
             Take your next trip with TravelOStyle

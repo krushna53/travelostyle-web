@@ -164,7 +164,7 @@ export default function ContactInquiry() {
   return (
   <section className="w-full px-0 py-0 max-md:px-0 max-md:py-0 mt-8">
       <div
-        className="relative mx-auto h-[38vw] max-w-[200vw] overflow-hidden
+        className="relative mx-auto h-[48vw] max-w-[200vw] overflow-hidden
         max-md:h-auto max-w-full max-md:min-h-screen"
       >
         <Image

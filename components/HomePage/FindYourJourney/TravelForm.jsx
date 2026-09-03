@@ -194,7 +194,7 @@ export default function TravelForm({
 
         <button
           onClick={handleFindJourney}
-          className="mb-3 w-[220px] h-[45px] px-[21px] py-3 bg-[#2F2E8B] text-white text-[14px] font-medium rounded-[100px] flex items-center justify-center gap-[10px]"
+          className="mb-3 w-[220px] h-[45px] px-[21px] py-3 bg-[#2F2E8B] text-white text-[14px] font-medium rounded-[100px] flex items-center justify-center gap-[10px] whitespace-nowrap"
         >
           Find Your Journey
         </button>

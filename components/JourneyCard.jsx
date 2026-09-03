@@ -107,7 +107,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         mobileWidthClass || "w-[293px] min-w-[293px]"
       } ${
         variant === "carousel"
-          ? "md:w-[390px] md:min-w-[390px] md:px-8"
+          ? "md:w-[367px] md:min-w-[367x] md:px-8"
           : "md:w-full md:min-w-0 md:max-w-[390px] md:px-6"
       }`}
     >
