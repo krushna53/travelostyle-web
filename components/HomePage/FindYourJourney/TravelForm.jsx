@@ -13,7 +13,9 @@ const travelOptions = [
   "Private Jet Journeys",
 ];
 
-const destinations = [
+// Fallbacks only — used if Drupal has no popular Locations/Regions or
+// popular months yet, so the widget never renders empty.
+const FALLBACK_DESTINATIONS = [
   "Morocco",
   "Orlando",
   "Las Vegas",
@@ -26,7 +28,7 @@ const destinations = [
   "Spain",
 ];
 
-const months = [
+const FALLBACK_MONTHS = [
   "January",
   "February",
   "March",
@@ -43,9 +45,16 @@ const months = [
 
 const durations = ["5–8 Days", "8–15 Days", "15–25 Days", "25+ Days"];
 
-export default function TravelForm() {
-  const [selectedTravelType, setSelectedTravelType] =
-    useState("Private Journey");
+export default function TravelForm({
+  destinations = [],
+  months = [],
+  styles = [],
+  popularDestinations = [],
+  popularMonths = [],
+}) {
+  const [selectedTravelType, setSelectedTravelType] = useState(
+    (styles.length ? styles : travelOptions)[0] || "Private Journey",
+  );
   const router = useRouter();
   const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -53,6 +62,35 @@ export default function TravelForm() {
   const [selectedMonths, setSelectedMonths] = useState([]);
   const [selectedDuration, setSelectedDuration] = useState("");
   const [openToPossibilities, setOpenToPossibilities] = useState(false);
+
+  // "Where do you want to go?" — popular Locations (city, labeled with
+  // their region) and popular Regions from Drupal, falling back to the
+  // plain region list, then to a static list if Drupal has nothing.
+  // NOTE: `value` (not `label`) is what's stored/filtered on — for a
+  // popular Location chip, that's always its parent Region's name, since
+  // the itinerary page's region filter only ever matches Region taxonomy
+  // terms, not individual Location cities.
+  const destinationOptions = popularDestinations.length
+    ? popularDestinations
+    : destinations.length
+      ? destinations.map((name) => ({ id: name, label: name, value: name }))
+      : FALLBACK_DESTINATIONS.map((name) => ({ id: name, label: name, value: name }));
+
+  // "When do you want to travel?" — months marked popular first; if none
+  // are flagged yet, fall back to whatever Month terms actually exist in
+  // Drupal (so this only ever shows real terms, e.g. just the 4 that
+  // exist today, never a full static 12-month list unless Drupal itself
+  // is completely empty).
+  const monthOptions = popularMonths.length
+    ? popularMonths
+    : months.length
+      ? months
+      : FALLBACK_MONTHS;
+
+  // "Choose a way to travel" — the same "tags" taxonomy the itinerary
+  // sidebar's own Travel Style filter reads from, so a selection here is
+  // guaranteed to match something the itinerary page can actually filter.
+  const travelTypeOptions = styles.length ? styles : travelOptions;
 
   const handleFindJourney = () => {
     const findYourJourneyData = {
@@ -65,15 +103,16 @@ export default function TravelForm() {
 
     sessionStorage.setItem("journeyData", JSON.stringify(findYourJourneyData));
 
-    router.push(`/itinerary?region=${encodeURIComponent(selectedTravelType)}`);
+    const region = selectedDestinations.join(",");
+    router.push(`/itinerary${region ? `?region=${encodeURIComponent(region)}` : ""}`);
   };
 
-  const handleDestinationSelect = (destination) => {
+  const handleDestinationSelect = (value) => {
     setSelectedDestinations((prev) => {
-      if (prev.includes(destination)) {
-        return prev.filter((item) => item !== destination);
+      if (prev.includes(value)) {
+        return prev.filter((item) => item !== value);
       }
-      return [...prev, destination];
+      return [...prev, value];
     });
   };
 
@@ -160,7 +199,6 @@ export default function TravelForm() {
           Find Your Journey
         </button>
       </div>
-      {/* <div className="mt-3 h-[1px] bg-[#2C3078] mx-[-60px]"></div> */}
       {activeDropdown === "travel" && (
         <div className="mt-3 rounded-lg border border-gray-400 bg-white p-4 shadow-md">
           <h3 className="mb-4 text-[0.9vw] font-semibold">
@@ -168,7 +206,7 @@ export default function TravelForm() {
           </h3>
 
           <div className="flex flex-wrap gap-8">
-            {travelOptions.map((item) => (
+            {travelTypeOptions.map((item) => (
               <label
                 key={item}
                 className="flex cursor-pointer items-center gap-2 text-[0.7vw]"
@@ -194,17 +232,17 @@ export default function TravelForm() {
           </h3>
 
           <div className="flex flex-wrap gap-3">
-            {destinations.map((item) => (
+            {destinationOptions.map((item) => (
               <button
-                key={item}
-                onClick={() => handleDestinationSelect(item)}
+                key={item.id}
+                onClick={() => handleDestinationSelect(item.value)}
                 className={`rounded-full border px-4 py-1 text-xs transition-all text-[0.7vw] ${
-                  selectedDestinations.includes(item)
+                  selectedDestinations.includes(item.value)
                     ? "border-[#2E348D] bg-[#F5EFE8] text-[#2E348D]"
                     : "border-gray-300 bg-white"
                 }`}
               >
-                {item}
+                {item.label}
               </button>
             ))}
           </div>
@@ -235,7 +273,7 @@ export default function TravelForm() {
           </p>
 
           <div className="flex flex-wrap gap-3">
-            {months.map((month) => (
+            {monthOptions.map((month) => (
               <button
                 key={month}
                 onClick={() => handleMonthSelect(month)}

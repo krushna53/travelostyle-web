@@ -2,13 +2,46 @@
 
 import { Search, X } from "lucide-react";
 
-export default function DestinationMobile({ onClose,onNext,selectedDestinations,setSelectedDestinations ,openToPossibilities,setOpenToPossibilities, destinations = [] }) {
+// Fallback only — used if Drupal has no popular Locations/Regions yet.
+const FALLBACK_DESTINATIONS = [
+  "Morocco",
+  "Orlando",
+  "Las Vegas",
+  "Cancun",
+  "India",
+  "Africa",
+  "Punta Cana",
+  "Florida",
+  "Chicago",
+  "Spain",
+];
 
-  const handleSelect = (destination) => {
+export default function DestinationMobile({
+  onClose,
+  onNext,
+  selectedDestinations,
+  setSelectedDestinations,
+  openToPossibilities,
+  setOpenToPossibilities,
+  destinations = [],
+  popularDestinations = [],
+}) {
+  // Popular Locations (city, labeled with their region) + popular Regions
+  // from Drupal, falling back to the plain region list, then a static list.
+  // `value` (not `label`) is what gets stored/selected — for a popular
+  // Location chip that's always its parent Region's name, matching what
+  // the itinerary page's region filter actually understands.
+  const destinationOptions = popularDestinations.length
+    ? popularDestinations
+    : destinations.length
+      ? destinations.map((name) => ({ id: name, label: name, value: name }))
+      : FALLBACK_DESTINATIONS.map((name) => ({ id: name, label: name, value: name }));
+
+  const handleSelect = (value) => {
     setSelectedDestinations((prev) =>
-      prev.includes(destination)
-        ? prev.filter((item) => item !== destination)
-        : [...prev, destination]
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value]
     );
   };
 
@@ -47,18 +80,18 @@ export default function DestinationMobile({ onClose,onNext,selectedDestinations,
       </h3>
 
       <div className="flex flex-wrap gap-2 mb-6">
-        {destinations.map((item) => (
+        {destinationOptions.map((item) => (
           <button
-            key={item}
-            onClick={() => handleSelect(item)}
+            key={item.id}
+            onClick={() => handleSelect(item.value)}
             className={`px-4 h-[28px] rounded-full border text-[11px] transition-all
               ${
-                selectedDestinations.includes(item)
+                selectedDestinations.includes(item.value)
                   ? "bg-[#F4E5D9] border-[#8E8E8E] text-[#333]"
                   : "bg-white border-[#8E8E8E] text-[#333]"
               }`}
           >
-            {item}
+            {item.label}
           </button>
         ))}
       </div>
