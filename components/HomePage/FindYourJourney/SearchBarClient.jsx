@@ -21,9 +21,11 @@ export default function SearchBar({
         setMenuOpen={setMenuOpen}
         setShowFindJourneyMobile={setShowFindJourneyMobile}
       />
-
-      <div className="hidden md:block px-4 md:px-14 max-[1281px]:md:px-8 py-2"> 
-               <TravelForm
+      <div className="px-4 md:px-14 min-[1282px]:px-14">
+        <div className="border-b border-[#636363]" />
+      </div>
+      <div className="hidden md:block px-4 md:px-14 max-[1281px]:md:px-8 py-2">
+        <TravelForm
           destinations={destinations}
           months={months}
           styles={styles}
