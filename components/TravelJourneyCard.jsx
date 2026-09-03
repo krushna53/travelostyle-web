@@ -28,10 +28,18 @@ export default function TravelJourneyCard({
   journeys = [],
   selectedTrips = [],
   onCompare,
+  mobileSlider = false,
+  mobileWidthClass,
 }) {
   return (
     <div className="w-full  mx-auto pt-6 md:pb-12 overflow-hidden">
-      <div className="flex flex-row flex-wrap overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pt-2 pb-6 pl-4 pr-12 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:pt-0">
+      <div
+        className={
+          mobileSlider
+            ? "flex overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pl-4 pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0"
+            : "flex flex-row flex-wrap overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pt-2 pb-6 pl-4 pr-12 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:pt-0"
+        }
+      >
         {journeys.map((journey) => {
           const trip = mapJourneyToTrip(journey);
           return (
@@ -39,6 +47,7 @@ export default function TravelJourneyCard({
               key={journey.id}
               trip={trip}
               variant="grid"
+              mobileWidthClass={mobileWidthClass}
               onCompare={() => {
                 if (selectedTrips?.includes(journey.id)) {
                   toast("Trip already added to comparison");

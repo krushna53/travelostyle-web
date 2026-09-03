@@ -93,6 +93,8 @@ export default function Destination() {
     journeys={journeys.slice(0, 8)}
     selectedTrips={selectedTrips}
     onCompare={handleCompareSelection}
+    mobileSlider
+    mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
   />
 </div>
 </section>

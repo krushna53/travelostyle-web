@@ -105,7 +105,9 @@ export default function NotSureWhereToBegin() {
       <TravelJourneyCard journeys={journeys}
        selectedTrips={selectedTrips}
         onCompare={handleCompareSelection}
-      /> 
+        mobileSlider
+        mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
+      />
       <div className="md:flex justify-center ml-3.5 md:ml-auto md:mt-10">
         <button
           onClick={goToAllJourneys}
