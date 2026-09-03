@@ -77,7 +77,7 @@ function addTripToCompare(trip) {
 // The layer is bled out by the shadow margin on the sides and top, but sits
 // flush at the bottom so the scalloped edge stays inside the card box.
 const CARD_BASE =
-  "relative isolate flex w-[293px] min-w-[293px] shrink-0 cursor-pointer flex-col px-[14px] pt-2 pb-4 max-md:snap-center md:min-h-[585px] md:pt-3 md:pb-11 " +
+  "relative isolate flex shrink-0 cursor-pointer flex-col px-[14px] pt-2 pb-4 max-md:snap-center md:min-h-[585px] md:pt-3 md:pb-11 " +
   "before:pointer-events-none before:absolute before:-top-[5px] before:-left-[15px] before:-right-[15px] before:bottom-0 before:-z-10 before:content-[''] " +
   "before:border-solid before:[border-width:20px_30px_40px] before:[border-image:url('/Union-it.svg')_20_30_40_fill_stretch]";
 
@@ -86,7 +86,7 @@ const CARD_BASE =
 // outer sizing/background so it drops into either a horizontal scroller
 // or a CSS grid — the content markup is identical everywhere so a fix here
 // fixes it everywhere.
-export default function JourneyCard({ trip, variant = "carousel", onCompare }) {
+export default function JourneyCard({ trip, variant = "carousel", onCompare, mobileWidthClass }) {
   const handleAddToCompare = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -104,6 +104,8 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare }) {
   return (
     <div
       className={`${CARD_BASE} ${
+        mobileWidthClass || "w-[293px] min-w-[293px]"
+      } ${
         variant === "carousel"
           ? "md:w-[390px] md:min-w-[390px] md:px-8"
           : "md:w-full md:min-w-0 md:max-w-[390px] md:px-6"

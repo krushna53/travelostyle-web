@@ -96,9 +96,14 @@ const handleCompareSelection = (trip) => {
     <div className=" min-h-screen py-10 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="mb-12">
         <p
-          className="font-taprom text-[32px] font-normal leading-[40px] tracking-[0.05em] text-black lowercase [text-box-trim:cap] [text-box-edge:cap_alphabetic] md:text-center"
+          className="md:hidden font-taprom text-[32px] font-normal leading-[40px] tracking-[0.05em] text-black lowercase [text-box-trim:cap] [text-box-edge:cap_alphabetic]"
         >
           get inspired
+        </p>
+        <p
+          className="hidden md:block font-taprom text-[32px] font-normal leading-[40px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic] md:text-center"
+        >
+          Inspire from our curated itineraries
         </p>
         <h2 className="mt-1 font-[Nohemi] text-[32px] font-semibold leading-[40px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic] md:text-center">
           Find a journey you love!
@@ -110,9 +115,11 @@ const handleCompareSelection = (trip) => {
   journeys={journeys}
   selectedTrips={selectedTrips}
   onCompare={handleCompareSelection}
+  mobileSlider
+  mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
 />
 {/* </div>    */}
-  <div className="flex justify-left md:mt-8">
+  <div className="flex justify-left md:justify-center md:mt-8">
         <button
           onClick={goToAllJourneys}
           className="bg-[#1C355E] hover:bg-[#12233F] text-white text-xs font-semibold  px-6 py-2 p-6 ml-7 rounded-full shadow transition-all duration-200"

@@ -29,7 +29,7 @@ export default function BookingSteps({ bookingRecords, showCraftButton = true })
         {steps?.map((step, index) => (
           <div
             key={index}
-            className="p-8 rounded-[10px] border-2 border-[#1A1A1A] flex flex-col justify-between transition-shadow hover:shadow-md max-w-[336px] w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[280px] min-h-[380px]"
+            className="p-8 rounded-[10px] border-2 border-[#1A1A1A] flex flex-col justify-between transition-shadow hover:shadow-md max-w-[336px] w-full max-md:min-h-[305px] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[280px] min-h-[380px]"
             style={{ backgroundColor: step.bgColor || "#ffffff" }}
           >
             <div>
