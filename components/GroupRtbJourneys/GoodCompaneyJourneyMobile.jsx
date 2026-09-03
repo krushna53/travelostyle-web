@@ -3,6 +3,7 @@ import Image from "next/image";
 
 export default function GoodCompaneyJourneyMobile() {
 
+
   const polaroids = [
     {
       id: 1,
@@ -92,17 +93,17 @@ export default function GoodCompaneyJourneyMobile() {
       </div>
       <div className="relative w-full text-left z-10 flex flex-col items-start pl-2 mt-8 pt-4 gap-2.5">
         <div className="px-3 py-1 rounded-[2px] w-fit">
-          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight sub-title-bg text-[#111111] tracking-tight">
+          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight sub-title-bg group-hero-mobile text-[#111111] tracking-tight">
             Journeys that get
           </h2>
         </div>
         <div className="px-3 py-1 rounded-[2px] w-fit">
-          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight sub-title-bg text-[#111111] tracking-tight">
+          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight sub-title-bg group-hero-mobile text-[#111111] tracking-tight">
             better in good
           </h2>
         </div>
         <div className="px-3 py-1 rounded-[2px] w-fit">
-          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight sub-title-bg text-[#111111] tracking-tight">
+          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight sub-title-bg group-hero-mobile text-[#111111] tracking-tight">
             company
           </h2>
         </div>

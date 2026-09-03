@@ -16,8 +16,6 @@ export default function Index({
   whyTakeContent,
   bookingStepsContent,
   advisorCalloutContent,
-  heroHeading,
-  heroDescription,
 }) {
   const router = useRouter();
 
@@ -31,7 +29,7 @@ export default function Index({
 
   return (
     <div>
-      <GoodCompaneyJourney heroHeading={heroHeading} heroDescription={heroDescription} />
+      <GoodCompaneyJourney />
       <GoodCompaneyJourneyMobile />
       {matrixContent ? (
         <>

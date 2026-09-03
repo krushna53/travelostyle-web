@@ -243,6 +243,14 @@ a,
     top: 19px;
     left: -8px;
 }
+.sub-title-bg.group-hero-line1::after{
+    height: 52px;
+    top: 6px;
+}
+.sub-title-bg.group-hero-mobile::after{
+    height: 46px;
+    top: 8px;
+}
 .sub-title-bg.it::after{
     width: 104.5%;
     height: 50px;
@@ -256,6 +264,11 @@ a,
     top: 8px;
   }
   .sub-title-bg:after{
+    left: -2.4px;
+  }
+  .sub-title-bg.group-hero-mobile::after{
+    height: 46px;
+    top: 8px;
     left: -2.4px;
   }
   .sub-title-bg.feel::after{
