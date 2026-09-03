@@ -76,8 +76,8 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="flex flex-col md:grid md:grid-cols-[120px_120px_180px_180px_minmax(0,1fr)] gap-10 md:gap-16 mt-16 md:mt-24 max-w-[340px] md:max-w-none mx-auto min-w-0">
-        <div className="grid grid-cols-2 gap-6 md:contents">
+      <div className="flex flex-wrap gap-5 justify-between mt-16 md:mt-24">
+        <div className="gap-6 md:contents">
           {companyGroup && (
             <div>
               <h3 className="text-[16px] md:text-[18px] font-medium tracking-[0.05em] leading-[22px] mb-4 md:mb-6">

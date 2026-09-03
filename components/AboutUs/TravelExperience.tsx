@@ -29,12 +29,12 @@ export default function TravelExperience() {
   ];
 
   return (
-    <section className="px-4 md:px-[60px] lg:px-[113px] py-[50px] md:py-[100px]">
+    <section className="px-4 md:px-[60px] lg:px-[113px] pt-[50px] md:pt-[100px] pb-0">
       <div className="mx-auto w-full max-w-[332px] overflow-hidden rounded-[10px] border-2 border-[#1A1A1A] lg:max-w-none lg:rounded-[6px] lg:border lg:border-[#4A4A4A]">
 
         {/* Heading */}
         <div className="min-h-[121px] lg:min-h-[70px] py-3 px-4 bg-[#EFF3CF] flex items-center justify-center text-center border-b-2 border-[#1A1A1A] lg:border-b lg:border-[#4A4A4A]">
-          <h2 className="max-w-[281px] text-[24px] leading-[32px] tracking-[0.05em] capitalize font-semibold lg:text-[22px] lg:leading-normal lg:tracking-normal lg:max-w-none">
+          <h2 className="max-w-[281px] text-[24px] leading-[32px] tracking-[0.05em] capitalize font-semibold lg:text-[22px] lg:leading-normal lg:tracking-normal lg:max-w-[480px]">
             Our Idea Of A Good Travel Experience
           </h2>
         </div>
@@ -50,7 +50,7 @@ export default function TravelExperience() {
                   : ""
               }`}
             >
-              <h3 className="text-[18px] font-semibold leading-[28px] tracking-[0.05em] mb-4 lg:mb-6 lg:leading-[24px] lg:tracking-normal">
+              <h3 className="text-[18px] font-semibold leading-[28px] tracking-[0.05em] mb-4 lg:mb-6 lg:min-h-[48px] lg:leading-[24px] lg:tracking-normal">
                 {item.title}
               </h3>
 

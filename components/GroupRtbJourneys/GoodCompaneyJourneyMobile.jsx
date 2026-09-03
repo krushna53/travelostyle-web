@@ -91,18 +91,18 @@ export default function GoodCompaneyJourneyMobile() {
         </div>
       </div>
       <div className="relative w-full text-left z-10 flex flex-col items-start pl-2 mt-8 pt-4 gap-2.5">
-        <div className="bg-[#f3e3d3] px-3 py-1 rounded-[2px] w-fit shadow-xs">
-          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight text-[#111111] tracking-tight">
+        <div className="px-3 py-1 rounded-[2px] w-fit">
+          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight sub-title-bg text-[#111111] tracking-tight">
             Journeys that get
           </h2>
         </div>
-        <div className="bg-[#f3e3d3] px-3 py-1 rounded-[2px] w-fit shadow-xs">
-          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight text-[#111111] tracking-tight">
+        <div className="px-3 py-1 rounded-[2px] w-fit">
+          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight sub-title-bg text-[#111111] tracking-tight">
             better in good
           </h2>
         </div>
-        <div className="bg-[#f3e3d3] px-3 py-1 rounded-[2px] w-fit shadow-xs">
-          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight text-[#111111] tracking-tight">
+        <div className="px-3 py-1 rounded-[2px] w-fit">
+          <h2 className="font-taprom italic font-serif text-[40px] sm:text-[36px] leading-tight sub-title-bg text-[#111111] tracking-tight">
             company
           </h2>
         </div>

@@ -23,12 +23,12 @@ export default function TravelBetter() {
         className="lg:hidden pointer-events-none absolute right-[-20px] top-[-5px] w-[280px] h-auto z-0"
       />
 
-      <div className="relative z-10 max-w-[520px]">
-        <p className="font-taprom text-[21px] font-normal leading-[32px] lg:leading-[64px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic]">
+      <div className="relative z-10 max-w-[530px]">
+        <p className="font-taprom text-[48px] font-normal leading-[32px] lg:leading-[64px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic]">
           ways we like to travel
         </p>
 
-        <h2 className="mt-3 text-[32px] font-bold leading-[40px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic] w-[282px] md:w-auto">
+        <h2 className="mt-3 text-[48px] font-bold leading-[40px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic] w-[292px] md:w-auto">
           Travel better with us
         </h2>
 

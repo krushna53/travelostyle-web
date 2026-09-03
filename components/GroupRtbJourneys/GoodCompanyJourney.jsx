@@ -70,7 +70,7 @@ export default function GoodCompaneyJourney({ heroHeading, heroDescription }) {
         />
       </div>
       <div className="relative max-w-4xl w-full text-center z-10 flex flex-col items-center mt-6">
-        <h2 className="font-taprom text-[58px] leading-[1.1] tracking-[-0.02em] text-[#222] text-center bg-[#F3E4DC] px-4 py-1">
+        <h2 className="font-taprom text-[58px] max-[1100px]:text-[48px] leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg px-4 py-1">
           {heading}
         </h2>
 
