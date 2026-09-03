@@ -5,7 +5,13 @@ import FindJourneyMobile from "./FindYourJourneyMobile";
 import TravelForm from "./TravelForm";
 import SearchHeader from "../../SearchHeader";
 
-export default function SearchBar({ destinations }) {
+export default function SearchBar({
+  destinations,
+  months = [],
+  styles = [],
+  popularDestinations = [],
+  popularMonths = [],
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showFindJourneyMobile, setShowFindJourneyMobile] = useState(false);
   return (
@@ -17,7 +23,13 @@ export default function SearchBar({ destinations }) {
       />
 
       <div className="hidden md:block px-4 md:px-28 py-2">
-        <TravelForm destinations={destinations} />
+        <TravelForm
+          destinations={destinations}
+          months={months}
+          styles={styles}
+          popularDestinations={popularDestinations}
+          popularMonths={popularMonths}
+        />
       </div>
 
       {showFindJourneyMobile && (
@@ -25,6 +37,10 @@ export default function SearchBar({ destinations }) {
           <FindJourneyMobile
             onClose={() => setShowFindJourneyMobile(false)}
             destinations={destinations}
+            months={months}
+            styles={styles}
+            popularDestinations={popularDestinations}
+            popularMonths={popularMonths}
           />
         </div>
       )}

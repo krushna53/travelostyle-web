@@ -11,8 +11,12 @@ const travelOptions = [
   "Private Jet Journey",
 ];
 
-export default function TravelTypeMobile({ onClose,onNext,selectedTravelType,setSelectedTravelType }) {
-  
+export default function TravelTypeMobile({ onClose,onNext,selectedTravelType,setSelectedTravelType, styles = [] }) {
+
+  // Same "tags" taxonomy the itinerary sidebar's Travel Style filter
+  // reads from, falling back to the static list if Drupal has none yet.
+  const travelTypeOptions = styles.length ? styles : travelOptions;
+
  const handleTravelTypeSelect = (item) => {
   setSelectedTravelType(item);
 };
@@ -30,7 +34,7 @@ export default function TravelTypeMobile({ onClose,onNext,selectedTravelType,set
       </div>
 
       <div className="space-y-3">
-        {travelOptions.map((item) => (
+        {travelTypeOptions.map((item) => (
           <label
             key={item}
             className="flex items-center gap-3 cursor-pointer"

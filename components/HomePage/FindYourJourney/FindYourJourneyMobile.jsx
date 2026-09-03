@@ -7,7 +7,14 @@ import DestinationMobile from "./DestinationMobile";
 import TravelDateMobile from "./TravelDateMobile";
 import { useRouter } from "next/navigation";
 
-export default function FindJourneyMobile({ onClose, destinations = [] }) {
+export default function FindJourneyMobile({
+  onClose,
+  destinations = [],
+  months = [],
+  styles = [],
+  popularDestinations = [],
+  popularMonths = [],
+}) {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [selectedTravelType, setSelectedTravelType] =
@@ -26,7 +33,8 @@ export default function FindJourneyMobile({ onClose, destinations = [] }) {
       duration: selectedDuration,
     };
     sessionStorage.setItem("journeyData", JSON.stringify(findYourJourneyData));
-    router.push(`/itinerary?region=${encodeURIComponent(selectedTravelType)}`);
+    const region = selectedDestinations.join(",");
+    router.push(`/itinerary${region ? `?region=${encodeURIComponent(region)}` : ""}`);
   };
 
   if (step === 1) {
@@ -36,6 +44,7 @@ export default function FindJourneyMobile({ onClose, destinations = [] }) {
         onNext={() => setStep(2)}
         selectedTravelType={selectedTravelType}
         setSelectedTravelType={setSelectedTravelType}
+        styles={styles}
       />
     );
   }
@@ -50,6 +59,7 @@ export default function FindJourneyMobile({ onClose, destinations = [] }) {
         openToPossibilities={openToPossibilities}
         setOpenToPossibilities={setOpenToPossibilities}
         destinations={destinations}
+        popularDestinations={popularDestinations}
       />
     );
   }
@@ -62,6 +72,8 @@ export default function FindJourneyMobile({ onClose, destinations = [] }) {
         setSelectedMonths={setSelectedMonths}
         selectedDuration={selectedDuration}
         setSelectedDuration={setSelectedDuration}
+        months={months}
+        popularMonths={popularMonths}
       />
     );
   }

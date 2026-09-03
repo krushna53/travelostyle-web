@@ -12,7 +12,7 @@ export default function PopularRegions() {
     async function loadRegions() {
       try {
         const res = await fetch(
-          `${API_BASE_URL}/jsonapi/taxonomy_term/region?include=field_region_image.field_media_image`,
+          `${API_BASE_URL}/jsonapi/taxonomy_term/region?sort=-drupal_internal__tid&include=field_region_image.field_media_image`,
         );
 
         const json = await res.json();
