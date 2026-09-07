@@ -26,7 +26,7 @@ export default function Journey({
               style={{ backgroundColor: bgColor }}
             >
               <div className="border-b border-[#4A4A4A] py-3 text-center">
-                <h2 className="text-[1.2vw] font-bold uppercase tracking-[1px] text-[#1c1c1c]">
+                <h2 className="text-[23px] max-[1910px]:text-[23px] max-[1281px]:text-[17px] max-[1200px]:text-[16px] font-bold uppercase tracking-[1px] text-[#1c1c1c]">
                   {title}
                 </h2>
               </div>
@@ -42,7 +42,7 @@ export default function Journey({
                   />
 
                   <div className="px-4">
-                    <p className="mt-2 text-[1.8vw] text-[#111] font-taprom select-none">
+                    <p className="mt-2 text-[35px] max-[1910px]:text-[35px] max-[1281px]:text-[26px] max-[1250px]:text-[25px] text-[#111] font-taprom select-none">
                       {imageQuote}
                     </p>
                   </div>
@@ -51,7 +51,7 @@ export default function Journey({
                 <div className="flex flex-col justify-between">
                   <div className="border-b border-[#4A4A4A] px-6 py-4">
                   <div
-  className="max-w-[95%] text-[#3f3f3f] text-[0.9vw]"
+  className="max-w-[95%] text-[#3f3f3f] text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px]"
   dangerouslySetInnerHTML={{ __html: description || "" }}
 />
                   </div>
@@ -59,32 +59,32 @@ export default function Journey({
                   <div className="grid grid-cols-1 md:grid-cols-2">
                     {steps.map((item, index) => (
                       <div key={index} className={`px-5 py-2 border-[#4A4A4A]`}>
-                        <div className="text-[0.9vw] font-semibold font-normal text-ink">
+                        <div className="text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] font-semibold font-normal text-ink">
                           {item.id} 
                         </div>
 
-                        <h3 className="mt-5 text-[0.9vw] font-semibold leading-[1.3] text-ink">
+                        <h3 className="mt-5 text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] font-semibold leading-[1.3] text-ink">
                           {item.title}
                         </h3>
 
                       <div
-  className="mt-2 text-[0.8vw] text-ink"
+  className="mt-2 text-[15px] max-[1910px]:text-[15px] max-[1281px]:text-[14px] text-ink"
   dangerouslySetInnerHTML={{ __html: item.desc || "" }}
 />
                       </div>
                     ))}
                   </div>
 
-                  <div className="border-t border-[#4A4A4A] px-[1.2vw] py-[0.8vw]">
+                  <div className="border-t border-[#4A4A4A] px-[23px] max-[1281px]:px-[15px] max-[1200px]:px-[14px] py-[15px] max-[1281px]:py-[10px]">
                     {href ? (
                       <Link
                         href={href}
-                        className="inline-block rounded-full bg-[#2f3695] px-5 py-2 text-[1.05vw] font-semibold text-white transition duration-300 hover:bg-[#232a7c]"
+                        className="inline-block rounded-full bg-[#2f3695] px-5 py-2 text-[20px] max-[1910px]:text-[20px] max-[1281px]:text-[14px] font-semibold text-white transition duration-300 hover:bg-[#232a7c]"
                       >
                         {btnText}
                       </Link>
                     ) : (
-                      <button className="rounded-full bg-[#2f3695] px-5 py-2 text-[1.05vw] font-semibold text-white transition duration-300 hover:bg-[#232a7c]">
+                      <button className="rounded-full bg-[#2f3695] px-5 py-2 text-[20px] max-[1910px]:text-[20px] max-[1281px]:text-[14px] font-semibold text-white transition duration-300 hover:bg-[#232a7c]">
                         {btnText}
                       </button>
                     )}

@@ -185,7 +185,7 @@ export default function PopularDestinations({
         <div className="absolute inset-0 bg-black/35" />
 
         <div className="relative h-[700px]">
-          <div className="absolute top-[170px] left-[4vw] z-10 max-w-[560px]">
+          <div className="absolute top-[170px] left-[77px] max-[1910px]:left-[76px] max-[1281px]:left-[51px] max-[1250px]:left-[50px] max-[1200px]:left-[48px] z-10 max-w-[560px]">
             <h1 className="text-white text-[40px] font-semibold leading-[40px]">
               {heading}
             </h1>
