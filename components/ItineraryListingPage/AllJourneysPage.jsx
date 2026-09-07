@@ -466,7 +466,7 @@ offer: item.attributes.field_offer_message || "",
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] font-sans px-4 pb-24 md:px-14 md:pb-0">
+    <div className="min-h-screen bg-[#fafafa] font-sans px-4 pb-24 md:px-[108px] md:pb-0">
       {/* MOBILE-ONLY: breadcrumb + result count + clear all */}
       <div className="pt-4 pb-3 md:hidden">
         <nav className="text-xs text-[#888]">
@@ -509,13 +509,13 @@ offer: item.attributes.field_offer_message || "",
         </div>
       </div>
 
-      <div className="hidden md:flex gap-[2vw] py-[0.8vw] items-start">
+      <div className="hidden md:flex gap-[69px] py-[0.8vw] items-start">
         {/* Breadcrumb — aligns with filter sidebar column */}
-        <div className="w-[300px] shrink-0">
-          <nav className="text-[0.72vw] text-[#888]">
+        <div className="max-w-[371px] w-full shrink-0">
+          <nav className="font-light text-[14px] leading-[32px] tracking-[5%]  text-[#888]">
             <span>home</span>
             <span className="mx-[0.3vw]">&gt;</span>
-            <span className="text-ink font-medium">all journeys</span>
+            <span className="font-light text-[14px] leading-[32px] tracking-[5%] ">all journeys</span>
           </nav>
         </div>
         {/* Sort bar aligned with grid column */}
@@ -530,8 +530,8 @@ offer: item.attributes.field_offer_message || "",
         </div>
       </div>
 
-      <div className="flex gap-[2vw] pb-[3vw]">
-        <div className="hidden md:block">
+      <div className="flex gap-[69px] pb-[3vw]">
+        <div className="hidden md:block shrink-0 w-[371px]">
           <FilterSidebar
             filters={filters}
             setFilters={setFilters}
@@ -581,7 +581,7 @@ offer: item.attributes.field_offer_message || "",
               </div>
             </div>
          ) : (
-  <div className="bg-white">
+  <div>
     <JourneyGrid journeys={paginatedJourneys} />
 
     <Pagination

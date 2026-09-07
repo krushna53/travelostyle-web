@@ -183,7 +183,7 @@ export default function SearchBar({ destinations = [], months = [] }) {
   return (
     <section className="w-full overflow-hidden">
       {/* Top Bar */}
-      <div className="flex items-center justify-between bg-[#2E2787] px-4 md:px-14 py-2 text-[10px] md:text-[11px] text-white">
+      <div className="flex items-center justify-between bg-[#2E2787] px-4 md:px-[108px] py-2 text-[10px] md:text-[11px] text-white">
         <p className="truncate">
           Speak to our travel advisor (773) 983-8067 | open 10am-7pm CST
         </p>
@@ -257,7 +257,7 @@ export default function SearchBar({ destinations = [], months = [] }) {
       </div>
 
       {/* Header + Quote + Search */}
-      <div className="bg-[#FAFAFA] px-4 md:px-14 py-2">
+      <div className="bg-[#FAFAFA] px-4 md:px-[108px] py-2">
         {/* Nav row — fixed height on mobile so the icons (centered via
             items-center) and the logo (centered via top-1/2/-translate-y-1/2)
             both center against the exact same band, from just under the

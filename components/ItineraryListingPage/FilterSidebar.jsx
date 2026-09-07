@@ -26,7 +26,7 @@ const FilterSection = ({ title, children, defaultOpen = true, mobile = false, la
         onClick={() => setOpen(!open)}
         className="flex w-full items-center justify-between"
       >
-        <span className={mobile ? "text-base font-semibold text-ink" : "text-[1.05vw] font-semibold text-ink"}>
+        <span className={mobile ? "text-base font-semibold text-ink" : "text-[21px] font-semibold text-ink"}>
           {title}
         </span>
 
@@ -53,12 +53,12 @@ export const CheckboxItem = ({ label, checked, onChange, count = 0, mobile = fal
             type="checkbox"
             checked={checked}
             onChange={onChange}
-            className="peer block h-full w-full cursor-pointer appearance-none rounded-none border-[1.5px] border-ink checked:bg-ink"
+            className="peer block h-full w-full cursor-pointer appearance-none rounded-none border-[1.5px] border-ink "
           />
           <Check
             size={13}
             strokeWidth={3}
-            className="pointer-events-none absolute text-white opacity-0 peer-checked:opacity-100"
+            className="pointer-events-none absolute text-black opacity-0 peer-checked:opacity-100"
           />
         </span>
 
@@ -71,21 +71,21 @@ export const CheckboxItem = ({ label, checked, onChange, count = 0, mobile = fal
 
   return (
     <label className="flex items-center gap-[0.6vw] py-[0.45vw] cursor-pointer">
-      <span className="relative flex h-[1.1vw] w-[1.1vw] shrink-0 items-center justify-center leading-none">
+      <span className="relative flex h-[18px] w-[18px] shrink-0 items-center justify-center leading-none">
         <input
           type="checkbox"
           checked={checked}
           onChange={onChange}
-          className="peer block h-full w-full cursor-pointer appearance-none rounded-none border-[1.5px] border-ink checked:bg-ink"
+          className="peer block h-full w-full cursor-pointer appearance-none rounded-none border-[1.5px] border-ink "
         />
         <Check
           size={11}
           strokeWidth={3}
-          className="pointer-events-none absolute text-white opacity-0 peer-checked:opacity-100"
+          className="pointer-events-none absolute text-black opacity-0 peer-checked:opacity-100"
         />
       </span>
 
-      <span className="text-[0.85vw] leading-[1.1vw] text-[#333]">
+      <span className="font-light text-[15px] leading-none tracking-normal text-[#333]">
         {label} <span className="text-[#999]">({count})</span>
       </span>
     </label>
@@ -549,12 +549,12 @@ export default function FilterSidebar({
   }
 
   return (
-    <aside className="w-[300px] shrink-0">
+    <aside className="max-w-[371px] w-full shrink-0">
       {/* HEADER */}
       <div className="flex items-center justify-between pb-[1vw] border-b border-[#E8E8E8]">
-        <span className="text-[0.85vw] font-semibold">Filters</span>
+        <span className="font-medium text-[18px] leading-[32px] tracking-[5%]">Filters</span>
 
-        <button onClick={clearAll} className="text-[0.75vw] text-[#2f2d89]">
+        <button onClick={clearAll} className="font-medium text-[14px] leading-none tracking-normal underline">
           Clear All
         </button>
       </div>
@@ -571,10 +571,10 @@ export default function FilterSidebar({
                 displayAllOffers: e.target.checked,
               }))
             }
-            className="h-[0.85vw] w-[0.85vw] cursor-pointer accent-[#2f2d89]"
+            className="h-[18px] w-[18px] cursor-pointer accent-[#FAFAFA] border border-black"
           />
 
-          <span className="text-[0.78vw] font-medium text-[#2f2d89]">
+          <span className="font-medium text-[15px] leading-none tracking-normal text-[#050505]">
             Display All Offers
           </span>
         </label>
