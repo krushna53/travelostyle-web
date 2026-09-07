@@ -29,7 +29,7 @@ export default function SearchHeader({
         showAllJourneys={showAllJourneys}
       />
 
-      <div className="bg-[#FAFAFA] md:bg-transparent">
+      <div className="bg-[#FAFAFA] md:bg-transparent max-md:border-b-2 max-md:border-[#1A1A1A]">
         <div className="px-4 md:px-14 py-3">
           <div className="relative flex items-center justify-between max-md:pt-4 pb-4">
             <button
