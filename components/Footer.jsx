@@ -77,9 +77,9 @@ export default function Footer() {
       </div>
 
       <div className="flex flex-wrap gap-5 justify-between mt-16 md:mt-24">
-        <div className="gap-6 md:contents">
+        
           {companyGroup && (
-            <div>
+            <div className="max-[600px]:w-[45%] max-[420px]:w-[100%]">
               <h3 className="text-[16px] md:text-[18px] font-medium tracking-[0.05em] leading-[22px] mb-4 md:mb-6">
                 {companyGroup.title}
               </h3>
@@ -98,7 +98,7 @@ export default function Footer() {
           )}
 
           {travelGroup && (
-            <div>
+            <div className="max-[600px]:w-[45%] max-[420px]:w-[100%]">
               <h3 className="text-[16px] md:text-[18px] font-medium tracking-[0.05em] leading-[22px] mb-4 md:mb-6">
                 {travelGroup.title}
               </h3>
@@ -115,10 +115,9 @@ export default function Footer() {
               </div>
             </div>
           )}
-        </div>
 
         {restGroups.map((group) => (
-          <div key={group.title}>
+          <div key={group.title} className="max-[600px]:w-[45%] max-[420px]:w-[100%]">
             <h3 className="text-[16px] md:text-[18px] font-medium tracking-[0.05em] leading-[22px] mb-4 md:mb-6">
               {group.title}
             </h3>
@@ -136,7 +135,7 @@ export default function Footer() {
           </div>
         ))}
 
-        <div>
+        <div className="max-[600px]:w-[45%] max-[420px]:w-[100%]">
           <h3 className="text-[16px] md:text-[18px] font-medium tracking-[0.05em] leading-[22px] mb-4 md:mb-6">
             Connect With Us
           </h3>
