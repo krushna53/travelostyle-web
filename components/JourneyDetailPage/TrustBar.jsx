@@ -50,11 +50,11 @@ export default function TrustBar({ isInspirational = false }) {
             spreads every slot, star included, evenly across the row, so
             each star lands centered in the gap between the two items on
             either side of it instead of sitting right next to one of them. */}
-        <div className="flex items-center justify-between px-[3vw] py-[1.15vw]">
+        <div className="flex flex-wrap items-center justify-between gap-x-[10px] gap-y-[6px] px-[16px] py-[10px] max-[900px]:px-[16px] max-[900px]:py-[10px] max-[1200px]:px-[20px] max-[1200px]:py-[12px] max-[1250px]:px-[24px] max-[1250px]:py-[14px] max-[1281px]:px-[28px] max-[1281px]:py-[16px] max-[1910px]:px-[36px] max-[1910px]:py-[18px] min-[1919px]:px-[48px] min-[1919px]:py-[20px]">
           {trustItems?.map((label) => (
             <span
               key={label}
-              className="text-[18px] font-semibold text-ink whitespace-nowrap"
+              className="whitespace-nowrap font-semibold text-ink text-[11px] max-[900px]:text-[11px] max-[1200px]:text-[13px] max-[1250px]:text-[15px] max-[1281px]:text-[16px] max-[1910px]:text-[17px] min-[1919px]:text-[18px]"
             >
               {label}
             </span>
@@ -63,7 +63,7 @@ export default function TrustBar({ isInspirational = false }) {
               acc.push(
                 <span
                   key={`star-${i}`}
-                  className="flex items-center justify-center leading-none text-[0.9vw] font-bold text-ink"
+                  className="flex items-center justify-center leading-none font-bold text-ink text-[10px] max-[900px]:text-[10px] max-[1200px]:text-[11px] max-[1250px]:text-[12px] max-[1281px]:text-[13px] max-[1910px]:text-[14px] min-[1919px]:text-[15px]"
                 >
                   ✦
                 </span>,
@@ -73,18 +73,18 @@ export default function TrustBar({ isInspirational = false }) {
             return acc;
           }, [])}
 
-          <span className="flex items-center justify-center leading-none text-[0.9vw] font-bold text-ink">
+          <span className="flex items-center justify-center leading-none font-bold text-ink text-[10px] max-[900px]:text-[10px] max-[1200px]:text-[11px] max-[1250px]:text-[12px] max-[1281px]:text-[13px] max-[1910px]:text-[14px] min-[1919px]:text-[15px]">
             ✦
           </span>
 
           {isInspirational ? (
-            <span className="text-[18px] font-semibold text-ink whitespace-nowrap">
+            <span className="whitespace-nowrap font-semibold text-ink text-[11px] max-[900px]:text-[11px] max-[1200px]:text-[13px] max-[1250px]:text-[15px] max-[1281px]:text-[16px] max-[1910px]:text-[17px] min-[1919px]:text-[18px]">
               Advisor-led planning
             </span>
           ) : (
             <button
               onClick={() => router.push("/comparison")}
-              className="flex items-center justify-center h-[36px] px-5 rounded-[6px] bg-[#2E2787] text-white text-[14px] font-semibold border border-white hover:bg-[#3B33A0] transition-colors"
+              className="flex items-center justify-center h-[30px] px-[14px] rounded-[6px] bg-[#2E2787] text-white font-semibold border border-white hover:bg-[#3B33A0] transition-colors shrink-0 text-[11px] max-[900px]:text-[11px] max-[1200px]:h-[32px] max-[1200px]:text-[12px] max-[1250px]:h-[34px] max-[1250px]:text-[13px] max-[1281px]:h-[34px] max-[1281px]:px-[16px] max-[1281px]:text-[13px] max-[1910px]:h-[36px] max-[1910px]:px-[18px] max-[1910px]:text-[14px] min-[1919px]:h-[36px] min-[1919px]:px-5 min-[1919px]:text-[14px]"
             >
               Compare Trips
             </button>
