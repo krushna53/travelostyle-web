@@ -100,6 +100,7 @@ export default async function Index() {
         </div>
       </section>
 
+      <div className="flex flex-wrap gap-4 justify-center px-6">
       {journeyCards.map((journey, index) => (
         <Journey
           key={journey.id}
@@ -114,6 +115,7 @@ export default async function Index() {
           defaultOpen={index === 1}
         />
       ))}
+      </div>
     </div>
   );
 }

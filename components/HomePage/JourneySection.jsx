@@ -38,7 +38,7 @@ export default function JourneySection() {
               LEFT TEXT
           ========================== */}
           <div className="absolute left-[5.625%] top-[50%]
-                  max-[1250px]:top-[40%]
+                  max-[1250px]:top-[35%]
                   max-[1281px]:top-[45%]
                   max-[1910px]:top-[48%]
                   min-[1919px]:top-[50%] w-[57.14%]">
@@ -50,7 +50,7 @@ export default function JourneySection() {
                   font-taprom
                   font-normal
                   text-[54px]
-                  max-[1200px]:text-[28px]
+                  max-[1200px]:text-[20px]
                   max-[1250px]:text-[32px]
                   max-[1281px]:text-[38px]
                   max-[1910px]:text-[44px]

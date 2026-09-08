@@ -59,7 +59,7 @@ export default function Footer() {
           <div className="w-[100px] md:w-[140px] shrink-0 h-px border-t border-[#FAFAFA]" />
         </div>
 
-        <div className="mt-2 md:mt-6 flex justify-center w-[361.99px] h-[58.12px] max-w-full md:w-full md:overflow-visible">
+        <div className="mt-2 md:mt-6 flex justify-center w-[351.99px] h-[58.12px] max-w-full md:w-full md:overflow-visible">
           <img
             src="/travelostyle-logo.svg"
             alt="TravelOStyle"

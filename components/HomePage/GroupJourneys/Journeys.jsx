@@ -18,6 +18,7 @@ export default function Journey({
 
   return (
     <>
+    <div className="max-[1025px]:max-w-[48%] max-[641px]:max-w-[100%]">
       <div className="hidden lg:block">
         <section className="w-full py-5 [webkit-tap-highlight-color:transparent]">
           <div className="mx-auto max-w-[1180px] px-4">
@@ -96,7 +97,7 @@ export default function Journey({
         </section>
       </div>
       <div
-        className="lg:hidden w-full max-w-[342px] mx-auto border-2 border-ink rounded-[5px] overflow-hidden mt-6"
+        className="lg:hidden border-2 border-ink rounded-[5px] overflow-hidden mt-6"
         style={{ backgroundColor: bgColor }}
       >
         <div
@@ -163,6 +164,13 @@ export default function Journey({
 />
           </div>
 
+          <div
+            className={`grid grid-cols-1 ${
+              steps.length >= 4
+                ? "min-[600px]:grid-cols-2 min-[900px]:grid-cols-4"
+                : "min-[600px]:grid-cols-2 min-[900px]:grid-cols-3"
+            }`}
+          >
           {steps.map((item, index) => (
             <div key={index} className="px-6 py-4 text-center last:border-b-0">
               <span className="block text-[24px] font-bold text-[#222]">
@@ -178,6 +186,7 @@ export default function Journey({
 />
             </div>
           ))}
+          </div>
         </div>
         <div className="py-5">
           <hr className="border-0 border-t-2 border-ink mb-5" />
@@ -197,6 +206,7 @@ export default function Journey({
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 }
