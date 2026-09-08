@@ -179,7 +179,7 @@ export default function PopularDestinations({
         <img
           src={currentSlide?.image || PLACEHOLDER_IMAGE}
           alt={currentSlide?.attributes?.title || "travel"}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover border-t border-[#636363]"
         />
 
         <div className="absolute inset-0 bg-black/35" />

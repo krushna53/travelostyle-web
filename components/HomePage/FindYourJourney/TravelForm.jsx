@@ -138,7 +138,7 @@ export default function TravelForm({
           }
           className="flex h-[42px] w-[470px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
         >
-          <span className="truncate text-[0.7vw]">
+          <span className="truncate text-[0.8vw]">
             {selectedMonths.length || selectedDuration
               ? `${selectedMonths.join(", ")}${
                   selectedMonths.length && selectedDuration ? ", " : ""
@@ -160,7 +160,7 @@ export default function TravelForm({
           }
           className="flex h-[42px] w-[410px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
         >
-          <span className="truncate text-[0.7vw]">
+          <span className="truncate text-[0.8vw]">
             {selectedDestinations.length
               ? selectedDestinations.length > 3
                 ? `${selectedDestinations.slice(0, 3).join(", ")} +${
@@ -183,7 +183,7 @@ export default function TravelForm({
           }
           className="flex h-[42px] w-[496px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
         >
-          <span className="text-[0.7vw]">{selectedTravelType}</span>
+          <span className="text-[0.8vw]">{selectedTravelType}</span>
 
           {activeDropdown === "travel" ? (
             <ChevronUp size={18} />
