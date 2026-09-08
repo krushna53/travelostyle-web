@@ -40,7 +40,7 @@ export default function GroupRevelationsSectionMobile({
             }}
           >
             {badgeText && (
-              <h4 className="font-taprom italic font-normal text-[21px] leading-[24px] tracking-[0.05em] text-[#1A1A1A] mb-2 max-w-[307px]">
+              <h4 className="font-taprom italic font-normal text-[21px] leading-[24px] tracking-[0.05em] text-[#000000] mb-2 max-w-[245px]">
                 {badgeText}
               </h4>
             )}

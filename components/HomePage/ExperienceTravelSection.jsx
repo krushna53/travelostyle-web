@@ -55,7 +55,13 @@ export default async function ExperienceTravelSection() {
         
         <div className="max-w-[500px]">
           <h3
-            className="mb-6 font-taprom text-[2.4vw] leading-[1.4] text-ink max-md:text-[40px] max-md:leading-[48px] max-md:tracking-[0.05em] max-md:mb-8"
+            className="mb-6 font-taprom leading-[1.4] text-ink
+              text-[46px]
+              max-[1910px]:text-[46px]
+              max-[1281px]:text-[38px]
+              max-[1250px]:text-[36px]
+              max-[1200px]:text-[34px]
+              max-md:text-[40px] max-md:leading-[48px] max-md:tracking-[0.05em] max-md:mb-8"
           >
             <div className="sub-title-bg it md:w-max">
               Experience travel the <span className="max-md:hidden">way it </span>
@@ -101,7 +107,13 @@ export default async function ExperienceTravelSection() {
                   />
                 ))}
               </div>
-              <h3 className="mb-2 whitespace-pre-line text-[1.2vw] font-semibold leading-[1.2] text-ink max-md:text-[21px] max-md:leading-[20px] max-md:font-bold max-md:whitespace-normal">
+              <h3 className="mb-2 whitespace-pre-line font-semibold leading-[1.2] text-ink
+                text-[23px]
+                max-[1910px]:text-[23px]
+                max-[1281px]:text-[20px]
+                max-[1250px]:text-[19px]
+                max-[1200px]:text-[18px]
+                max-md:text-[21px] max-md:leading-[20px] max-md:font-bold max-md:whitespace-normal">
                 {card.title}
               </h3>
               <p className="text-[16px] leading-6 text-ink max-md:text-[16px] max-md:leading-[20px] max-md:text-[#1A1A1A] mt-[10px]">

@@ -138,7 +138,7 @@ export default function TravelForm({
           }
           className="flex h-[42px] w-[470px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
         >
-          <span className="truncate text-[0.8vw]">
+          <span className="truncate text-[13px] max-[1910px]:text-[13px]">
             {selectedMonths.length || selectedDuration
               ? `${selectedMonths.join(", ")}${
                   selectedMonths.length && selectedDuration ? ", " : ""
@@ -160,7 +160,7 @@ export default function TravelForm({
           }
           className="flex h-[42px] w-[410px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
         >
-          <span className="truncate text-[0.8vw]">
+          <span className="truncate text-[13px] max-[1910px]:text-[13px]">
             {selectedDestinations.length
               ? selectedDestinations.length > 3
                 ? `${selectedDestinations.slice(0, 3).join(", ")} +${
@@ -183,7 +183,7 @@ export default function TravelForm({
           }
           className="flex h-[42px] w-[496px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
         >
-          <span className="text-[0.8vw]">{selectedTravelType}</span>
+          <span className="text-[13px] max-[1910px]:text-[13px]">{selectedTravelType}</span>
 
           {activeDropdown === "travel" ? (
             <ChevronUp size={18} />
@@ -201,7 +201,7 @@ export default function TravelForm({
       </div>
       {activeDropdown === "travel" && (
         <div className="mt-3 rounded-lg border border-gray-400 bg-white p-4 shadow-md">
-          <h3 className="mb-4 text-[0.9vw] font-semibold">
+          <h3 className="mb-4 text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] font-semibold">
             Choose a way of travel
           </h3>
 
@@ -209,10 +209,10 @@ export default function TravelForm({
             {travelTypeOptions.map((item) => (
               <label
                 key={item}
-                className="flex cursor-pointer items-center gap-2 text-[0.7vw]"
+                className="flex cursor-pointer items-center gap-2 text-[13px] max-[1910px]:text-[13px]"
               >
                 <input
-                  className="w-[0.9vw] h-[0.9vw]"
+                  className="w-[17px] max-[1281px]:w-[12px] max-[1250px]:w-[11px] h-[17px] max-[1281px]:h-[12px] max-[1250px]:h-[11px]"
                   type="checkbox"
                   name="travelType"
                   checked={selectedTravelType === item}
@@ -227,7 +227,7 @@ export default function TravelForm({
 
       {activeDropdown === "destination" && (
         <div className="mt-3 rounded-lg border border-gray-400 bg-white p-4 shadow-md">
-          <h3 className="mb-4 text-lg font-semibold text-[0.9vw]">
+          <h3 className="mb-4 text-lg font-semibold text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px]">
             Popular Destinations
           </h3>
 
@@ -236,7 +236,7 @@ export default function TravelForm({
               <button
                 key={item.id}
                 onClick={() => handleDestinationSelect(item.value)}
-                className={`rounded-full border px-4 py-1 text-xs transition-all text-[0.7vw] ${
+                className={`rounded-full border px-4 py-1 text-xs transition-all text-[13px] max-[1910px]:text-[13px] ${
                   selectedDestinations.includes(item.value)
                     ? "border-[#2E348D] bg-[#F5EFE8] text-[#2E348D]"
                     : "border-gray-300 bg-white"
@@ -256,7 +256,7 @@ export default function TravelForm({
                 className="h-4 w-4 accent-[#2E348D]"
               />
 
-              <a className={`text-[0.7vw] `}>I&apos;m open to possibilities!</a>
+              <a className={`text-[13px] max-[1910px]:text-[13px] `}>I&apos;m open to possibilities!</a>
             </label>
           </div>
         </div>
@@ -264,7 +264,7 @@ export default function TravelForm({
 
       {activeDropdown === "date" && (
         <div className="mt-3 rounded-lg border border-gray-400 bg-white p-4 shadow-md">
-          <h3 className="text-xl font-semibold text-[0.9vw]">
+          <h3 className="text-xl font-semibold text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px]">
             When do you want to go?
           </h3>
 
@@ -277,7 +277,7 @@ export default function TravelForm({
               <button
                 key={month}
                 onClick={() => handleMonthSelect(month)}
-                className={`rounded-full border px-4 py-1 text-xs transition-all text-[0.7vw] ${
+                className={`rounded-full border px-4 py-1 text-xs transition-all text-[13px] max-[1910px]:text-[13px] ${
                   selectedMonths.includes(month)
                     ? "border-[#2E348D] bg-[#F5EFE8] text-[#2E348D]"
                     : "border-gray-300 bg-white"
@@ -288,7 +288,7 @@ export default function TravelForm({
             ))}
           </div>
 
-          <h4 className="mb-4 mt-5 font-semibold text-[0.9vw]">
+          <h4 className="mb-4 mt-5 font-semibold text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px]">
             How long do you want to travel?
           </h4>
 
@@ -296,10 +296,10 @@ export default function TravelForm({
             {durations.map((item) => (
               <label
                 key={item}
-                className="flex items-center gap-2 text-[0.7vw] cursor-pointer"
+                className="flex items-center gap-2 text-[13px] max-[1910px]:text-[13px] cursor-pointer"
               >
                 <input
-                  className="w-[0.9vw] h-[0.9vw]"
+                  className="w-[17px] max-[1281px]:w-[12px] max-[1250px]:w-[11px] h-[17px] max-[1281px]:h-[12px] max-[1250px]:h-[11px]"
                   type="checkbox"
                   name="duration"
                   checked={selectedDuration === item}
