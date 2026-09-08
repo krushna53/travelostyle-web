@@ -13,13 +13,13 @@ const MOBILE_RAILS = [
 
 export default function OriginStory() {
   return (
-    <section className="px-4 md:px-[60px] lg:px-[113px] py-[60px] pt-0">
-      <div className="flex flex-col lg:flex-row items-end gap-8 lg:gap-[40px]">
+    <section className="px-4 min-[768px]:px-[60px] min-[1024px]:px-[113px] py-[60px] pt-0">
+      <div className="flex flex-col min-[1024px]:flex-row items-end gap-8 min-[1024px]:gap-[40px]">
 
         {/* Left Images — continuously scrolling rails on mobile. Each row
             renders its image set twice so the -50% translate loops seamlessly;
             middle row runs the opposite way for a woven feel. */}
-        <div className="lg:hidden w-full mb-[30px] space-y-2 overflow-hidden">
+        <div className="min-[1024px]:hidden w-full mb-[30px] space-y-2 overflow-hidden">
           {MOBILE_RAILS.map((rail, rowIndex) => (
             <div
               key={rowIndex}
@@ -38,7 +38,7 @@ export default function OriginStory() {
                     alt=""
                     width={264}
                     height={264}
-                    className="rounded-[8px] w-[120px] md:w-[88px] aspect-square object-cover shrink-0"
+                    className="rounded-[8px] w-[120px] min-[768px]:w-[88px] aspect-square object-cover shrink-0"
                   />
                 ))}
               </div>
@@ -47,42 +47,42 @@ export default function OriginStory() {
         </div>
 
         {/* Left Images — 3 staggered columns (desktop) */}
-        <div className="hidden lg:flex gap-3 md:gap-4 flex-shrink-0 w-full lg:w-auto mb-[50px]">
+        <div className="hidden min-[1024px]:flex gap-3 min-[768px]:gap-4 flex-shrink-0 w-full min-[1024px]:w-auto mb-[50px]">
 
           {/* Column 1 — 4 images, starts at top */}
-          <div className="flex flex-col gap-3 md:gap-4 bg-[#EFF3CF] flex-1 lg:flex-none rounded-lg">
-            <Image src="/Rectangle920.svg" alt="" width={264} height={264} className="rounded-[12px] w-full lg:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle911.svg" alt="" width={264} height={264} className="rounded-[12px] w-full lg:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle914.svg" alt="" width={264} height={264} className="rounded-[12px] w-full lg:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle917.svg" alt="" width={264} height={264} className="rounded-[12px] w-full lg:w-[160px] aspect-square object-cover" />
+          <div className="flex flex-col gap-3 min-[768px]:gap-4 bg-[#EFF3CF] flex-1 min-[1024px]:flex-none rounded-lg">
+            <Image src="/Rectangle920.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
+            <Image src="/Rectangle911.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
+            <Image src="/Rectangle914.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
+            <Image src="/Rectangle917.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
           </div>
 
           {/* Column 2 — 3 images, offset down */}
-          <div className="flex flex-col h-[400px] gap-3 md:gap-4 bg-[#F2E2DA] mt-15 md:mt-25 lg:mt-37.5 flex-1 lg:flex-none rounded-lg">
-            <Image src="/Rectangle912.svg" alt="" width={264} height={264} className="rounded-[12px] w-full lg:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle915.svg" alt="" width={264} height={264} className="rounded-[12px] w-full lg:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle918.svg" alt="" width={264} height={264} className="rounded-[12px] w-full lg:w-[160px] aspect-square object-cover" />
+          <div className="flex flex-col h-[400px] gap-3 min-[768px]:gap-4 bg-[#F2E2DA] mt-15 min-[768px]:mt-25 min-[1024px]:mt-37.5 flex-1 min-[1024px]:flex-none rounded-lg">
+            <Image src="/Rectangle912.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
+            <Image src="/Rectangle915.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
+            <Image src="/Rectangle918.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
           </div>
 
           {/* Column 3 — 2 images, offset even more */}
-          <div className="flex flex-col h-[300px] gap-3 md:gap-4 bg-[#F2D09F] mt-30 md:mt-50 lg:mt-50 flex-1 lg:flex-none rounded-lg">
-            <Image src="/Rectangle913.svg" alt="" width={264} height={264} className="rounded-[12px] w-full lg:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle916.svg" alt="" width={264} height={264} className="rounded-[12px] w-full lg:w-[160px] aspect-square object-cover" />
+          <div className="flex flex-col h-[300px] gap-3 min-[768px]:gap-4 bg-[#F2D09F] mt-30 min-[768px]:mt-50 min-[1024px]:mt-50 flex-1 min-[1024px]:flex-none rounded-lg">
+            <Image src="/Rectangle913.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
+            <Image src="/Rectangle916.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
           </div>
 
         </div>
 
         {/* Right Content */}
-        <div className="flex-1 pt-0 lg:pt-[95px]">
-          <p className="font-taprom text-[20px] md:text-[28px] leading-none text-center lg:text-left">
+        <div className="flex-1 pt-0 min-[1024px]:pt-[95px]">
+          <p className="font-taprom text-[20px] min-[768px]:text-[28px] max-[1910px]:min-[768px]:text-[23px] max-[1281px]:min-[768px]:text-[18px] max-[1250px]:min-[768px]:text-[13px] leading-none text-center min-[1024px]:text-left">
             our origin story
           </p>
 
-          <h2 className="mt-2 mx-auto max-w-[338px] text-[32px] md:text-[48px] font-bold leading-[40px] md:leading-[52px] tracking-[0.05em] md:tracking-normal text-black text-center lg:text-left lg:mx-0 lg:max-w-none">
+          <h2 className="mt-2 mx-auto max-w-[338px] text-[32px] min-[768px]:text-[48px] max-[1910px]:min-[768px]:text-[43px] max-[1281px]:min-[768px]:text-[38px] max-[1250px]:min-[768px]:text-[33px] max-[1200px]:min-[768px]:text-[28px] font-bold leading-[40px] min-[768px]:leading-[52px] tracking-[0.05em] min-[768px]:tracking-normal text-black text-center min-[1024px]:text-left min-[1024px]:mx-0 min-[1024px]:max-w-none">
             How TravelOStyle began
           </h2>
 
-          <div className="mt-10 space-y-8 text-[16px] md:text-[18px] leading-[32px] text-[#4A4A4A]">
+          <div className="mt-10 space-y-8 text-[16px] min-[768px]:text-[18px] max-[1910px]:min-[768px]:text-[13px] leading-[32px] text-[#4A4A4A]">
             <p>
               We started from a simple observation: travel should be a respite.
               But for most people, planning it is anything but.

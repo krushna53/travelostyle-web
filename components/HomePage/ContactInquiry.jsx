@@ -164,7 +164,7 @@ export default function ContactInquiry() {
   return (
   <section className="w-full px-0 py-0 max-md:px-0 max-md:py-0 mt-8">
       <div
-        className="relative mx-auto h-[922px] max-[1910px]:h-[917px] max-[1281px]:h-[615px] max-[1250px]:h-[600px] max-[1200px]:h-[576px] max-w-[200vw] overflow-hidden
+        className="relative mx-auto h-auto min-[1101px]:h-[576px] min-[1251px]:h-[600px] min-[1282px]:h-[615px] min-[1911px]:h-[917px] min-[1920px]:h-[922px] max-w-[200vw] overflow-hidden
         max-md:h-auto max-w-full max-md:min-h-screen"
       >
         <Image
@@ -179,13 +179,17 @@ export default function ContactInquiry() {
         <div className="absolute inset-0" />
 
         <div
-          className="relative z-10 flex h-full gap-[96px] max-[1281px]:gap-[64px] max-[1250px]:gap-[62px] max-[1200px]:gap-[60px]
-          px-[86px] max-[1281px]:px-[58px] max-[1250px]:px-[56px] max-[1200px]:px-[54px] py-[38px] max-[1281px]:py-[26px] max-[1250px]:py-[25px] max-[1200px]:py-[24px] text-[#FAFAFA]
-          max-md:flex-col max-md:px-6 max-md:py-8 max-md:gap-6"
+          className="relative z-10 flex flex-col h-auto gap-[36px] px-[40px] py-[44px] text-[#FAFAFA]
+          min-[1101px]:flex-row min-[1101px]:h-full
+          min-[1101px]:gap-[60px] min-[1101px]:px-[54px] min-[1101px]:py-[24px]
+          min-[1251px]:gap-[62px] min-[1251px]:px-[56px] min-[1251px]:py-[25px]
+          min-[1282px]:gap-[64px] min-[1282px]:px-[58px] min-[1282px]:py-[26px]
+          min-[1911px]:gap-[96px] min-[1911px]:px-[86px] min-[1911px]:py-[38px]
+          max-md:px-6 max-md:py-8 max-md:gap-6"
         >
-          <div className="w-[28%] pt-[19px] max-[1281px]:pt-[13px] max-[1250px]:pt-[12px] max-md:w-full max-md:pt-0">
+          <div className="w-full pt-0 min-[1101px]:w-[28%] min-[1101px]:pt-[12px] min-[1282px]:pt-[13px] min-[1911px]:pt-[19px]">
           <h2
- className="mt-[3px] mb-[2px] w-[397px] text-[40px] font-semibold
+ className="mt-[3px] mb-[2px] w-full min-[1101px]:w-[397px] text-[40px] font-semibold
 leading-[48px] tracking-[0.05em] text-[#FAFAFA]
 max-md:w-full max-md:h-auto
   max-md:text-[length:var(--fs-heading-nohemi-semibold)]
@@ -195,7 +199,7 @@ max-md:w-full max-md:h-auto
 </h2>
 
             <p
-  className="mt-[15px] w-[395px] max-w-[395px] text-[18px]
+  className="mt-[15px] w-full max-w-[560px] min-[1101px]:w-[395px] min-[1101px]:max-w-[395px] text-[18px]
 leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
  max-md:w-[336px] max-md:max-w-[336px] max-md:mt-3
       max-md:text-[16px]
@@ -209,15 +213,15 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
 
           <form
             onSubmit={handleSubmit}
-            className="flex-1 pt-[2px] max-[1281px]:pt-[1px] max-md:pt-0"
+            className="w-full pt-0 min-[1101px]:flex-1 min-[1101px]:pt-[1px] min-[1282px]:pt-[2px] max-md:pt-0"
             noValidate
           >
             <div
-              className="grid grid-cols-2 gap-x-[77px] max-[1910px]:gap-x-[76px] max-[1281px]:gap-x-[51px] max-[1250px]:gap-x-[50px] max-[1200px]:gap-x-[48px] gap-y-[31px] max-[1281px]:gap-y-[20px] max-[1200px]:gap-y-[19px]
+              className="grid grid-cols-2 max-[900px]:grid-cols-1 gap-x-[77px] max-[1910px]:gap-x-[76px] max-[1281px]:gap-x-[51px] max-[1250px]:gap-x-[50px] max-[1200px]:gap-x-[48px] gap-y-[31px] max-[1281px]:gap-y-[20px] max-[1200px]:gap-y-[19px]
               max-md:grid-cols-1 max-md:gap-y-5"
             >
               <div>
-              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
   First Name*
 </label>
 
@@ -227,7 +231,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
   value={formData.firstName}
   onChange={handleChange}
   placeholder="Your first name"
-  className={`w-[350px] border-b ${
+  className={`w-full max-w-[350px] border-b ${
     errors.firstName
       ? "border-red-400"
       : "border-white/70"
@@ -243,7 +247,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 
               <div>
-              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
   Last Name*
 </label>
 
@@ -253,7 +257,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
                   value={formData.lastName}
                   onChange={handleChange}
                   placeholder="Your last name"
-                  className={`w-[350px] border-b ${
+                  className={`w-full max-w-[350px] border-b ${
     errors.firstName
       ? "border-red-400"
       : "border-white/70"
@@ -270,7 +274,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 
               <div>
-                <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+                <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
   Title*
 </label>
 
@@ -280,7 +284,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Your title"
-                  className={`w-[350px] border-b ${
+                  className={`w-full max-w-[350px] border-b ${
     errors.firstName
       ? "border-red-400"
       : "border-white/70"
@@ -297,7 +301,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 
               <div>
-             <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+             <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
   Email*
 </label>
 
@@ -307,7 +311,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Your email ID"
-                  className={`w-[350px] border-b ${
+                  className={`w-full max-w-[350px] border-b ${
     errors.firstName
       ? "border-red-400"
       : "border-white/70"
@@ -324,7 +328,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 <div>
   <label
-    className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[180px] h-[13px]
+    className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[180px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto
     text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px]
     text-[#FAFAFA]"
   >
@@ -359,7 +363,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
 
     {/* Phone Number */}
     <div
-      className={` w-[500px] max-md:w-full max-md:flex-1 border-b ${
+      className={` w-full max-w-[500px] max-md:w-full max-md:flex-1 border-b ${
         errors.phone ? "border-red-400" : "border-white/70"
       } pb-[2px] max-[1281px]:pb-[1px]`}
     >
@@ -386,7 +390,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
 
             <div className="mt-[33px] max-[1910px]:mt-[32px] max-[1281px]:mt-[22px] max-[1250px]:mt-[21px] max-[1200px]:mt-[20px]">
             <label
-  className="mt-[5px] mb-[9px] max-[1281px]:mb-[6px] max-[1200px]:mb-[5px] block w-[169px] h-[13px]
+  className="mt-[5px] mb-[9px] max-[1281px]:mb-[6px] max-[1200px]:mb-[5px] block w-[169px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto
   text-[13px] leading-[13px] text-[#FAFAFA]
   max-md:w-auto max-md:h-auto max-md:text-[14px] max-md:leading-normal"
 >
@@ -442,7 +446,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
     />
 
     <p
-      className="h-[13px] w-[686px]
+      className="h-[13px] w-[686px] max-[1100px]:h-auto max-[1100px]:w-auto max-[1100px]:leading-5
       text-[13px] leading-[13px] text-white/90
       max-md:h-auto max-md:w-auto
       max-md:text-[12px] max-md:leading-5"
@@ -469,7 +473,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
   Submit Inquiry
 </button>
 <p
-    className="mt-[20px] w-full h-[13px]
+    className="mt-[20px] w-full h-[13px] max-[1100px]:h-auto max-[1100px]:leading-5
     text-[13px] leading-[13px] text-white/70
     max-md:h-auto max-md:w-auto
     max-md:mt-2

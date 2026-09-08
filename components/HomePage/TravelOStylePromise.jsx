@@ -147,7 +147,7 @@ export default async function TravelOStylePromise() {
 
         
         </div>
-        <div className="mt-8 md:mt-16 flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 md:gap-8 max-w-[340px] md:max-w-none mx-auto">
+        <div className="mt-8 md:mt-16 flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 md:gap-8 max-[1910px]:md:gap-6 max-[1281px]:md:gap-5 max-[1250px]:md:gap-4 max-[1200px]:md:gap-3 max-w-[340px] md:max-w-none mx-auto">
           {promises.map((item, index) => {
             return (
               <div

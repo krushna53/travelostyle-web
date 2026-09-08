@@ -23,7 +23,7 @@ export default function TimingSection() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 md:px-12 mt-20">
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           <h2 className="mt-0 md:mt-15 text-[30px] md:text-[54px] md:max-[1910px]:text-[54px] md:max-[1281px]:text-[41px] md:max-[1250px]:text-[40px] md:max-[1200px]:text-[39px] font-bold md:font-semibold leading-[40px] md:leading-[1.2] text-ink">
             Be at the right <br className="md:hidden" /> place, at exactly  the
             <br />
