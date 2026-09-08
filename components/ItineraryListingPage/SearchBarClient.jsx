@@ -310,13 +310,13 @@ export default function SearchBar({ destinations = [], months = [] }) {
             so repeating it here would duplicate it on mobile. */}
         <div className="hidden md:flex justify-center items-center py-8">
           <p
-            className="text-center text-[2.2vw] leading-[1.5]"
+            className="text-center    whitespace-nowrap  sub-title-bg  font-taprom font-normal text-[54px]   max-[1200px]:text-[28px]   max-[1250px]:text-[32px]   max-[1281px]:text-[38px]   max-[1910px]:text-[44px]   min-[1919px]:text-[54px] text-ink leading-[72px] tracking-[5%]  "
           >
-            <span className="bg-[#F2D5C4] px-2">
+            <span className="bg-[#F2D5C4] px-2 inline-block mb-5">
               The range is wide because we&apos;ve never believed in a
             </span>
             <br />
-            <span className="bg-[#F2D5C4] px-2">
+            <span className="bg-[#F2D5C4] px-2 ">
               one-size-fits-all approach to the world.
             </span>
           </p>

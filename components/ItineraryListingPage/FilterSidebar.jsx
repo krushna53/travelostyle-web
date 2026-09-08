@@ -18,8 +18,8 @@ const FilterSection = ({ title, children, defaultOpen = true, mobile = false, la
             ? "py-4"
             : "border-b-2 border-ink py-4"
           : last
-          ? "py-[1.4vw]"
-          : "border-b-2 border-ink py-[1.4vw]"
+          ? "py-[27px]"
+          : "border-b-2 border-ink py-[27px]"
       }
     >
       <button
@@ -30,7 +30,7 @@ const FilterSection = ({ title, children, defaultOpen = true, mobile = false, la
           {title}
         </span>
 
-        <div className={mobile ? "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F2E2DA]" : "flex h-[1.9vw] w-[1.9vw] shrink-0 items-center justify-center rounded-full bg-[#F2E2DA]"}>
+        <div className={mobile ? "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F2E2DA]" : "flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-full bg-[#F2E2DA]"}>
           {open ? (
             <Minus size={14} className="text-ink" />
           ) : (
@@ -39,7 +39,7 @@ const FilterSection = ({ title, children, defaultOpen = true, mobile = false, la
         </div>
       </button>
 
-      {open && <div className={mobile ? "mt-3" : "mt-[1vw]"}>{children}</div>}
+      {open && <div className={mobile ? "mt-3" : "mt-[19px]"}>{children}</div>}
     </div>
   );
 };
@@ -70,7 +70,7 @@ export const CheckboxItem = ({ label, checked, onChange, count = 0, mobile = fal
   }
 
   return (
-    <label className="flex items-center gap-[0.6vw] py-[0.45vw] cursor-pointer">
+    <label className="flex items-center gap-[12px] py-[9px] cursor-pointer">
       <span className="relative flex h-[18px] w-[18px] shrink-0 items-center justify-center leading-none">
         <input
           type="checkbox"
@@ -112,7 +112,7 @@ export const MonthPill = ({ label, active, onClick, mobile = false }) => {
   return (
     <button
       onClick={onClick}
-      className={`rounded-full border px-[0.9vw] py-[0.4vw] text-[0.8vw]
+      className={`rounded-full border px-[17px] py-[8px] text-[15px]
       ${
         active
           ? "bg-[#F5DFC9] text-[#6A5B4E] border-[#F5DFC9]"
@@ -465,7 +465,7 @@ export default function FilterSidebar({
         {(filterOptions.category || []).length > 7 && (
           <button
             onClick={() => setShowMoreCategories((prev) => !prev)}
-            className={mobile ? "mt-2 flex items-center gap-1 text-sm text-ink" : "mt-[0.6vw] flex items-center gap-[0.3vw] text-[0.8vw] text-ink"}
+            className={mobile ? "mt-2 flex items-center gap-1 text-sm text-ink" : "mt-[12px] flex items-center gap-[6px] text-[15px] text-ink"}
           >
             {showMoreCategories ? (
               <>
@@ -483,7 +483,7 @@ export default function FilterSidebar({
 
       {/* MONTH */}
       <FilterSection title="Month" mobile={mobile} last>
-        <div className={mobile ? "flex flex-wrap gap-2" : "flex flex-wrap gap-[0.4vw]"}>
+        <div className={mobile ? "flex flex-wrap gap-2" : "flex flex-wrap gap-[8px]"}>
           {(filterOptions.month || []).map((month) => (
             <MonthPill
               key={month}
@@ -514,17 +514,24 @@ export default function FilterSidebar({
           {/* DISPLAY ALL OFFERS */}
           <div className="py-4">
             <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-[#2f2d89] px-3 py-2">
-              <input
-                type="checkbox"
-                checked={filters.displayAllOffers}
-                onChange={(e) =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    displayAllOffers: e.target.checked,
-                  }))
-                }
-                className="h-4 w-4 cursor-pointer accent-[#2f2d89]"
-              />
+              <span className="relative flex h-5 w-5 shrink-0 items-center justify-center leading-none">
+                <input
+                  type="checkbox"
+                  checked={filters.displayAllOffers}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      displayAllOffers: e.target.checked,
+                    }))
+                  }
+                  className="peer block h-full w-full cursor-pointer appearance-none rounded-none border-[1.5px] border-ink "
+                />
+                <Check
+                  size={13}
+                  strokeWidth={3}
+                  className="pointer-events-none absolute text-black opacity-0 peer-checked:opacity-100"
+                />
+              </span>
 
               <span className="text-sm font-medium text-[#2f2d89]">
                 Display All Offers
@@ -549,9 +556,9 @@ export default function FilterSidebar({
   }
 
   return (
-    <aside className="max-w-[371px] w-full shrink-0">
+    <aside className="max-w-[371px] max-[1910px]:max-w-[369px] max-[1700px]:max-w-[328px] max-[1500px]:max-w-[290px] max-[1281px]:max-w-[248px] max-[1250px]:max-w-[242px] max-[1200px]:max-w-[232px] w-full shrink-0">
       {/* HEADER */}
-      <div className="flex items-center justify-between pb-[1vw] border-b border-[#E8E8E8]">
+      <div className="flex items-center justify-between pb-[19px] border-b border-[#E8E8E8]">
         <span className="font-medium text-[18px] leading-[32px] tracking-[5%]">Filters</span>
 
         <button onClick={clearAll} className="font-medium text-[14px] leading-none tracking-normal underline">
@@ -560,19 +567,26 @@ export default function FilterSidebar({
       </div>
 
       {/* DISPLAY ALL OFFERS */}
-      <div className="py-[1vw] ">
-        <label className="flex cursor-pointer items-center gap-[0.6vw] rounded-[0.3vw] border-2 border-black px-[0.7vw] py-[0.45vw]">
-          <input
-            type="checkbox"
-            checked={filters.displayAllOffers}
-            onChange={(e) =>
-              setFilters((prev) => ({
-                ...prev,
-                displayAllOffers: e.target.checked,
-              }))
-            }
-            className="h-[18px] w-[18px] cursor-pointer accent-[#FAFAFA] border border-black"
-          />
+      <div className="py-[19px] ">
+        <label className="flex cursor-pointer items-center gap-[12px] rounded-[6px] border-2 border-black px-[13px] py-[9px]">
+          <span className="relative flex h-[18px] w-[18px] shrink-0 items-center justify-center leading-none">
+            <input
+              type="checkbox"
+              checked={filters.displayAllOffers}
+              onChange={(e) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  displayAllOffers: e.target.checked,
+                }))
+              }
+              className="peer block h-full w-full cursor-pointer appearance-none rounded-none border-[1.5px] border-ink "
+            />
+            <Check
+              size={11}
+              strokeWidth={3}
+              className="pointer-events-none absolute text-black opacity-0 peer-checked:opacity-100"
+            />
+          </span>
 
           <span className="font-medium text-[15px] leading-none tracking-normal text-[#050505]">
             Display All Offers
@@ -581,7 +595,7 @@ export default function FilterSidebar({
       </div>
 
       {/* MAIN FILTER WRAPPER */}
-      <div className="rounded-[0.2vw] border-2 border-[#000000] px-[1vw] py-[0.3vw]">
+      <div className="rounded-[4px] border-2 border-[#000000] px-[19px] py-[6px]">
         {/* REGION (Drupal: country) */}
         <FilterSection title="Region">
           {(filterOptions.region || []).map((item) => (
@@ -665,7 +679,7 @@ export default function FilterSidebar({
           {(filterOptions.category || []).length > 7 && (
             <button
               onClick={() => setShowMoreCategories((prev) => !prev)}
-              className="mt-[0.6vw] flex items-center gap-[0.3vw] text-[0.8vw] text-ink"
+              className="mt-[12px] flex items-center gap-[6px] text-[15px] text-ink"
             >
               {showMoreCategories ? (
                 <>
@@ -683,7 +697,7 @@ export default function FilterSidebar({
 
         {/* MONTH */}
         <FilterSection title="Month" last>
-          <div className="flex flex-wrap gap-[0.4vw]">
+          <div className="flex flex-wrap gap-[8px]">
             {(filterOptions.month || []).map((month) => (
               <MonthPill
                 key={month}

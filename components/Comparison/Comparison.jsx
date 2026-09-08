@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { isInspirationalJourney } from "@/lib/journeyExperienceType";
 import { pickPriorityDeparture } from "@/lib/departures";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";
+import iso3166 from "iso-3166-2";
 
 /* ---------------- data helpers (unchanged) ---------------- */
 
@@ -24,6 +25,31 @@ function getStartCity(journey, included) {
 function getEndCity(journey, included) {
   const id = journey.relationships?.field_ends_in?.data?.id;
   return getLocation(id, included);
+}
+
+// City, State for a day's field_stay -> node--hotel -> field_location
+// (node--location) -> field_address. field_stay references the hotel
+// itself, not the location directly — the address lives one hop further.
+function getStayCityState(day, included) {
+  const hotelId = day.relationships?.field_stay?.data?.id;
+  const hotelNode = included.find(
+    (i) => i.type === "node--hotel" && i.id === hotelId,
+  );
+  const locationId = hotelNode?.relationships?.field_location?.data?.id;
+  const locationNode = included.find(
+    (i) => i.type === "node--location" && i.id === locationId,
+  );
+  const address = locationNode?.attributes?.field_address;
+  const city = address?.locality || "";
+  const stateCode = address?.administrative_area || "";
+  const countryCode = address?.country_code || "";
+  const state =
+    (stateCode &&
+      countryCode &&
+      iso3166.subdivision(countryCode, stateCode)?.name) ||
+    stateCode;
+
+  return [city, state].filter(Boolean).join(", ");
 }
 
 function getItinerary(journey, included) {
@@ -47,6 +73,7 @@ function getItinerary(journey, included) {
     .map((day) => ({
       day: day.attributes?.field_day_number,
       title: day.attributes?.field_day_title || "",
+      stayCityState: getStayCityState(day, included),
     }));
 }
 
@@ -147,6 +174,7 @@ const INCLUDE = [
   "field_journey_tabs_section.field_section_tabs",
   "field_journey_tabs_section.field_section_tabs.field_days",
   "field_journey_tabs_section.field_section_tabs.field_days.field_stay",
+  "field_journey_tabs_section.field_section_tabs.field_days.field_stay.field_location",
   "field_journey_tabs_section.field_section_tabs.field_hotels",
   "field_journey_tabs_section.field_section_tabs.field_hotels.field_featured_image.field_media_image",
   "field_journey_tabs_section.field_section_tabs.field_hotels.field_gallery.field_media_image",
@@ -359,7 +387,7 @@ export default function TripComparison() {
       Day {day.day}:
     </span>{" "}
     <span className="font-nohemi">
-      {day.title}
+      {day.stayCityState}
     </span>
   </div>
 ))}
@@ -615,16 +643,16 @@ export default function TripComparison() {
   w-[55vw] sm:w-[320px] md:w-[320px]
   md:h-[800px]
   rounded-[6px] p-3 md:p-4 bg-white
-  border border-gray-300"
+  border border-gray-300 md:pt-10"
                 >
                   <button
                     onClick={() => removeTrip(trip.id)}
                     aria-label={`Remove ${trip.title}`}
-                    className="absolute top-1 right-1 z-20
-                      w-8 h-8 rounded-full
-                      bg-red-500 text-white flex items-center justify-center"
+                    className="absolute top-1 right-[14px] z-20
+                      w-6 h-6 rounded-full
+                      bg-[#F2E2DA] text-[#00000] flex items-center justify-center"
                   >
-                    ×
+                    <Image src="/close.svg" alt="" width={10} height={10} />
                   </button>
 
                   {/* Card header: image + title, fixed height shared

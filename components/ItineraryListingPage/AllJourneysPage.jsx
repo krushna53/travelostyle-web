@@ -509,12 +509,12 @@ offer: item.attributes.field_offer_message || "",
         </div>
       </div>
 
-      <div className="hidden md:flex gap-[69px] py-[0.8vw] items-start">
+      <div className="hidden md:flex gap-[69px] max-[1910px]:gap-[69px] max-[1700px]:gap-[61px] max-[1500px]:gap-[54px] max-[1281px]:gap-[46px] max-[1250px]:gap-[45px] max-[1200px]:gap-[43px] py-[15px] items-start">
         {/* Breadcrumb — aligns with filter sidebar column */}
-        <div className="max-w-[371px] w-full shrink-0">
+        <div className="w-[371px] max-[1910px]:w-[369px] max-[1700px]:w-[328px] max-[1500px]:w-[290px] max-[1281px]:w-[248px] max-[1250px]:w-[242px] max-[1200px]:w-[232px] shrink-0">
           <nav className="font-light text-[14px] leading-[32px] tracking-[5%]  text-[#888]">
             <span>home</span>
-            <span className="mx-[0.3vw]">&gt;</span>
+            <span className="mx-[6px]">&gt;</span>
             <span className="font-light text-[14px] leading-[32px] tracking-[5%] ">all journeys</span>
           </nav>
         </div>
@@ -530,8 +530,8 @@ offer: item.attributes.field_offer_message || "",
         </div>
       </div>
 
-      <div className="flex gap-[69px] pb-[3vw]">
-        <div className="hidden md:block shrink-0 w-[371px]">
+      <div className="flex gap-[69px] max-[1910px]:gap-[69px] max-[1700px]:gap-[61px] max-[1500px]:gap-[54px] max-[1281px]:gap-[46px] max-[1250px]:gap-[45px] max-[1200px]:gap-[43px] pb-[58px]">
+        <div className="hidden md:block shrink-0 w-[371px] max-[1910px]:w-[369px] max-[1700px]:w-[328px] max-[1500px]:w-[290px] max-[1281px]:w-[248px] max-[1250px]:w-[242px] max-[1200px]:w-[232px]">
           <FilterSidebar
             filters={filters}
             setFilters={setFilters}
@@ -543,14 +543,14 @@ offer: item.attributes.field_offer_message || "",
 
         <div className="flex-1 min-w-0">
         {filteredJourneys.length === 0 && hasActiveFilters ? (
-            <div className="flex flex-col gap-2 items-start md:items-center justify-center py-12 md:py-[6vw] text-left md:text-center">
+            <div className="flex flex-col gap-2 items-start md:items-center justify-center py-12 md:py-[115px] text-left md:text-center">
               <img
                 src="/no-results.svg"
                 alt="No journeys found"
-                className="mb-8 w-40 md:w-[18vw] h-auto mx-auto"
+                className="mb-8 w-40 md:w-[346px] h-auto mx-auto"
               />
 
-              <h3 className="font-[Nohemi] font-medium text-[20px] md:text-[32px] leading-[28px] md:leading-[40px] tracking-[0.05em] text-left md:text-center text-ink mt-4 md:mt-8">
+              <h3 className="font-medium text-[20px] md:text-[32px] leading-[28px] md:leading-[40px] tracking-[0.05em] text-left md:text-center text-ink mt-4 md:mt-8">
                 Sorry! We were unable to find the{" "}
                 <br className="hidden md:inline" />the trip you requested.
               </h3>
@@ -566,13 +566,13 @@ offer: item.attributes.field_offer_message || "",
 
               <button
                 onClick={clearAllFilters}
-                className="h-11 px-6 md:h-[2.25vw] md:min-w-[10.5vw] rounded-full bg-[#2E348D] text-sm md:text-[0.9vw] text-white transition hover:bg-[#252b78] mt-2"
+                className="h-11 px-6 md:h-[43px] md:min-w-[202px] rounded-full bg-[#2E348D] text-sm md:text-[17px] text-white transition hover:bg-[#252b78] mt-2"
               >
                 Explore All Journeys
               </button>
-              <div className="w-full mt-10 md:mt-16 bg-white">
+              <div className="w-full mt-10 md:mt-16 ">
                 <div className="border-b-2 border-ink mb-6">
-                  <h2 className="text-left text-lg md:text-[24px] font-medium pb-2 border-b-2">
+                  <h2 className="text-left font-normal text-[21px] leading-[100%] tracking-[5%] pb-2 border-b-2">
                     Popular Journeys
                   </h2>
                 </div>
