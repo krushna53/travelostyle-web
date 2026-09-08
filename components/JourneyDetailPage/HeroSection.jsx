@@ -94,12 +94,12 @@ export default function HeroSection({
   return (
     <>
     <section className="w-full bg-white hidden md:block">
-      <div className="flex items-center justify-between border-b border-[#E8E8E8] bg-white px-[3vw] py-[0.55vw]">
+      <div className="flex items-center justify-between border-b border-[#E8E8E8] bg-white px-[16px] py-[8px] md:px-[28px] md:py-[9px] lg:px-[36px] xl:px-[48px] xl:py-[10px]">
 
 <div className="flex items-center gap-[10px] flex-wrap">
   {journey?.earlyBird && (
     <span
-      className="cursor-pointer rounded-[5px] px-[12px] py-[8px] text-[0.63vw] font-semibold tracking-[0.05em]"
+      className="cursor-pointer rounded-[5px] px-[10px] py-[6px] text-[10px] md:px-[12px] md:py-[7px] md:text-[11px] xl:py-[8px] xl:text-[12px] font-semibold tracking-[0.05em]"
       style={{
         backgroundColor: "#F2E2DA",
         color: "#000000",
@@ -114,7 +114,7 @@ export default function HeroSection({
   {categories?.map((category) => (
     <span
       key={category}
-      className="cursor-pointer rounded-[5px] px-[12px] py-[8px] text-[0.63vw] font-semibold tracking-[0.05em]"
+      className="cursor-pointer rounded-[5px] px-[10px] py-[6px] text-[10px] md:px-[12px] md:py-[7px] md:text-[11px] xl:py-[8px] xl:text-[12px] font-semibold tracking-[0.05em]"
       style={{
         backgroundColor: "#C2E5FF",
         color: "#000000",
@@ -126,7 +126,7 @@ export default function HeroSection({
    {journey?.tags?.map((tag) => (
     <span
       key={tag}
-      className="cursor-pointer rounded-[5px] px-[12px] py-[8px] text-[0.63vw] font-semibold tracking-[0.05em]"
+      className="cursor-pointer rounded-[5px] px-[10px] py-[6px] text-[10px] md:px-[12px] md:py-[7px] md:text-[11px] xl:py-[8px] xl:text-[12px] font-semibold tracking-[0.05em]"
       style={{
         backgroundColor: "#EFF3CF",
         color: "#000000",
@@ -136,7 +136,7 @@ export default function HeroSection({
     </span>
   ))}
 </div>
-        <div className="flex items-center gap-[0.3vw] text-[0.63vw] text-[#888]">
+        <div className="flex items-center gap-[4px] text-[10px] md:text-[11px] xl:text-[12px] text-[#888]">
           <span className="cursor-pointer hover:underline">Home</span>
           <span className="text-[#BBB]">&gt;</span>
           <span className="cursor-pointer hover:underline">All Journeys</span>
@@ -145,36 +145,39 @@ export default function HeroSection({
         </div>
       </div>
 
-      <div className="relative w-full overflow-hidden  " style={{ height: "40vw" }}>
-        <JourneyCardImage
-          src={journey.image}
-          alt={journey.title || "Journey"}
-        />
+      <div className="relative grid w-full overflow-hidden min-h-[640px] max-[900px]:min-h-[600px] max-[1200px]:min-h-[600px] max-[1250px]:min-h-[610px] max-[1281px]:min-h-[620px] max-[1910px]:min-h-[640px] min-[1919px]:min-h-[680px]">
+        <div className="relative col-start-1 row-start-1 col-end-2 row-end-2">
+          <div className="absolute inset-0">
+            <JourneyCardImage
+              src={journey.image}
+              alt={journey.title || "Journey"}
+            />
+          </div>
+        </div>
 
         <div
-          className="absolute left-[3vw] top-[5vw] z-10 w-[18vw] rounded-[0.35vw] border-2 border-[#2f2d89] bg-white shadow-[0_6px_28px_rgba(0,0,0,0.22)]"
-          style={{ padding: "1.3vw" }}
+          className="relative z-10 col-start-1 row-start-1 col-end-2 row-end-2 justify-self-start self-start h-auto rounded-[10px] border-2 border-[#2f2d89] bg-white shadow-[0_6px_28px_rgba(0,0,0,0.22)] w-[260px] ml-[14px] mt-[14px] p-[14px] max-[900px]:w-[300px] max-[900px]:ml-[16px] max-[900px]:mt-[16px] max-[900px]:p-[16px] max-[1200px]:w-[300px] max-[1200px]:ml-[24px] max-[1200px]:mt-[20px] max-[1200px]:p-[18px] max-[1250px]:w-[320px] max-[1250px]:ml-[32px] max-[1250px]:mt-[24px] max-[1250px]:p-[18px] max-[1281px]:w-[350px] max-[1281px]:ml-[48px] max-[1281px]:mt-[32px] max-[1281px]:p-[20px] max-[1910px]:w-[390px] max-[1910px]:ml-[80px] max-[1910px]:mt-[42px] max-[1910px]:p-[22px] min-[1919px]:w-[414px] min-[1919px]:ml-[108px] min-[1919px]:mt-[50px] min-[1919px]:p-[25px]"
         >
-          <h1 className="text-[1.2vw] font-bold leading-[1.28] text-ink">
+          <h1 className="text-[15px] max-[900px]:text-[16px] max-[1250px]:text-[17px] max-[1910px]:text-[18px] min-[1919px]:text-[18px] font-bold leading-[1.3] text-ink">
             {journey.title}
           </h1>
-          <p className="mt-[0.5vw] text-[0.63vw] leading-[1.6] text-[#444]">
+          <p className="mt-[8px] text-[11px] max-[1250px]:text-[12px] max-[1910px]:text-[13px] min-[1919px]:text-[13px] leading-[1.5] text-[#444]">
            {trimByWords(journey.desc, 25)}
           </p>
-          <div className="mt-[0.75vw] flex items-center gap-[1vw] text-[0.6vw] text-[#333]">
-            <div className="flex items-center gap-[0.28vw]">
-              <Image src="/CalenderIcon.svg" alt="" width={11} height={11} className="shrink-0" />
+          <div className="mt-[12px] flex items-center gap-[12px] xl:gap-[16px] text-[11px] xl:text-[12px] text-[#333]">
+            <div className="flex items-center gap-[6px]">
+              <Image src="/CalenderIcon.svg" alt="" width={14} height={14} className="shrink-0" />
               <span>{journey.days || "13 Days | 12 Nights"}</span>
             </div>
-            <div className="flex items-center gap-[0.28vw]">
-              <Image src="/Destination.svg" alt="" width={11} height={11} className="shrink-0" />
+            <div className="flex items-center gap-[6px]">
+              <Image src="/Destination.svg" alt="" width={14} height={14} className="shrink-0" />
               <span>{journey.destinations || "10 Destinations"}</span>
             </div>
           </div>
 
-          <div className="my-[0.7vw] border-t border-[#EBEBEB]" />
+          <div className="my-[14px] border-t border-[#EBEBEB]" />
 
-          <div className="flex flex-col gap-[0.3vw] text-[0.63vw]">
+          <div className="flex flex-col gap-[6px] text-[12px] xl:text-[13px]">
             <div>
               <span className="font-bold text-ink">Starts In: </span>
               <span className="text-[#444]">{journey.startCity || "Casablanca"}</span>
@@ -194,26 +197,26 @@ export default function HeroSection({
           </div>
 
           {/* Divider */}
-         <div className="flex items-start gap-[0.7vw]">
+         <div className="mt-[14px] flex items-start gap-[14px]">
   <div className="shrink-0">
 
     {/* From */}
-    <p className="text-[0.52vw] text-[#787878]">
+    <p className="text-[11px] text-[#787878]">
       from
     </p>
 
     {/* Offer Price + per person */}
-    <p className="flex items-baseline gap-0 text-[1.15vw] font-bold leading-none text-[#1D1D1D]">
+    <p className="flex items-baseline gap-0 text-[18px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1919px]:text-[24px] font-bold leading-none text-[#1D1D1D]">
       <span>
         ${Number(journey.offerPrice).toLocaleString()}
-        <span className="relative -top-[1px] text-[0.57vw] align-top">*</span>
+        <span className="relative -top-[1px] text-[12px] align-top">*</span>
       </span>
-      <span className="relative -top-[8px] text-[0.46vw] font-normal text-[black]">/person</span>
+      <span className="relative -top-[2px] text-[11px] font-normal text-[black]">/person</span>
     </p>
 
     {/* Original Price */}
     {journey.originalPrice && (
-      <p className="mt-[0.25vw] text-[0.7vw] font-medium text-[#777]">
+      <p className="mt-[4px] text-[13px] font-medium text-[#777]">
         was{" "}
         <span className="line-through">
           ${Number(journey.originalPrice).toLocaleString()}
@@ -222,7 +225,7 @@ export default function HeroSection({
     )}
 
     {/* Double occupancy */}
-    <p className="mt-[0.12vw] text-[0.46vw] leading-[1.3] text-[#777]">
+    <p className="mt-[2px] text-[11px] leading-[1.3] text-[#777]">
       double occupancy*
     </p>
 
@@ -230,7 +233,7 @@ export default function HeroSection({
 
           {journey?.offer && (
   <span
-    className="w-fit cursor-pointer rounded-[5px] px-[12px] py-[8px] text-[0.4vw] font-semibold tracking-[0.08em]"
+    className="w-fit cursor-pointer rounded-[5px] px-[12px] py-[8px] text-[11px] font-semibold tracking-[0.02em]"
     style={{
       backgroundColor: "#F2E2DA",
       color: "#000000",
@@ -245,17 +248,17 @@ export default function HeroSection({
             <>
               <button
                 onClick={() => setIsPrivateFormOpen(true)}
-                className="mt-[0.8vw] h-[20px] w-[150px] rounded-full bg-[#2D3482] text-[0.7vw] font-semibold text-white transition hover:bg-[#252b78]"
+                className="mt-[16px] h-[44px] w-full rounded-full bg-[#2D3482] text-[14px] font-semibold text-white transition hover:bg-[#252b78]"
               >
                 Request a Private Journey
               </button>
 
-              <div className="mt-[0.65vw] text-[0.57vw] text-[#555]">
+              <div className="mt-[12px] text-[12px] text-[#555]">
                 Want to make this itinerary entirely your own?
                 <br />
                 <button
                   onClick={() => setIsCraftFormOpen(true)}
-                  className="mt-[0.1vw] font-bold text-ink underline underline-offset-[2px]"
+                  className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
                 >
                   Tailor This Journey For You
                 </button>
@@ -265,17 +268,17 @@ export default function HeroSection({
             <>
               <button
                 onClick={onCheckAvailability}
-                className="mt-[0.8vw] h-[20px] w-[190px] rounded-full bg-[#2D3482] text-[0.7vw] font-semibold text-white transition hover:bg-[#252b78]"
+                className="mt-[16px] h-[44px] w-full rounded-full bg-[#2D3482] text-[14px] font-semibold text-white transition hover:bg-[#252b78]"
               >
                 Check Dates & Availability
               </button>
 
-              <div className="mt-[0.65vw] text-[0.57vw] text-[#555]">
+              <div className="mt-[12px] text-[12px] text-[#555]">
                 Want to customize this itinerary?
                 <br />
                 <button
                   onClick={() => setIsPrivateFormOpen(true)}
-                  className="mt-[0.1vw] font-bold text-ink underline underline-offset-[2px]"
+                  className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
                 >
                   Request a Private Journey
                 </button>

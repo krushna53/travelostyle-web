@@ -11,7 +11,7 @@ export default function MobileMegaMenu({
 
   return (
     <div
-      className={`fixed inset-0 z-50 md:hidden transition-all duration-300 ${
+      className={`fixed inset-0 z-50 min-[1191px]:block transition-all duration-300 ${
         menuOpen ? "visible" : "invisible"
       }`}
     >
