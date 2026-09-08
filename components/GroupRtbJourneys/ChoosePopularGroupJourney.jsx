@@ -89,7 +89,7 @@ export default function ChoosePopularGroupJourney() {
     <div className=" min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans overflow-hidden">
       <div className="mb-12">
         <p
-          className="hidden md:block font-taprom text-[32px] font-normal leading-[40px] tracking-[0.05em] text-black lowercase [text-box-trim:cap] [text-box-edge:cap_alphabetic] md:text-center"
+          className="hidden md:block font-taprom font-normal leading-[40px] tracking-[0.05em] text-black lowercase [text-box-trim:cap] [text-box-edge:cap_alphabetic] md:text-center responsive-text-size-[28px]"
         >
           Choose from our popular group journeys
         </p>
@@ -98,7 +98,7 @@ export default function ChoosePopularGroupJourney() {
         >
           our popular group journeys
         </p>
-        <h2 className="mt-1 max-w-[337px] md:max-w-none font-nohemi text-[32px] md:text-[37px] font-semibold leading-[40px] tracking-[0.05em] text-[#000000] [text-box-trim:cap] [text-box-edge:cap_alphabetic] md:text-center">
+        <h2 className="mt-1 max-w-[337px] md:max-w-none font-nohemi font-semibold leading-[40px] tracking-[0.05em] text-[#000000] [text-box-trim:cap] [text-box-edge:cap_alphabetic] md:text-center responsive-text-size-[28px]">
           Where are you headed to next?
         </h2>
       </div>

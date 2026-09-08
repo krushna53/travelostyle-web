@@ -71,19 +71,18 @@ export default function GoodCompaneyJourney() {
       </div>
       <div className="relative w-full text-center z-10 flex flex-col items-center mt-6">
         <h2
-          className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg group-hero-line1 px-4 py-1"
-          style={{ fontSize: "clamp(28px, 3.4vw, 65px)" }}
+          className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg group-hero-line1 px-4 py-1 responsive-text-size-[38px] "
+        
         >
           Journeys that get better in good
         </h2>
         <h2
-          className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg px-4 py-1"
-          style={{ fontSize: "clamp(28px, 3.4vw, 65px)" }}
+          className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg px-4 py-1 responsive-text-size-[38px]"
         >
           company
         </h2>
 
-        <p className="mt-8 text-[21px] md:text-[13px] text-[#333333] max-w-[780px] leading-[1.7] tracking-normal px-4 font-normal">
+        <p className="mt-8md:text-[13px] text-[#333333] max-w-[780px] leading-[1.7] tracking-normal px-4 font-normal responsive-text-size-[12px]">
           {description}
         </p>
       </div>

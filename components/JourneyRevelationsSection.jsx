@@ -43,12 +43,12 @@ export default function JourneyRevelationsSection({
             style={{ borderColor: borderVar }}
           >
             {badgeText && (
-              <h4 className="font-taprom text-2xl text-[#3c3c3c] tracking-wide mb-2">
+              <h4 className="font-taprom text-[#3c3c3c] tracking-wide mb-2 responsive-text-size-[21px]">
                 {badgeText}
               </h4>
             )}
             {titleText && (
-              <h2 className="text-[26px] xl:text-[32px] font-bold text-[#111111] leading-[1.25] tracking-tight max-w-[500px]">
+              <h2 className="text-[26px] xl:text-[32px] font-bold text-[#111111] leading-[1.25] tracking-tight max-w-[700px] responsive-text-size-[28px]">
                 {stripHtml(titleText)}
               </h2>
             )}
@@ -73,7 +73,7 @@ export default function JourneyRevelationsSection({
                   />
                 </div>
                 {item.description && (
-                  <p className="font-[Nohemi] text-[13px] text-[#2c2c2c] leading-relaxed font-normal">
+                  <p className="text-[13px] text-[#2c2c2c] leading-relaxed font-normal responsive-text-size-[11px]">
                     {stripHtml(item.description)}
                   </p>
                 )}
@@ -87,7 +87,7 @@ export default function JourneyRevelationsSection({
                 className={`pl-7 pr-[clamp(24px,6vw,98px)] py-7 border-b-2 ${borderClass}`}
                 style={{ borderColor: borderVar }}
               >
-                <p className="font-[Nohemi] text-[14px] text-[#222222] font-normal leading-[26px] tracking-wide line-clamp-3 min-h-[78px]">
+                <p className="text-[#222222] font-normal leading-[26px] tracking-wide line-clamp-3 min-h-[78px] responsive-text-size-[12px]">
                   {stripHtml(topIntroText)}
                 </p>
               </div>
@@ -109,12 +109,12 @@ export default function JourneyRevelationsSection({
                     className={`w-[clamp(150px,14vw,220px)] shrink-0 px-4 py-5 flex items-center justify-center border-r-2 ${borderClass}`}
                     style={{ borderColor: borderVar }}
                   >
-                    <span className="text-[12px] font-bold text-[#111111] tracking-[0.12em] text-center uppercase">
+                    <span className="font-bold text-[#111111] tracking-[0.12em] text-center uppercase responsive-text-size-[12px]">
                       {row.label}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0 px-7 py-6 flex items-center">
-                    <p className="font-[Nohemi] text-[14px] text-[#3a3a3a] leading-[26px] font-normal tracking-wide">
+                    <p className="text-[#3a3a3a] leading-[26px] font-normal tracking-wide responsive-text-size-[11px]">
                       {stripHtml(row.text)}
                     </p>
                   </div>
@@ -124,7 +124,7 @@ export default function JourneyRevelationsSection({
 
             {footerText && (
               <div className="px-7 py-6 flex items-center">
-                <p className="text-[16px] text-[#111111] font-semibold leading-[28px]">
+                <p className="text-[#111111] font-semibold leading-[28px] responsive-text-size-[12px]">
                   {stripHtml(footerText)}
                 </p>
               </div>

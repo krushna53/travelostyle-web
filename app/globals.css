@@ -315,3 +315,28 @@ a,
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+@utility responsive-text-size-* {
+  --heading-size: --value([length]);
+  font-size: calc(var(--heading-size) * 0.7);
+
+  @media (min-width: 901px) {
+    font-size: calc(var(--heading-size) * 0.9);
+  }
+
+  @media (min-width: 1201px) {
+    font-size: var(--heading-size);
+  }
+
+  @media (min-width: 1251px) {
+    font-size: calc(var(--heading-size) * 1.2);
+  }
+
+  @media (min-width: 1282px) {
+    font-size: calc(var(--heading-size) * 1.4);
+  }
+
+  @media (min-width: 1919px) {
+    font-size: calc(var(--heading-size) * 1.7);
+  }
+}
