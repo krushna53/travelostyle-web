@@ -119,7 +119,7 @@ export default function TestimonialSection({ testimonialData }) {
 
           <div className="flex flex-row items-center gap-12 max-w-3xl w-full mx-6">
             <div className="border border-[#4c4b75] bg-white p-[10px] shadow-[3px_3px_10px_rgba(0,0,0,0.06)] shrink-0">
-              <div className="relative w-[16.5vw] h-[16.5vw] min-w-[150px] min-h-[150px]">
+              <div className="relative w-[317px] max-[1910px]:w-[315px] max-[1281px]:w-[211px] max-[1250px]:w-[206px] max-[1200px]:w-[198px] h-[317px] max-[1910px]:h-[315px] max-[1281px]:h-[211px] max-[1250px]:h-[206px] max-[1200px]:h-[198px] min-w-[150px] min-h-[150px]">
                 <Image
                   src={current.image}
                   alt={current.name}
@@ -134,7 +134,7 @@ export default function TestimonialSection({ testimonialData }) {
 
             <div className="relative flex-1 py-4 px-10">
               <span className="absolute -left-5 top-[-8px]">
-                <div className="relative w-[2.9vw] h-[2.05vw] min-w-[25px] min-h-[18px]">
+                <div className="relative w-[56px] max-[1910px]:w-[55px] max-[1281px]:w-[37px] max-[1250px]:w-[36px] max-[1200px]:w-[35px] h-[39px] max-[1281px]:h-[26px] max-[1200px]:h-[25px] min-w-[25px] min-h-[18px]">
                   <Image
                     src="/RightQuote.svg"
                     alt="Quote Start"
@@ -149,7 +149,7 @@ export default function TestimonialSection({ testimonialData }) {
               </p>
 
               <span className="absolute -right-4 bottom-0">
-                <div className="relative w-[2.9vw] h-[2.05vw] min-w-[25px] min-h-[18px]">
+                <div className="relative w-[56px] max-[1910px]:w-[55px] max-[1281px]:w-[37px] max-[1250px]:w-[36px] max-[1200px]:w-[35px] h-[39px] max-[1281px]:h-[26px] max-[1200px]:h-[25px] min-w-[25px] min-h-[18px]">
                   <Image
                     src="/LeftQuote.svg"
                     alt="Quote End"

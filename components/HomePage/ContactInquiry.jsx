@@ -164,7 +164,7 @@ export default function ContactInquiry() {
   return (
   <section className="w-full px-0 py-0 max-md:px-0 max-md:py-0 mt-8">
       <div
-        className="relative mx-auto h-[48vw] max-w-[200vw] overflow-hidden
+        className="relative mx-auto h-[922px] max-[1910px]:h-[917px] max-[1281px]:h-[615px] max-[1250px]:h-[600px] max-[1200px]:h-[576px] max-w-[200vw] overflow-hidden
         max-md:h-auto max-w-full max-md:min-h-screen"
       >
         <Image
@@ -179,11 +179,11 @@ export default function ContactInquiry() {
         <div className="absolute inset-0" />
 
         <div
-          className="relative z-10 flex h-full gap-[5vw]
-          px-[4.5vw] py-[2vw] text-[#FAFAFA]
+          className="relative z-10 flex h-full gap-[96px] max-[1281px]:gap-[64px] max-[1250px]:gap-[62px] max-[1200px]:gap-[60px]
+          px-[86px] max-[1281px]:px-[58px] max-[1250px]:px-[56px] max-[1200px]:px-[54px] py-[38px] max-[1281px]:py-[26px] max-[1250px]:py-[25px] max-[1200px]:py-[24px] text-[#FAFAFA]
           max-md:flex-col max-md:px-6 max-md:py-8 max-md:gap-6"
         >
-          <div className="w-[28%] pt-[1vw] max-md:w-full max-md:pt-0">
+          <div className="w-[28%] pt-[19px] max-[1281px]:pt-[13px] max-[1250px]:pt-[12px] max-md:w-full max-md:pt-0">
           <h2
  className="mt-[3px] mb-[2px] w-[397px] text-[40px] font-semibold
 leading-[48px] tracking-[0.05em] text-[#FAFAFA]
@@ -209,15 +209,15 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
 
           <form
             onSubmit={handleSubmit}
-            className="flex-1 pt-[0.1vw] max-md:pt-0"
+            className="flex-1 pt-[2px] max-[1281px]:pt-[1px] max-md:pt-0"
             noValidate
           >
             <div
-              className="grid grid-cols-2 gap-x-[4vw] gap-y-[1.6vw]
+              className="grid grid-cols-2 gap-x-[77px] max-[1910px]:gap-x-[76px] max-[1281px]:gap-x-[51px] max-[1250px]:gap-x-[50px] max-[1200px]:gap-x-[48px] gap-y-[31px] max-[1281px]:gap-y-[20px] max-[1200px]:gap-y-[19px]
               max-md:grid-cols-1 max-md:gap-y-5"
             >
               <div>
-              <label className="mb-[0.25vw] ml-[3px] block w-[145px] h-[13px] text-[0.9vw] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
   First Name*
 </label>
 
@@ -231,7 +231,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
     errors.firstName
       ? "border-red-400"
       : "border-white/70"
-  } bg-transparent pb-[0.45vw] pl-[3px] text-[0.7vw]
+  } bg-transparent pb-[9px] max-[1281px]:pb-[6px] max-[1200px]:pb-[5px] pl-[3px] text-[13px] max-[1910px]:text-[13px]
   max-md:w-full max-md:pb-2 max-md:text-[13px] text-white
   placeholder:text-white/45 focus:outline-none`}
 />
@@ -243,7 +243,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 
               <div>
-              <label className="mb-[0.25vw] ml-[3px] block w-[145px] h-[13px] text-[0.9vw] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
   Last Name*
 </label>
 
@@ -257,7 +257,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
     errors.firstName
       ? "border-red-400"
       : "border-white/70"
-  } bg-transparent pb-[0.45vw] pl-[3px] text-[0.7vw]
+  } bg-transparent pb-[9px] max-[1281px]:pb-[6px] max-[1200px]:pb-[5px] pl-[3px] text-[13px] max-[1910px]:text-[13px]
   max-md:w-full max-md:pb-2 max-md:text-[13px] text-white
   placeholder:text-white/45 focus:outline-none`}
                 />
@@ -270,7 +270,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 
               <div>
-                <label className="mb-[0.25vw] ml-[3px] block w-[145px] h-[13px] text-[0.9vw] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+                <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
   Title*
 </label>
 
@@ -284,7 +284,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
     errors.firstName
       ? "border-red-400"
       : "border-white/70"
-  } bg-transparent pb-[0.45vw] pl-[3px] text-[0.7vw]
+  } bg-transparent pb-[9px] max-[1281px]:pb-[6px] max-[1200px]:pb-[5px] pl-[3px] text-[13px] max-[1910px]:text-[13px]
   max-md:w-full max-md:pb-2 max-md:text-[13px] text-white
   placeholder:text-white/45 focus:outline-none`}
                 />
@@ -297,7 +297,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 
               <div>
-             <label className="mb-[0.25vw] ml-[3px] block w-[145px] h-[13px] text-[0.9vw] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+             <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
   Email*
 </label>
 
@@ -311,7 +311,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
     errors.firstName
       ? "border-red-400"
       : "border-white/70"
-  } bg-transparent pb-[0.45vw] pl-[3px] text-[0.7vw]
+  } bg-transparent pb-[9px] max-[1281px]:pb-[6px] max-[1200px]:pb-[5px] pl-[3px] text-[13px] max-[1910px]:text-[13px]
   max-md:w-full max-md:pb-2 max-md:text-[13px] text-white
   placeholder:text-white/45 focus:outline-none`}
                 />
@@ -324,25 +324,25 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 <div>
   <label
-    className="mb-[0.25vw] ml-[3px] block w-[180px] h-[13px]
-    text-[0.9vw] max-md:w-auto max-md:h-auto max-md:text-[14px]
+    className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[180px] h-[13px]
+    text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px]
     text-[#FAFAFA]"
   >
     Contact Number*
   </label>
 
-  <div className="mt-[15px] flex items-center gap-[1vw]">
+  <div className="mt-[15px] flex items-center gap-[19px] max-[1281px]:gap-[13px] max-[1250px]:gap-[12px]">
     {/* Country Code */}
     <div
       className={`w-[48px] border-b ${
         errors.countryCode ? "border-red-400" : "border-white/70"
-      } pb-[0.1vw]`}
+      } pb-[2px] max-[1281px]:pb-[1px]`}
     >
       <select
         name="countryCode"
         value={formData.countryCode}
         onChange={handleChange}
-        className="w-full bg-transparent text-[0.72vw]
+        className="w-full bg-transparent text-[14px] max-[1910px]:text-[14px]
         max-md:text-[13px] text-white outline-none"
       >
         {countryCodes.map((item, index) => (
@@ -361,7 +361,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
     <div
       className={` w-[500px] max-md:w-full max-md:flex-1 border-b ${
         errors.phone ? "border-red-400" : "border-white/70"
-      } pb-[0.1vw]`}
+      } pb-[2px] max-[1281px]:pb-[1px]`}
     >
       <input
         type="tel"
@@ -369,7 +369,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
         value={formData.phone}
         onChange={handleChange}
         placeholder="Your number"
-        className="w-[100px] bg-transparent text-[0.72vw]
+        className="w-[100px] bg-transparent text-[14px] max-[1910px]:text-[14px]
         max-md:text-[13px] text-white
         placeholder:text-white/70 focus:outline-none"
       />
@@ -384,9 +384,9 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
 </div>
 </div>
 
-            <div className="mt-[1.7vw]">
+            <div className="mt-[33px] max-[1910px]:mt-[32px] max-[1281px]:mt-[22px] max-[1250px]:mt-[21px] max-[1200px]:mt-[20px]">
             <label
-  className="mt-[5px] mb-[0.45vw] block w-[169px] h-[13px]
+  className="mt-[5px] mb-[9px] max-[1281px]:mb-[6px] max-[1200px]:mb-[5px] block w-[169px] h-[13px]
   text-[13px] leading-[13px] text-[#FAFAFA]
   max-md:w-auto max-md:h-auto max-md:text-[14px] max-md:leading-normal"
 >
@@ -403,13 +403,13 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
       : "Tell us everything- your budget, your vision, your interests. The more the better."
   }
   className={`mt-[10px]
-    h-[9.58vw] min-h-[200px]
+    h-[184px] max-[1910px]:h-[183px] max-[1281px]:h-[123px] max-[1250px]:h-[120px] max-[1200px]:h-[115px] min-h-[200px]
     w-full resize-none
     rounded-[10px]
     border-2 border-[#D9D9D9]
     bg-white
-    px-[1vw] py-[0.75vw]
-    text-[0.7vw]
+    px-[19px] max-[1281px]:px-[13px] max-[1250px]:px-[12px] py-[14px] max-[1281px]:py-[10px] max-[1250px]:py-[9px]
+    text-[13px] max-[1910px]:text-[13px]
     leading-[1.4]
     text-[#222]
     placeholder:text-[#8d8d8d]
@@ -464,7 +464,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
 
            <button
   type="submit"
-  className="mt-[1vw] flex h-[40px] w-[150px] items-center justify-center gap-[10px] rounded-[100px] bg-white px-[24px] py-[16px] text-[14px] font-semibold text-[#2f2d89] max-md:mt-5 max-md:mb-5 max-md:h-[37px] max-md:w-auto max-md:self-start max-md:px-4 max-md:py-3"
+  className="mt-[19px] max-[1281px]:mt-[13px] max-[1250px]:mt-[12px] flex h-[40px] w-[150px] items-center justify-center gap-[10px] rounded-[100px] bg-white px-[24px] py-[16px] text-[14px] font-semibold text-[#2f2d89] max-md:mt-5 max-md:mb-5 max-md:h-[37px] max-md:w-auto max-md:self-start max-md:px-4 max-md:py-3"
 >
   Submit Inquiry
 </button>

@@ -127,7 +127,7 @@ export default function JourneySection() {
             {/* =========================
                 TREE POLAROID
             ========================== */}
-         <div className="absolute right-[5vw] top-[11vw] z-10 w-[54.86%] aspect-[316/360] rotate-[-8deg] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+         <div className="absolute right-[96px] max-[1281px]:right-[64px] max-[1250px]:right-[62px] max-[1200px]:right-[60px] top-[211px] max-[1910px]:top-[210px] max-[1281px]:top-[141px] max-[1250px]:top-[138px] max-[1200px]:top-[132px] z-10 w-[54.86%] aspect-[316/360] rotate-[-8deg] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
              <Image
   src="/Tree.svg"
   alt="tree"
@@ -140,7 +140,7 @@ export default function JourneySection() {
             {/* =========================
                 ROAD POLAROID
             ========================== */}
-            <div className="absolute left-[3vw] top-[22vw] z-10 w-[61.61%] aspect-[354.86/404.27] rotate-[5deg] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+            <div className="absolute left-[58px] max-[1910px]:left-[57px] max-[1281px]:left-[38px] max-[1200px]:left-[36px] top-[422px] max-[1910px]:top-[420px] max-[1281px]:top-[282px] max-[1250px]:top-[275px] max-[1200px]:top-[264px] z-10 w-[61.61%] aspect-[354.86/404.27] rotate-[5deg] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
              <Image
   src="/Road.svg"
   alt="road"
@@ -186,7 +186,7 @@ export default function JourneySection() {
           </div>
         </div>
 
-        <div className="absolute top-[-7vw] right-[35px] w-[170px] z-0 pointer-events-none">
+        <div className="absolute top-[-134px] max-[1281px]:top-[-90px] max-[1250px]:top-[-88px] max-[1200px]:top-[-84px] right-[35px] w-[170px] z-0 pointer-events-none">
           <Image
             src="/ResLine1Journey.svg"
             alt=""

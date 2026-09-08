@@ -77,7 +77,7 @@ export default function JourneysWeLove({
   };
 
   return (
-    <div className="mt-6 flex w-full items-center justify-center gap-[1.3vw] px-4 max-md:mt-4 md:mt-[4vw] md:px-0 md:mx-auto md:max-w-[1416px] md:justify-between">
+    <div className="mt-6 flex w-full items-center justify-center gap-[25px] max-[1281px]:gap-[17px] max-[1250px]:gap-[16px] px-4 max-md:mt-4 md:mt-[77px] max-[1910px]:mt-[76px] max-[1281px]:mt-[51px] max-[1250px]:mt-[50px] max-[1200px]:mt-[48px] md:px-0 md:mx-auto md:max-w-[1416px] md:justify-between">
       <div onClick={scrollLeft} className="cursor-pointer max-md:hidden">
         <Image
           src={"/LeftArrow.svg"}
@@ -88,7 +88,7 @@ export default function JourneysWeLove({
       </div>
       <div
         ref={scrollRef}
-        className="flex w-full items-stretch gap-4 overflow-x-auto scroll-smooth pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-md:snap-x max-md:snap-mandatory md:w-[calc(3*390px+2*1.4vw)] md:gap-[1.4vw]"
+        className="flex w-full items-stretch gap-4 overflow-x-auto scroll-smooth pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-md:snap-x max-md:snap-mandatory md:w-[calc(3*390px+2*1.4vw)] md:gap-[27px] max-[1281px]:gap-[18px] max-[1200px]:gap-[17px]"
       >
         {trips.map((trip, index) => (
           <JourneyCard key={trip.id ?? index} trip={trip} variant="carousel" />
