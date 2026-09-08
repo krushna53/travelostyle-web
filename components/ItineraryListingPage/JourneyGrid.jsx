@@ -10,7 +10,7 @@ export default function JourneyGrid({ journeys }) {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:flex md:flex-wrap md:gap-5">
+    <div className="flex flex-wrap gap-4 md:gap-[7px] md:max-[1910px]:gap-[7px] md:max-[1700px]:gap-[6px] md:max-[1500px]:gap-[5px] md:max-[1281px]:gap-[5px] md:max-[1250px]:gap-[5px] md:max-[1200px]:gap-[4px] min-[1920px]:gap-[48px]">
       {journeys.map((trip) => (
         <JourneyCard
           key={trip.id}

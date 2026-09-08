@@ -88,8 +88,8 @@ existingTrips.push(trip);
     <div
       className={
         variant === "carousel"
-          ? "relative isolate flex w-[293px] min-w-[293px] shrink-0 cursor-pointer flex-col px-[14px] pt-2 pb-4 max-md:snap-center md:w-[390px] md:min-w-[390px] md:min-h-[585px] md:px-8 md:pt-3 md:pb-11"
-          : "relative isolate flex w-[293px] min-w-[293px] shrink-0 cursor-pointer flex-col px-5 pt-2 pb-4 max-md:snap-center md:w-full md:min-w-0 md:max-w-[390px] md:min-h-[585px] md:px-8 md:pt-3 md:pb-11 mx-auto md:mx-0"
+          ? "relative isolate flex w-[293px] min-w-[293px] shrink-0 cursor-pointer flex-col px-[14px] pt-2 pb-4 max-md:snap-center md:w-[420px] md:min-w-[390px] md:min-h-[585px] md:px-8 md:pt-3 md:pb-11"
+          : "relative isolate flex w-[293px] min-w-[293px] shrink-0 cursor-pointer flex-col px-5 pt-2 pb-4 max-md:snap-center md:w-full md:min-w-0 md:max-w-[390px] md:min-h-[585px] md:px-8 md:pt-3 md:pb-11 mx-auto md:mx-0 min-[1920px]:w-[390px] min-[1920px]:min-w-[390px] min-[1920px]:shrink-0 min-[1920px]:px-5"
       }
     >
       <div
