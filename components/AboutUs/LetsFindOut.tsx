@@ -6,12 +6,12 @@ export default function LetsFindOut() {
     <>
     {/* MOBILE */}
     <section className="min-[1024px]:hidden bg-[#F9F9F9] overflow-hidden px-5 py-16">
-      <h2 className="max-w-[336px] text-[32px] max-[1910px]:text-[27px] max-[1281px]:text-[22px] max-[1250px]:text-[17px] max-[1200px]:text-[13px] font-semibold leading-[40px] tracking-[0.05em] text-[#000000]">
+      <h2 className="max-w-full text-[32px] max-[1910px]:text-[27px] max-[1281px]:text-[22px] max-[1250px]:text-[17px] max-[1200px]:text-[16px] font-semibold leading-[40px] tracking-[0.05em] text-[#000000]">
         Curious about what&apos;s possible? Let&apos;s find out together
       </h2>
 
-      <div className="relative -mx-5 mt-10 h-[470px] w-[calc(100%+40px)]">
-        <div className="absolute top-0 left-[107px] w-[284px] h-[324px]">
+      <div className="relative md:-mx-5 mt-10 h-[470px] md:w-[calc(100%+40px)]">
+        <div className="absolute top-0 left-[107px] md:w-[284px] h-[324px]">
           <Image
             src="/FreeMan.svg"
             alt=""
@@ -32,7 +32,7 @@ export default function LetsFindOut() {
         </div>
       </div>
 
-      <p className="mt-10 text-[18px] max-[1910px]:text-[13px] leading-[32px] tracking-[0.05em] text-[#000000]">
+      <p className="mt-10 text-[18px] max-[1910px]:text-[16px] leading-[32px] tracking-[0.05em] text-[#000000]">
        Whether you know exactly where you want to go or you&apos;re still at
         the &apos;somewhere warm, sometime soon&apos; stage – TravelOStyle is
         here. Start a conversation, browse the journeys, or just tell us how
@@ -40,7 +40,7 @@ export default function LetsFindOut() {
       </p>
 
       <div className="mt-8 min-[768px]:flex justify-center">
-        <TalkToAdvisorButton className="h-[44px] min-[768px]:w-full min-[768px]:max-w-[269px] rounded-[100px] bg-[#2C3078] px-6 text-[18px] max-[1910px]:text-[13px] font-semibold tracking-[0.05em] text-[#FAFAFA]" />
+        <TalkToAdvisorButton className="h-[44px] min-[768px]:w-full min-[768px]:max-w-[269px] rounded-[100px] bg-[#2C3078] px-6 text-[18px] max-[1910px]:text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA]" />
       </div>
     </section>
 
@@ -54,14 +54,14 @@ export default function LetsFindOut() {
             Let&apos;s find out together
           </h2>
 
-          <p className="mt-6 text-[18px] max-[1910px]:text-[13px] leading-[32px] text-[#4A4A4A]">
+          <p className="mt-6 text-[18px] max-[1910px]:text-[16px] leading-[32px] text-[#4A4A4A]">
             Whether you know exactly where you want to go or you&apos;re still at
             the &apos;somewhere warm, sometime soon&apos; stage – TravelOStyle is here.
             Start a conversation, browse the journeys, or just tell us how you
             like to travel. That&apos;s usually enough to begin.
           </p>
 
-          <TalkToAdvisorButton className="mt-10 w-[269px] h-[44px] rounded-[100px] bg-[#2C3078] text-white text-[16px] max-[1910px]:text-[13px] font-medium" />
+          <TalkToAdvisorButton className="mt-10 w-[269px] h-[44px] rounded-[100px] bg-[#2C3078] text-white text-[16px] max-[1910px]:text-[16px] font-medium" />
         </div>
 
         <div className="relative w-[380px] h-[380px] min-[1280px]:w-[600px] min-[1280px]:h-[600px] shrink-0">

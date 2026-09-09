@@ -177,7 +177,7 @@ export default function Form() {
               <span className="block">Can&apos;t decide</span>
               <span className="block">where to go?</span>
             </h2>
-            <p className="font-nohemi mt-3 w-[336px] max-w-full text-[#FAFAFA] text-[16px] leading-[24px] font-normal tracking-[0.05em] md:max-w-[395px] md:text-[18px] md:leading-[32px]">
+            <p className="font-nohemi mt-3 w-fit max-w-full text-[#FAFAFA] text-[16px] leading-[24px] font-normal tracking-[0.05em] md:max-w-[395px] md:text-[18px] md:leading-[32px]">
               Tell us what you&apos;re drawn to – your interests, how long you
               have, your budget, your group size and anything else – we&apos;ll
               come back with a curated list of destinations and journeys that

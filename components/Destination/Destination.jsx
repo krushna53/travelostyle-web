@@ -79,7 +79,7 @@ export default function Destination() {
         Destinations TravelOStyle Knows Best
     </h2>
 
-    <p className="font-nohemi font-normal w-full max-w-[339px] md:max-w-[1100px] text-[16px] mt-4 leading-[24px] md:text-[18px] md:leading-[32px] tracking-[0.05em] text-[#000000]">
+    <p className="font-nohemi font-normal w-full max-w-fit md:max-w-[1100px] text-[16px] mt-4 leading-[24px] md:text-[18px] md:leading-[32px] tracking-[0.05em] text-[#000000]">
       Choose from the locations that consistently deliver. These are places we know
       <br className="hidden md:block" />
       well enough to recommend without reservation, and that our travelers reliably come home
