@@ -268,23 +268,23 @@ export default function Form() {
 
               {/* Contact Number */}
               <div className="mt-6">
-                <label className="mb-[0.25vw] ml-[3px] block w-[180px] h-[13px] text-[0.9vw] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+                <label className="mb-2 block text-[15px] md:text-[18px] leading-[18px] md:leading-[32px] font-normal tracking-[0.05em] text-[#FAFAFA]">
                   <span className="hidden md:inline">Contact Number*</span>
                   <span className="md:hidden">Contact Number / WhatsApp*</span>
                 </label>
 
-                <div className="mt-[15px] flex items-center gap-[1vw]">
+                <div className="mt-[15px] flex items-center gap-3">
                   {/* Country Code */}
                   <div
-                    className={`w-[48px] border-b ${
+                    className={`w-[56px] shrink-0 border-b ${
                       errors.countryCode ? "border-red-400" : "border-white/70"
-                    } pb-[0.1vw]`}
+                    } pb-2 md:pb-3`}
                   >
                     <select
                       name="countryCode"
                       value={formData.countryCode}
                       onChange={handleChange}
-                      className="w-full bg-transparent text-[0.72vw] max-md:text-[13px] text-white outline-none"
+                      className="w-full bg-transparent text-[13px] md:text-[14px] text-white outline-none"
                     >
                       {countryCodes.map((item, index) => (
                         <option
@@ -300,9 +300,9 @@ export default function Form() {
 
                   {/* Phone Number */}
                   <div
-                    className={`w-[500px] max-md:w-full max-md:flex-1 border-b ${
+                    className={`flex-1 border-b ${
                       errors.contact ? "border-red-400" : "border-white/70"
-                    } pb-[0.1vw]`}
+                    } pb-2 md:pb-3`}
                   >
                     <input
                       type="tel"
@@ -310,7 +310,7 @@ export default function Form() {
                       value={formData.contact}
                       onChange={handleChange}
                       placeholder="Your number"
-                      className="w-[100px] bg-transparent text-[0.72vw] max-md:text-[13px] text-white placeholder:text-white/70 focus:outline-none"
+                      className="w-full bg-transparent text-[15px] md:text-[14px] text-white placeholder:text-white/70 focus:outline-none"
                     />
                   </div>
                 </div>

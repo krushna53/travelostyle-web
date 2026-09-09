@@ -265,7 +265,7 @@ export default function MobileFilters({
         <div className="fixed inset-0 z-50">
           <div className="absolute inset-0 bg-black/40" onClick={close} />
 
-          <div className="absolute bottom-0 left-0 right-0 flex h-[92vh] flex-col overflow-hidden rounded-t-1xl bg-white">
+          <div className="absolute bottom-0 left-0 right-0 flex h-[92vh] flex-col overflow-hidden rounded-t-xl bg-white">
             {/* HEADER */}
             <div className="flex items-center justify-between border-b border-[#E8E8E8] px-4 py-2">
               <span className="flex items-center gap-2 text-sm font-semibold">

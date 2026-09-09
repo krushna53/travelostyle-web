@@ -153,9 +153,8 @@ const ROWS = [
    label column can offset itself by the same amount. */
 const CARD_HEADER = "h-[248px] md:h-[288px]";
 
-/* Max trips allowed in comparison. Header copy says "up to 3" —
-   badhana ho to yahan change karo aur heading text bhi update karo. */
-const MAX_COMPARE_TRIPS = 30;
+/* Max trips allowed in comparison, matching the "up to 3" header copy. */
+const MAX_COMPARE_TRIPS = 3;
 
 const INCLUDE = [
   "field_journey_image.field_media_image",
@@ -650,7 +649,7 @@ export default function TripComparison() {
                     aria-label={`Remove ${trip.title}`}
                     className="absolute top-1 right-[14px] z-20
                       w-6 h-6 rounded-full
-                      bg-[#F2E2DA] text-[#00000] flex items-center justify-center"
+                      bg-[#F2E2DA] text-[#000000] flex items-center justify-center"
                   >
                     <Image src="/close.svg" alt="" width={10} height={10} />
                   </button>
@@ -658,17 +657,15 @@ export default function TripComparison() {
                   {/* Card header: image + title, fixed height shared
                       with the label-column spacer */}
                   <div className={`${CARD_HEADER} flex flex-col`}>
-                    <div className="relative h-[170px] md:h-[213px] rounded-lg overflow-hidden shrink-0">
-                    <div className="relative h-[170px] md:w-[349px] md:h-[213px] overflow-hidden shrink-0 mx-auto">
-  <Image
-    src={trip.image}
-    alt={trip.title}
-    fill
-    sizes="(max-width: 768px) 82vw, 349px"
-    className="object-cover"
-    unoptimized
-  />
-</div>
+                    <div className="relative h-[170px] md:h-[213px] md:w-[349px] rounded-lg overflow-hidden shrink-0 mx-auto">
+                      <Image
+                        src={trip.image}
+                        alt={trip.title}
+                        fill
+                        sizes="(max-width: 768px) 82vw, 349px"
+                        className="object-cover"
+                        unoptimized
+                      />
                     </div>
                     <h3 className="text-center font-semibold mt-2 line-clamp-2">
                       {trip.title}

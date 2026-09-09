@@ -3,7 +3,6 @@ import Hero from "../../components/AboutUs/Hero";
 import OriginStory from "../../components/AboutUs/OriginStory";
 import TravelBetter from "../../components/AboutUs/TravelBetter";
 import TravelExperience from "../../components/AboutUs/TravelExperience";
-import GuestReview from "../../components/AboutUs/GuestReview";
 import LetsFindOut from "../../components/AboutUs/LetsFindOut";
 import Footer from "../../components/Footer";
 import TestimonialSection from "../../components/HomePage/TestimonialSection";
@@ -92,9 +91,10 @@ export default async function AboutUs() {
       <OriginStory />
       <TravelBetter />
       <TravelExperience />
-            <TestimonialSection testimonialData={testimonialData} />
-      
-      {/* <GuestReview /> */}
+      <TestimonialSection
+        testimonialData={testimonialData}
+        heading="What are guests remember"
+      />
       <LetsFindOut />
       <Footer />
     </div>

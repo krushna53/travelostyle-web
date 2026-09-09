@@ -83,7 +83,7 @@ export default function GoodCompaneyJourney() {
           company
         </h2>
 
-        <p className="mt-8 text-[21px] md:text-[13px] text-[#333333] max-w-[780px] leading-[1.7] tracking-normal px-4 font-normal">
+        <p className="mt-8 text-[21px] text-[#333333] max-w-[780px] leading-[1.7] tracking-normal px-4 font-normal">
           {description}
         </p>
       </div>
