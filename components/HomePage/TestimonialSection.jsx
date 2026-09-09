@@ -12,6 +12,9 @@ function capitalizeFirst(str) {
 export default function TestimonialSection({
   testimonialData,
   heading = "Hear from those who've travelled with us",
+  headingClassName = "italic text-[40px] md:text-[38px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide",
+  nameClassName = "text-[13px] font-bold",
+  quoteClassName = "text-[16px] leading-[1.6]",
 }) {
   const testimonials = (testimonialData?.data || []).map((item) => {
     const included = testimonialData?.included || [];
@@ -108,7 +111,7 @@ export default function TestimonialSection({
   return (
     <section className="py-8 md:py-20 select-none overflow-hidden">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="mb-12 md:mb-24 text-left md:text-center font-serif italic text-[40px] md:text-[38px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide font-taprom font-normal max-md:max-w-[326px] max-md:mx-auto max-md:leading-[48px]">
+        <h2 className={`mb-12 md:mb-24 text-left md:text-center font-serif font-taprom font-normal max-md:max-w-[326px] max-md:mx-auto max-md:leading-[48px] ${headingClassName}`}>
           {heading}
         </h2>
 
@@ -130,7 +133,7 @@ export default function TestimonialSection({
                   className="object-cover"
                 />
               </div>
-              <p className="mt-3 text-[13px] font-bold text-[#111111] tracking-tight">
+              <p className={`mt-3 font-[Nohemi] text-[#111111] tracking-tight ${nameClassName}`}>
                 {current.name}
               </p>
             </div>
@@ -147,7 +150,7 @@ export default function TestimonialSection({
                 </div>
               </span>
 
-              <p className="text-[#2b2b2b] leading-[1.6] min-h-[60px] text-[16px]">
+              <p className={`text-[#2b2b2b] font-[Nohemi] min-h-[60px] ${quoteClassName}`}>
                 {current.quote}
               </p>
 

@@ -94,6 +94,9 @@ export default async function AboutUs() {
       <TestimonialSection
         testimonialData={testimonialData}
         heading="What are guests remember"
+        headingClassName="text-[32px] md:text-[64px] leading-[40px] md:leading-[80px] text-[#000000] tracking-[0.05em]"
+        nameClassName="text-[16px] md:text-[18px] font-semibold leading-[24px]"
+        quoteClassName="text-[20px] md:text-[32px] leading-[28px] md:leading-[40px]"
       />
       <LetsFindOut />
       <Footer />
