@@ -77,8 +77,8 @@ export default function JourneysWeLove({
   };
 
   return (
-    <div className="mt-6 flex w-full items-center justify-center gap-[25px] max-[1281px]:gap-[17px] max-[1250px]:gap-[16px] px-4 max-md:mt-4 md:mt-[77px] max-[1910px]:mt-[76px] max-[1281px]:mt-[51px] max-[1250px]:mt-[50px] max-[1200px]:mt-[48px] md:px-0 md:mx-auto md:max-w-[1416px] md:justify-between">
-      <div onClick={scrollLeft} className="cursor-pointer max-md:hidden">
+<div className="mt-6 flex w-full items-center justify-center gap-[25px] max-[1281px]:gap-[17px] max-[1250px]:gap-[16px] px-4 max-md:mt-4 md:mt-[77px] max-[1910px]:mt-[76px] max-[1281px]:mt-[51px] max-[1250px]:mt-[50px] max-[1200px]:mt-[48px] max-md:px-4 md:max-[900px]:px-[50px] md:min-[901px]:max-[1200px]:px-[66px] md:min-[1201px]:max-[1250px]:px-[69px] md:min-[1251px]:max-[1281px]:px-[70px] md:min-[1282px]:max-[1918px]:px-[105px] md:min-[1919px]:px-[106px]">      <div onClick={scrollLeft} className="cursor-pointer max-md:hidden">
+        <div onClick={scrollLeft} className="cursor-pointer max-md:hidden shrink-0"></div>
         <Image
           src={"/LeftArrow.svg"}
           alt={"Scroll Left"}
@@ -88,8 +88,7 @@ export default function JourneysWeLove({
       </div>
       <div
         ref={scrollRef}
-        className="flex w-full items-stretch gap-4 overflow-x-auto scroll-smooth pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-md:snap-x max-md:snap-mandatory md:w-[calc(3*390px+2*1.4vw)] md:gap-[27px] max-[1281px]:gap-[18px] max-[1200px]:gap-[17px]"
-      >
+        className="flex w-full items-stretch gap-4 overflow-x-auto md:overflow-x-hidden scroll-smooth pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-md:snap-x max-md:snap-mandatory md:flex-1 md:min-w-0 md:gap-[27px] max-[1281px]:gap-[18px] max-[1200px]:gap-[17px]"      >
         {trips.map((trip, index) => (
           <JourneyCard key={trip.id ?? index} trip={trip} variant="carousel" />
         ))}

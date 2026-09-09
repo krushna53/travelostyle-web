@@ -19,7 +19,7 @@ export default function SearchHeader({
 
         <div className="flex items-center gap-4 md:gap-6">
           <button>FAQs</button>
-          <button className="hidden min-[1191px]:block">Contact Us</button>
+          <button className="hidden md:block">Contact Us</button>
         </div>
       </div>
 
@@ -29,15 +29,15 @@ export default function SearchHeader({
         showAllJourneys={showAllJourneys}
       />
 
-      <div className="bg-[#FAFAFA] min-[1191px]:bg-transparent">
+      <div className="bg-[#FAFAFA] md:bg-transparent">
         <div className="px-4 md:px-14 py-3 ">
-          <div className="relative hidden min-[1191px]:flex width-[100%] max-[1190px]:pt-2 ">
+          <div className="relative hidden md:flex width-[100%] max-md:pt-2 ">
             <div style={{ width: "40%" }}>
               <Link href="/">
                 <img
                   src="/TravelOStyleBlack.svg"
                   alt="TravelOStyle"
-                  className="h-auto w-[184px] md:w-[280px] max-[1190px]:absolute max-[1190px]:left-1/2 max-[1190px]:top-1/2 max-[1190px]:-translate-x-1/2 max-[1190px]:-translate-y-1/2 min-[1191px]:static min-[1191px]:translate-x-0 min-[1191px]:translate-y-0 cursor-pointer"
+                  className="h-auto w-[184px] md:w-[280px] max-md:absolute max-md:left-1/2 max-md:top-1/2 max-md:-translate-x-1/2 max-md:-translate-y-1/2 md:static md:translate-x-0 md:translate-y-0 cursor-pointer"
                 />
               </Link>
             </div>
@@ -67,7 +67,7 @@ export default function SearchHeader({
               <Link href="/offers">Offers</Link>
             </div>
           </div>
-          <div className="block min-[1191px]:hidden relative min-[750px]:pb-4 flex items-center justify-between max-[1190px]:pt-2">
+          <div className="block md:hidden relative min-[750px]:pb-4 flex items-center justify-between max-md:pt-2">
             <button onClick={() => setMenuOpen(true)}>
               <Image src="/MenuToggle.svg" alt="Menu" width={24} height={16} />
             </button>
@@ -76,7 +76,7 @@ export default function SearchHeader({
               <img
                 src="/TravelOStyleBlack.svg"
                 alt="TravelOStyle"
-                className="h-auto w-[184px] md:w-[280px] max-[1190px]:absolute max-[1190px]:left-1/2 max-[1190px]:top-1/2 max-[1190px]:-translate-x-1/2 max-[1190px]:-translate-y-1/2 min-[1191px]:static min-[1191px]:translate-x-0 min-[1191px]:translate-y-0 cursor-pointer"
+                className="h-auto w-[184px] md:w-[280px] max-md:absolute max-md:left-1/2 max-md:top-1/2 max-md:-translate-x-1/2 max-md:-translate-y-1/2 md:static md:translate-x-0 md:translate-y-0 cursor-pointer"
               />
             </Link>
 

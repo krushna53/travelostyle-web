@@ -173,8 +173,8 @@ export default function JourneyPricing({
     `$${Math.round(Number(price))}`;
 
     return (
-        <section className="w-full max-w-full px-4 py-6 overflow-x-hidden">
-            <div className="mb-8">
+        <section className="w-full max-w-full py-6 overflow-x-hidden">
+            <div className="mb-8 px-4 md:px-[20px] md:max-[901px]:px-[20px] md:max-[1200px]:px-[26px] md:max-[1250px]:px-[32px] md:max-[1281px]:px-[38px] md:max-[1910px]:px-[48px] md:min-[1911px]:px-[64px]">
                 {onBack && (
                     <div className="mb-6 flex items-center gap-4 md:hidden">
                         <button
@@ -229,7 +229,7 @@ export default function JourneyPricing({
 
                 </div>
             </div>
-            <div className="md:hidden w-full space-y-4">
+            <div className="md:hidden w-full space-y-4 px-4">
                 {filteredTrips.map((trip, index) => {
                     const isExpanded = expandedCard === index;
 
@@ -344,14 +344,44 @@ export default function JourneyPricing({
                     );
                 })}
 
-            </div>
-            <div className="hidden md:block">
+                <div className="mt-2 flex flex-col items-start">
+                    <p
+                        className="text-ink"
+                        style={{
+                            width: "263px",
+                            height: "13px",
+                            fontWeight: 400,
+                            fontSize: "14px",
+                            lineHeight: "13px",
+                        }}
+                    >
+                        Not sure which date works?
+                    </p>
 
-                <div className="overflow-x-auto">
-                    <div className="min-w-[1200px] border-2 border-black rounded-[10px] overflow-hidden">
+                    <button
+                        className="underline text-ink mt-[12px]"
+                        style={{
+                            width: "185px",
+                            height: "13px",
+                            fontWeight: 400,
+                            fontSize: "14px",
+                            lineHeight: "13px",
+                            textAlign: "left",
+                        }}
+                        onClick={()=> setIsOpenGeneralInquiryForm(true)}
+                    >
+                        Speak to an advisor
+                    </button>
+                </div>
+            </div>
+            <div className="hidden md:block px-[20px] max-[901px]:px-[20px] max-[1200px]:px-[26px] max-[1250px]:px-[32px] max-[1281px]:px-[38px] max-[1910px]:px-[48px] min-[1911px]:px-[64px]">
+
+                <div className="w-full">
+                    <div className="w-full border-2 border-black rounded-[10px] overflow-hidden">
                         <table
                             className="
     w-full
+    table-fixed
     border-separate
     border-spacing-0
     bg-white
@@ -359,32 +389,32 @@ export default function JourneyPricing({
                         >
                             <thead>
 
-                                <tr className="h-[60px] bg-[#F2E2DA] border-b-2 border-black">
-                                    <th className="w-[24%] border-r-2 border-b-2 border-black text-center font-semibold">
+                                <tr className="h-[48px] max-[901px]:h-[48px] max-[1200px]:h-[52px] max-[1250px]:h-[56px] max-[1281px]:h-[58px] max-[1910px]:h-[60px] min-[1911px]:h-[64px] bg-[#F2E2DA] border-b-2 border-black">
+                                    <th className="w-[24%] border-r-2 border-b-2 border-black text-center font-semibold text-[11px] max-[901px]:text-[11px] max-[1200px]:text-[12px] max-[1250px]:text-[13px] max-[1281px]:text-[14px] max-[1910px]:text-[15px] min-[1911px]:text-[16px]">
                                         Trip Dates
                                     </th>
 
-                                    <th className="border-r-2 border-b-2 border-black text-center font-semibold">
+                                    <th className="w-[16%] border-r-2 border-b-2 border-black text-center font-semibold text-[11px] max-[901px]:text-[11px] max-[1200px]:text-[12px] max-[1250px]:text-[13px] max-[1281px]:text-[14px] max-[1910px]:text-[15px] min-[1911px]:text-[16px]">
                                         Status
                                     </th>
 
-                                    <th className="w-[20%] border-r-2 border-b-2 border-black text-center font-semibold">
+                                    <th className="w-[20%] border-r-2 border-b-2 border-black text-center font-semibold text-[11px] max-[901px]:text-[11px] max-[1200px]:text-[12px] max-[1250px]:text-[13px] max-[1281px]:text-[14px] max-[1910px]:text-[15px] min-[1911px]:text-[16px]">
                                         Pricing
                                     </th>
 
-                                    <th className="w-[22%] border-r-2 border-b-2 border-black text-center font-semibold">
+                                    <th className="w-[22%] border-r-2 border-b-2 border-black text-center font-semibold text-[11px] max-[901px]:text-[11px] max-[1200px]:text-[12px] max-[1250px]:text-[13px] max-[1281px]:text-[14px] max-[1910px]:text-[15px] min-[1911px]:text-[16px]">
                                         Offers Available
                                     </th>
 
-                                    <th className=" border-r-2 border-b-2 border-black text-center font-semibold">
+                                    <th className="w-[18%] border-r-2 border-b-2 border-black text-center font-semibold text-[11px] max-[901px]:text-[11px] max-[1200px]:text-[12px] max-[1250px]:text-[13px] max-[1281px]:text-[14px] max-[1910px]:text-[15px] min-[1911px]:text-[16px]">
                                         Book Your Trip
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredTrips.map((trip, index) => (
-                                    <tr key={index} className="h-[104px] border-b-2 border-black">
-                                        <td className="border px-5 py-6 align-middle">
+                                    <tr key={index} className="h-[84px] max-[901px]:h-[84px] max-[1200px]:h-[90px] max-[1250px]:h-[96px] max-[1281px]:h-[100px] max-[1910px]:h-[104px] min-[1911px]:h-[110px] border-b-2 border-black">
+                                        <td className="border px-3 py-4 max-[1200px]:px-4 max-[1250px]:px-4 max-[1281px]:px-5 max-[1910px]:px-5 min-[1911px]:px-6 align-middle">
                                             <div className="flex items-start gap-3">
                                                 <div>
                                                     <div
@@ -481,31 +511,17 @@ export default function JourneyPricing({
         </div>
     )}
 </td>
-                                        <td className="border px-4 py-5 text-center">
+                                        <td className="border px-2 max-[1200px]:px-2 max-[1250px]:px-3 max-[1281px]:px-3 max-[1910px]:px-4 min-[1911px]:px-4 py-5 text-center">
                                             {trip.statusType === "soldout" ? (
                                                 <span
                                                     onClick={() => openPrivateForm(trip)}
-                                                    className="
-        text-[14px]
-        font-medium
-        underline
-        cursor-pointer
-        text-ink
-      "
+                                                    className="whitespace-nowrap text-[11px] max-[1200px]:text-[11px] max-[1250px]:text-[12px] max-[1281px]:text-[13px] max-[1910px]:text-[13px] min-[1911px]:text-[14px] font-medium underline cursor-pointer text-ink"
                                                 >
                                                     Request a Private Journey
                                                 </span>
                                             ) : (
                                                <button
-  className="
-    bg-[#2C3078]
-    text-white
-    rounded-full
-    px-6
-    py-2
-    text-[14px]
-    font-medium
-  "
+  className="whitespace-nowrap bg-[#2C3078] text-white rounded-full px-3 py-1.5 max-[1200px]:px-3 max-[1200px]:py-1.5 max-[1250px]:px-4 max-[1250px]:py-2 max-[1281px]:px-4 max-[1281px]:py-2 max-[1910px]:px-5 max-[1910px]:py-2 min-[1911px]:px-6 min-[1911px]:py-2 text-[11px] max-[1200px]:text-[11px] max-[1250px]:text-[12px] max-[1281px]:text-[13px] max-[1910px]:text-[13px] min-[1911px]:text-[14px] font-medium"
   onClick={() => openGroupForm(trip)}
 >
   {trip.button}
@@ -520,37 +536,39 @@ export default function JourneyPricing({
                         </table>
                     </div>
                 </div>
+
+                <div className="mt-6 flex flex-col items-start">
+                    <p
+                        className="text-ink"
+                        style={{
+                            width: "263px",
+                            height: "13px",
+                            fontWeight: 400,
+                            fontSize: "14px",
+                            lineHeight: "13px",
+                        }}
+                    >
+                        Not sure which date works?
+                    </p>
+
+                    <button
+                        className="underline text-ink mt-[12px]"
+                        style={{
+                            width: "185px",
+                            height: "13px",
+                            fontWeight: 400,
+                            fontSize: "14px",
+                            lineHeight: "13px",
+                            textAlign: "left",
+                        }}
+                        onClick={()=> setIsOpenGeneralInquiryForm(true)}
+                    >
+                        Speak to an advisor
+                    </button>
+                </div>
             </div>
 
-            <div className="mt-6 flex flex-col items-start">
-                <p
-                    className="text-ink"
-                    style={{
-                        width: "263px",
-                        height: "13px",
-                        fontWeight: 400,
-                        fontSize: "14px",
-                        lineHeight: "13px",
-                    }}
-                >
-                    Not sure which date works?
-                </p>
 
-                <button
-                    className="underline text-ink mt-[12px]"
-                    style={{
-                        width: "185px",
-                        height: "13px",
-                        fontWeight: 400,
-                        fontSize: "14px",
-                        lineHeight: "13px",
-                        textAlign: "left",
-                    }}
-                    onClick={()=> setIsOpenGeneralInquiryForm(true)}
-                >
-                    Speak to an advisor
-                </button>
-            </div>
 
             <PrivateInquiryForm
                 isOpen={Boolean(privateFormDeparture)}
