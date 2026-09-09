@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const polaroidData = [
   {
@@ -46,13 +48,14 @@ const polaroidData = [
 ];
 
 export default function CuratedRouteSectionMobile() {
+  const router = useRouter();
   return (
     <div className="flex justify-center min-h-screen block md:hidden">
       <link
         href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap"
         rel="stylesheet"
       />
-      <div className="w-[375px] min-h-[880px] flex flex-col items-center py-5">
+      <div className="w-full max-w-[375px] mx-auto min-h-[880px] flex flex-col items-center py-5">
         <div className="text-center font-bold text-[36px] text-[#2B2B2B] leading-[1.1] space-y-2 mb-8">
           <div>
             <span className="font-taprom bg-[#f8e1da] px-3  inline-block rounded-xs transform -rotate-1">
@@ -98,6 +101,13 @@ export default function CuratedRouteSectionMobile() {
             </div>
           ))}
         </div>
+
+        <button
+          onClick={() => router.push("/comparison")}
+          className="mt-6 bg-[#242e6d] text-white font-semibold text-[11.5px] px-6 py-3 rounded-xs shadow-md hover:bg-[#1a2353] transition-colors duration-150 uppercase tracking-widest"
+        >
+          Compare Trips
+        </button>
       </div>
     </div>
   );

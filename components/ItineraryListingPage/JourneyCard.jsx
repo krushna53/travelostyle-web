@@ -208,7 +208,7 @@ existingTrips.push(trip);
           <a
             href={trip.viewTripUrl}
             onClick={(e) => e.stopPropagation()}
-            className="flex h-8 shrink-0 items-center justify-center rounded-full bg-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA] w-auto md:h-[29px] md:w-[93px] md:px-0 md:text-[11px] md:tracking-normal md:bg-[#2D3482]"
+            className="flex h-8 shrink-0 items-center justify-center rounded-full bg-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA] w-auto transition hover:bg-[#252b78] md:h-[29px] md:w-[93px] md:px-0 md:text-[11px] md:tracking-normal md:bg-[#2D3482]"
           >
             {trip.viewTripText || "View Trip"}
           </a>

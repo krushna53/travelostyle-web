@@ -4,7 +4,7 @@ import TalkToAdvisorButton from "@/components/GeneralInquiryForm/TalkToAdvisorBu
 export default function PrivateJourneysLuxury() {
   return (
     <section className="py-16">
-      <div className="relative h-[720px] md:h-[450px] lg:h-[520px] w-full overflow-hidden rounded-1xl">
+      <div className="relative h-[720px] md:h-[450px] lg:h-[520px] w-full overflow-hidden rounded-xl">
         <Image
           src="/private/BoatMobileHQ.jpg"
           alt="Private Journey"

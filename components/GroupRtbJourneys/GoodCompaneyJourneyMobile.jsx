@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function GoodCompaneyJourneyMobile() {
-
+  const router = useRouter();
 
   const polaroids = [
     {
@@ -132,6 +133,13 @@ export default function GoodCompaneyJourneyMobile() {
             </div>
           </div>
         ))}
+
+        <button
+          onClick={() => router.push("/comparison")}
+          className="mt-6 bg-[#212b68] text-white font-semibold text-[13px] py-2 px-5 rounded-[3px] shadow-[0_4px_12px_rgba(0,0,0,0.3)] tracking-wide hover:bg-[#151c47] transition-colors whitespace-nowrap border border-white/15"
+        >
+          Compare Trips
+        </button>
       </div>
     </div>
   );

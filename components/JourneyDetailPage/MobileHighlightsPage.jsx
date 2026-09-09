@@ -41,7 +41,7 @@ export default function MobileHighlights({ onBack, highlightsRecord, journey }) 
               {highlights.map((item, index) => (
                 <div
                   key={index}
-                  className="rounded-[8px] border-2 border-[#515589] bg-[#F3F6DD] p-4"
+                  className="rounded-[8px] border-2 border-[#C8CE90] bg-[#F3F6DD] p-4"
                 >
                   <p className="text-[14px] leading-[20px] font-medium text-[#2A2522]">
                     {item.text}

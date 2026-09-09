@@ -207,7 +207,7 @@ export default function BlogGrid({ blogs, categories }) {
             className={
               page === currentPage
                 ? "flex w-[13px] h-[40px] md:w-auto md:h-auto items-center justify-center text-[13px] md:text-[9px] font-black md:font-semibold text-ink underline underline-offset-4"
-                : "flex w-[13px] h-[40px] md:w-auto md:h-auto items-center justify-center text-[13px] md:text-[9px] font-black md:font-normal text-[#9B9B9B]"
+                : "flex w-[13px] h-[40px] md:w-auto md:h-auto items-center justify-center text-[13px] md:text-[9px] font-normal text-[#9B9B9B]"
             }
           >
             {page}

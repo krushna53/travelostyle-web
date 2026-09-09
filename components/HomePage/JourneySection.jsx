@@ -81,7 +81,7 @@ export default function JourneySection() {
               "
             >
               Make travel feel calmer, clearer, and more worth it with
-              TravelOstyle. Our journeys are designed around real people —
+              TravelOStyle. Our journeys are designed around real people —
               your budgets, your rhythms, your hopes and the realities you
               are working with. We promise you honest guidance, thoughtful
               planning, and a travel experience that feels looked after
@@ -226,7 +226,7 @@ export default function JourneySection() {
           </h2>
 
           <p className="mt-4 max-w-[337px] text-[16px] leading-[28px] tracking-[0.05em] text-ink font-sans">
-            Make travel feel calmer, clearer, and more worth it with TravelOstyle.
+            Make travel feel calmer, clearer, and more worth it with TravelOStyle.
           </p>
         </div>
 

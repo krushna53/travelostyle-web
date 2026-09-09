@@ -94,7 +94,7 @@ export default function PopularDestinations({
           <div className="absolute top-16 left-5 right-5 z-10">
             <h2 className="text-white text-[24px] leading-[30px] font-bold max-w-[240px]">
               {/* Your Next Journey Awaits */}
-              {heading}dqw
+              {heading}
             </h2>
 
             <p className="mt-4 text-white text-[14px] leading-[22px] max-w-[260px]">
@@ -259,7 +259,7 @@ export default function PopularDestinations({
           <div className="absolute bottom-[10px] right-[70px] z-10 flex flex-col items-end gap-3">
             <p className="text-[11px] text-white/70">
               {slideAttributes?.field_tagline ||
-                "Images are only for representation purposesss"}
+                "Images are only for representation purposes"}
             </p>
             <button
               onClick={() => router.push("/comparison")}

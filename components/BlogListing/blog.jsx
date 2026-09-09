@@ -103,9 +103,9 @@ export default async function Blog() {
           inline-block
           bg-[#F2E2DA]
           w-[336px]
-          h-[29px]
           max-w-full
           px-[5px]
+          py-[2px]
           text-[40px]
           font-normal
           not-italic
@@ -241,7 +241,7 @@ export default async function Blog() {
       {/* =====================================================
           BLOG CONTENT
       ===================================================== */}
-      <div className="mx-auto w-full max-w-[1280px] px-5 pb-12 sm:px-8 lg:px-12">
+      <div className="mx-auto w-full max-w-[1704px] px-5 pb-12 sm:px-8 lg:px-12">
 
         {resolvedBlogs.length > 0 ? (
           <BlogGrid blogs={resolvedBlogs} categories={categories} />

@@ -9,7 +9,13 @@ function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default function TestimonialSection({ testimonialData }) {
+export default function TestimonialSection({
+  testimonialData,
+  heading = "Hear from those who've travelled with us",
+  headingClassName = "italic text-[40px] md:text-[38px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide",
+  nameClassName = "text-[13px] font-bold",
+  quoteClassName = "text-[16px] leading-[1.6]",
+}) {
   const testimonials = (testimonialData?.data || []).map((item) => {
     const included = testimonialData?.included || [];
 
@@ -105,8 +111,8 @@ export default function TestimonialSection({ testimonialData }) {
   return (
     <section className="py-8 md:py-20 select-none overflow-hidden">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="mb-12 md:mb-24 text-left md:text-center font-serif italic text-[40px] md:text-[38px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide font-taprom font-normal max-md:max-w-[326px] max-md:mx-auto max-md:leading-[48px]">
-          Hear from those who&apos;ve travelled with us 
+        <h2 className={`mb-12 md:mb-24 text-left md:text-center font-serif font-taprom font-normal max-md:max-w-[326px] max-md:mx-auto max-md:leading-[48px] ${headingClassName}`}>
+          {heading}
         </h2>
 
         <div className="hidden md:flex items-center justify-between gap-4 max-w-5xl mx-auto">
@@ -118,8 +124,8 @@ export default function TestimonialSection({ testimonialData }) {
           </button>
 
           <div className="flex flex-row items-center gap-12 max-w-3xl w-full mx-6">
-            <div className="border border-[#4c4b75] bg-white p-[10px] shadow-[3px_3px_10px_rgba(0,0,0,0.06)] shrink-0">
-              <div className="relative w-[317px] max-[1910px]:w-[315px] max-[1281px]:w-[211px] max-[1250px]:w-[206px] max-[1200px]:w-[198px] h-[317px] max-[1910px]:h-[315px] max-[1281px]:h-[211px] max-[1250px]:h-[206px] max-[1200px]:h-[198px] min-w-[150px] min-h-[150px]">
+            <div className="border border-[#2C3078] bg-white p-[18px] shadow-[3px_3px_10px_rgba(0,0,0,0.06)] shrink-0">
+              <div className="relative w-[330px] max-[1910px]:w-[328px] max-[1281px]:w-[220px] max-[1250px]:w-[214px] max-[1200px]:w-[206px] h-[330px] max-[1910px]:h-[328px] max-[1281px]:h-[220px] max-[1250px]:h-[214px] max-[1200px]:h-[206px] min-w-[150px] min-h-[150px]">
                 <Image
                   src={current.image}
                   alt={current.name}
@@ -127,7 +133,7 @@ export default function TestimonialSection({ testimonialData }) {
                   className="object-cover"
                 />
               </div>
-              <p className="mt-3 text-[13px] font-bold text-[#111111] tracking-tight">
+              <p className={`mt-3 font-[Nohemi] text-[#111111] tracking-tight ${nameClassName}`}>
                 {current.name}
               </p>
             </div>
@@ -144,7 +150,7 @@ export default function TestimonialSection({ testimonialData }) {
                 </div>
               </span>
 
-              <p className="text-[#2b2b2b] leading-[1.6] min-h-[60px] text-[16px]">
+              <p className={`text-[#2b2b2b] font-[Nohemi] min-h-[60px] ${quoteClassName}`}>
                 {current.quote}
               </p>
 

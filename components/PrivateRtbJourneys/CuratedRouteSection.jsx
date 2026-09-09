@@ -100,10 +100,10 @@ export default function CuratedRouteSection() {
         </svg>
       </div>
       <div className="relative z-10 flex flex-col items-center text-center px-4 mb-15 mt-15">
-        <span className="font-taprom text-[46px] md:text-[52px] font-bold text-[#2d2d2d] bg-[#f1e3d9] px-5  tracking-wide leading-none rounded-2xs shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+        <span className="font-taprom text-[46px] md:text-[52px] font-bold text-[#2d2d2d] bg-[#f1e3d9] px-5  tracking-wide leading-none rounded-xs shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
           A curated route, perfected by
         </span>
-        <span className="font-taprom text-[46px] md:text-[52px] font-bold text-[#2d2d2d] bg-[#f1e3d9] px-5 mt-3.5 tracking-wide leading-none rounded-2xs shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+        <span className="font-taprom text-[46px] md:text-[52px] font-bold text-[#2d2d2d] bg-[#f1e3d9] px-5 mt-3.5 tracking-wide leading-none rounded-xs shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
           you, for you
         </span>
       </div>
@@ -115,7 +115,7 @@ export default function CuratedRouteSection() {
             className={`bg-white border border-[#919191]-100 transition-transform duration-200 hover:scale-105 hover:z-50 ${item.styles} ${item.padding}`}
           >
             <div
-              className={`w-full overflow-hidden border border-neutral-200 rounded-3xs ${item.aspect}`}
+              className={`w-full overflow-hidden border border-neutral-200 rounded-xs ${item.aspect}`}
             >
               <img
                 src={item.img}
