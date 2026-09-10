@@ -575,7 +575,7 @@ export default function TripComparison() {
         <div className="flex gap-2 md:gap-4 md:mt-4 md:mt-1 md:px-2 md:px-8 pb-6">
           {/* Desktop label column — same ROWS config as the cards, so it
               can never drift out of alignment */}
-          <div className="hidden md:block md:h-[700px] w-[102px] md:pl-2 shrink-0 md:w-[190px] min-[1024px]:w-[220px] min-[1280px]:w-[260px] min-[1366px]:w-[280px] min-[1440px]:w-[300px] min-[1920px]:w-[355px]">
+          <div className="hidden md:block md:h-[700px] w-[102px] md:pl-2 shrink-0 md:w-[190px] min-[1024px]:w-[220px] min-[1280px]:w-[260px] min-[1366px]:w-[280px] min-[1440px]:w-[300px] min-[1920px]:w-[355px] md:pt-[30px]">
             {/* spacer matching card header (image + title) */}
             <div className={CARD_HEADER} />
             {ROWS.map((row) => (
@@ -699,7 +699,7 @@ export default function TripComparison() {
                   }}
                   className="relative snap-start shrink-0 w-[82vw] sm:w-[320px] md:w-[392px] min-h-[400px] border-2 border-dashed border-[#1A1A1A] rounded-[10px] shadow-[0px_10px_15px_rgba(0,0,0,0.1)] flex flex-col items-center justify-start gap-[120px] cursor-pointer"
                 >
-                  <p className="font-semibold text-lg text-center mt-12 px-4">
+                  <p className="font-semibold text-lg text-center mt-[12rem] px-4">
                     + Add trip to compare
                   </p>
                 </div>
