@@ -242,7 +242,7 @@ export default function MobileFilters({
   return (
     <div className="md:hidden">
       {/* FIXED BOTTOM BAR */}
-      <div className="fixed bottom-4 left-4 right-4 z-40 flex divide-x divide-ink overflow-hidden rounded-t-xl border border-ink bg-white shadow-lg">
+      <div className="fixed bottom-4 right-4 left-0 w-[calc(100%-2px)] z-40 flex divide-x divide-ink overflow-hidden rounded-t-xl border border-ink bg-white shadow-lg">
         <button
           onClick={openFilters}
           className="flex flex-1 items-center justify-center gap-2 py-3 text-sm font-medium text-ink"
@@ -276,7 +276,7 @@ export default function MobileFilters({
               <div className="flex items-center gap-3">
                 <button
                   onClick={onClearAll}
-                  className="text-sm text-[#2f2d89]"
+                  className="font-medium text-[14px] leading-[100%] tracking-[0] underline"
                 >
                   Clear All Filters
                 </button>
@@ -287,7 +287,7 @@ export default function MobileFilters({
             </div>
 
             {/* BODY: left tab list + right content pane */}
-            <div className="flex min-h-0 flex-1 overflow-hidden">
+            <div className="flex min-h-0 flex-1 gap-2 overflow-hidden">
               <div className="no-scrollbar h-full min-h-0 w-[38%] shrink-0 overflow-y-auto bg-[#F2D5C4] pt-2">
                 <label className="flex cursor-pointer items-start gap-2 border-b border-[#B08968] px-3 py-1.5 text-left text-xl text-[#444]">
                   <input
