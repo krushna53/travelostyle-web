@@ -56,30 +56,11 @@ function addTripToCompare(trip) {
   window.location.assign("/comparison");
 }
 
-// Shared card shell.
-//
-// The ticket-shaped backdrop is the card's own ::before layer, drawn with
-// border-image rather than a plain background.
-//
-// /Union-it.svg is a 420x670 canvas whose visible ticket is only 390x640
-// (x=15..405, y=5..645); the rest is transparent room for the drop shadow
-// (feOffset dy=10 + 7.5 blur). Its bottom edge is a row of ~11.5px scallops
-// on a 35.5px pitch. A stretched `background-size: 100% 100%` therefore fails
-// twice: the shape lands ~4% inside the card so content near the edges falls
-// off the white, and the scallops squash vertically — badly on the shorter
-// mobile card, whose height is nowhere near the SVG's 640.
-//
-// border-image fixes both: the 9-slice keeps the corners and the scalloped
-// bottom band at their native size while only the flat middle stretches, so
-// the edge looks identical at 293px and 390px and at any height. The slices
-// (20/30/40) cover the shadow margin plus the corner radius, plus the scallop
-// band on the bottom; border-width matches the slices so nothing rescales.
-// The layer is bled out by the shadow margin on the sides and top, but sits
-// flush at the bottom so the scalloped edge stays inside the card box.
+// Shared card shell — plain white card with rounded corners and a soft
+// drop shadow. The scalloped bottom edge comes from the shared
+// .card-scallop-bottom class (card-bg.png), not from a card-shaped SVG.
 const CARD_BASE =
-  "relative isolate flex shrink-0 cursor-pointer flex-col px-[14px] pt-2 pb-4 max-md:snap-center md:min-h-[585px] md:pt-3 md:pb-11 " +
-  "before:pointer-events-none before:absolute before:-top-[5px] before:-left-[15px] before:-right-[15px] before:bottom-0 before:-z-10 before:content-[''] " +
-  "before:border-solid before:[border-width:20px_30px_40px] before:[border-image:url('/Union-it.svg')_20_30_40_fill_stretch]";
+  "card-scallop-bottom relative isolate flex shrink-0 cursor-pointer flex-col rounded-[10px] bg-white shadow-[0_2px_10px_rgba(0,0,0,0.06)] px-[14px] pt-2 pb-4 max-md:snap-center md:h-[640px] md:pt-3 md:pb-11";
 
 // Single journey card used across the site (home carousel, journey-type
 // listing grids, "other destinations" rail). `variant` only changes the
@@ -107,7 +88,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         mobileWidthClass || "w-[293px] min-w-[293px]"
       } ${
         variant === "carousel"
-          ? "md:w-[367px] md:min-w-[367x] md:px-8"
+          ? "md:w-[390px] md:min-w-[390px] md:px-8"
           : "md:w-full md:min-w-0 md:max-w-[390px] md:px-6"
       }`}
     >

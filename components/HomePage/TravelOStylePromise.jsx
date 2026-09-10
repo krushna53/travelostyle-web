@@ -152,7 +152,7 @@ export default async function TravelOStylePromise() {
             return (
               <div
                 key={index}
-                className="flex min-h-[130px] md:h-[145px] w-full md:w-[290px] flex-col items-center justify-center rounded-[6px] border-2 border-[#2f2d89] gap-2 p-5"
+                className="card-scallop-bottom flex min-h-[130px] md:h-[145px] w-full md:w-[290px] flex-col items-center justify-center rounded-[6px] border-2 border-[#2f2d89] gap-2 p-5 overflow-hidden"
                 style={{ backgroundColor: item.bg }}
               >
                 <div className="relative w-[36px] h-[36px] md:w-[40px] md:h-[40px] flex items-center justify-center">

@@ -16,12 +16,12 @@ export default function ExploreAllJourneys() {
             <div className="w-full max-w-[776px]">
 
               {/* Desktop Heading */}
-              <h2 className="hidden lg:block font-[Taprom] text-[54px] leading-[1.2] text-ink">
-                <span className="block w-fit sub-title-bg mb-4">
+              <h2 className="hidden lg:block font-[Taprom] text-[64px] leading-20 text-ink">
+                <span className="block w-fit sub-title-bg">
                   There’s a version of the
                 </span>
 
-                <span className="block w-fit sub-title-bg mb-4">
+                <span className="block w-fit sub-title-bg">
                   world out there with your
                 </span>
 
@@ -50,7 +50,7 @@ export default function ExploreAllJourneys() {
               </h2>
 
               {/* Paragraph */}
-              <p className="hidden lg:block mt-[56px] max-w-[573px] font-normal text-[17px] leading-[32px] tracking-[0.05em] text-ink">
+              <p className="hidden lg:block mt-[56px] max-w-[573px] font-normal text-[18px] leading-[32px] tracking-[0.05em] text-black">
                 TravelOStyle plans journeys across regions, travel styles,
                 and budget points – from the sun-scorched temples of Rajasthan
                 to the drama of Patagonia. If you’re drawn towards it, it’s a

@@ -41,7 +41,7 @@ export default function GroupSummaryCard({ journey, trip }) {
   return (
     <>
       {/* Compact collapsible card — mobile only */}
-      <div className="sm:hidden w-full overflow-hidden rounded-[6px] border border-[#4A4A4A] bg-white">
+      <div className="card-scallop-bottom sm:hidden w-full overflow-hidden rounded-[6px] border border-[#4A4A4A] bg-white">
         <div className="p-3">
           <button
             type="button"
@@ -141,7 +141,7 @@ export default function GroupSummaryCard({ journey, trip }) {
       </div>
 
       {/* Full card — tablet / desktop */}
-      <div className="hidden sm:block w-full overflow-hidden rounded-[3px] border border-[#4A4A4A] bg-white">
+      <div className="card-scallop-bottom hidden sm:block w-full overflow-hidden rounded-[3px] border border-[#4A4A4A] bg-white">
         {/* Top Image */}
         <div className="p-1.5 pb-0">
           <div className="relative h-[135px] w-full overflow-hidden">

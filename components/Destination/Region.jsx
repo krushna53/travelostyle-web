@@ -110,7 +110,7 @@ export default function Region() {
         {regions.map((region) => (
          <div
   key={region.id}
-  className="group relative cursor-pointer overflow-hidden rounded-[10px] w-full max-w-[336px] mx-auto border-2 border-[#1A1A1A] md:max-w-none md:border-0"
+  className="card-scallop-bottom group relative cursor-pointer overflow-hidden rounded-[10px] w-full max-w-[336px] mx-auto border-2 border-[#1A1A1A] md:max-w-none md:border-0"
 >
 
             <img
@@ -119,7 +119,7 @@ export default function Region() {
               className="
     w-full
     h-[332px]
-    md:h-[402px]
+    md:h-[552px]
     object-cover
     rounded-[8px] md:rounded-[10px]
   "
@@ -130,14 +130,14 @@ export default function Region() {
             {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-between p-5 md:p-6 text-white">
               {/* Title */}
-              <h3 className="font-[Nohemi] font-semibold text-[21px] md:text-[32px] leading-[32px] md:leading-[40px] tracking-[0.05em] md:tracking-normal text-[#FAFAFA]">
+              <h3 className="font-[Nohemi] font-semibold text-[21px] md:text-[32px] leading-[32px] md:leading-[64px] tracking-[0.05em] text-[#FAFAFA]">
                 {region.name}
               </h3>
 
               {/* Bottom Content */}
               <div>
                 <p
-                  className="text-[16px] md:text-[14px] leading-[24px] md:leading-[20px] font-semibold md:font-normal tracking-[0.05em] md:tracking-normal text-[#FAFAFA] md:opacity-95"
+                  className="font-[Nohemi] text-[16px] md:text-[21px] leading-[24px] md:leading-[40px] font-semibold tracking-[0.05em] text-[#FAFAFA] md:opacity-95"
                   dangerouslySetInnerHTML={{
                     __html: region.description,
                   }}
@@ -153,11 +153,11 @@ export default function Region() {
                   }
                   className="
     mt-3 rounded-full bg-[#FAFAFA]
-    h-[35px] w-[194px] md:h-auto md:w-auto
-    px-3 py-1.5 md:px-4 md:py-2
+    h-[35px] w-[194px] md:h-[37px] md:w-[212px]
+    px-3 py-1.5 md:px-6 md:py-3
     text-[16px] md:text-[12px]
     leading-[32px] md:leading-normal
-    tracking-[0.05em] md:tracking-normal
+    tracking-[0.05em]
     font-semibold text-[#2C3078]
     flex items-center justify-center
   "

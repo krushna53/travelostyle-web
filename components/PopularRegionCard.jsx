@@ -12,7 +12,7 @@ export default function PopularRegionCard({regions}) {
         {regions.map((region) => (
           <div
             key={region.id}
-            className="group relative h-[380px] sm:h-[400px] rounded-xl overflow-hidden shadow-sm border-2 border-[#455868] cursor-pointer"
+            className="card-scallop-bottom group relative h-[380px] sm:h-[400px] rounded-xl overflow-hidden shadow-sm border-2 border-[#455868] cursor-pointer"
           >
             <Image
               src={region.image}

@@ -88,19 +88,10 @@ existingTrips.push(trip);
     <div
       className={
         variant === "carousel"
-          ? "relative isolate flex w-[293px] min-w-[293px] shrink-0 cursor-pointer flex-col px-[14px] pt-2 pb-4 max-md:snap-center md:w-[420px] md:min-w-[390px] md:min-h-[585px] md:px-8 md:pt-3 md:pb-11"
-          : "relative isolate flex w-[293px] min-w-[293px] shrink-0 cursor-pointer flex-col px-5 pt-2 pb-4 max-md:snap-center md:w-full md:min-w-0 md:max-w-[390px] md:min-h-[585px] md:px-8 md:pt-3 md:pb-11 mx-auto md:mx-0 min-[1920px]:w-[390px] min-[1920px]:min-w-[390px] min-[1920px]:shrink-0 min-[1920px]:px-5"
+          ? "card-scallop-bottom relative isolate flex w-[293px] min-w-[293px] shrink-0 cursor-pointer flex-col rounded-[10px] bg-white shadow-[0_2px_10px_rgba(0,0,0,0.06)] px-[14px] pt-2 pb-4 max-md:snap-center md:w-[390px] md:min-w-[390px] md:h-[640px] md:px-8 md:pt-3 md:pb-11"
+          : "card-scallop-bottom relative isolate flex w-[293px] min-w-[293px] shrink-0 cursor-pointer flex-col rounded-[10px] bg-white shadow-[0_2px_10px_rgba(0,0,0,0.06)] px-5 pt-2 pb-4 max-md:snap-center md:w-full md:min-w-0 md:max-w-[390px] md:h-[640px] md:px-8 md:pt-3 md:pb-11 mx-auto md:mx-0 min-[1920px]:w-[390px] min-[1920px]:min-w-[390px] min-[1920px]:shrink-0 min-[1920px]:px-5"
       }
     >
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[106.01%] md:h-full"
-        style={{
-          backgroundImage: "url(/Union-it.svg)",
-          backgroundSize: "100% 100%",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
-
       <div className="mb-2 flex min-h-[16px] flex-wrap gap-2 md:mb-3 md:min-h-[28px] md:gap-2">
         {(trip.tags || []).map((tag) => (
           <span
