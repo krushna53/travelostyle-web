@@ -12,13 +12,13 @@ export default function WhyTakeJourney({
 }) {
   return (
     <section 
-      className="relative min-h-screen w-full bg-cover bg-center flex flex-col justify-center items-center py-16 px-4 md:pl-[7.86vw] md:pr-[7.86vw] text-white"
+      className="relative w-full bg-cover bg-center flex flex-col justify-center items-center py-16 px-4 md:pl-[7.86vw] md:pr-[7.86vw] text-white"
       style={{ backgroundImage: `url('${bgImageUrl}')` }}
     >
 
       <div className="relative z-10 max-w-[1600px] w-full mx-auto">
         {title && (
-          <h3 className="font-nohemi max-w-[374px] md:max-w-[1016px] mx-auto text-[32px] md:text-[64px] font-semibold leading-[40px] md:leading-[80px] tracking-[0.05em] text-[#FAFAFA] text-center mb-3 md:-mt-6">
+          <h3 className="font-nohemi max-w-[374px] md:max-w-[1016px] mx-auto text-[32px] md:text-[64px] font-semibold leading-[40px] md:leading-[80px] tracking-[0.05em] text-[#FAFAFA] text-center mb-3 md:-mt-6 mb-[50px]">
               {title}
           </h3>
         )}

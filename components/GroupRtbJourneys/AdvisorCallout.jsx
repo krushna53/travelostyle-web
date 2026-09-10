@@ -26,7 +26,7 @@ export default function AdvisorCallout({ content }) {
         </div>
 
         <div
-          className="flex flex-col space-y-8 text-black md:max-w-[573px] font-nohemi max-md:!text-[16px] max-md:!font-normal max-md:!leading-[28px] max-md:!tracking-[0.05em] max-md:!text-[#000000]"
+          className="flex flex-col space-y-8  text-black  min-[800px]:w-[573px]  font-nohemi max-md:!text-[16px] max-md:!font-normal max-md:!leading-[28px] max-md:!tracking-[0.05em] max-md:!text-[#000000]"
           style={{
             fontSize: "var(--fs-body-nohemi-regular-callout)",
             lineHeight: "var(--lh-body-nohemi-regular-callout)",
