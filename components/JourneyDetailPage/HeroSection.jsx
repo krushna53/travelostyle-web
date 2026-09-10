@@ -145,7 +145,7 @@ export default function HeroSection({
         </div>
       </div>
 
-      <div className="relative grid w-full overflow-hidden min-h-[640px] max-[900px]:min-h-[600px] max-[1200px]:min-h-[600px] max-[1250px]:min-h-[610px] max-[1281px]:min-h-[620px] max-[1910px]:min-h-[640px] min-[1919px]:min-h-[680px]">
+      <div className="relative grid w-full overflow-hidden min-h-[640px] max-[900px]:min-h-[600px] max-[1200px]:min-h-[600px] max-[1250px]:min-h-[610px] max-[1281px]:min-h-[620px] max-[1910px]:min-h-[640px] min-[1911px]:min-h-[680px]">
         <div className="relative col-start-1 row-start-1 col-end-2 row-end-2">
           <div className="absolute inset-0">
             <JourneyCardImage
@@ -156,12 +156,12 @@ export default function HeroSection({
         </div>
 
         <div
-          className="relative z-10 col-start-1 row-start-1 col-end-2 row-end-2 justify-self-start self-start h-auto rounded-[10px] border-2 border-[#2f2d89] bg-white shadow-[0_6px_28px_rgba(0,0,0,0.22)] w-[260px] ml-[14px] mt-[14px] p-[14px] max-[900px]:w-[300px] max-[900px]:ml-[16px] max-[900px]:mt-[16px] max-[900px]:p-[16px] max-[1200px]:w-[300px] max-[1200px]:ml-[24px] max-[1200px]:mt-[20px] max-[1200px]:p-[18px] max-[1250px]:w-[320px] max-[1250px]:ml-[32px] max-[1250px]:mt-[24px] max-[1250px]:p-[18px] max-[1281px]:w-[350px] max-[1281px]:ml-[48px] max-[1281px]:mt-[32px] max-[1281px]:p-[20px] max-[1910px]:w-[390px] max-[1910px]:ml-[80px] max-[1910px]:mt-[42px] max-[1910px]:p-[22px] min-[1919px]:w-[414px] min-[1919px]:ml-[108px] min-[1919px]:mt-[50px] min-[1919px]:p-[25px]"
+          className="relative z-10 col-start-1 row-start-1 col-end-2 row-end-2 justify-self-start self-start h-auto rounded-[10px] border-2 border-[#2f2d89] bg-white shadow-[0_6px_28px_rgba(0,0,0,0.22)] w-[260px] ml-[14px] mt-[14px] p-[14px] max-[900px]:w-[300px] max-[900px]:ml-[16px] max-[900px]:mt-[16px] max-[900px]:p-[16px] max-[1200px]:w-[300px] max-[1200px]:ml-[24px] max-[1200px]:mt-[20px] max-[1200px]:p-[18px] max-[1250px]:w-[320px] max-[1250px]:ml-[32px] max-[1250px]:mt-[24px] max-[1250px]:p-[18px] max-[1281px]:w-[350px] max-[1281px]:ml-[48px] max-[1281px]:mt-[32px] max-[1281px]:p-[20px] max-[1910px]:w-[390px] max-[1910px]:ml-[80px] max-[1910px]:mt-[42px] max-[1910px]:p-[22px] min-[1911px]:w-[414px] min-[1911px]:ml-[108px] min-[1911px]:mt-[50px] min-[1911px]:p-[25px]"
         >
-          <h1 className="text-[15px] max-[900px]:text-[16px] max-[1250px]:text-[17px] max-[1910px]:text-[18px] min-[1919px]:text-[18px] font-bold leading-[1.3] text-ink">
+          <h1 className="text-[15px] max-[900px]:text-[16px] max-[1250px]:text-[17px] max-[1910px]:text-[18px] min-[1911px]:text-[18px] font-bold leading-[1.3] text-ink">
             {journey.title}
           </h1>
-          <p className="mt-[8px] text-[11px] max-[1250px]:text-[12px] max-[1910px]:text-[13px] min-[1919px]:text-[13px] leading-[1.5] text-[#444]">
+          <p className="mt-[8px] text-[11px] max-[1250px]:text-[12px] max-[1910px]:text-[13px] min-[1911px]:text-[13px] leading-[1.5] text-[#444]">
            {trimByWords(journey.desc, 25)}
           </p>
           <div className="mt-[12px] flex items-center gap-[12px] xl:gap-[16px] text-[11px] xl:text-[12px] text-[#333]">
@@ -206,7 +206,7 @@ export default function HeroSection({
     </p>
 
     {/* Offer Price + per person */}
-    <p className="flex items-baseline gap-0 text-[18px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1919px]:text-[24px] font-bold leading-none text-[#1D1D1D]">
+    <p className="flex items-baseline gap-0 text-[18px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-none text-[#1D1D1D]">
       <span>
         ${Number(journey.offerPrice).toLocaleString()}
         <span className="relative -top-[1px] text-[12px] align-top">*</span>
