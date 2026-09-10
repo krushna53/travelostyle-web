@@ -42,9 +42,9 @@ export default function ActiveFilters({
         ({ key, value }) => (
           <div
             key={`${key}-${value}`}
-            className="flex items-center gap-[0.4vw] rounded-full border border-[#d0d0d0] bg-white px-[0.75vw] py-[0.3vw]"
+            className="flex items-center gap-[0.4vw]  px-[0.75vw] py-[0.3vw]"
           >
-            <span className="text-[0.75vw] text-[#333]">
+            <span className="text-[14px] text-[#757575]">
               {value}
             </span>
 
@@ -55,7 +55,7 @@ export default function ActiveFilters({
                   value
                 )
               }
-              className="flex h-[0.9vw] w-[0.9vw] items-center justify-center rounded-full text-[0.7vw] text-[#666] hover:text-red-500 leading-none"
+              className="flex h-[13px] w-[13px] items-center justify-center rounded-full text-[0.7vw] text-[#666] hover:text-red-500 leading-none"
             >
               ×
             </button>

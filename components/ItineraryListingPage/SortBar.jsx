@@ -62,7 +62,7 @@ export default function SortBar({
                     setSelected(option);
                     setSortOpen(false);
                   }}
-                  className={`w-full px-[15px] py-[10px] text-left text-[14px] ${
+                  className={`w-full px-[15px] py-[10px] text-right text-[14px] ${
                     selected === option
                       ? "bg-[#f5f5ff] text-[#2f2d89] font-semibold"
                       : "text-[#444]"
