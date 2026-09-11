@@ -1,10 +1,10 @@
 "use client";
 
-import { API_BASE_URL, buildFileUrl } from "@/lib/config";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import CompareTripsModal from "./CompareTripsModal";
 
 const PLACEHOLDER_IMAGE = "/placeholder-image.svg";
 
@@ -13,58 +13,12 @@ export default function PopularDestinations({
   // included,
   heroHeading,
   heroDescription,
+  heroSlides,
 }) {
   const router = useRouter();
-  const [slides, setSlides] = useState([]);
+  const [slides] = useState(heroSlides || []);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-
-  
-  useEffect(() => {
-    async function fetchSlideData() {
-      try {
-        const response = await fetch(
-          `${API_BASE_URL}/jsonapi/node/hero_slide?include=field_hero_banner_image`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/vnd.api+json",
-            },
-            cache: "no-store",
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch hero slides: ${response.statusText}`,
-          );
-        }
-
-        const data = await response.json();
-        const included = data?.included || [];
-
-        const resolvedSlides = (data?.data || []).map((slide) => {
-          const fileId = slide.relationships?.field_hero_banner_image?.data?.id;
-
-          const fileEntity = included.find(
-            (inc) => inc.type === "file--file" && inc.id === fileId,
-          );
-
-          const rawUrl = fileEntity?.attributes?.uri?.url;
-
-          return {
-            ...slide,
-            image: buildFileUrl(rawUrl) || PLACEHOLDER_IMAGE,
-          };
-        });
-
-        setSlides(resolvedSlides);
-      } catch (error) {
-        console.error("Error fetching hero slide data:", error);
-      }
-    }
-
-    fetchSlideData();
-  }, []);
+  const [showCompareModal, setShowCompareModal] = useState(false);
 
   const currentSlide = slides[currentSlideIndex];
   const slideAttributes = currentSlide?.attributes;
@@ -82,11 +36,13 @@ export default function PopularDestinations({
     <div className="relative md:h-[700px]">
       {/* MOBILE */}
       <div className="block md:hidden bg-[#F6F6F6]">
-        <div className="relative overflow-hidden">
-          <img
+        <div className="relative h-[600px] w-full overflow-hidden">
+          <Image
             src={currentSlide?.image || PLACEHOLDER_IMAGE}
             alt={currentSlide?.attributes?.title || "travel"}
-            className="h-[600px] w-full object-cover"
+            fill
+            priority
+            className="object-cover"
           />
 
           <div className="absolute inset-0 bg-black/30" />
@@ -176,10 +132,12 @@ export default function PopularDestinations({
 
       {/* DESKTOP */}
       <div className="hidden md:block relative h-[720px]">
-        <img
+        <Image
           src={currentSlide?.image || PLACEHOLDER_IMAGE}
           alt={currentSlide?.attributes?.title || "travel"}
-          className="absolute inset-0 h-full w-full object-cover border-t border-[#636363]"
+          fill
+          priority
+          className="object-cover border-t border-[#636363]"
         />
 
         <div className="absolute inset-0 bg-black/35" />
@@ -262,7 +220,7 @@ export default function PopularDestinations({
                 "Images are only for representation purposesss"}
             </p>
             <button
-              onClick={() => router.push("/comparison")}
+              onClick={() => setShowCompareModal(true)}
               className="mb-5 hidden md:flex box-border h-[47px] w-[210px] items-center justify-center gap-[10px] rounded-[10px] border-2 border-white bg-[#2E2787] px-[24px] py-[16px] text-white transition-colors hover:bg-[#3B33A0]"
             >
               <span className="h-[15px] w-[162px] whitespace-nowrap text-center text-[15px] leading-[15px] font-semibold">
@@ -272,6 +230,11 @@ export default function PopularDestinations({
           </div>
         </div>
       </div>
+
+      <CompareTripsModal
+        open={showCompareModal}
+        onClose={() => setShowCompareModal(false)}
+      />
     </div>
   );
 }

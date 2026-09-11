@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import TestimonialSection from "@/components/HomePage/TestimonialSection";
 import TravelOStylePromise from "@/components/HomePage/TravelOStylePromise";
 import { API_BASE_URL } from "@/lib/config";
+import { getJourneyCards } from "@/lib/journeyCard";
 
 function stripHtml(html: string): string {
   return html
@@ -224,6 +225,13 @@ export default async function JourneyDetailPage({
       departure.relationships?.field_journey?.data?.id === journeyId
   );
 
+  // "Other Destinations We Know You'll Love" (rendered inside
+  // JourneyDetailClient via OtherDestinations -> JourneysWeLove) used to
+  // fetch this itself client-side, which always failed against the ddev
+  // backend's self-signed cert (ERR_CERT_AUTHORITY_INVALID). Fetching it
+  // here and passing it down avoids that browser fetch entirely.
+  const otherJourneys = await getJourneyCards();
+
   return (
     <>
       <SearchBar />
@@ -233,6 +241,7 @@ export default async function JourneyDetailPage({
         journeyId={journeyId}
         inclusions={inclusions}
         exclusions={exclusions}
+        otherJourneys={otherJourneys}
       />
      <TestimonialSection
   testimonialData={journeyTestimonials}

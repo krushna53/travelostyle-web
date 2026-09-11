@@ -1,7 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { CirclePlus, Info } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { CheckCircle2, CirclePlus, Info } from "lucide-react";
 import JourneyCardImage from "@/components/JourneyCardImage";
 
 const TAG_COLORS = {
@@ -15,20 +18,26 @@ function getTagColor(tag) {
   return TAG_COLORS[tag?.toLowerCase().trim()] || DEFAULT_TAG_COLOR;
 }
 
-function addTripToCompare(trip) {
+function isTripInCompareList(tripId) {
   const existingTrips = JSON.parse(localStorage.getItem("compareTrips") || "[]");
-  const isAddingTrip = localStorage.getItem("isAddingTrip") === "true";
+  return existingTrips.some((item) => item.id === tripId);
+}
+
+// Default "Add to Compare" behavior, used everywhere a card doesn't get a
+// page-specific `onCompare` override (the home carousel, "other
+// destinations" rail, and the all-journeys grid).
+function addTripToCompare(trip, router) {
+  const existingTrips = JSON.parse(localStorage.getItem("compareTrips") || "[]");
   const alreadyExists = existingTrips.some((item) => item.id === trip.id);
 
   if (alreadyExists) {
-    localStorage.removeItem("isAddingTrip");
-    window.location.assign("/comparison");
-    return;
+    toast("Trip already added to comparison");
+    return false;
   }
 
   if (existingTrips.length >= 3) {
-    alert("You can compare up to 3 trips only.");
-    return;
+    toast("You can compare up to 3 trips only.");
+    return false;
   }
 
   const compareTrip = {
@@ -48,19 +57,21 @@ function addTripToCompare(trip) {
   };
 
   localStorage.setItem("compareTrips", JSON.stringify([...existingTrips, compareTrip]));
+  localStorage.removeItem("isAddingTrip");
+  sessionStorage.setItem(
+    "comparisonReturnPage",
+    window.location.pathname + window.location.search,
+  );
 
-  if (isAddingTrip) {
-    localStorage.removeItem("isAddingTrip");
-  }
-
-  window.location.assign("/comparison");
+  router.push("/comparison");
+  return true;
 }
 
 // Shared card shell — plain white card with rounded corners and a soft
 // drop shadow. The scalloped bottom edge comes from the shared
 // .card-scallop-bottom class (card-bg.png), not from a card-shaped SVG.
 const CARD_BASE =
-  "card-scallop-bottom relative isolate flex shrink-0 cursor-pointer flex-col rounded-[10px] bg-white shadow-[0_2px_10px_rgba(0,0,0,0.06)] px-[14px] pt-2 pb-4 max-md:snap-center md:h-[640px] md:pt-3 md:pb-11";
+  "card-scallop-bottom relative isolate flex shrink-0 cursor-pointer flex-col rounded-[16px]  px-[14px] pt-3 pb-4 max-md:snap-center md:h-[640px] md:pt-4 md:pb-11";
 
 // Single journey card used across the site (home carousel, journey-type
 // listing grids, "other destinations" rail). `variant` only changes the
@@ -68,14 +79,21 @@ const CARD_BASE =
 // or a CSS grid — the content markup is identical everywhere so a fix here
 // fixes it everywhere.
 export default function JourneyCard({ trip, variant = "carousel", onCompare, mobileWidthClass }) {
+  const router = useRouter();
+  const [isSelected, setIsSelected] = useState(false);
+
+  useEffect(() => {
+    setIsSelected(isTripInCompareList(trip.id));
+  }, [trip.id]);
+
   const handleAddToCompare = (e) => {
     e.preventDefault();
     e.stopPropagation();
     try {
       if (onCompare) {
         onCompare(trip);
-      } else {
-        addTripToCompare(trip);
+      } else if (addTripToCompare(trip, router)) {
+        setIsSelected(true);
       }
     } catch (error) {
       console.error("Failed to add trip to comparison:", error);
@@ -89,7 +107,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
       } ${
         variant === "carousel"
           ? "md:w-[390px] md:min-w-[390px] md:px-8"
-          : "md:w-full md:min-w-0 md:max-w-[390px] md:px-6"
+          : "mx-auto md:mx-0 md:w-full md:min-w-0 md:max-w-[390px] md:px-6 min-[1920px]:w-[390px] min-[1920px]:min-w-[390px] min-[1920px]:shrink-0 min-[1920px]:px-5"
       }`}
     >
       <div className="mb-2 flex min-h-[16px] flex-wrap gap-2 md:mb-3 md:min-h-[28px] md:gap-2">
@@ -103,11 +121,11 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         ))}
       </div>
 
-      <div className="relative h-[128px] w-full overflow-hidden rounded-[3px] md:h-[213px] md:w-full">
+      <div className="relative h-[128px] w-full shrink-0 overflow-hidden md:h-[213px] md:w-full">
         <JourneyCardImage src={trip.image} alt={trip.title} />
       </div>
 
-      <div className="flex flex-1 flex-col pt-2 text-left md:pt-4">
+      <div className="flex flex-1 flex-col pt-2 text-left md:pt-4 justify-between">
         <h3 className="line-clamp-2 h-[48px] text-[16px] font-semibold leading-[24px] tracking-[0.05em] text-ink md:h-auto md:min-h-[2.6em] md:text-[21px] md:leading-[1.3] md:tracking-normal md:text-[#232323]">
           {trip.title}
         </h3>
@@ -180,6 +198,14 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
                   /person
                 </span>
               </div>
+              {trip.originalPrice > trip.price && (
+                <span className="md:mt-[2px] md:text-[11px] md:leading-none md:text-[#7B7B7B]">
+                  was{" "}
+                  <span className="line-through">
+                    ${Number(trip.originalPrice).toLocaleString()}
+                  </span>
+                </span>
+              )}
               <span className="md:text-[9px] md:leading-[1.15] md:text-[#7B7B7B]">
                 double occupancy*
               </span>
@@ -197,7 +223,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
 
         <div className="mt-3 md:mt-4 md:min-h-8">
           {trip.offer && (
-            <div className="flex items-center gap-2 rounded-md bg-[#F4E5DA] px-3 py-2 text-xs text-[#65574D] md:gap-1.5 md:rounded-[5px] md:px-2.5 md:py-2 md:text-[8px]">
+            <div className="flex items-center gap-2 rounded-md bg-[#F4E5DA] px-3 py-2 text-xs text-[#65574D] md:gap-1.5 md:rounded-[5px] md:px-2.5 md:py-2 md:text-[8px] my-2">
               <Info size={11} className="shrink-0" />
               <span className="line-clamp-1">{trip.offer}</span>
             </div>
@@ -207,10 +233,19 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         <button
           type="button"
           onClick={handleAddToCompare}
-          className="md:mt-3 mb-6 md:mb-0 flex items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:mt-4 md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E]"
+          className="md:mt-3 mb-6 md:mb-0 flex items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:mt-4 md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E] my-4"
         >
-          <CirclePlus size={24} strokeWidth={1} className="md:size-3.5 md:stroke-[1.8]" />
-          <span>Add to Compare</span>
+          {isSelected ? (
+            <>
+              <CheckCircle2 size={24} strokeWidth={1} className="text-green-600 md:size-3.5 md:stroke-[2]" />
+              <span>Added to Compare</span>
+            </>
+          ) : (
+            <>
+              <CirclePlus size={24} strokeWidth={1} className="md:size-3.5 md:stroke-[1.8]" />
+              <span>Add to Compare</span>
+            </>
+          )}
         </button>
       </div>
     </div>

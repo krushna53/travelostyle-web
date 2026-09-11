@@ -77,7 +77,7 @@ export default function JourneysWeLove({
   };
 
   return (
-<div className="mt-6 flex w-full items-center justify-center gap-[25px] max-[1281px]:gap-[17px] max-[1250px]:gap-[16px] px-4 max-md:mt-4 md:mt-[77px] max-[1910px]:mt-[76px] max-[1281px]:mt-[51px] max-[1250px]:mt-[50px] max-[1200px]:mt-[48px] max-md:px-4 md:max-[900px]:px-[50px] md:min-[901px]:max-[1200px]:px-[66px] md:min-[1201px]:max-[1250px]:px-[69px] md:min-[1251px]:max-[1281px]:px-[70px] md:min-[1282px]:max-[1918px]:px-[105px] md:min-[1919px]:px-[106px]">      <div onClick={scrollLeft} className="cursor-pointer max-md:hidden">
+<div className="mt-6 flex  items-center justify-center gap-3 px-4 max-md:mt-4 md:mt-[77px] max-[1910px]:mt-[76px] max-[1281px]:mt-[51px] max-[1250px]:mt-[50px] max-[1200px]:mt-[48px] max-md:px-4 md:max-[900px]:px-[25px] md:min-[901px]:max-[1200px]:px-[33px] md:min-[1201px]:max-[1250px]:px-[35px] md:min-[1251px]:max-[1281px]:px-[35px] md:min-[1282px]:max-[1918px]:px-[53px] md:min-[1919px]:px-[53px]">      <div onClick={scrollLeft} className="cursor-pointer max-md:hidden">
         <div onClick={scrollLeft} className="cursor-pointer max-md:hidden shrink-0"></div>
         <Image
           src={"/LeftArrow.svg"}
@@ -88,7 +88,7 @@ export default function JourneysWeLove({
       </div>
       <div
         ref={scrollRef}
-        className="flex w-full items-stretch gap-4 overflow-x-auto scroll-smooth pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-md:snap-x max-md:snap-mandatory md:flex-1 md:min-w-0 md:gap-[27px] max-[1281px]:gap-[18px] max-[1200px]:gap-[17px]"      >
+        className="flex w-full items-stretch gap-4 overflow-x-auto scroll-smooth pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-md:snap-x max-md:snap-mandatory md:max-w-[1224px] md:min-w-0 md:gap-[21px] max-[1281px]:gap-[18px] max-[1200px]:gap-[17px]"      >
         {trips.map((trip, index) => (
           <JourneyCard key={trip.id ?? index} trip={trip} variant="carousel" />
         ))}

@@ -473,6 +473,7 @@ export default function JourneyDetailClient({
   journeyId,
   inclusions,
   exclusions,
+  otherJourneys,
 }) {
   const journey =
     initialData?.data
@@ -507,7 +508,7 @@ export default function JourneyDetailClient({
         journeyId={journeyId}
         inclusions={inclusions}
         exclusions={exclusions}
-      />     <OtherDestinations />
+      />     <OtherDestinations otherJourneys={otherJourneys} />
     </main>
   );
 }

@@ -305,30 +305,13 @@ a,
     top: 13px;
   }
 }
-/* Decorative scalloped-edge strip (card-bg.png) applied to the bottom of
-   card components site-wide. Sits inset within the card's own rounded
-   corners/overflow-hidden boundary, so it reads as a torn-ticket footer
-   rather than bleeding outside the card. */
+
 .card-scallop-bottom {
   position: relative;
-}
-.card-scallop-bottom::after {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 18px;
-  background-image: url("/card-bg-bottom.png");
-  background-repeat: repeat-x;
-  background-position: bottom left;
-  background-size: auto 100%;
+  background: url("/Union.png") repeat-x bottom center;
+   background-size: auto 100%;
 }
 
-/* Hide scrollbars on scrollable panes that still need to scroll (the
-   mobile filter sheet's tab list and content pane) — used instead of
-   letting the browser's default gray scrollbar track show up. */
 .no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -361,3 +344,5 @@ a,
     font-size: calc(var(--heading-size) * 1.7);
   }
 }
+
+

@@ -1,4 +1,4 @@
-import JourneyCard from "../ItineraryListingPage/JourneyCard";
+import JourneyCard from "@/components/JourneyCard";
 
 export default function JourneyList({
   trips,
@@ -13,6 +13,7 @@ export default function JourneyList({
         <JourneyCard
           key={trip.id}
           trip={trip}
+          variant="grid"
         />
       ))}
     </div>

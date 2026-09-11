@@ -60,7 +60,7 @@ export default function JourneySummaryCard({
   return (
     <>
       {/* Compact collapsible card — mobile only */}
-      <div className="card-scallop-bottom sm:hidden mb-6 w-full overflow-hidden rounded-[5px] border-[1.5px] border-[#222222] bg-[#fafafa] font-sans shadow-sm">
+      <div className="sm:hidden mb-6 w-full overflow-hidden rounded-[5px] border-[1.5px] border-[#222222] bg-[#fafafa] font-sans shadow-sm">
         <div className="p-2.5">
           <button
             type="button"
@@ -171,7 +171,7 @@ export default function JourneySummaryCard({
       </div>
 
       {/* Full card — tablet / desktop */}
-      <div className="card-scallop-bottom hidden sm:block w-full max-w-[210px] overflow-hidden rounded-[5px] border-[1.5px] border-[#222222] bg-[#fafafa] font-sans shadow-sm mb-6">
+      <div className="hidden sm:block w-full max-w-[210px] overflow-hidden rounded-[5px] border-[1.5px] border-[#222222] bg-[#fafafa] font-sans shadow-sm mb-6">
         <div className="p-2.5 pb-0">
           <div className="relative h-[125px] w-full overflow-hidden">
             <Image

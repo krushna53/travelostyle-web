@@ -25,7 +25,6 @@ export default function JourneyCardImage({ src, alt, className }) {
       src={src}
       alt={alt}
       fill
-      unoptimized
       className={`object-cover ${className || ""}`}
       onError={() => setFailed(true)}
     />

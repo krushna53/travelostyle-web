@@ -234,6 +234,15 @@ export default function FilterSidebar({
   };
   const getCount = (key, value) => getFilterCount(journeys, key, value);
 
+  // Hide options that currently match zero journeys — unless it's already
+  // selected (e.g. arrived here with ?region= from the homepage map/search,
+  // or from a filter combo that now has no matches), so a live selection
+  // never silently disappears from the list.
+  const visibleOptions = (key, options) =>
+    (options || []).filter(
+      (item) => getCount(key, item) > 0 || filters[key].includes(item),
+    );
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -378,7 +387,7 @@ export default function FilterSidebar({
     <>
       {/* REGION (Drupal: country) */}
       <FilterSection title="Region" mobile={mobile}>
-        {(filterOptions.region || []).map((item) => (
+        {visibleOptions("region", filterOptions.region).map((item) => (
           <CheckboxItem
             key={item}
             label={item}
@@ -392,7 +401,7 @@ export default function FilterSidebar({
 
       {/* TRAVEL STYLE (Drupal: tags) */}
       <FilterSection title="Travel Style" mobile={mobile}>
-        {(filterOptions.style || []).map((item) => (
+        {visibleOptions("style", filterOptions.style).map((item) => (
           <CheckboxItem
             key={item}
             label={item}
@@ -406,7 +415,9 @@ export default function FilterSidebar({
 
       {/* PRICING */}
       <FilterSection title="Pricing" mobile={mobile}>
-        {BUDGET_RANGES.map((range) => (
+        {BUDGET_RANGES.filter(
+          (range) => getCount("pricing", range.value) > 0 || filters.pricing.includes(range.value),
+        ).map((range) => (
           <CheckboxItem
             key={range.value}
             label={range.label}
@@ -420,7 +431,9 @@ export default function FilterSidebar({
 
       {/* DURATION */}
       <FilterSection title="Duration" mobile={mobile}>
-        {DURATION_OPTIONS.map((item) => (
+        {DURATION_OPTIONS.filter(
+          (item) => getCount("duration", item) > 0 || filters.duration.includes(item),
+        ).map((item) => (
           <CheckboxItem
             key={item}
             label={item}
@@ -434,7 +447,7 @@ export default function FilterSidebar({
 
       {/* OFFERS */}
       <FilterSection title="Offers" mobile={mobile}>
-        {(filterOptions.offer || []).map((item) => (
+        {visibleOptions("offer", filterOptions.offer).map((item) => (
           <CheckboxItem
             key={item}
             label={item}
@@ -449,8 +462,8 @@ export default function FilterSidebar({
       {/* CATEGORY */}
       <FilterSection title="Category" mobile={mobile}>
         {(showMoreCategories
-          ? filterOptions.category || []
-          : (filterOptions.category || []).slice(0, 7)
+          ? visibleOptions("category", filterOptions.category)
+          : visibleOptions("category", filterOptions.category).slice(0, 7)
         ).map((item) => (
           <CheckboxItem
             key={item}
@@ -462,7 +475,7 @@ export default function FilterSidebar({
           />
         ))}
 
-        {(filterOptions.category || []).length > 7 && (
+        {visibleOptions("category", filterOptions.category).length > 7 && (
           <button
             onClick={() => setShowMoreCategories((prev) => !prev)}
             className={mobile ? "mt-2 flex items-center gap-1 text-sm text-ink" : "mt-[12px] flex items-center gap-[6px] text-[15px] text-ink"}
@@ -473,7 +486,7 @@ export default function FilterSidebar({
               </>
             ) : (
               <>
-                See {(filterOptions.category || []).length - 7} more{" "}
+                See {visibleOptions("category", filterOptions.category).length - 7} more{" "}
                 <ChevronDown size={14} />
               </>
             )}
@@ -598,7 +611,7 @@ export default function FilterSidebar({
       <div className="rounded-[4px] border-2 border-[#000000] px-[19px] py-[6px]">
         {/* REGION (Drupal: country) */}
         <FilterSection title="Region">
-          {(filterOptions.region || []).map((item) => (
+          {visibleOptions("region", filterOptions.region).map((item) => (
             <CheckboxItem
               key={item}
               label={item}
@@ -611,7 +624,7 @@ export default function FilterSidebar({
 
         {/* TRAVEL STYLE (Drupal: tags) */}
         <FilterSection title="Travel Style">
-          {(filterOptions.style || []).map((item) => (
+          {visibleOptions("style", filterOptions.style).map((item) => (
             <CheckboxItem
               key={item}
               label={item}
@@ -624,7 +637,9 @@ export default function FilterSidebar({
 
         {/* PRICING */}
         <FilterSection title="Pricing">
-          {BUDGET_RANGES.map((range) => (
+          {BUDGET_RANGES.filter(
+            (range) => getCount("pricing", range.value) > 0 || filters.pricing.includes(range.value),
+          ).map((range) => (
             <CheckboxItem
               key={range.value}
               label={range.label}
@@ -637,7 +652,9 @@ export default function FilterSidebar({
 
         {/* DURATION */}
         <FilterSection title="Duration">
-          {DURATION_OPTIONS.map((item) => (
+          {DURATION_OPTIONS.filter(
+            (item) => getCount("duration", item) > 0 || filters.duration.includes(item),
+          ).map((item) => (
             <CheckboxItem
               key={item}
               label={item}
@@ -650,7 +667,7 @@ export default function FilterSidebar({
 
         {/* OFFERS */}
         <FilterSection title="Offers">
-          {(filterOptions.offer || []).map((item) => (
+          {visibleOptions("offer", filterOptions.offer).map((item) => (
             <CheckboxItem
               key={item}
               label={item}
@@ -664,8 +681,8 @@ export default function FilterSidebar({
         {/* CATEGORY */}
         <FilterSection title="Category">
           {(showMoreCategories
-            ? filterOptions.category || []
-            : (filterOptions.category || []).slice(0, 7)
+            ? visibleOptions("category", filterOptions.category)
+            : visibleOptions("category", filterOptions.category).slice(0, 7)
           ).map((item) => (
             <CheckboxItem
               key={item}
@@ -676,7 +693,7 @@ export default function FilterSidebar({
             />
           ))}
 
-          {(filterOptions.category || []).length > 7 && (
+          {visibleOptions("category", filterOptions.category).length > 7 && (
             <button
               onClick={() => setShowMoreCategories((prev) => !prev)}
               className="mt-[12px] flex items-center gap-[6px] text-[15px] text-ink"
@@ -687,7 +704,7 @@ export default function FilterSidebar({
                 </>
               ) : (
                 <>
-                  See {(filterOptions.category || []).length - 7} more{" "}
+                  See {visibleOptions("category", filterOptions.category).length - 7} more{" "}
                   <ChevronDown size={14} />
                 </>
               )}

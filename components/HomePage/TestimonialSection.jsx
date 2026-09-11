@@ -105,7 +105,7 @@ export default function TestimonialSection({ testimonialData }) {
   return (
     <section className="py-8 md:py-20 select-none overflow-hidden">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="mb-12 md:mb-24 text-left md:text-center font-serif italic text-[40px] md:text-[38px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide font-taprom font-normal max-md:max-w-[326px] max-md:mx-auto max-md:leading-[48px]">
+        <h2 className="mb-12 md:mb-24 text-left md:text-center font-serif italic text-[40px] md:text-[38px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide font-taprom font-normal  max-md:mx-auto max-md:leading-[48px]">
           Hear from those who&apos;ve travelled with us 
         </h2>
 
@@ -118,7 +118,7 @@ export default function TestimonialSection({ testimonialData }) {
           </button>
 
           <div className="flex flex-row items-center gap-12 max-w-3xl w-full mx-6">
-            <div className="card-scallop-bottom border border-[#4c4b75] bg-white p-[10px] shadow-[3px_3px_10px_rgba(0,0,0,0.06)] shrink-0">
+            <div className="border border-[#4c4b75] bg-white p-[10px] shadow-[3px_3px_10px_rgba(0,0,0,0.06)] shrink-0">
               <div className="relative w-[317px] max-[1910px]:w-[315px] max-[1281px]:w-[211px] max-[1250px]:w-[206px] max-[1200px]:w-[198px] h-[317px] max-[1910px]:h-[315px] max-[1281px]:h-[211px] max-[1250px]:h-[206px] max-[1200px]:h-[198px] min-w-[150px] min-h-[150px]">
                 <Image
                   src={current.image}
@@ -173,7 +173,7 @@ export default function TestimonialSection({ testimonialData }) {
           <div className="flex gap-4 px-4 items-start">
             {testimonials.map((item) => (
               <div key={item.id} className="snap-start shrink-0 w-[240px]">
-                <div className="card-scallop-bottom border-[2px] border-[#2f2d89] rounded-[6px] bg-white p-3">
+                <div className="border-[2px] border-[#2f2d89] rounded-[6px] bg-white p-3">
                   <div className="relative w-full h-[180px]">
                     <Image
                       src={item.image}

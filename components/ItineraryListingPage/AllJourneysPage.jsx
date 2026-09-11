@@ -7,27 +7,26 @@ import SortBar from "./SortBar";
 import JourneyGrid from "./JourneyGrid";
 import Pagination from "./Pagination";
 import MobileFilters from "./MobileFilters";
-import { slugify } from "@/lib/slugify";
-import { API_BASE_URL, buildFileUrl } from "@/lib/config";
 import { matchesBudget } from "@/lib/budgetRanges";
 
-// Resolves the ISO country code from a journey's starting-location
-// reference (node--location -> field_address.country_code), used only
-// to filter journeys clicked from the homepage map — not shown as a
-// filter option in the sidebar.
-function resolveCountryCode(rel, included) {
-  const id = rel?.data?.id;
+const EMPTY_FILTER_OPTIONS = {
+  region: [],
+  style: [],
+  offer: [],
+  category: [],
+  month: [],
+};
 
-  if (!id) return "";
-
-  const node = included.find(
-    (inc) => inc.type === "node--location" && inc.id === id,
-  );
-
-  return node?.attributes?.field_address?.country_code || "";
-}
-
-export default function AllJourneysPage() {
+// `initialJourneys`/`initialFilterOptions` are fetched server-side (see
+// app/itinerary/page.tsx + lib/allJourneys.js) and handed down as props —
+// this used to fetch them itself in a useEffect, which ran in the browser
+// and always failed against the ddev backend's self-signed cert
+// (ERR_CERT_AUTHORITY_INVALID). The server's fetch honors
+// NODE_TLS_REJECT_UNAUTHORIZED, so doing it there works.
+export default function AllJourneysPage({
+  initialJourneys = [],
+  initialFilterOptions = EMPTY_FILTER_OPTIONS,
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -40,8 +39,7 @@ export default function AllJourneysPage() {
     }
   }, [searchParams]);
 
-  const [journeys, setJourneys] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [journeys] = useState(initialJourneys);
 
   const [filters, setFilters] = useState({
     displayAllOffers: true,
@@ -54,289 +52,12 @@ export default function AllJourneysPage() {
     duration: [], // ✅ added
   });
 
-  const [filterOptions, setFilterOptions] = useState({
-    region: [],
-    style: [],
-    offer: [],
-    category: [],
-    month: [],
-  });
+  const [filterOptions] = useState(initialFilterOptions);
 
   const [sort, setSort] = useState("Recommended");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // ================= JOURNEYS FETCH =================
-  useEffect(() => {
-    async function loadJourneys() {
-      try {
-        setLoading(true);
-
-        // Drupal's JSON:API caps a single response at 50 resources by
-        // default. A one-shot fetch (the old code) silently drops every
-        // journey past that first page — on a dev/test site with a lot
-        // of seed content, newly-created journeys are exactly the ones
-        // most likely to land past that cutoff and vanish from every
-        // listing/filter with no error anywhere. Follow `links.next`
-        // until Drupal stops returning one, merging `data` + `included`
-        // from every page.
-        let nextUrl = `${API_BASE_URL}/jsonapi/node/journey?include=field_journey_image.field_media_image,field_journey_tag,field_month,field_category,field_region,field_starts_in`;
-        let allData = [];
-        let allIncluded = [];
-
-        while (nextUrl) {
-          const res = await fetch(nextUrl);
-          const pageJson = await res.json();
-
-          allData = allData.concat(pageJson.data || []);
-          allIncluded = allIncluded.concat(pageJson.included || []);
-          nextUrl = pageJson.links?.next?.href || null;
-        }
-
-        const json = { data: allData, included: allIncluded };
-
-        console.log(
-  "Relationships:",
-  json.data?.[0]?.relationships
-);
-        console.log("Journey API (all pages):", json.data.length, "journeys");
-        const included = json.included || [];
-        console.log(
-  "Region terms:",
-  included.filter(
-    (i) => i.type === "taxonomy_term--region"
-  )
-);
-
-const drupalJourneys = (json.data || []).map((item, index) => {
-            const mediaId = item.relationships?.field_journey_image?.data?.id;
-
-          const mediaEntity = included.find(
-            (inc) => inc.type === "media--image" && inc.id === mediaId,
-          );
-          // field_month can be a multi-value taxonomy reference (a
-          // journey may run across several months), so `.data` can be
-          // either a single relationship object or an array — reading it
-          // as `.data?.id` unconditionally (the old code) silently broke
-          // for any multi-value field: `.id` on an array is undefined,
-          // so monthId was always undefined and monthName was always ""
-          // for every journey, which made the month filter match nothing.
-          const monthRelationship = item.relationships?.field_month?.data;
-          const monthRefs = Array.isArray(monthRelationship)
-            ? monthRelationship
-            : monthRelationship
-              ? [monthRelationship]
-              : [];
-
-          const monthNames = monthRefs
-            .map((ref) => {
-              const monthEntity = included.find(
-                (inc) => inc.type === "taxonomy_term--month" && inc.id === ref.id,
-              );
-              return monthEntity?.attributes?.name || "";
-            })
-            .filter(Boolean);
-          const fileId =
-            mediaEntity?.relationships?.field_media_image?.data?.id;
-
-          const fileEntity = included.find(
-            (inc) => inc.type === "file--file" && inc.id === fileId,
-          );
-
-          const rawUrl = fileEntity?.attributes?.uri?.url;
-
-         const imageUrl = buildFileUrl(rawUrl) || "/GoldenTriange.svg";
-
-          const tagData = item.relationships?.field_journey_tag?.data;
-
-          const tagArray = Array.isArray(tagData)
-            ? tagData
-            : tagData
-              ? [tagData]
-              : [];
-
-          // field_journey_tag references the "Journey Style" vocabulary,
-          // whose JSON:API resource type is taxonomy_term--journey_style —
-          // taxonomy_term--tags is also accepted for safety. Resolve name
-          // and id together from the matched `included` entity so a
-          // dangling reference to a deleted/unpublished term (present in
-          // the relationship but absent from `included`) never makes it
-          // into tagIds — that's what was getting forwarded to the
-          // inquiry-form webform and triggering its "referenced entity
-          // does not exist" validation error.
-          const resolvedTags = tagArray
-            .map((tag) => {
-              const tagEntity = included.find(
-                (inc) =>
-                  (inc.type === "taxonomy_term--tags" ||
-                    inc.type === "taxonomy_term--journey_style") &&
-                  inc.id === tag.id,
-              );
-              const name = tagEntity?.attributes?.name;
-              const id =
-                tag.meta?.drupal_internal__target_id ??
-                tagEntity?.attributes?.drupal_internal__tid;
-              return name ? { id, name } : null;
-            })
-            .filter(Boolean);
-
-          const tagNames = resolvedTags.map((t) => t.name);
-          const tagIds = resolvedTags.map((t) => t.id).filter((id) => id != null);
-
-          const cta = item.attributes?.field_cta;
-
-          // Use Drupal's real Pathauto-generated alias as-is (already present
-          // on every node's JSON:API "path" attribute, no include needed) so
-          // this link always matches whatever URL pattern Drupal is
-          // currently configured with, without hardcoding a prefix here.
-          // Fall back to a client-computed slug only if path/alias is missing.
-          const alias = item.attributes?.path?.alias || "";
-          let viewTripUrl = alias || `/journey/${slugify(item.attributes.title || "")}`;
-
-          if (cta?.uri && !cta.uri.startsWith("entity:")) {
-            viewTripUrl = cta.uri;
-          }
-          const regionRelationship =
-  item.relationships?.field_region?.data ||
-  item.relationships?.field_country?.data;
-
-const regionArray = Array.isArray(regionRelationship)
-  ? regionRelationship
-  : regionRelationship
-    ? [regionRelationship]
-    : [];
-
-const regionNames = regionArray
-  .map((relation) => {
-    const regionEntity = included.find(
-      (inc) =>
-        inc.id === relation.id &&
-        (
-          inc.type === "taxonomy_term--region" ||
-          inc.type === "taxonomy_term--country"
-        )
-    );
-
-    return regionEntity?.attributes?.name || "";
-  })
-  .filter(Boolean);
-
-const regionName = regionNames[0] || "";
-
-console.log("REGION DEBUG:", {
-  title: item.attributes?.title,
-  fieldRegion: item.relationships?.field_region,
-  fieldCountry: item.relationships?.field_country,
-  regionName,
-  includedRegions: included.filter(
-    (inc) =>
-      inc.type === "taxonomy_term--region" ||
-      inc.type === "taxonomy_term--country"
-  ),
-});
-
-          // field_category is a taxonomy-term relationship, not a plain
-          // attribute — resolved the same way as region/tags above (a
-          // journey can carry more than one category).
-          const categoryRelationship = item.relationships?.field_category?.data;
-
-          const categoryArray = Array.isArray(categoryRelationship)
-            ? categoryRelationship
-            : categoryRelationship
-              ? [categoryRelationship]
-              : [];
-
-          const categoryNames = categoryArray
-            .map((relation) => {
-              const categoryEntity = included.find(
-                (inc) =>
-                  inc.id === relation.id &&
-                  inc.type === "taxonomy_term--category"
-              );
-
-              return categoryEntity?.attributes?.name || "";
-            })
-            .filter(Boolean);
-
-          return {
-            id: item.id,
-            title: item.attributes.title || "",
-            desc: item.attributes.field_short_description || "",
-
-            days: `${item.attributes.field_duration_days || 0} Days | ${
-              item.attributes.field_duration_nights || 0
-            } Nights`,
-
-            destinations: `${
-              item.attributes.field_destinations_count || 0
-            } Destinations`,
-
-           price: Number(item.attributes.field_offer_price) || 0,
-originalPrice: Number(item.attributes.field_original_price) || 0,
-offer: item.attributes.field_offer_message || "",
-            image: imageUrl,
-
-            tags: tagNames,
-            style: tagNames[0] || "Group Journey",
-            region: regionName,
-            countryCode: resolveCountryCode(
-              item.relationships?.field_starts_in,
-              included,
-            ),
-            category: categoryNames,
-            month: monthNames,
-
-            viewTripUrl,
-            viewTripText: cta?.title || "View Trip",
-
-            active: index === 0,
-          };
-        });
-
-        setJourneys(drupalJourneys);
-        console.log("Final journeys:", drupalJourneys);
-        
-      } catch (error) {
-        console.error("API ERROR:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadJourneys();
-  }, []);
-
-  // ================= FILTER OPTIONS =================
-  useEffect(() => {
-    async function loadFilters() {
-      try {
-        const endpoints = {
-   region: `${API_BASE_URL}/jsonapi/taxonomy_term/region?sort=-drupal_internal__tid`,
-  style: `${API_BASE_URL}/jsonapi/taxonomy_term/tags?sort=-drupal_internal__tid`,
-  offer: `${API_BASE_URL}/jsonapi/taxonomy_term/offers?sort=-drupal_internal__tid`,
-  category: `${API_BASE_URL}/jsonapi/taxonomy_term/category?sort=-drupal_internal__tid`,
-  month: `${API_BASE_URL}/jsonapi/taxonomy_term/month?sort=-drupal_internal__tid`,
-};
-
-        const results = {};
-        console.log(endpoints);
-        for (const key in endpoints) {
-          const res = await fetch(endpoints[key]);
-          const json = await res.json();
-
-          results[key] = (json.data || []).map(
-            (item) => item?.attributes?.name,
-          );
-        }
-
-        setFilterOptions(results);
-      } catch (err) {
-        console.error("Filter API error:", err);
-      }
-    }
-
-    loadFilters();
-  }, []);
   useEffect(() => {
     setCurrentPage(1);
   }, [filters]);
@@ -439,14 +160,6 @@ offer: item.attributes.field_offer_message || "",
     currentPage * itemsPerPage,
   );
   const popularJourneys = journeys.slice(0, 6);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading journeys...
-      </div>
-    );
-  }
 
   const clearAllFilters = () => {
     setFilters({

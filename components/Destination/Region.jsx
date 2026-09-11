@@ -1,79 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { API_BASE_URL, buildFileUrl } from "@/lib/config";
 
-export default function Region() {
+// `regions` is fetched server-side (see app/destination/page.jsx +
+// lib/regions.js) and handed down as a prop — this used to fetch it itself
+// in a useEffect, which ran in the browser and always failed against the
+// ddev backend's self-signed cert (ERR_CERT_AUTHORITY_INVALID). The
+// server's fetch honors NODE_TLS_REJECT_UNAUTHORIZED, so doing it there
+// works.
+export default function Region({ regions = [] }) {
   const router = useRouter();
-
-  const [regions, setRegions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    async function loadRegions() {
-      try {
-        const res = await fetch(
-          `${API_BASE_URL}/jsonapi/taxonomy_term/region?sort=-drupal_internal__tid&include=field_region_image.field_media_image`
-        );
-
-        const json = await res.json();
-
-        const included = json.included || [];
-
-        const regionData = (json.data || []).map((item) => {
-          const mediaId =
-            item.relationships?.field_region_image?.data?.id;
-
-          const mediaEntity = included.find(
-            (inc) =>
-              inc.type === "media--image" &&
-              inc.id === mediaId
-          );
-
-          const fileId =
-            mediaEntity?.relationships?.field_media_image?.data?.id;
-
-          const fileEntity = included.find(
-            (inc) =>
-              inc.type === "file--file" &&
-              inc.id === fileId
-          );
-
-          const image =
-            buildFileUrl(fileEntity?.attributes?.uri?.url) ||
-            "/placeholder.jpg";
-
-          return {
-            id: item.id,
-            name: item.attributes?.name || "",
-            description:
-              item.attributes?.description?.processed ||
-              item.attributes?.description?.value ||
-              "",
-            image,
-          };
-        });
-
-        console.log("Regions:", regionData);
-
-        setRegions(regionData);
-      } catch (err) {
-        console.error("Region API Error:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadRegions();
-  }, []);
-  if (loading) {
-    return (
-      <section className="max-w-7xl mx-auto py-16">
-        Loading regions...
-      </section>
-    );
-  }
-
 
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-12 py-16">
@@ -110,19 +47,14 @@ export default function Region() {
         {regions.map((region) => (
          <div
   key={region.id}
-  className="card-scallop-bottom group relative cursor-pointer overflow-hidden rounded-[10px] w-full max-w-[336px] mx-auto border-2 border-[#1A1A1A] md:max-w-none md:border-0"
+  className="group relative cursor-pointer overflow-hidden rounded-[10px] w-full max-w-[336px] h-[332px] md:h-[402px] mx-auto border-2 border-[#1A1A1A] md:max-w-none md:border-0"
 >
 
-            <img
+            <Image
               src={region.image}
               alt={region.name}
-              className="
-    w-full
-    h-[332px]
-    md:h-[552px]
-    object-cover
-    rounded-[8px] md:rounded-[10px]
-  "
+              fill
+              className="object-cover"
             />
             {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -130,14 +62,14 @@ export default function Region() {
             {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-between p-5 md:p-6 text-white">
               {/* Title */}
-              <h3 className="font-[Nohemi] font-semibold text-[21px] md:text-[32px] leading-[32px] md:leading-[64px] tracking-[0.05em] text-[#FAFAFA]">
+              <h3 className="font-[Nohemi] font-semibold text-[21px] md:text-[32px] leading-[32px] md:leading-[40px] tracking-[0.05em] md:tracking-normal text-[#FAFAFA]">
                 {region.name}
               </h3>
 
               {/* Bottom Content */}
               <div>
-                <p
-                  className="font-[Nohemi] text-[16px] md:text-[21px] leading-[24px] md:leading-[40px] font-semibold tracking-[0.05em] text-[#FAFAFA] md:opacity-95"
+                <div
+                  className="text-[16px] md:text-[14px] leading-[24px] md:leading-[20px] font-semibold md:font-normal tracking-[0.05em] md:tracking-normal text-[#FAFAFA] md:opacity-95"
                   dangerouslySetInnerHTML={{
                     __html: region.description,
                   }}
@@ -153,11 +85,11 @@ export default function Region() {
                   }
                   className="
     mt-3 rounded-full bg-[#FAFAFA]
-    h-[35px] w-[194px] md:h-[37px] md:w-[212px]
-    px-3 py-1.5 md:px-6 md:py-3
+    h-[35px] w-[194px] md:h-auto md:w-auto
+    px-3 py-1.5 md:px-4 md:py-2
     text-[16px] md:text-[12px]
     leading-[32px] md:leading-normal
-    tracking-[0.05em]
+    tracking-[0.05em] md:tracking-normal
     font-semibold text-[#2C3078]
     flex items-center justify-center
   "
