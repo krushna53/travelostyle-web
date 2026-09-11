@@ -27,7 +27,7 @@ export default function JourneyRevelationsSection({
   const borderVar = isHex(borderStyle) ? borderStyle : undefined;
 
   return (
-    <div className="hidden md:flex w-full flex-col items-center py-10" style={{ paddingInline: "clamp(16px, 3.6vw, 69px)" }}>
+    <div className="hidden md:flex w-full flex-col items-center py-10 pt-12" style={{ paddingInline: "clamp(16px, 3.6vw, 69px)" }}>
       <section
         className={`w-full max-w-[1704px] mx-auto rounded-xl border-2 overflow-hidden flex flex-col z-20 shadow-sm ${borderClass} ${
           isHex(cardBgStyle) ? "" : cardBgStyle

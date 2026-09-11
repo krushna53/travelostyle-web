@@ -59,16 +59,17 @@ export default function PopularRegions() {
   }, []);
 
   return (
-    <div className="bg-white max-w-[1704px] mx-auto" style={{ paddingInline: "clamp(16px, 3.6vw, 69px)" }}>
-      {" "}
-      <h3 className="font-nohemi text-[#000000] font-semibold text-[21px] leading-[32px] tracking-[0.05em] mb-6 sm:mb-8 max-md:max-w-[244.13px] max-md:text-center max-md:mx-auto md:text-[24px] md:leading-[32px]">
-        Explore some of our popular regions!
-      </h3>
-      {loading ? (
-        <p className="text-sm text-[#757575]">Loading regions...</p>
-      ) : (
-        <PopularRegionCard regions={regions} />
-      )}
+    <div className="bg-white" style={{ paddingInline: "clamp(16px, 3.6vw, 69px)" }}>
+      <div className="max-w-[1704px] mx-auto">
+        <h3 className="font-nohemi text-[#000000] font-semibold text-[21px] leading-[32px] tracking-[0.05em] mb-8 mt-8 md:mb-12 md:mt-10 max-md:max-w-[244.13px] max-md:text-center max-md:mx-auto md:text-[24px] md:leading-[32px]">
+          Explore some of our popular regions!
+        </h3>
+        {loading ? (
+          <p className="text-sm text-[#757575]">Loading regions...</p>
+        ) : (
+          <PopularRegionCard regions={regions} />
+        )}
+      </div>
     </div>
   );
 }
