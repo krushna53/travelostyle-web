@@ -78,11 +78,11 @@ export default function OriginStory() {
             our origin story
           </p>
 
-          <h2 className="mt-2 mx-auto max-w-[338px] text-[32px] min-[768px]:text-[48px] max-[1910px]:min-[768px]:text-[43px] max-[1281px]:min-[768px]:text-[38px] max-[1250px]:min-[768px]:text-[33px] max-[1200px]:min-[768px]:text-[28px] font-bold leading-[40px] min-[768px]:leading-[52px] tracking-[0.05em] min-[768px]:tracking-normal text-black text-center min-[1024px]:text-left min-[1024px]:mx-0 min-[1024px]:max-w-none">
+          <h2 className="mt-2 mx-auto max-w-[338px] text-[32px] min-[1919px]:text-[48px] max-[1910px]:min-[768px]:text-[44px] max-[1281px]:min-[768px]:text-[38px] max-[1250px]:min-[768px]:text-[32px] max-[1200px]:min-[768px]:text-[28px] max-[900px]:min-[768px]:text-[22px] font-bold leading-[40px] min-[768px]:leading-[52px] tracking-[0.05em] min-[768px]:tracking-normal text-black text-center min-[1024px]:text-left min-[1024px]:mx-0 min-[1024px]:max-w-none">
             How TravelOStyle began
           </h2>
 
-          <div className="mt-10 space-y-8 text-[16px] min-[768px]:text-[18px] max-[1910px]:min-[768px]:text-[13px] leading-[32px] text-[#4A4A4A]">
+          <div className="mt-10 space-y-8 text-[16px] min-[1919px]:text-[18px] max-[1910px]:min-[768px]:text-[16px] max-[1281px]:min-[768px]:text-[15px] max-[1250px]:min-[768px]:text-[14px] max-[1200px]:min-[768px]:text-[13px] max-[900px]:min-[768px]:text-[12px] leading-[32px] text-black">
             <p>
               We started from a simple observation: travel should be a respite.
               But for most people, planning it is anything but.

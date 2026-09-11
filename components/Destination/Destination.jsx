@@ -1,11 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import TravelJourneyCard from "../TravelJourneyCard";
-import { getJourneyCards } from "@/lib/journeyCard";
 
-export default function Destination() {
-    
-     const [journeys, setJourneys] = useState([]);
+// `initialJourneys` is fetched server-side (see app/destination/page.jsx)
+// and handed down as a prop — this used to fetch it itself in a useEffect,
+// which ran in the browser and always failed against the ddev backend's
+// self-signed cert (ERR_CERT_AUTHORITY_INVALID). The server's fetch honors
+// NODE_TLS_REJECT_UNAUTHORIZED, so doing it there works.
+export default function Destination({ initialJourneys = [] }) {
+
+     const [journeys] = useState(initialJourneys);
       const [selectedTrips, setSelectedTrips] = useState([]);
       useEffect(() => {
         const compareTrips = JSON.parse(
@@ -59,18 +63,6 @@ export default function Destination() {
     
         window.location.href = "/comparison";
       };
-    
-      useEffect(() => {
-        async function loadJourneys() {
-          try {
-            const drupalJourneys = await getJourneyCards();
-            setJourneys(drupalJourneys);
-          } catch (err) {
-            console.error(err);
-          }
-        }
-        loadJourneys();
-      }, []);
 
   return (
   <section
@@ -120,6 +112,7 @@ export default function Destination() {
     onCompare={handleCompareSelection}
     mobileSlider
     mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
+    columns={4}
   />
 </div>
 </section>

@@ -50,7 +50,7 @@ export default function TravelExperience() {
                   : ""
               }`}
             >
-              <h3 className="text-[18px] max-[1910px]:text-[13px] font-semibold leading-[28px] tracking-[0.05em] mb-4 min-[1024px]:mb-4 min-[1024px]:min-h-[32px] min-[1281px]:mb-6 min-[1281px]:min-h-[48px] min-[1024px]:leading-[24px] min-[1024px]:tracking-normal">
+              <h3 className="text-[21px] font-bold max-[1910px]:text-[13px] font-semibold leading-[28px] tracking-[0.05em] mb-4 min-[1024px]:mb-4 min-[1024px]:min-h-[32px] min-[1281px]:mb-6 min-[1281px]:min-h-[48px] min-[1024px]:leading-[24px] min-[1024px]:tracking-normal">
                 {item.title}
               </h3>
 

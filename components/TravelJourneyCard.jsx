@@ -24,21 +24,34 @@ function mapJourneyToTrip(journey) {
 // markup, just laid out in a responsive grid instead of a horizontal
 // scroller. Used on the journey-type listing pages (Private/TailorMade/
 // Group/Destinations).
+// `columns` sets the desktop grid width — 3 (default, used by the
+// Group/Private/Tailor-made listing pages) or 4 (the Destinations page's
+// "Destinations TravelOStyle Knows Best" rail). Written as an explicit
+// branch rather than a template-interpolated class so Tailwind's JIT scan
+// can still find the literal class names.
+const GRID_COLS_CLASS = {
+  3: "md:grid-cols-3 md:max-w-[1218px]",
+  4: "md:grid-cols-4 md:max-w-[1632px]",
+};
+
 export default function TravelJourneyCard({
   journeys = [],
   selectedTrips = [],
   onCompare,
   mobileSlider = false,
   mobileWidthClass,
+  columns = 3,
 }) {
+  const gridColsClass = GRID_COLS_CLASS[columns] || GRID_COLS_CLASS[3];
+
   return (
     <div className="w-full  mx-auto pt-6 md:pb-12 overflow-hidden">
       <div
-        className={
+        className={`${
           mobileSlider
-            ? "flex overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid min-[768px]:grid-cols-2 min-[1000px]:!grid-cols-3 md:justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0"
-            : "flex flex-row flex-wrap overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pt-2 pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:pt-0"
-        }
+            ? "flex overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pl-4 pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:mx-auto md:justify-items-center md:gap-6 md:overflow-visible md:px-0 md:pb-0"
+            : "flex flex-row flex-wrap overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pt-2 pb-6 pl-4 pr-12 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-center md:grid md:mx-auto md:justify-items-center md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:pt-0"
+        } ${gridColsClass}`}
       >
         {journeys.map((journey) => {
           const trip = mapJourneyToTrip(journey);

@@ -105,7 +105,7 @@ export default function TestimonialSection({ testimonialData }) {
   return (
     <section className="py-8 md:py-20 select-none overflow-hidden">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="mb-12 md:mb-24 text-left md:text-center font-serif italic text-[40px] md:text-[38px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide font-taprom font-normal max-md:max-w-[326px] max-md:mx-auto max-md:leading-[48px]">
+        <h2 className="mb-12 md:mb-24 text-left md:text-center font-serif italic text-[40px] md:text-[38px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide font-taprom font-normal  max-md:mx-auto max-md:leading-[48px]">
           Hear from those who&apos;ve travelled with us 
         </h2>
 

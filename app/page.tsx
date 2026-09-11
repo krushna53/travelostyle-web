@@ -12,7 +12,7 @@ import TestimonialSection from "../components/HomePage/TestimonialSection";
 import TravelOStylePromise from "../components/HomePage/TravelOStylePromise";
 import PopularDestinations from "../components/HomePage/PopularDestinations";
 import Footer from "../components/Footer";
-import { API_BASE_URL } from "@/lib/config";
+import { API_BASE_URL, buildFileUrl } from "@/lib/config";
 import { getBlock } from "@/lib/blockContent";
 import { getJourneyCards } from "@/lib/journeyCard";
 
@@ -82,6 +82,45 @@ async function getTestimonials() {
 }
 
 // ------------------------------------
+// HERO SLIDES
+// ------------------------------------
+// Fetched server-side (like the testimonials/journeys above) so it goes
+// through Node's fetch — which honors NODE_TLS_REJECT_UNAUTHORIZED for the
+// ddev backend's self-signed cert — instead of the browser's fetch, which
+// has no such override and was failing every load with
+// ERR_CERT_AUTHORITY_INVALID.
+async function getHeroSlides() {
+  const res = await fetch(
+    `${API_BASE_URL}/jsonapi/node/hero_slide?include=field_hero_banner_image`,
+    {
+      headers: { Accept: "application/vnd.api+json" },
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    console.error("Failed to fetch hero slides");
+    return [];
+  }
+
+  const data = await res.json();
+  const included = data?.included || [];
+
+  return (data?.data || []).map((slide: any) => {
+    const fileId = slide.relationships?.field_hero_banner_image?.data?.id;
+    const fileEntity = included.find(
+      (inc: any) => inc.type === "file--file" && inc.id === fileId
+    );
+    const rawUrl = fileEntity?.attributes?.uri?.url;
+
+    return {
+      ...slide,
+      image: buildFileUrl(rawUrl) || "/placeholder-image.svg",
+    };
+  });
+}
+
+// ------------------------------------
 // GET ALL JOURNEYS FROM DRUPAL
 // ------------------------------------
 async function getJourneys(): Promise<{
@@ -117,6 +156,7 @@ export default async function Home() {
   const journeyData = await getJourneys();
   const homeHero = await getHomeHero();
   const journeyCards = await getJourneyCards();
+  const heroSlides = await getHeroSlides();
 
   // ------------------------------------
   // ONLY POPULAR JOURNEYS
@@ -137,6 +177,7 @@ export default async function Home() {
   included={journeyData.included as any[]}
   heroHeading={homeHero?.heading}
   heroDescription={homeHero?.description}
+  heroSlides={heroSlides}
 />
       <JourneySection />
 

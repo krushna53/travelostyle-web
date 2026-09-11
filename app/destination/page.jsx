@@ -4,15 +4,22 @@ import Footer from "../../components/Footer";
 import ExploreAllJourneys from "../../components/Destination/ExploreAllJourneys";
 import Form from '../../components/Destination/Form';
 import Region from "../../components/Destination/Region";
+import { getRegions } from "@/lib/regions";
+import { getJourneyCards } from "@/lib/journeyCard";
 
 
-export default function Page() {
-    return( 
+export default async function Page() {
+    const [regions, journeys] = await Promise.all([
+      getRegions(),
+      getJourneyCards(),
+    ]);
+
+    return(
     <>
     <SearchBar/>
     <ExploreAllJourneys/>
-    <Region/>
-    <Destination/>
+    <Region regions={regions}/>
+    <Destination initialJourneys={journeys}/>
     <Form/>
       <Footer />
     </>

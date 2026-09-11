@@ -47,14 +47,14 @@ export default function LetsFindOut() {
     {/* DESKTOP */}
     <section className="hidden min-[1024px]:block bg-white overflow-hidden px-[40px] min-[1280px]:px-[70px] py-[60px] min-[1280px]:py-[100px]">
       <div className="flex items-center justify-between pb-[70px]">
-        <div className="max-w-[420px] min-[1280px]:max-w-[700px]">
-          <h2 className="text-[40px] max-[1910px]:text-[35px] max-[1281px]:text-[30px] max-[1250px]:text-[25px] max-[1200px]:text-[20px] font-semibold leading-[56px] text-[#1A1A2E]">
+        <div className="max-w-[420px] min-[1020px]:max-w-[450px] min-[1280px]:max-w-[700px] min-[1919px]:max-w-[800px]">
+          <h2 className="min-[1919px]:text-[48px] max-[1910px]:text-[44px] max-[1281px]:text-[38px] max-[1250px]:text-[32px] max-[1200px]:text-[28px] max-[900px]:text-[22px] font-semibold leading-[56px] text-[#1A1A2E]">
             Curious about what&apos;s possible?
             <br />
             Let&apos;s find out together
           </h2>
 
-          <p className="mt-6 text-[18px] max-[1910px]:text-[13px] leading-[32px] text-[#4A4A4A]">
+          <p className="mt-6 min-[1919px]:text-[18px] max-[1910px]:text-[16px] max-[1281px]:text-[15px] max-[1250px]:text-[14px] max-[1200px]:text-[13px] max-[900px]:text-[12px] leading-[32px] text-black">
             Whether you know exactly where you want to go or you&apos;re still at
             the &apos;somewhere warm, sometime soon&apos; stage – TravelOStyle is here.
             Start a conversation, browse the journeys, or just tell us how you
@@ -64,10 +64,10 @@ export default function LetsFindOut() {
           <TalkToAdvisorButton className="mt-10 w-[269px] h-[44px] rounded-[100px] bg-[#2C3078] text-white text-[16px] max-[1910px]:text-[13px] font-medium" />
         </div>
 
-        <div className="relative w-[380px] h-[380px] min-[1280px]:w-[600px] min-[1280px]:h-[600px] shrink-0">
+        <div className="relative w-[280px] h-[280px] min-[1200px]:w-[380px] min-[1200px]:h-[380px] min-[1280px]:w-[600px] min-[1280px]:h-[600px] shrink-0">
 
-   
-          <div className="absolute top-0 right-0 w-[287px] h-[310px] min-[1280px]:w-[453px] min-[1280px]:h-[490px]">
+
+          <div className="absolute top-0 right-0 w-[211px] h-[228px] min-[1200px]:w-[287px] min-[1200px]:h-[310px] min-[1280px]:w-[453px] min-[1280px]:h-[490px]">
             <Image
               src="/FreeMan.svg"
               alt=""
@@ -77,7 +77,7 @@ export default function LetsFindOut() {
             />
           </div>
 
-          <div className="absolute bottom-[-26px] left-[-41px] z-10 w-[294px] h-[335px] min-[1280px]:bottom-[-41px] min-[1280px]:left-[-65px] min-[1280px]:w-[464px] min-[1280px]:h-[529px]">
+          <div className="absolute bottom-[-19px] left-[-30px] z-10 w-[216px] h-[246px] min-[1200px]:bottom-[-26px] min-[1200px]:left-[-41px] min-[1200px]:w-[294px] min-[1200px]:h-[335px] min-[1280px]:bottom-[-41px] min-[1280px]:left-[-65px] min-[1280px]:w-[464px] min-[1280px]:h-[529px]">
             <Image
               src="/CattonBro.svg"
               alt=""

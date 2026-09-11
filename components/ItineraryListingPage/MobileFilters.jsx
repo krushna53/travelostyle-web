@@ -71,13 +71,20 @@ export default function MobileFilters({
 
   const getCount = (key, value) => getFilterCount(journeys, key, value);
 
+  // Hide options that currently match zero journeys — unless it's already
+  // selected, so a live selection never silently disappears from the list.
+  const visibleOptions = (key, options) =>
+    (options || []).filter(
+      (item) => getCount(key, item) > 0 || filters[key].includes(item),
+    );
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "style":
         return (
           <>
             <p className="mb-2 text-sm text-[#888]">Filter by travel style</p>
-            {(filterOptions.style || []).map((item) => (
+            {visibleOptions("style", filterOptions.style).map((item) => (
               <CheckboxItem
                 key={item}
                 label={item}
@@ -94,7 +101,9 @@ export default function MobileFilters({
         return (
           <>
             <p className="mb-2 text-sm text-[#888]">Filter by travel budget</p>
-            {BUDGET_RANGES.map((range) => (
+            {BUDGET_RANGES.filter(
+              (range) => getCount("pricing", range.value) > 0 || filters.pricing.includes(range.value),
+            ).map((range) => (
               <CheckboxItem
                 key={range.value}
                 label={range.label}
@@ -111,7 +120,9 @@ export default function MobileFilters({
         return (
           <>
             <p className="mb-2 text-sm text-[#888]">Filter by duration</p>
-            {DURATION_OPTIONS.map((item) => (
+            {DURATION_OPTIONS.filter(
+              (item) => getCount("duration", item) > 0 || filters.duration.includes(item),
+            ).map((item) => (
               <CheckboxItem
                 key={item}
                 label={item}
@@ -128,7 +139,7 @@ export default function MobileFilters({
         return (
           <>
             <p className="mb-2 text-sm text-[#888]">Filter by offers</p>
-            {(filterOptions.offer || []).map((item) => (
+            {visibleOptions("offer", filterOptions.offer).map((item) => (
               <CheckboxItem
                 key={item}
                 label={item}
@@ -145,7 +156,7 @@ export default function MobileFilters({
         return (
           <>
             <p className="mb-2 text-sm text-[#888]">Filter by region</p>
-            {(filterOptions.region || []).map((item) => (
+            {visibleOptions("region", filterOptions.region).map((item) => (
               <CheckboxItem
                 key={item}
                 label={item}
@@ -159,7 +170,7 @@ export default function MobileFilters({
         );
 
       case "category": {
-        const categories = filterOptions.category || [];
+        const categories = visibleOptions("category", filterOptions.category);
         const visible = showMoreCategories ? categories : categories.slice(0, 7);
 
         return (
@@ -194,7 +205,7 @@ export default function MobileFilters({
         return (
           <>
             <p className="mb-2 text-sm text-[#888]">Filter by month</p>
-            {(filterOptions.month || []).map((month) => (
+            {visibleOptions("month", filterOptions.month).map((month) => (
               <CheckboxItem
                 key={month}
                 label={month}

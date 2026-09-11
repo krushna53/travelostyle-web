@@ -8,7 +8,7 @@ const PLACEHOLDER_ICON = "/placeholder-image.svg";
 async function getPromiseBlock() {
   const res = await fetch(
     `${API_BASE_URL}/jsonapi/block_content/travelostyle_promise?include=${INCLUDE}`,
-    { next: { revalidate: 3600 } }
+    { next: { revalidate: 3600 } },
   );
 
   if (!res.ok) {
@@ -22,7 +22,9 @@ async function getPromiseBlock() {
 
 function resolveIcon(item, included) {
   const mediaId = item.relationships?.field_icon?.data?.id;
-  const media = included.find((i) => i.type === "media--image" && i.id === mediaId);
+  const media = included.find(
+    (i) => i.type === "media--image" && i.id === mediaId,
+  );
   const fileId = media?.relationships?.field_media_image?.data?.id;
   const file = included.find((i) => i.type === "file--file" && i.id === fileId);
   const raw = file?.attributes?.uri?.url;
@@ -48,11 +50,19 @@ export default async function TravelOStylePromise() {
   let descriptionParagraphs;
   if (splitMatch) {
     const idx = splitMatch.index;
-    const before = rawDescription.slice(0, idx).replace(/<\/?p[^>]*>/gi, "").trim();
-    const after = rawDescription.slice(idx).replace(/<\/?p[^>]*>/gi, "").trim();
+    const before = rawDescription
+      .slice(0, idx)
+      .replace(/<\/?p[^>]*>/gi, "")
+      .trim();
+    const after = rawDescription
+      .slice(idx)
+      .replace(/<\/?p[^>]*>/gi, "")
+      .trim();
     descriptionParagraphs = [before, after].filter(Boolean);
   } else {
-    descriptionParagraphs = [rawDescription.replace(/<\/?p[^>]*>/gi, "").trim()].filter(Boolean);
+    descriptionParagraphs = [
+      rawDescription.replace(/<\/?p[^>]*>/gi, "").trim(),
+    ].filter(Boolean);
   }
 
   const itemRefs = block.relationships?.field_promise_items?.data || [];
@@ -72,12 +82,11 @@ export default async function TravelOStylePromise() {
   return (
     <section className="py-16 md:py-20 select-none overflow-x-hidden">
       <div className="mx-auto w-full max-w-[1200px] px-6">
-<div className="text-left md:text-center w-full mx-auto">
+        <div className="text-left sm:text-center w-full mx-auto">
           <h2
-  className="
+            className="
     mx-auto
     w-full
-    max-w-[336px]
     font-nohemi
     text-left
     text-[26px]
@@ -86,21 +95,27 @@ export default async function TravelOStylePromise() {
     font-bold
     text-[#1A1A1A]
 
-    md:max-w-[741px]
-    md:text-center
-    md:text-[38px]
-    md:leading-[46px]
-    md:tracking-normal
-    md:font-bold
-    md:text-[#1A1A1A]
+    sm:max-w-[741px]
+    sm:text-center
+    sm:leading-[46px]
+    sm:tracking-normal
+    sm:font-bold
+    sm:text-[#1A1A1A]
+
+    sm:max-[900px]:text-[22px]
+    sm:max-[1200px]:text-[28px]
+    sm:max-[1250px]:text-[32px]
+    sm:max-[1281px]:text-[38px]
+    sm:max-[1910px]:text-[44px]
+    sm:min-[1919px]:text-[54px]
   "
->
-  {heading}
-</h2>
-     <div className="mx-auto w-full max-w-[339px] md:max-w-full">
-  {/* Mobile: split into two paragraphs with a gap between them. */}
-  <div
-    className="
+          >
+            {heading}
+          </h2>
+          <div className="mx-auto w-full md:max-w-[339px] md:max-w-full">
+            {/* Mobile: split into two paragraphs with a gap between them. */}
+            <div
+              className="
     mt-[25px]
       w-full
       max-w-full
@@ -114,20 +129,20 @@ export default async function TravelOStylePromise() {
       text-[#1A1A1A]
       md:hidden
     "
-  >
-    {descriptionParagraphs.map((para, i) => (
-      <p
-        key={i}
-        className={i < descriptionParagraphs.length - 1 ? "mb-4" : ""}
-        dangerouslySetInnerHTML={{ __html: para }}
-      />
-    ))}
-  </div>
+            >
+              {descriptionParagraphs.map((para, i) => (
+                <p
+                  key={i}
+                  className={i < descriptionParagraphs.length - 1 ? "mb-4" : ""}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
 
-  {/* Desktop: single continuous block, same as before — wraps naturally
+            {/* Desktop: single continuous block, same as before — wraps naturally
       instead of being forced into two separate block elements. */}
-  <div
-    className="
+            <div
+              className="
     mt-[25px]
       hidden
       w-full
@@ -141,18 +156,16 @@ export default async function TravelOStylePromise() {
       md:tracking-normal
       md:text-[#4A4A4A]
     "
-    dangerouslySetInnerHTML={{ __html: rawDescription || "" }}
-  />
-</div>
-
-        
+              dangerouslySetInnerHTML={{ __html: rawDescription || "" }}
+            />
+          </div>
         </div>
-        <div className="mt-8 md:mt-16 flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 md:gap-8 max-[1910px]:md:gap-6 max-[1281px]:md:gap-5 max-[1250px]:md:gap-4 max-[1200px]:md:gap-3 max-w-[340px] md:max-w-none mx-auto">
+        <div className="mt-8 md:mt-16 grid grid-cols-1 min-[490px]:grid-cols-2 sm:grid-cols-3 md:flex md:flex-row flex-wrap justify-center items-center justify-items-center gap-4 md:gap-8 max-[1910px]:md:gap-6 max-[1281px]:md:gap-5 max-[1250px]:md:gap-4 max-[1200px]:md:gap-3 w-full md:max-w-none mx-auto">
           {promises.map((item, index) => {
             return (
               <div
                 key={index}
-                className="flex min-h-[130px] md:h-[145px] w-full md:w-[290px] flex-col items-center justify-center rounded-[6px] border-2 border-[#2f2d89] gap-2 p-5"
+                className="flex min-h-[130px] md:h-[145px] w-full max-w-[290px] md:w-[290px] flex-col items-center justify-center rounded-[6px] border-2 border-[#2f2d89] gap-2 p-5 overflow-hidden"
                 style={{ backgroundColor: item.bg }}
               >
                 <div className="relative w-[36px] h-[36px] md:w-[40px] md:h-[40px] flex items-center justify-center">
@@ -165,9 +178,7 @@ export default async function TravelOStylePromise() {
                   />
                 </div>
 
-                <p
-                  className="whitespace-pre-line max-md:whitespace-normal font-nohemi text-center text-black text-[20px] leading-[25px] font-bold tracking-[0.03em] md:text-[20px] md:leading-[25px] md:tracking-normal md:font-bold"
-                >
+                <p className="whitespace-pre-line max-md:whitespace-normal font-nohemi text-center text-black text-[20px] leading-[25px] font-bold tracking-[0.03em] md:text-[20px] md:leading-[25px] md:tracking-normal md:font-bold">
                   {item.title}
                 </p>
               </div>

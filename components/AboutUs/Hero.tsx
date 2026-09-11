@@ -64,15 +64,11 @@ export default function Hero() {
             className="
               relative
               font-taprom
-              text-[46px] max-[1910px]:text-[41px] max-[1281px]:text-[36px] max-[1250px]:text-[31px] max-[1200px]:text-[26px]
+              min-[1919px]:text-[48px] max-[1910px]:text-[44px] max-[1281px]:text-[38px] max-[1250px]:text-[32px] max-[1200px]:text-[24px] max-[1100px]:text-[20px]
               leading-none
               text-black
               whitespace-nowrap
-              max-[1281px]:whitespace-normal
-              max-[1281px]:text-center
               px-4
-              max-[1281px]:max-w-[700px]
-              max-[1281px]:mx-auto
             "
           >
             Making travel feel like it was always supposed to
@@ -82,13 +78,13 @@ export default function Hero() {
 
       {/* Description */}
       <div className="absolute top-[240px] left-1/2 -translate-x-1/2 z-10 text-center">
-        <p className="w-full max-w-[1070px] max-[1281px]:max-w-[880px] px-6 text-[17px] max-[1910px]:text-[13px] font-light leading-[36px] tracking-[0.05em] text-[#4A4A4A]">
+        <p className="w-full max-w-[1070px] max-[1281px]:max-w-[880px] px-6 min-[1919px]:text-[18px] max-[1910px]:text-[16px] max-[1281px]:text-[15px] max-[1250px]:text-[14px] max-[1200px]:text-[13px] max-[900px]:text-[12px] font-light leading-[36px] tracking-[0.05em] text-black">
           Travel, at its best, is a chance to reconnect with what matters to you. An opportunity to see the
           <br />
           world differently, or simply provide relief, or even come home with a story you actually want to tell.
         </p>
 
-        <p className="mt-[18px] w-full max-w-[1070px] max-[1281px]:max-w-[880px] px-6 text-[17px] max-[1910px]:text-[13px] font-light leading-[36px] tracking-[0.05em] text-[#4A4A4A]">
+        <p className="mt-[18px] w-full max-w-[1070px] max-[1281px]:max-w-[880px] px-6 min-[1919px]:text-[18px] max-[1910px]:text-[16px] max-[1281px]:text-[15px] max-[1250px]:text-[14px] max-[1200px]:text-[13px] max-[900px]:text-[12px] font-light leading-[36px] tracking-[0.05em] text-black">
           Not a logistics puzzle. Not a source of pre-departure dread. Not something
           <br />
           that costs you more energy than it gives back.

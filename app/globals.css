@@ -238,9 +238,9 @@ a,
     z-index: -1;
     background-color: #f0e4dc;
     width: 101%;
-    height: 39px;
+    height: 48px;
     position: absolute;
-    top: 19px;
+    top: 30px;
     left: -8px;
 }
 .sub-title-bg.group-hero-line1::after{
@@ -305,9 +305,13 @@ a,
     top: 13px;
   }
 }
-/* Hide scrollbars on scrollable panes that still need to scroll (the
-   mobile filter sheet's tab list and content pane) — used instead of
-   letting the browser's default gray scrollbar track show up. */
+
+.card-scallop-bottom {
+  position: relative;
+  background: url("/Union.png") repeat-x bottom center;
+   background-size: auto 100%;
+}
+
 .no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -340,6 +344,7 @@ a,
     font-size: calc(var(--heading-size) * 1.7);
   }
 }
+
 
 .booking-step-number-size {
   @media (min-width: 1400px) {
