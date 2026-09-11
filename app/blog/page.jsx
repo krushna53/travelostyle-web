@@ -7,6 +7,8 @@ export default function BlogListingPage() {
     <>
       <SearchBar showAllJourneys={true} />
 
+      <div className="w-full border-b-2 border-[#1A1A1A]" />
+
 <Blog/>
       <Footer />
     </>
