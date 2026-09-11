@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function BlogContent({
   blog,
@@ -14,7 +15,10 @@ export default function BlogContent({
   previousPost,
   nextPost,
 }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState(
+    categories?.[0]?.attributes?.name || "All",
+  );
 
   const [newsletterName, setNewsletterName] = useState("");
   const [newsletterEmail, setNewsletterEmail] = useState("");
@@ -144,20 +148,16 @@ export default function BlogContent({
 
           <div className="mt-[16px] flex flex-wrap gap-[10px]">
             <button
-              onClick={() => setSelectedCategory("All")}
-              className={`lg:hidden flex h-[31px] items-center justify-center px-[16px] text-[16px] leading-none rounded-full border border-ink font-normal text-ink ${
-                selectedCategory === "All" ? "bg-[#F2E2DA]" : "bg-white"
-              }`}
+              onClick={() => router.push("/blog")}
+              className="lg:hidden flex h-[31px] items-center justify-center px-[16px] text-[16px] leading-none rounded-full border border-ink font-normal text-ink bg-white"
             >
               All
             </button>
             {allCategories.map((name) => (
               <button
                 key={name}
-                onClick={() => setSelectedCategory(name)}
-                className={`flex h-[31px] items-center justify-center px-[16px] text-[16px] leading-none rounded-full border border-ink font-normal text-ink lg:pointer-events-none lg:!bg-white ${
-                  selectedCategory === name ? "bg-[#F2E2DA]" : "bg-white"
-                }`}
+                onClick={() => router.push(`/blog?category=${encodeURIComponent(name)}`)}
+                className="flex h-[31px] items-center justify-center px-[16px] text-[16px] leading-none rounded-full border border-ink font-normal text-ink lg:pointer-events-none bg-white"
               >
                 {name}
               </button>
@@ -218,9 +218,9 @@ export default function BlogContent({
             ))}
           </div>
 
-          {/* Desktop: always shows all, unfiltered */}
+          {/* Desktop: filtered by the current blog's own category */}
           <div className="hidden lg:block">
-            {recommendedBlogs.slice(0, 3).map((item) => (
+            {filteredRecommended.map((item) => (
               <div
                 key={item.id}
                 className="mt-5 flex flex-col overflow-hidden rounded-[10px] border-2 border-ink bg-[#FAFAFA]"
