@@ -3,11 +3,18 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const ITEMS_PER_PAGE = 9;
 
 export default function BlogGrid({ blogs, categories }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const searchParams = useSearchParams();
+  const categoryFromUrl = searchParams.get("category");
+  const [selectedCategory, setSelectedCategory] = useState(
+    categoryFromUrl && categories.includes(categoryFromUrl)
+      ? categoryFromUrl
+      : "All",
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   const filteredBlogs = useMemo(() => {
