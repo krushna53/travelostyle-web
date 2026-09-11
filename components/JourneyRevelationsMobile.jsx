@@ -22,7 +22,7 @@ export default function GroupRevelationsSectionMobile({
   const isHex = (val) => typeof val === "string" && val.startsWith("#");
 
   return (
-    <div className="block md:hidden w-full px-4 py-2 font-sans antialiased select-none">
+    <div className="block md:hidden w-full px-6 py-12 md:py-2 font-sans antialiased select-none">
       <section
         className={`w-full mx-auto rounded-[10px] border-2 overflow-hidden flex flex-col shadow-sm ${
           !isHex(borderStyle) ? borderStyle : ""

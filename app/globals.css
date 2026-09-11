@@ -346,3 +346,20 @@ a,
 }
 
 
+.booking-step-number-size {
+  @media (min-width: 1400px) {
+    font-size: 40px;
+  }
+
+  @media (min-width: 1500px) {
+    font-size: 42px;
+  }
+
+  @media (min-width: 1600px) {
+    font-size: 44px;
+  }
+
+  @media (min-width: 1920px) {
+    font-size: 48px;
+  }
+}

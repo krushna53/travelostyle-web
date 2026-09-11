@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function BlogContent({
   blog,
@@ -14,7 +15,10 @@ export default function BlogContent({
   previousPost,
   nextPost,
 }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState(
+    categories?.[0]?.attributes?.name || "All",
+  );
 
   const [newsletterName, setNewsletterName] = useState("");
   const [newsletterEmail, setNewsletterEmail] = useState("");
@@ -55,13 +59,13 @@ export default function BlogContent({
   ).slice(0, 3);
 
   return (
-    <section className="px-5 md:px-8 overflow-x-hidden lg:px-[60px] pb-[60px] lg:pb-[80px]">
-      <div className="mt-8 lg:mt-[44px] flex flex-col lg:flex-row items-start gap-10 lg:gap-[48px]">
+    <section className="px-5 md:px-8 overflow-x-hidden lg:px-[60px] pb-[60px] lg:pb-[80px] min-[768px]:lg:px-[58px] min-[1024px]:lg:px-[72px] min-[1280px]:lg:px-[77px] min-[1366px]:lg:px-[81px] min-[1441px]:lg:px-[84px] min-[1500px]:lg:px-[108px]">
+      <div className="mt-8 min-[1040px]:mt-[44px] flex flex-col min-[1040px]:flex-row items-start gap-10 min-[1040px]:gap-[48px]">
         {/* LEFT SIDE */}
-        <div className="min-w-0 flex-1 min-w-0 lg:max-w-[1008px]">
+        <div className="min-w-0 flex-1 min-w-0">
           {blog.attributes.field_introduction?.processed && (
             <div
-              className="min-w-0 max-w-full overflow-hidden text-[16px] leading-[30px] tracking-[0.02em] text-ink"
+              className="min-w-0 max-w-full overflow-hidden font-nohemi font-normal text-[16px] leading-[30px] tracking-[0.02em] text-ink min-[768px]:w-[523px] min-[1024px]:w-[654px] min-[1280px]:w-[698px] min-[1366px]:w-[736px] min-[1441px]:w-[766px] min-[1500px]:w-[981px] min-[768px]:text-[10px] min-[768px]:leading-[19px] min-[768px]:tracking-[0.05em] min-[768px]:text-[#1A1A1A] min-[1024px]:text-[12px] min-[1024px]:leading-[24px] min-[1280px]:text-[13px] min-[1280px]:leading-[26px] min-[1366px]:text-[14px] min-[1366px]:leading-[27px] min-[1441px]:text-[14px] min-[1441px]:leading-[28px] min-[1500px]:text-[18px] min-[1500px]:leading-[36px]"
               dangerouslySetInnerHTML={{
                 __html: blog.attributes.field_introduction.processed,
               }}
@@ -73,13 +77,13 @@ export default function BlogContent({
               alt="Golden Triangle"
               width={1008}
               height={410}
-              className="mt-8 w-[337px] h-[138px] lg:w-[1008px] lg:h-[410px] max-w-full flex-shrink-0 object-cover"
+              className="mt-8 w-full h-auto aspect-[1008/410] max-w-full flex-shrink-0 object-cover min-[768px]:w-[538px] min-[768px]:h-[219px] min-[768px]:aspect-auto min-[1024px]:w-[672px] min-[1024px]:h-[273px] min-[1280px]:w-[717px] min-[1280px]:h-[292px] min-[1366px]:w-[756px] min-[1366px]:h-[308px] min-[1441px]:w-[788px] min-[1441px]:h-[320px] min-[1500px]:w-[1008px] min-[1500px]:h-[410px]"
             />
           )}
 
           {blog.attributes.field_body?.processed && (
             <div
-              className="min-w-0 max-w-full overflow-hidden mt-[16px] text-[16px] leading-[30px] tracking-[0.02em] text-ink"
+              className="min-w-0 max-w-full overflow-hidden mt-[16px] font-nohemi font-normal text-[16px] leading-[30px] tracking-[0.02em] text-ink min-[768px]:w-[523px] min-[1024px]:w-[654px] min-[1280px]:w-[698px] min-[1366px]:w-[736px] min-[1441px]:w-[766px] min-[1500px]:w-[981px] min-[768px]:text-[10px] min-[768px]:leading-[19px] min-[768px]:tracking-[0.05em] min-[768px]:text-[#1A1A1A] min-[1024px]:text-[12px] min-[1024px]:leading-[24px] min-[1280px]:text-[13px] min-[1280px]:leading-[26px] min-[1366px]:text-[14px] min-[1366px]:leading-[27px] min-[1441px]:text-[14px] min-[1441px]:leading-[28px] min-[1500px]:text-[18px] min-[1500px]:leading-[36px]"
               dangerouslySetInnerHTML={{
                 __html: blog.attributes.field_body.processed,
               }}
@@ -87,7 +91,7 @@ export default function BlogContent({
           )}
 
           {galleryImages.length > 0 && (
-            <div className="mt-10 flex flex-wrap items-start gap-6 lg:gap-[24px]">
+            <div className="mt-10 grid grid-cols-1 min-[768px]:grid-cols-2 lg:max-w-[840px] gap-6 lg:gap-[24px]">
               {galleryImages.map(
                 (image, index) =>
                   image?.attributes?.uri?.url && (
@@ -97,7 +101,7 @@ export default function BlogContent({
                       alt={blog.attributes.title || "Blog image"}
                       width={408}
                       height={536}
-                      className="w-[333px] h-[438px] lg:w-[408px] lg:h-[536px] flex-shrink-0 object-cover object-center"
+                      className="w-full h-auto aspect-[333/438] object-cover object-center min-[768px]:aspect-[408/536]"
                     />
                   )
               )}
@@ -135,29 +139,25 @@ export default function BlogContent({
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="min-w-0 w-full lg:w-[360px] lg:flex-shrink-0">
+        <div className="min-w-0 w-full lg:flex-1 lg:max-w-[360px] min-[768px]:lg:max-w-[294px] min-[1024px]:lg:max-w-[368px] min-[1280px]:lg:max-w-[393px] min-[1366px]:lg:max-w-[414px] min-[1441px]:lg:max-w-[431px] min-[1500px]:lg:max-w-[552px]">
           <div className="mb-[24px] border-b border-ink lg:hidden" />
 
-          <h3 className="text-[20px] font-semibold leading-[30px] tracking-[0.02em] text-ink">
+          <h3 className="font-nohemi text-[20px] font-semibold leading-[30px] tracking-[0.02em] text-ink min-[768px]:text-[13px] min-[768px]:leading-[21px] min-[768px]:tracking-[0.05em] min-[768px]:text-[#000000] min-[1024px]:text-[16px] min-[1024px]:leading-[27px] min-[1280px]:text-[17px] min-[1280px]:leading-[28px] min-[1366px]:text-[18px] min-[1366px]:leading-[30px] min-[1441px]:text-[19px] min-[1441px]:leading-[31px] min-[1500px]:text-[24px] min-[1500px]:leading-[40px]">
             Categories
           </h3>
 
           <div className="mt-[16px] flex flex-wrap gap-[10px]">
             <button
-              onClick={() => setSelectedCategory("All")}
-              className={`lg:hidden flex h-[31px] items-center justify-center px-[16px] text-[16px] leading-none rounded-full border border-ink font-normal text-ink ${
-                selectedCategory === "All" ? "bg-[#F2E2DA]" : "bg-white"
-              }`}
+              onClick={() => router.push("/blog")}
+              className="lg:hidden flex h-[31px] items-center justify-center px-[16px] text-[16px] leading-none rounded-full border border-ink font-normal text-ink bg-white"
             >
               All
             </button>
             {allCategories.map((name) => (
               <button
                 key={name}
-                onClick={() => setSelectedCategory(name)}
-                className={`flex h-[31px] items-center justify-center px-[16px] text-[16px] leading-none rounded-full border border-ink font-normal text-ink lg:pointer-events-none lg:!bg-white ${
-                  selectedCategory === name ? "bg-[#F2E2DA]" : "bg-white"
-                }`}
+                onClick={() => router.push(`/blog?category=${encodeURIComponent(name)}`)}
+                className="flex h-[31px] items-center justify-center px-[16px] text-[16px] leading-none rounded-full border border-ink font-normal text-ink lg:pointer-events-none bg-white"
               >
                 {name}
               </button>
@@ -218,9 +218,9 @@ export default function BlogContent({
             ))}
           </div>
 
-          {/* Desktop: always shows all, unfiltered */}
+          {/* Desktop: filtered by the current blog's own category */}
           <div className="hidden lg:block">
-            {recommendedBlogs.slice(0, 3).map((item) => (
+            {filteredRecommended.map((item) => (
               <div
                 key={item.id}
                 className="mt-5 flex flex-col overflow-hidden rounded-[10px] border-2 border-ink bg-[#FAFAFA]"

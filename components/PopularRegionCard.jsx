@@ -8,11 +8,11 @@ export default function PopularRegionCard({regions}) {
   const router = useRouter();
 
   return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="flex flex-wrap justify-center md:justify-start gap-6">
         {regions.map((region) => (
           <div
             key={region.id}
-            className="group relative h-[380px] sm:h-[400px] rounded-xl overflow-hidden shadow-sm border-2 border-[#455868] cursor-pointer"
+            className="group relative w-full max-w-[320px] aspect-square min-[640px]:w-[calc(50%-12px)] min-[640px]:max-w-none min-[1024px]:w-[calc(33.333%-16px)] rounded-[10px] overflow-hidden shadow-sm border-2 border-[#1A1A1A] cursor-pointer"
           >
             <Image
               src={region.image}
@@ -28,7 +28,7 @@ export default function PopularRegionCard({regions}) {
             <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-between text-white z-10">
           
               <div>
-                <h4 className="text-[5vw] sm:text-3xl font-semibold tracking-normal">
+                <h4 className="text-[22px] sm:text-[26px] lg:text-[28px] font-semibold tracking-normal">
                   {region.title}
                 </h4>
               </div>

@@ -63,7 +63,7 @@ export default async function RecommendedBlogs({ currentBlogId }) {
 
             {/* Title */}
                 <div className="min-h-[105px] px-[12px] pt-[12px]">
-  <h4 className="font-[Nohemi] text-[21px] font-semibold leading-[32px] tracking-[0.05em] text-ink">
+  <h4 className="font-[Nohemi] text-[21px] font-semibold leading-[32px] tracking-[0.05em] text-ink min-[768px]:text-[11px] min-[768px]:leading-[17px] min-[768px]:text-[#1A1A1A] min-[1024px]:text-[14px] min-[1024px]:leading-[21px] min-[1280px]:text-[15px] min-[1280px]:leading-[23px] min-[1366px]:text-[16px] min-[1366px]:leading-[24px] min-[1441px]:text-[16px] min-[1441px]:leading-[25px] min-[1500px]:text-[21px] min-[1500px]:leading-[32px]">
     {blog.attributes.title}
   </h4>
 </div>

@@ -65,13 +65,38 @@ export default function Destination({ initialJourneys = [] }) {
       };
 
   return (
-  <section className="w-full overflow-hidden flex flex-col items-start md:items-center text-left px-4">
-  <div className="flex flex-col items-start md:items-center text-left md:text-center">
-    <h2 className="font-nohemi mt-5 text-[32px] leading-[40px] md:text-[48px] md:leading-[56px] font-semibold tracking-[0.05em] text-black">
+  <section
+    className="
+  w-full overflow-hidden flex flex-col items-start md:items-center text-left
+  mx-auto max-w-[1920px]
+  px-4
+  lg:px-[58px]
+  xl:px-[73px]
+  min-[1366px]:px-[78px]
+  min-[1440px]:px-[82px]
+  min-[1920px]:px-[140px]
+"
+  >
+  <div className="flex flex-col items-start min-[500px]:items-center min-[500px]:mx-auto text-left min-[500px]:text-center">
+    <h2 className="
+  font-nohemi mt-5 font-semibold tracking-[0.05em] text-black
+  w-full
+  min-[500px]:mx-auto
+  text-[32px] min-[500px]:text-[38px] md:text-[48px]
+  leading-[40px] min-[500px]:leading-[46px] md:leading-[56px]
+">
         Destinations TravelOStyle Knows Best
     </h2>
 
-    <p className="font-nohemi font-normal w-full max-w-[339px] md:max-w-[1100px] text-[16px] mt-4 leading-[24px] md:text-[18px] md:leading-[32px] tracking-[0.05em] text-[#000000]">
+    <p className="
+  font-nohemi font-normal text-[#000000] tracking-[0.05em]
+  w-full
+  max-w-[339px] min-[500px]:max-w-[600px] md:max-w-[1100px]
+  min-[500px]:mx-auto
+  mt-4
+  text-[16px] min-[500px]:text-[17px] md:text-[18px]
+  leading-[24px] min-[500px]:leading-[28px] md:leading-[32px]
+">
       Choose from the locations that consistently deliver. These are places we know
       <br className="hidden md:block" />
       well enough to recommend without reservation, and that our travelers reliably come home

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import heroImage from "./Hero.png";
 import BlogGrid from "./BlogGrid";
@@ -241,10 +242,12 @@ export default async function Blog() {
       {/* =====================================================
           BLOG CONTENT
       ===================================================== */}
-      <div className="mx-auto w-full max-w-[1280px] px-5 pb-12 sm:px-8 lg:px-12">
+      <div className="mx-auto w-full max-w-[1280px] px-5 pb-12 sm:px-8 lg:px-12 min-[1920px]:max-w-[1920px] min-[1920px]:px-[108px]">
 
         {resolvedBlogs.length > 0 ? (
-          <BlogGrid blogs={resolvedBlogs} categories={categories} />
+          <Suspense fallback={null}>
+            <BlogGrid blogs={resolvedBlogs} categories={categories} />
+          </Suspense>
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <h2 className="font-[Nohemi] text-[28px] font-semibold tracking-[0.05em] text-ink">

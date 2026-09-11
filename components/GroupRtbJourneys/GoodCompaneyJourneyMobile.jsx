@@ -48,7 +48,7 @@ export default function GoodCompaneyJourneyMobile() {
   ];
 
   return (
-    <div className="relative w-full min-h-screen px-4 pt-10 pb-16 overflow-hidden flex flex-col items-center select-none block md:hidden">
+    <div className="relative w-full px-4 pt-10 pb-16 overflow-hidden flex flex-col items-center select-none block md:hidden">
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
         <div className="absolute top-[5px] left-[-90px] w-[320px] h-[110px]">
           <Image

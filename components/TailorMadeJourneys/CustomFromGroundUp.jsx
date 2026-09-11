@@ -4,7 +4,7 @@ import React from "react";
 export default function CustomFromGroundUp() {
   return (
     <>
-      <section className="relative bg-white py-8 sm:py-10 overflow-hidden" style={{ paddingInline: "clamp(16px, 3.6vw, 69px)" }}>
+      <section className="relative bg-white pt-8 sm:pt-10 pb-2  overflow-hidden" style={{ paddingInline: "clamp(26px, 3.6vw, 69px)" }}>
         <div className="gap-8 items-start relative max-w-[1704px] mx-auto">
           <div className="md:col-span-7 space-y-6 md:pr-8 relative">
           
@@ -74,16 +74,16 @@ export default function CustomFromGroundUp() {
               </p>
             </div>
           </div>
-          <div className="hidden md:flex md:col-span-5 justify-end items-start  md:absolute md:right-0 md:top-10 lg:-top-32 lg:right-0 2xl:-right-[125px] z-10">
-            <Image
-              src="/ground-up.png"
-              alt="Dashed Swirl Line Journey Vector"
-              width={450}
-              height={200}
-              className="w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[min(914px,48vw)] h-auto object-contain translate-x-0 md:-translate-x-4"
-              priority
-            />
-          </div>
+          <div className="hidden md:flex md:col-span-5 justify-end items-start md:absolute md:right-[clamp(-111px,-5.8vw,-45px)] md:top-[clamp(-94px,-4.9vw,-40px)] z-10">
+  <Image
+    src="/ground-up.png"
+    alt="Dashed Swirl Line Journey Vector"
+    width={698}
+    height={343}
+    className="h-auto w-[clamp(420px,36.35vw,698px)] object-contain"
+    priority
+  />
+</div>
         </div>
       </section>
     </>

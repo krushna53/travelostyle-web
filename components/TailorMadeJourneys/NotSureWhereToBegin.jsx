@@ -87,7 +87,7 @@ export default function NotSureWhereToBegin() {
     }, []);
 
   return (
-    <div className="min-h-screen py-16 max-w-[1704px] mx-auto font-sans" style={{ paddingInline: "clamp(16px, 3.6vw, 69px)" }}>
+    <div className="min-h-screen py-16 max-w-[1704px] mx-auto font-sans" style={{ paddingInline: "clamp(26px, 3.6vw, 69px)" }}>
       <div className="max-w-[800px] mx-auto mb-12 text-left md:text-center">
         <p className="md:hidden mb-3 font-taprom text-[24px] font-normal leading-[28px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic]">
           get inspired
