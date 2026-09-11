@@ -39,7 +39,7 @@ export default async function WhollyJourneyHero() {
   const image = hero?.image || PLACEHOLDER_IMAGE;
 
   return (
-    <section className="relative w-full h-[600px] md:h-[680px] lg:h-[520px] flex items-center overflow-hidden">
+    <section className="relative w-full h-[600px] min-[768px]:h-[680px] min-[1024px]:h-[520px] min-[1400px]:h-[620px] min-[1600px]:h-[700px] min-[1920px]:h-[800px] flex items-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img
           src={image}

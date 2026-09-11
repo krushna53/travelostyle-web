@@ -119,7 +119,7 @@ const handleCompareSelection = (trip) => {
   mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
 />
 {/* </div>    */}
-  <div className="flex justify-left md:justify-center md:mt-8">
+  <div className="flex justify-left md:justify-center md:mt-8 md:mb-12">
         <button
           onClick={goToAllJourneys}
           className="bg-[#1C355E] hover:bg-[#12233F] text-white text-xs font-semibold  px-6 py-2 p-6 ml-7 rounded-full shadow transition-all duration-200"

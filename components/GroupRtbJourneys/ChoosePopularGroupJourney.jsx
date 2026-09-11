@@ -86,7 +86,7 @@ export default function ChoosePopularGroupJourney() {
     loadJourneys();
   }, []);
   return (
-    <div className=" min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans overflow-hidden">
+    <div className="py-16 px-4 sm:px-6 lg:px-8 font-sans overflow-hidden mb-3">
       <div className="mb-12">
         <p
           className="hidden md:block font-taprom font-normal leading-[40px] tracking-[0.05em] text-black lowercase [text-box-trim:cap] [text-box-edge:cap_alphabetic] md:text-center responsive-text-size-[28px]"
