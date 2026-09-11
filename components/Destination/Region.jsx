@@ -76,27 +76,42 @@ export default function Region() {
 
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-12 py-16">
-      <div className="mb-8 md:mb-12 flex flex-col items-start md:items-center">
+    <section
+      className="
+  mx-auto py-16 w-full
+  max-w-[1920px]
+  px-4
+  lg:px-[58px]
+  xl:px-[73px]
+  min-[1366px]:px-[78px]
+  min-[1440px]:px-[82px]
+  min-[1920px]:px-[140px]
+"
+    >
+      <div className="mb-8 md:mb-12 flex flex-col items-start min-[500px]:items-center min-[500px]:mx-auto text-left min-[500px]:text-center">
         <h2 className="
   w-full
-  max-w-[338px] md:max-w-[792px]
+  max-w-[338px] min-[500px]:max-w-none md:max-w-[792px]
+  min-[500px]:mx-auto
   font-semibold md:font-bold
-  text-[32px] md:text-[48px]
-  leading-[40px] md:leading-[80px]
+  text-[32px] min-[500px]:text-[26px] md:text-[48px]
+  leading-[40px] min-[500px]:leading-[32px] md:leading-[80px]
   tracking-[0.05em] md:tracking-normal
+  text-left min-[500px]:text-center
+  whitespace-normal min-[500px]:whitespace-nowrap md:whitespace-normal
 ">
           Where are you headed to next?
         </h2>
         <p className="
   font-nohemi
   w-full
-  max-w-[339px] md:max-w-[646px]
+  max-w-[339px] min-[500px]:max-w-[460px] md:max-w-[646px]
+  min-[500px]:mx-auto
   mt-4 md:mt-2
   md:px-4
   font-normal
-  text-[16px]
-  text-left md:text-center
+  text-[18px]
+  text-left min-[500px]:text-center
   leading-[24px] md:leading-[32px]
   tracking-[0.05em] md:tracking-normal
   text-[#000000]
@@ -106,22 +121,21 @@ export default function Region() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 md:px-4 md:px-0">
+      <div className="grid grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         {regions.map((region) => (
          <div
   key={region.id}
-  className="group relative cursor-pointer overflow-hidden rounded-[10px] w-full max-w-[336px] mx-auto border-2 border-[#1A1A1A] md:max-w-none md:border-0"
+  className="group relative cursor-pointer overflow-hidden rounded-[10px] w-full h-[332px] md:h-auto md:aspect-square"
 >
 
             <img
               src={region.image}
               alt={region.name}
               className="
+    absolute inset-0
     w-full
-    h-[332px]
-    md:h-[402px]
+    h-full
     object-cover
-    rounded-[8px] md:rounded-[10px]
   "
             />
             {/* Overlay */}

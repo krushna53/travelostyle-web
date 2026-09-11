@@ -42,6 +42,7 @@ export default function BlogGrid({ blogs, categories }) {
 
   return (
     <>
+      <div className="mx-auto w-full lg:max-w-[1612px] min-[1920px]:max-w-[1696px]">
       {/* Categories */}
       <div className="mb-[24px] flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between md:gap-0">
         <h2 className="font-[Nohemi] text-[24px] font-semibold leading-[40px] tracking-[0.05em] text-[#000000]">
@@ -93,6 +94,7 @@ export default function BlogGrid({ blogs, categories }) {
           sm:grid-cols-2
           lg:grid-cols-3
           lg:[grid-template-columns:repeat(3,524px)]
+          min-[1920px]:[grid-template-columns:repeat(3,552px)!important]
         "
       >
         {paginatedBlogs.map((blog) => (
@@ -108,6 +110,8 @@ export default function BlogGrid({ blogs, categories }) {
               border-2
               border-ink
               bg-[#FAFAFA]
+              min-[1920px]:w-[552px]
+              min-[1920px]:h-[640px]
             "
           >
             {/* TOP */}
@@ -200,6 +204,7 @@ export default function BlogGrid({ blogs, categories }) {
             </div>
           </div>
         ))}
+      </div>
       </div>
 
       {/* =====================================================

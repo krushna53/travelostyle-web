@@ -107,6 +107,8 @@ export default async function BlogDetailBySlug({
     <div className="bg-[#FAFAFA] min-h-screen">
       <SearchBar showAllJourneys={true} />
 
+      <div className="w-full border-b-2 border-[#1A1A1A]" />
+
       <Hero blog={blog} categories={categories} />
 
       <BlogContent

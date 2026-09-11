@@ -36,8 +36,8 @@ export default function TravelJourneyCard({
       <div
         className={
           mobileSlider
-            ? "flex overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pl-4 pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0"
-            : "flex flex-row flex-wrap overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pt-2 pb-6 pl-4 pr-12 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:pt-0"
+            ? "flex overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid min-[768px]:grid-cols-2 min-[1000px]:!grid-cols-3 md:justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0"
+            : "flex flex-row flex-wrap overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pt-2 pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-center md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:pt-0"
         }
       >
         {journeys.map((journey) => {
