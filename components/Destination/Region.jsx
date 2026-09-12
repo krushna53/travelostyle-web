@@ -40,7 +40,7 @@ export default function Region({ regions = [] }) {
           Where are you headed to next?
         </h2>
         <p className="
-  font-nohemi
+  font-[Nohemi]
   w-full
   max-w-[339px] min-[500px]:max-w-[460px] md:max-w-[646px]
   min-[500px]:mx-auto
@@ -49,7 +49,7 @@ export default function Region({ regions = [] }) {
   font-normal
   text-[18px]
   text-left min-[500px]:text-center
-  leading-[24px] md:leading-[32px]
+  leading-[28px] md:leading-[32px]
   tracking-[0.05em] md:tracking-normal
   text-[#000000]
 ">
