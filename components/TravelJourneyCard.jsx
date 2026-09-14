@@ -45,7 +45,7 @@ export default function TravelJourneyCard({
   const gridColsClass = GRID_COLS_CLASS[columns] || GRID_COLS_CLASS[3];
 
   return (
-    <div className="w-full  mx-auto pt-6 md:pb-12 overflow-hidden">
+    <div className="w-full  mx-auto pt-6 md:pb-12 md:mb-6 overflow-hidden">
       <div
         className={`${
           mobileSlider

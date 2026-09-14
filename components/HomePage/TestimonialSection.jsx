@@ -104,12 +104,12 @@ export default function TestimonialSection({ testimonialData }) {
 
   return (
     <section className="py-8 md:py-20 select-none overflow-hidden">
-      <div className="mx-auto max-w-6xl px-4">
-        <h2 className="mb-12 md:mb-24 text-left md:text-center font-serif italic text-[40px] md:text-[38px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide font-taprom font-normal  max-md:mx-auto max-md:leading-[48px]">
+      <div className="mx-auto w-full px-4 min-[1281px]:max-w-[1200px] min-[1440px]:max-w-[1250px] min-[1600px]:max-w-[1320px] min-[1919px]:max-w-[1411px]">
+        <h2 className="mb-12 md:mb-24 text-left md:text-center font-serif italic text-[40px] md:text-[64px] min-[1024px]:text-[42px] min-[1281px]:text-[48px] min-[1440px]:text-[52px] min-[1600px]:text-[58px] min-[1919px]:text-[64px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide font-taprom font-normal max-md:mx-auto max-md:leading-[48px]">
           Hear from those who&apos;ve travelled with us 
         </h2>
 
-        <div className="hidden md:flex items-center justify-between gap-4 max-w-5xl mx-auto">
+        <div className="hidden md:flex items-center justify-between gap-4 max-w-5xl min-[1281px]:max-w-[1200px] min-[1440px]:max-w-[1250px] min-[1600px]:max-w-[1320px] min-[1919px]:max-w-[1411px] mx-auto">
           <button
             onClick={handlePrev}
             className="cursor-pointer transition active:scale-95 shrink-0"
@@ -117,7 +117,7 @@ export default function TestimonialSection({ testimonialData }) {
             <Image src="/LeftArrow.svg" alt="Previous" height={24} width={56} />
           </button>
 
-          <div className="flex flex-row items-center gap-12 max-w-3xl w-full mx-6">
+          <div className="flex flex-row items-center gap-12 max-w-3xl w-full mx-6 min-[1281px]:max-w-[900px] min-[1440px]:max-w-[1000px] min-[1600px]:max-w-[1100px] min-[1919px]:max-w-[1200px] mx-auto">
             <div className="border border-[#4c4b75] bg-white p-[10px] shadow-[3px_3px_10px_rgba(0,0,0,0.06)] shrink-0">
               <div className="relative w-[317px] max-[1910px]:w-[315px] max-[1281px]:w-[211px] max-[1250px]:w-[206px] max-[1200px]:w-[198px] h-[317px] max-[1910px]:h-[315px] max-[1281px]:h-[211px] max-[1250px]:h-[206px] max-[1200px]:h-[198px] min-w-[150px] min-h-[150px]">
                 <Image
@@ -144,7 +144,7 @@ export default function TestimonialSection({ testimonialData }) {
                 </div>
               </span>
 
-              <p className="text-[#2b2b2b] leading-[1.6] min-h-[60px] text-[16px]">
+              <p className="text-[#2b2b2b] leading-[1.6] min-h-[60px] text-[16px] min-[1024px]:text-[18px] min-[1281px]:text-[21px] min-[1440px]:text-[24px] min-[1600px]:text-[28px] min-[1919px]:text-[32px]">
                 {current.quote}
               </p>
 

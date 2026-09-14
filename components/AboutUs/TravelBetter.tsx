@@ -32,7 +32,7 @@ export default function TravelBetter() {
           Travel better with us
         </h2>
 
-        <p className="mt-8 max-w-[830px]  text-[16px] max-[1910px]:text-[13px] font-normal leading-[28px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic]">
+        <p className="mt-8 max-w-[830px]  text-[18px] max-[1910px]:text-[16px] font-normal leading-[28px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic]">
           TravelOStyle offers a curated collection of ready-to-book journeys
           across the world &ndash; across travel styles, budget points, and modes of
           travel. Alongside that, we personalise journeys for those who want
@@ -43,10 +43,10 @@ export default function TravelBetter() {
       {/* Cards */}
       <div className="relative z-10 mt-[40px] min-[768px]:mt-[70px]">
         {/* Row 1 */}
-        <div className="grid grid-cols-1 min-[640px]:grid-cols-2 min-[1024px]:grid-cols-4 gap-5 min-[768px]:gap-8 min-[1024px]:gap-x-[24px] min-[1024px]:gap-y-[24px]">
+        <div className="grid grid-cols-1 min-[640px]:grid-cols-2 min-[1024px]:grid-cols-4 gap-5 min-[768px]:gap-8 min-[1024px]:gap-x-[24px] min-[1024px]:gap-y-[24px] min-[1281px]:gap-x-[40px] min-[1440px]:gap-x-[55px] min-[1600px]:gap-x-[75px] min-[1919px]:gap-x-[100px] min-[1281px]:gap-y-[40px] min-[1440px]:gap-y-[55px] min-[1600px]:gap-y-[75px] min-[1919px]:gap-y-[100px]">
           <div className={`${cardClass} bg-[#EFF3CF]`}>
             <p className="text-[20px] max-[1910px]:text-[15px] max-[1281px]:text-[13px]">✦</p>
-            <h3 className="mt-4 text-[18px] max-[1910px]:text-[13px] font-semibold leading-[28px] tracking-[0.05em]">Group Journeys</h3>
+            <h3 className="mt-4 text-[21px] max-[1910px]:text-[18px] font-semibold leading-[28px] tracking-[0.05em]">Group Journeys</h3>
             <p className="mt-3 text-[16px] max-[1910px]:text-[13px] leading-[24px] tracking-[0.05em]">
               Curated journeys with shared departures.
             </p>
@@ -54,7 +54,7 @@ export default function TravelBetter() {
 
           <div className={`${cardClass} bg-[#C2E5FF]`}>
             <p className="text-[20px] max-[1910px]:text-[15px] max-[1281px]:text-[13px]">✦</p>
-            <h3 className="mt-4 text-[18px] max-[1910px]:text-[13px] font-semibold leading-[28px] tracking-[0.05em]">Private Journeys</h3>
+            <h3 className="mt-4 text-[21px] max-[1910px]:text-[18px] font-semibold leading-[28px] tracking-[0.05em]">Private Journeys</h3>
             <p className="mt-3 text-[16px] max-[1910px]:text-[13px] leading-[24px] tracking-[0.05em]">
               Pre-planned journeys customized for you
             </p>
@@ -62,7 +62,7 @@ export default function TravelBetter() {
 
           <div className={`${cardClass} bg-[#FFDDBD]`}>
             <p className="text-[20px] max-[1910px]:text-[15px] max-[1281px]:text-[13px]">✦</p>
-            <h3 className="mt-4 text-[18px] max-[1910px]:text-[13px] font-semibold leading-[28px] tracking-[0.05em]">Tailormade Journeys</h3>
+            <h3 className="mt-4 text-[21px] max-[1910px]:text-[18px] font-semibold leading-[28px] tracking-[0.05em]">Tailormade Journeys</h3>
             <p className="mt-3 text-[16px] max-[1910px]:text-[13px] leading-[24px] tracking-[0.05em]">
               Start from scratch &amp; take a trip that's entirely yours
             </p>
@@ -70,7 +70,7 @@ export default function TravelBetter() {
 
           <div className={`${cardClass} bg-[#F2E2DA]`}>
             <p className="text-[20px] max-[1910px]:text-[15px] max-[1281px]:text-[13px]">✦</p>
-            <h3 className="mt-4 text-[18px] max-[1910px]:text-[13px] font-semibold leading-[28px] tracking-[0.05em]">Cruises</h3>
+            <h3 className="mt-4 text-[21px] max-[1910px]:text-[18px] font-semibold leading-[28px] tracking-[0.05em]">Cruises</h3>
             <p className="mt-3 text-[16px] max-[1910px]:text-[13px] leading-[24px] tracking-[0.05em]">
               Sea and river journeys with changing views
             </p>
@@ -78,10 +78,10 @@ export default function TravelBetter() {
         </div>
 
         {/* Row 2 */}
-        <div className="mt-5 grid grid-cols-1 min-[640px]:grid-cols-2 min-[1024px]:grid-cols-4 gap-5 min-[768px]:gap-8 min-[1024px]:gap-x-[24px] min-[1024px]:gap-y-[24px] items-center">
+        <div className="mt-5 grid grid-cols-1 min-[640px]:grid-cols-2 min-[1024px]:grid-cols-4 gap-5 min-[768px]:gap-8 min-[1024px]:gap-x-[24px] min-[1024px]:gap-y-[24px] min-[1281px]:gap-x-[40px] min-[1440px]:gap-x-[55px] min-[1600px]:gap-x-[75px] min-[1919px]:gap-x-[100px] min-[1281px]:gap-y-[40px] min-[1440px]:gap-y-[55px] min-[1600px]:gap-y-[75px] min-[1919px]:gap-y-[100px] items-center">
           <div className={`${cardClass} bg-[#FAFAFA]`}>
             <p className="text-[20px] max-[1910px]:text-[15px] max-[1281px]:text-[13px]">✦</p>
-            <h3 className="mt-4 text-[18px] max-[1910px]:text-[13px] font-semibold leading-[28px] tracking-[0.05em]">Land &amp; Rail Journeys</h3>
+            <h3 className="mt-4 text-[21px] max-[1910px]:text-[18px] font-semibold leading-[28px] tracking-[0.05em]">Land &amp; Rail Journeys</h3>
             <p className="mt-3 text-[16px] max-[1910px]:text-[13px] leading-[24px] tracking-[0.05em]">
               Scenic routes that can be experienced with a group or privately
             </p>
@@ -89,7 +89,7 @@ export default function TravelBetter() {
 
           <div className={`${cardClass} bg-[#EFF3CF]`}>
             <p className="text-[20px] max-[1910px]:text-[15px] max-[1281px]:text-[13px]">✦</p>
-            <h3 className="mt-4 text-[18px] max-[1910px]:text-[13px] font-semibold leading-[28px] tracking-[0.05em]">Private Jet Journeys</h3>
+            <h3 className="mt-4 text-[21px] max-[1910px]:text-[18px] font-semibold leading-[28px] tracking-[0.05em]">Private Jet Journeys</h3>
             <p className="mt-3 text-[16px] max-[1910px]:text-[13px] leading-[24px] tracking-[0.05em]">
               Luxurious air travel so you can move freely through the world
             </p>
