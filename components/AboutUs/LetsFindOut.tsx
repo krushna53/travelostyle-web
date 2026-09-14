@@ -6,12 +6,12 @@ export default function LetsFindOut() {
     <>
     {/* MOBILE */}
     <section className="min-[1024px]:hidden bg-[#F9F9F9] overflow-hidden px-5 py-16">
-      <h2 className="max-w-[336px] text-[32px] max-[1910px]:text-[27px] max-[1281px]:text-[22px] max-[1250px]:text-[17px] max-[1200px]:text-[13px] font-semibold leading-[40px] tracking-[0.05em] text-[#000000]">
+      <h2 className="max-w-[336px] text-[32px]  font-semibold leading-[40px] tracking-[0.05em] text-[#000000]">
         Curious about what&apos;s possible? Let&apos;s find out together
       </h2>
 
       <div className="relative -mx-5 mt-10 h-[470px] w-[calc(100%+40px)]">
-        <div className="absolute top-0 left-[107px] w-[284px] h-[324px]">
+        <div className="absolute top-0 left-[119px] w-[284px] h-[324px] md:left-[107px]">
           <Image
             src="/FreeMan.svg"
             alt=""
