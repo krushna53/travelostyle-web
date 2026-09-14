@@ -25,7 +25,7 @@ export default function Region({ regions = [] }) {
   min-[1920px]:px-[140px]
 "
     >
-      <div className="mb-8 md:mb-12 flex flex-col items-start min-[500px]:items-center min-[500px]:mx-auto text-left min-[500px]:text-center">
+      <div className="mb-8 md:mb-[3rem] flex flex-col items-start min-[500px]:items-center min-[500px]:mx-auto text-left min-[500px]:text-center">
         <h2 className="
   w-full
   max-w-[338px] min-[500px]:max-w-none md:max-w-[792px]
@@ -62,55 +62,46 @@ export default function Region({ regions = [] }) {
         {regions.map((region) => (
          <div
   key={region.id}
-  className="group relative cursor-pointer overflow-hidden rounded-[10px] w-full max-w-[336px] h-[332px] md:h-[402px] mx-auto border-2 border-[#1A1A1A] md:max-w-none md:border-0"
+  className="group relative w-full max-w-[336px] mx-auto md:max-w-none aspect-square rounded-[10px] overflow-hidden shadow-sm border-2 border-[#1A1A1A] cursor-pointer"
 >
 
             <Image
               src={region.image}
               alt={region.name}
               fill
-              className="object-cover"
+              className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
             />
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-            {/* Content */}
-            <div className="absolute inset-0 flex flex-col justify-between p-5 md:p-6 text-white">
-              {/* Title */}
-              <h3 className="font-[Nohemi] font-semibold text-[21px] md:text-[32px] leading-[32px] md:leading-[40px] tracking-[0.05em] md:tracking-normal text-[#FAFAFA]">
-                {region.name}
-              </h3>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70" />
 
-              {/* Bottom Content */}
+            <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-between text-white z-10">
               <div>
-                <div
-                  className="text-[16px] md:text-[14px] leading-[24px] md:leading-[20px] font-semibold md:font-normal tracking-[0.05em] md:tracking-normal text-[#FAFAFA] md:opacity-95"
+                <h4 className="text-[22px] sm:text-[26px] lg:text-[28px] font-semibold tracking-normal">
+                  {region.name}
+                </h4>
+              </div>
+
+              <div className="space-y-2.5">
+                <p
+                  className="text-sm sm:text-[15px] text-white tracking-wide drop-shadow-sm leading-snug"
                   dangerouslySetInnerHTML={{
                     __html: region.description,
                   }}
                 />
 
-                <div className="mt-3 h-[2px] md:h-[1px] w-full bg-[#FAFAFA] md:bg-white/60" />
-
-                <button
-                  onClick={() =>
-                    router.push(
-                      `/itinerary?region=${encodeURIComponent(region.name)}`
-                    )
-                  }
-                  className="
-    mt-3 rounded-full bg-[#FAFAFA]
-    h-[35px] w-[194px] md:h-auto md:w-auto
-    px-3 py-1.5 md:px-4 md:py-2
-    text-[16px] md:text-[12px]
-    leading-[32px] md:leading-normal
-    tracking-[0.05em] md:tracking-normal
-    font-semibold text-[#2C3078]
-    flex items-center justify-center
-  "
-                >
-                  Explore Journeys
-                </button>
+                <div className="w-full h-[1.5px] bg-white/90" />
+                <div className="pt-1">
+                  <button
+                    onClick={() =>
+                      router.push(
+                        `/itinerary?region=${encodeURIComponent(region.name)}`
+                      )
+                    }
+                    className="bg-white text-[#3c4082] text-xs sm:text-sm font-bold px-5 py-1.5 rounded-full hover:bg-gray-100 transition-colors shadow-md"
+                  >
+                    Explore Journeys
+                  </button>
+                </div>
               </div>
             </div>
           </div>

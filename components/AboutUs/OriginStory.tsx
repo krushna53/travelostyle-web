@@ -14,7 +14,7 @@ const MOBILE_RAILS = [
 export default function OriginStory() {
   return (
     <section className="px-4 min-[768px]:px-[60px] min-[1024px]:px-[113px] py-[60px] pt-0">
-      <div className="flex flex-col min-[1024px]:flex-row items-end gap-8 min-[1024px]:gap-[40px]">
+      <div className="flex flex-col min-[1024px]:flex-row items-end gap-8 min-[1024px]:gap-[40px] min-[1919px]:gap-[80px]">
 
         {/* Left Images — continuously scrolling rails on mobile. Each row
             renders its image set twice so the -50% translate loops seamlessly;
@@ -51,34 +51,34 @@ export default function OriginStory() {
 
           {/* Column 1 — 4 images, starts at top */}
           <div className="flex flex-col gap-3 min-[768px]:gap-4 bg-[#EFF3CF] flex-1 min-[1024px]:flex-none rounded-lg">
-            <Image src="/Rectangle920.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle911.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle914.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle917.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
+            <Image src="/Rectangle920.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] min-[1281px]:w-[190px] min-[1440px]:w-[210px] min-[1600px]:w-[235px] min-[1919px]:w-[264px] aspect-square object-cover" />
+            <Image src="/Rectangle911.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] min-[1281px]:w-[190px] min-[1440px]:w-[210px] min-[1600px]:w-[235px] min-[1919px]:w-[264px] aspect-square object-cover" />
+            <Image src="/Rectangle914.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] min-[1281px]:w-[190px] min-[1440px]:w-[210px] min-[1600px]:w-[235px] min-[1919px]:w-[264px] aspect-square object-cover" />
+            <Image src="/Rectangle917.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] min-[1281px]:w-[190px] min-[1440px]:w-[210px] min-[1600px]:w-[235px] min-[1919px]:w-[264px] aspect-square object-cover" />
           </div>
 
           {/* Column 2 — 3 images, offset down */}
           <div className="flex flex-col h-[400px] gap-3 min-[768px]:gap-4 bg-[#F2E2DA] mt-15 min-[768px]:mt-25 min-[1024px]:mt-37.5 flex-1 min-[1024px]:flex-none rounded-lg">
-            <Image src="/Rectangle912.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle915.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle918.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
+            <Image src="/Rectangle912.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] min-[1281px]:w-[190px] min-[1440px]:w-[210px] min-[1600px]:w-[235px] min-[1919px]:w-[264px] aspect-square object-cover" />
+            <Image src="/Rectangle915.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] min-[1281px]:w-[190px] min-[1440px]:w-[210px] min-[1600px]:w-[235px] min-[1919px]:w-[264px] aspect-square object-cover" />
+            <Image src="/Rectangle918.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] min-[1281px]:w-[190px] min-[1440px]:w-[210px] min-[1600px]:w-[235px] min-[1919px]:w-[264px] aspect-square object-cover" />
           </div>
 
           {/* Column 3 — 2 images, offset even more */}
           <div className="flex flex-col h-[300px] gap-3 min-[768px]:gap-4 bg-[#F2D09F] mt-30 min-[768px]:mt-50 min-[1024px]:mt-50 flex-1 min-[1024px]:flex-none rounded-lg">
-            <Image src="/Rectangle913.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
-            <Image src="/Rectangle916.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] aspect-square object-cover" />
+            <Image src="/Rectangle913.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] min-[1281px]:w-[190px] min-[1440px]:w-[210px] min-[1600px]:w-[235px] min-[1919px]:w-[264px] aspect-square object-cover" />
+            <Image src="/Rectangle916.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[160px] min-[1281px]:w-[190px] min-[1440px]:w-[210px] min-[1600px]:w-[235px] min-[1919px]:w-[264px] aspect-square object-cover" />
           </div>
 
         </div>
 
         {/* Right Content */}
-        <div className="flex-1 pt-0 min-[1024px]:pt-[95px]">
-          <p className="font-taprom text-[20px] min-[768px]:text-[28px] max-[1910px]:min-[768px]:text-[23px] max-[1281px]:min-[768px]:text-[18px] max-[1250px]:min-[768px]:text-[13px] leading-none text-center min-[1024px]:text-left">
+        <div className="flex-1 pt-0 min-[1024px]:pt-[95px] md:mb-[8rem]">
+          <p className="font-taprom text-[16px] min-[768px]:text-[18px] min-[1024px]:text-[20px] min-[1281px]:text-[24px] min-[1440px]:text-[32px] min-[1600px]:text-[40px] min-[1919px]:text-[48px] leading-none text-center min-[1024px]:text-left">
             our origin story
           </p>
 
-          <h2 className="mt-2 mx-auto max-w-[338px] text-[32px] min-[1919px]:text-[48px] max-[1910px]:min-[768px]:text-[44px] max-[1281px]:min-[768px]:text-[38px] max-[1250px]:min-[768px]:text-[32px] max-[1200px]:min-[768px]:text-[28px] max-[900px]:min-[768px]:text-[22px] font-bold leading-[40px] min-[768px]:leading-[52px] tracking-[0.05em] min-[768px]:tracking-normal text-black text-center min-[1024px]:text-left min-[1024px]:mx-0 min-[1024px]:max-w-none">
+          <h2 className="mt-2 md:pb-5 mx-auto max-w-[338px] text-[32px] min-[1919px]:text-[48px] max-[1910px]:min-[768px]:text-[44px] max-[1281px]:min-[768px]:text-[38px] max-[1250px]:min-[768px]:text-[32px] max-[1200px]:min-[768px]:text-[28px] max-[900px]:min-[768px]:text-[22px] font-bold leading-[40px] min-[768px]:leading-[52px] tracking-[0.05em] min-[768px]:tracking-normal text-black text-center min-[1024px]:text-left min-[1024px]:mx-0 min-[1024px]:max-w-none">
             How TravelOStyle began
           </h2>
 

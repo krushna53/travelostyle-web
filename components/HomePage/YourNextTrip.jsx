@@ -10,11 +10,11 @@ export default function YourNextTrip({ initialJourneys = null }) {
     <section id="take-your-next-trip" className="overflow-hidden py-8 md:py-[96px] max-[1281px]:py-[64px] max-[1250px]:py-[62px] max-[1200px]:py-[60px]">
       <div className="mx-auto w-[95%]">
         <div className="flex flex-col items-start text-left px-4 md:items-center md:text-center md:px-0">
-          <h2 className="font-nohemi max-w-[391px] md:max-w-none text-[32px] leading-[40px] font-semibold tracking-[0.05em] text-[#1A1A1A] md:text-[58px] md:max-[1910px]:text-[58px] md:max-[1281px]:text-[43px] md:max-[1250px]:text-[43px] md:max-[1200px]:text-[41px] md:leading-[1.25] md:tracking-[-0.08vw] md:text-ink">
+          <h2 className="font-nohemi max-w-[391px] md:max-w-none text-[32px] leading-[40px] font-semibold tracking-[0.05em] text-[#1A1A1A] md:text-[58px] md:max-[1910px]:text-[56px] md:max-[1281px]:text-[43px] md:max-[1250px]:text-[43px] md:max-[1200px]:text-[41px] md:leading-[1.25] md:tracking-[-0.08vw] md:text-ink">
             Take your next trip with TravelOStyle
           </h2>
 
-          <p className="mt-2 max-w-[337px] font-nohemi text-[16px] font-light leading-[24px] tracking-[0.05em] text-[#1A1A1A] md:mt-3 md:max-w-[826px] max-[1910px]:max-w-[821px] max-[1281px]:max-w-[551px] max-[1250px]:max-w-[538px] max-[1200px]:max-w-[516px] md:text-[18px] md:max-[1910px]:text-[18px] md:max-[1281px]:text-[14px] md:font-normal md:leading-[1.8] md:tracking-normal md:text-[#6D6D6D]">
+          <p className="mt-2 max-w-[337px] font-nohemi text-[16px] font-light leading-[24px] tracking-[0.05em] text-[#1A1A1A] md:mt-3 md:max-w-[826px] max-[1910px]:max-w-[821px] max-[1281px]:max-w-[551px] max-[1250px]:max-w-[538px] max-[1200px]:max-w-[516px] md:text-[21px] md:max-[1910px]:text-[20px] md:max-[1281px]:text-[14px] md:font-normal md:leading-[1.8] md:tracking-normal md:text-[#6D6D6D]">
             The journeys we know well, believe in genuinely, and can deliver on —{" "}
             <br className="hidden md:inline" />
             every single time.

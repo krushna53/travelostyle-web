@@ -34,7 +34,7 @@ export default function TravelExperience() {
 
         {/* Heading */}
         <div className="min-h-[121px] min-[1024px]:min-h-[90px] min-[1281px]:min-h-[70px] py-3 px-4 bg-[#EFF3CF] flex items-center justify-center text-center border-b-2 border-[#1A1A1A] min-[1024px]:border-b min-[1024px]:border-[#4A4A4A]">
-          <h2 className="max-w-[281px] text-[24px] leading-[32px] tracking-[0.05em] capitalize font-semibold min-[1024px]:text-[22px] max-[1910px]:min-[1024px]:text-[17px] max-[1281px]:min-[1024px]:text-[13px] min-[1024px]:leading-normal min-[1024px]:tracking-normal min-[1024px]:max-w-[300px] min-[1281px]:max-w-[480px]">
+          <h2 className="text-[24px] leading-[32px] tracking-[0.05em] capitalize font-semibold min-[1024px]:text-[16px] min-[1281px]:text-[20px] min-[1440px]:text-[24px] min-[1600px]:text-[28px] min-[1919px]:text-[32px] min-[1024px]:leading-normal min-[1024px]:tracking-normal">
             Our Idea Of A Good Travel Experience
           </h2>
         </div>
@@ -54,7 +54,7 @@ export default function TravelExperience() {
                 {item.title}
               </h3>
 
-              <p className="text-[16px] leading-[28px] tracking-[0.05em] text-[#000000] min-[1024px]:text-[13px] min-[1024px]:tracking-normal min-[1024px]:text-[#4A4A4A]">
+              <p className="text-[16px] leading-[28px] tracking-[0.05em] text-[#000000]  min-[1024px]:tracking-normal min-[1024px]:text-[#4A4A4A]">
                 {item.text}
               </p>
             </div>

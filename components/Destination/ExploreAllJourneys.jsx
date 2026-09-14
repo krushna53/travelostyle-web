@@ -9,14 +9,14 @@ export default function ExploreAllJourneys() {
   return (
     <section className="w-full border-t border-[#D9D9D9]">
       <div className="max-w-[1920px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[50%_50%]">
+        <div className="grid grid-cols-1 lg:grid-cols-[50%_50%] md:pb-5">
 
           {/* LEFT SIDE */}
           <div className="flex items-center justify-center px-6 pt-[71px] pb-10 lg:min-h-[888px] lg:px-10">
             <div className="w-full max-w-[776px]">
 
               {/* Desktop Heading */}
-              <h2 className="hidden lg:block font-[Taprom] text-[64px] leading-20 text-ink">
+              <h2 className="hidden lg:block font-[Taprom] text-[44px] min-[1440px]:text-[48px] min-[1600px]:text-[54px] min-[1800px]:text-[60px] min-[1919px]:text-[64px] leading-20 text-ink">
                 <span className="block w-fit sub-title-bg">
                   There’s a version of the
                 </span>
@@ -32,7 +32,7 @@ export default function ExploreAllJourneys() {
 
               {/* Mobile Heading */}
               <h2 className="block lg:hidden font-[Taprom] font-normal max-w-[336px] mx-auto text-[40px] leading-[48px] tracking-[0.05em] text-[#000000] text-center">
-                <span className="w-fit mx-auto block sub-title-bg mb-[15px]">
+                <span className="w-fit mx-auto block sub-title-bg des mb-[15px]">
                   There’s a version of
                 </span>
 
