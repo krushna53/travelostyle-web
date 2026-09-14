@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
+import DottedLine from "@/components/ui/DottedLine";
 
 const routeDays = [
   {
@@ -83,22 +84,16 @@ export default function CuratedRouteSection() {
         }}
       />
 
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 px-8 flex items-center">
-        <svg
-          className="w-full h-[360px] text-[#1b2b6b] opacity-90 mt-10"
-          viewBox="0 0 1200 300"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M-40 240 C 110 30, 190 350, 350 230 C 440 100, 610 230, 770 145 C 930 70, 1070 10, 1240 115"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            strokeDasharray="6 6"
-          />
-        </svg>
-      </div>
+      {/* Figma "Vector 35": 5px dashed #2C3078 in a 2097x672.89 box at left 0 /
+          top 336.39. Against a ~854px section that is 7% down, 79% tall and 109%
+          wide — the extra width bleeds off the right edge. */}
+      <DottedLine
+        name="privateRoute"
+        weight={5}
+        dash={16}
+        className="left-0 top-[7%] w-full h-[79%] overflow-visible z-0 opacity-90"
+      />
+
       <div className="relative z-10 flex flex-col items-center text-center px-4 mb-15 mt-15">
         <span className="font-taprom text-[46px] md:text-[52px] font-bold text-[#2d2d2d] bg-[#f1e3d9] px-5  tracking-wide leading-none rounded-2xs shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
           A curated route, perfected by
@@ -108,7 +103,7 @@ export default function CuratedRouteSection() {
         </span>
       </div>
 
-      <div className="w-full max-w-[1200px] h-[480px] relative z-20 mx-auto px-4 flex items-center justify-start">
+      <div className="w-full h-[480px] relative z-20 mx-auto px-4 flex items-center justify-start">
         {routeDays.map((item, index) => (
           <div
             key={index}

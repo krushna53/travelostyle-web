@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
+import DottedLine from "@/components/ui/DottedLine";
 
 export default function GoodCompaneyJourney() {
   const router = useRouter();
@@ -58,15 +59,22 @@ export default function GoodCompaneyJourney() {
   return (
     <div className="hidden md:flex relative w-full min-h-screen bg-white px-4 py-16 md:py-24 overflow-hidden flex-col items-center select-none border-t-[2px] border-[#3f4284]">
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0 hidden md:block">
-        <img
-          src="/group/DottedLine219.svg"
-          alt=""
-          className="absolute top-[40px] right-[90px] w-[35%] max-w-[671px] h-auto"
+        {/* Sized in vw, not %, so the aspect ratio is locked and the curves keep
+            their shape at every width — a % height would be measured against a
+            min-h-screen section and stretch differently on every viewport.
+            Values are the original 1920 design (671px arc at top 40 / right 90,
+            700px sweep at left -35), rescaled for the wider true-bbox viewBoxes.
+            Both anchor from the TOP: the section is min-h-screen, so anything
+            anchored to its bottom drifts with the viewport height — the sweep
+            used to strand itself hundreds of px below the polaroids on a tall
+            window. */}
+        <DottedLine
+          name="groupArc"
+          className="top-[2.08vw] right-0 w-[36.61vw] h-[12.6vw]"
         />
-        <img
-          src="/group/DottedLine218.svg"
-          alt=""
-          className="absolute bottom-[8%] left-[-35px] w-[70%] max-w-[700px] h-auto"
+        <DottedLine
+          name="groupSweep"
+          className="top-[33.3vw] -left-[6.34vw] w-[40.94vw] h-[17.3vw]"
         />
       </div>
       <div className="relative w-full text-center z-10 flex flex-col items-center mt-6">
@@ -87,7 +95,7 @@ export default function GoodCompaneyJourney() {
         </p>
       </div>
 
-      <div className="relative w-full max-w-[1250px] mt-12 md:mt-24 flex flex-wrap md:flex-nowrap justify-center items-start gap-8 md:gap-0 px-6 z-10">
+      <div className="relative w-full mt-12 md:mt-24 flex flex-wrap md:flex-nowrap justify-center items-start gap-8 md:gap-0 px-6 z-10">
         {polaroids.map((photo) => (
           <div
             key={photo.id}
