@@ -10,13 +10,13 @@ export default function Hero() {
           src="/about-hero-dots-mobile.svg"
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute -left-[56px] min-[768px]:-left-[52px] top-[118px] min-[768px]:top-[34px] min-[768px]:w-[150px] min-[768px]:w-[62px] w-[155px] h-[80px] min-[768px]:h-[126px] min-[768px]:h-[72px]"
+          className="pointer-events-none absolute -left-[50px] min-[768px]:-left-[52px] top-[43px] min-[768px]:top-[34px] min-[768px]:w-[150px] min-[768px]:w-[62px] w-[155px] h-[60px] min-[768px]:h-[126px] min-[768px]:h-[72px]"
         />
 
-        <h1 className="font-taprom text-[40px] max-[1910px]:text-[35px] max-[1281px]:text-[30px] max-[1250px]:text-[25px] max-[1200px]:text-[20px] z-0 relative leading-[48px] tracking-[0.05em] text-black flex flex-col items-start gap-[14px]">
-          <span className="inline-block sub-title-bg feel min-[768px]:px-[6px] mx-auto">Making travel feel</span>
-          <span className="inline-block sub-title-bg feel min-[768px]:px-[6px] mx-auto">like it was always</span>
-          <span className="inline-block sub-title-bg supposed min-[768px]:px-[6px] mx-auto min-[768px]:ml-[58px] ">supposed to</span>
+        <h1 className="font-taprom text-[20px] leading-[32px] tracking-[0.05em] text-black text-center relative z-0">
+          <span className="bg-[#F2E2DA] box-decoration-clone px-[6px]">
+            Making travel feel like it was always supposed to
+          </span>
         </h1>
       </div>
 
