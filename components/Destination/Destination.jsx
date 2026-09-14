@@ -79,7 +79,7 @@ export default function Destination({ initialJourneys = [] }) {
   >
   <div className="flex flex-col items-start min-[500px]:items-center min-[500px]:mx-auto text-left min-[500px]:text-center">
     <h2 className="
-  font-nohemi mt-5 font-semibold tracking-[0.05em] text-black
+  font-[Nohemi] mt-5 font-semibold tracking-[0.05em] text-black
   w-full
   min-[500px]:mx-auto
   text-[32px] min-[500px]:text-[38px] md:text-[48px]
@@ -89,7 +89,7 @@ export default function Destination({ initialJourneys = [] }) {
     </h2>
 
     <p className="
-  font-nohemi font-normal text-[#000000] tracking-[0.05em]
+  font-[Nohemi] font-normal text-[#000000] tracking-[0.05em]
   w-full
   max-w-[339px] min-[500px]:max-w-[600px] md:max-w-[1100px]
   min-[500px]:mx-auto
