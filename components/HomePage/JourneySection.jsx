@@ -7,7 +7,7 @@ export default function JourneySection() {
           DESKTOP SECTION
           Mobile section below is unchanged
       ========================== */}
-      <section className="hidden md:block relative overflow-hidden bg-[#f6f6f6] w-full aspect-[1920/924] min-h-[650px]">
+      <section className="hidden md:block relative overflow-hidden bg-[#f6f6f6] w-full aspect-[1920/924] min-h-[800px] min-[1281px]:min-h-[750px] min-[1600px]:min-h-[700px] min-[1919px]:min-h-[650px]">
 
         {/* Top dotted line */}
         <div className="absolute right-[-1%] top-[-3%] z-20 w-[70%] pointer-events-none">

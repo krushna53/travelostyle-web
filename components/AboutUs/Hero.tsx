@@ -77,14 +77,14 @@ export default function Hero() {
       </div>
 
       {/* Description */}
-      <div className="absolute top-[240px] left-1/2 -translate-x-1/2 z-10 text-center">
-        <p className="w-full max-w-[1070px] min-[1919px]:max-w-[1070px] max-[1281px]:max-w-[880px]  min-[1919px]:text-[21px] max-[1910px]:text-[18px] max-[1281px]:text-[16px] max-[1250px]:text-[14px] font-light leading-[36px] tracking-[0.05em] text-black">
+      <div className="absolute top-[240px] left-1/2 -translate-x-1/2 z-10 text-center w-full">
+        <p className="w-full mx-auto max-w-[1070px] min-[1919px]:max-w-[1070px] max-[1281px]:max-w-[880px]  min-[1919px]:text-[21px] max-[1910px]:text-[18px] max-[1281px]:text-[16px] max-[1250px]:text-[14px] font-light leading-[36px] tracking-[0.05em] text-black">
           Travel, at its best, is a chance to reconnect with what matters to you. An opportunity to see the
           <br />
           world differently, or simply provide relief, or even come home with a story you actually want to tell.
         </p>
 
-        <p className="mt-[18px] w-full max-w-[1070px] min-[1919px]:max-w-[1070px] max-[1281px]:max-w-[880px] px-6 min-[1919px]:text-[21px] max-[1910px]:text-[18px] max-[1281px]:text-[16px] max-[1250px]:text-[14px] font-light leading-[36px] tracking-[0.05em] text-black">
+        <p className="mt-[18px] mx-auto w-full max-w-[1070px] min-[1919px]:max-w-[1070px] max-[1281px]:max-w-[880px] px-6 min-[1919px]:text-[21px] max-[1910px]:text-[18px] max-[1281px]:text-[16px] max-[1250px]:text-[14px] font-light leading-[36px] tracking-[0.05em] text-black">
           Not a logistics puzzle. Not a source of pre-departure dread. Not something
           <br />
           that costs you more energy than it gives back.

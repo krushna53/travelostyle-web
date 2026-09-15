@@ -233,7 +233,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         <button
           type="button"
           onClick={handleAddToCompare}
-          className="md:mt-3 mb-6 md:mb-0 flex items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:mt-4 md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E] my-4"
+          className=" mb-6 md:mb-5 flex items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:mt-4 md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E] my-4"
         >
           {isSelected ? (
             <>
