@@ -257,12 +257,12 @@ export default function SearchBar({ destinations = [], months = [] }) {
       </div>
 
       {/* Header + Quote + Search */}
-      <div className="bg-[#FAFAFA] px-4 md:px-[108px] py-2">
+      <div className="bg-[#FAFAFA] py-2">
         {/* Nav row — fixed height on mobile so the icons (centered via
             items-center) and the logo (centered via top-1/2/-translate-y-1/2)
             both center against the exact same band, from just under the
             FAQ bar down to this row's own border line. */}
-        <div className="relative flex h-14 items-center justify-between border-b-2 border-[#1A1A1A] md:h-auto md:pb-5">
+        <div className="relative flex h-14 items-center justify-between border-b border-[#1A1A1A] md:h-auto md:pb-5 px-4 md:px-[108px]">
           <button onClick={() => setMenuOpen(true)} className="block md:hidden">
             <Image src="/MenuToggle.svg" alt="Menu" width={20} height={20} />
           </button>
@@ -308,7 +308,7 @@ export default function SearchBar({ destinations = [], months = [] }) {
         {/* Hero Quote — desktop only. The mobile itinerary page shows this
             same wording in its own script-styled heading (AllJourneysPage.jsx),
             so repeating it here would duplicate it on mobile. */}
-        <div className="hidden md:flex justify-center items-center py-8">
+        <div className="hidden md:flex justify-center items-center py-8 ">
           <p
             className="text-center    whitespace-nowrap  sub-title-bg  font-taprom font-normal text-[54px]   max-[1200px]:text-[28px]   max-[1250px]:text-[32px]   max-[1281px]:text-[38px]   max-[1910px]:text-[44px]   min-[1919px]:text-[54px] text-ink leading-[72px] tracking-[5%]  "
           >
@@ -323,7 +323,7 @@ export default function SearchBar({ destinations = [], months = [] }) {
         </div>
 
         {/* Desktop Search Form */}
-        <div className="hidden md:block">
+        <div className="hidden md:block px-4 md:px-[108px]">
           <ListingSearchForm destinations={destinations} months={months} />
         </div>
       </div>

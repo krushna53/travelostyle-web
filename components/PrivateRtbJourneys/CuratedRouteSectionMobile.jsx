@@ -47,7 +47,7 @@ const polaroidData = [
 
 export default function CuratedRouteSectionMobile() {
   return (
-    <div className="flex justify-center min-h-screen block md:hidden">
+    <div className="flex justify-center min-h-screen block md:hidden border-t-[1px] border-[#1A1A1A]">
       <link
         href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap"
         rel="stylesheet"

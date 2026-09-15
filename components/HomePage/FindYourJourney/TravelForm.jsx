@@ -130,7 +130,7 @@ export default function TravelForm({
   };
 
   return (
-    <div className="pt-3">
+    <div className="pt-3 border-t border-[#1A1A1A]">
       <div className="flex gap-4">
           <button
           onClick={() =>

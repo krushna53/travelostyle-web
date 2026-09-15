@@ -94,7 +94,7 @@ export default function HeroSection({
   return (
     <>
     <section className="w-full bg-white hidden md:block">
-      <div className="flex items-center justify-between border-b border-[#E8E8E8] bg-white px-[16px] py-[8px] md:px-[28px] md:py-[9px] lg:px-[36px] xl:px-[48px] xl:py-[10px]">
+      <div className="flex items-center justify-between border-t border-[#1A1A1A] bg-white px-[16px] py-[8px] md:px-[28px] md:py-[9px] lg:px-[36px] xl:px-[48px] xl:py-[10px]">
 
 <div className="flex items-center gap-[10px] flex-wrap">
   {journey?.earlyBird && (
@@ -290,7 +290,7 @@ export default function HeroSection({
     </section>
 
      {/* ================= MOBILE DESIGN ================= */}
-     <div className="block bg-[#F9F9F9] md:hidden">
+     <div className="block bg-[#F9F9F9] md:hidden border-t border-[#1A1A1A]">
         <div className="px-[27px] pt-[22px] pb-[18px] text-[12px] font-light leading-[20px] tracking-[0.05em] text-[#1A1A1A]">
           Home &gt; All Journeys &gt;
           <span> {journey.title}</span>
