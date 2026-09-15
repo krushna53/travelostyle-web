@@ -58,7 +58,7 @@ export default function Region({ regions = [] }) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 gap-4 md:gap-12">
         {regions.map((region) => (
          <div
   key={region.id}
