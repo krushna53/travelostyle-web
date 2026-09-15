@@ -7,7 +7,7 @@ import img from "./img.png";
 
 export default function ExploreAllJourneys() {
   return (
-    <section className="w-full border-t border-[#D9D9D9]">
+    <section className="w-full border-t border-[#1A1A1A]">
       <div className="max-w-[1920px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-[50%_50%] md:pb-5">
 

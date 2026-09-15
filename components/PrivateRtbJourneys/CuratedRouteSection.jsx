@@ -72,7 +72,7 @@ const routeDays = [
 export default function CuratedRouteSection() {
   const router = useRouter();
   return (
-    <div className=" hidden md:flex w-full  bg-white relative flex flex-col items-center overflow-hidden select-none border-t-[1px] border-[#3f4284]">
+    <div className=" hidden md:flex w-full  bg-white relative flex flex-col items-center overflow-hidden select-none border-t border-[#3f4284]">
       <style
         dangerouslySetInnerHTML={{
           __html: `
