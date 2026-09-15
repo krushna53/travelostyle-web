@@ -4,32 +4,52 @@ import Image from "next/image";
 
 export default function TimingSection() {
   return (
-    <section className="relative w-full bg-[#fbfbfb] py-16 md:pt-40 md:pb-10 overflow-hidden select-none">
-      <div className="hidden md:block absolute inset-8 z-0 pointer-events-none w-[2004px] max-[1910px]:w-[1993px] max-[1281px]:w-[1337px] max-[1250px]:w-[1304px] max-[1200px]:w-[1252px] h-[511px] max-[1910px]:h-[508px] max-[1281px]:h-[341px] max-[1250px]:h-[332px] max-[1200px]:h-[319px]">
-        <Image
-          src="/LongLine.svg"
-          alt="Dashed Wave Pattern Desktop"
-          fill
-          className="object-fill"
-        />
-      </div>
-      <div className="block md:hidden absolute top-0 right-[-15vw] z-0 pointer-events-none w-[136vw] md:w-[120vw] h-[50vw] md:h-[40vw]">
-        <Image
-          src="/TriangleLine.svg"
-          alt="Dashed Wave Pattern Mobile"
-          fill
-          className="object-contain"
-        />
-      </div>
+    <section className="figma-scale relative w-full bg-[#fbfbfb] min-[444px]:pt-[120px] md:py-16 md:pt-[calc(293*var(--fig-u))] md:pb-[calc(87*var(--fig-u))] md:min-h-[calc(688*var(--fig-u))] overflow-hidden select-none">
+      {/* LongLine.svg is a 1920x538 board export holding BOTH strokes — its
+          d runs "M-50 192 … 975.5 243" and "M1099 389 … 2037 389", trimmed to
+          the board at each end — so its x maps 1:1 onto the page and it wants
+          laying out at full width, at its own ratio, against the left edge.
+          It was being stretched to 2004x511 from inset-8 instead, which is why
+          both curves came out wider and shifted. y=0 sits 29 above the section
+          top: the left stroke ends at y 243 and Figma drops the heading 48
+          below that, and the heading is 320 into this section. */}
+      <Image
+        src="/LongLine.svg"
+        alt=""
+        aria-hidden="true"
+        width={1920}
+        height={538}
+        className="hidden md:block pointer-events-none absolute left-0 top-[calc(29*var(--fig-u))] z-0 w-full h-auto max-w-none"
+      />
+      {/* Mobile curve. be-the-home.png is 390x206 — the mobile board's full
+          width — so it sits flush on the left at its own ratio, the same way
+          the desktop LongLine does. The old TriangleLine was stretched into a
+          136vw box hung off the right at -15vw.
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 md:px-12 mt-20">
-        <div className="max-w-4xl">
-          <h2 className="mt-0 md:mt-15 text-[30px] md:text-[54px] md:max-[1910px]:text-[54px] md:max-[1281px]:text-[41px] md:max-[1250px]:text-[40px] md:max-[1200px]:text-[39px] font-bold md:font-semibold leading-[40px] md:leading-[1.2] text-ink">
-            Be at the right <br className="md:hidden" /> place, at exactly  the
+          390:206 makes it 52.8vw tall at any width. At 390 that is 206 and the
+          section already clears it, but by 767 it stands 405 tall and was
+          running straight through the heading and both paragraphs.
+
+          From 444 up the section takes a flat 120 of top padding. That is less
+          than the curve is tall from about 444 on (52.8vw = 256 at 484), so its
+          lower reach runs past the padding and over the heading; the
+          alternatives — shrinking it, clipping it, or letting it hang above
+          into the previous section — were each ruled out. */}
+      <img
+        src="/be-the-home.png"
+        alt=""
+        aria-hidden="true"
+        className="block md:hidden pointer-events-none absolute left-0 top-0 z-0 w-full h-auto"
+      />
+
+      <div className="relative z-10 mx-auto max-w-6xl px-6 mt-20 min-[444px]:mt-0 md:mt-0 md:max-w-[calc(1920*var(--fig-u))] md:px-[calc(108*var(--fig-u))]">
+        <div className="mt-5 min-[444px]:mt-0 md:mt-0">
+          <h2 className="mt-0 text-[30px] md:text-[calc(56*var(--fig-u))] font-bold md:font-semibold leading-[40px] md:leading-[calc(80*var(--fig-u))] tracking-[0.05em] text-ink">
+            Be at the right <br className="md:hidden" /> place, at exactly
             <br />
-            right time
+           the right time
           </h2>
-          <p className="hidden md:block text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] mt-10 text-ink max-w-[724px] w-full">
+          <p className="hidden md:block w-full md:max-w-[calc(1090*var(--fig-u))] md:mt-[calc(40*var(--fig-u))] md:text-[calc(21*var(--fig-u))] md:leading-[calc(36*var(--fig-u))] tracking-[0.05em] text-ink">
             Timing isn&apos;t everything — but it is a lot. Browse our
             TravelOStyle calendar; a collection of journeys by month, so
             you&apos;re travelling alongside the grain of a place. Trust us,

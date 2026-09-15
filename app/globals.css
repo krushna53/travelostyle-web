@@ -245,11 +245,54 @@ a,
 }
 .sub-title-bg.group-hero-line1::after{
     height: 52px;
-    top: 6px;
+    top: 14px;
 }
 .sub-title-bg.group-hero-mobile::after{
     height: 46px;
     top: 8px;
+}
+
+/* The bar above is sized in fixed px, which only lines up at the one font size
+   it was measured against — the 64.6px that responsive-text-size-[38px] gives
+   at 1920. Below that the type shrinks and the bar does not, so it slides out
+   from behind the words. .hero-bar restates the same measurements in em, so
+   they are 30/48/-8 (and 14/52 on line one) at 64.6px exactly as before and
+   track the type at every other breakpoint. Add it alongside .sub-title-bg on
+   headings that use responsive-text-size. */
+.sub-title-bg.hero-bar::after {
+  top: 0.4644em;
+  height: 0.743em;
+  left: -0.1238em;
+}
+.sub-title-bg.hero-bar.group-hero-line1::after {
+  top: 0.2167em;
+  height: 0.805em;
+}
+
+/* Mobile boards set the heading in 40/48 Taprom with a 32px bar, so the bar is
+   0.8em tall and sits 0.2em down, which centres it on a 1.2 line box. */
+.sub-title-bg.hero-bar-mobile::after {
+  top: 0.2em;
+  height: 0.8em;
+  left: -0.1em;
+}
+
+/* About Us hero: Rectangle 910 is 1337x53 at top 439 behind a 64/80 heading
+   whose line box starts at 416 and runs 1309 wide — so 23/64 down, 53/64 tall,
+   and 14px wider than the text on each side. */
+.sub-title-bg.hero-bar-about::after {
+  top: 0.359em;
+  height: 0.828em;
+  left: -0.219em;
+  width: 102.1%;
+}
+
+/* Homepage hero line, 54/80 Taprom: the base bar's 30/48/-8 restated in em so
+   it tracks the type instead of sitting still while the heading scales. */
+.sub-title-bg.hero-bar-home::after {
+  top: 0.5556em;
+  height: 0.8889em;
+  left: -0.1481em;
 }
 .sub-title-bg.it::after{
     width: 104.5%;
@@ -363,3 +406,56 @@ a,
     font-size: 48px;
   }
 }
+
+/* Figma hands these boards to us drawn on a 1920 frame. --fig-u is what one
+   of those design pixels is worth here, so a section can be written once in
+   Figma's own numbers — left-[calc(126*var(--fig-u))] — and resolve to a fixed
+   pixel value at every breakpoint. Put .figma-scale on the section root.
+
+   Each breakpoint's constant is a CEILING, not the answer: min() also caps the
+   unit at 100vw/1920, so the 1920-wide board can never come out wider than the
+   window. Without that cap the 1282-1910 step drew a 1581px board, which fits
+   1910 but runs off both edges of a 1440 or 1366 screen — the polaroids ended
+   up touching the left and right. Where the cap bites (1280, 1366, 1440) the
+   board becomes exactly the window width, which is the same composition 1920
+   gets; where it doesn't (1201-1250, 901-1200, <=900) the step's constant
+   stands and the board sits centred with room to spare. At 1920 both terms are
+   1px, so that layout is untouched, and above 1920 the constant holds it at
+   its design size instead of letting it grow.
+
+   The constants are responsive-text-size-*'s own ratios renormalised so 1920
+   is 1 (1.7 -> 1, 1.4 -> 0.8235, and so on), which keeps type and layout
+   shrinking at the same rate instead of drifting apart. */
+.figma-scale {
+  --fig-u: min(1px, 100vw / 1920);
+}
+@media (max-width: 1910px) {
+  .figma-scale { --fig-u: min(0.8235px, 100vw / 1920); }
+}
+@media (max-width: 1281px) {
+  .figma-scale { --fig-u: min(0.7059px, 100vw / 1920); }
+}
+@media (max-width: 1250px) {
+  .figma-scale { --fig-u: min(0.5882px, 100vw / 1920); }
+}
+@media (max-width: 1200px) {
+  .figma-scale { --fig-u: min(0.5294px, 100vw / 1920); }
+}
+@media (max-width: 900px) {
+  .figma-scale { --fig-u: min(0.4118px, 100vw / 1920); }
+}
+
+/* The mobile boards are drawn on a 390 frame instead of 1920, so they get
+   their own unit: one design pixel is 1px at 390 and tracks the window
+   everywhere else.
+
+   No ceiling on this one, unlike .figma-scale. These sections only run below
+   768 — above that the 1920 boards take over — and a 390-wide board pinned at
+   1px left the composition marooned in the middle of a 634 or 700 window with
+   dead space down both sides. Letting it fill means the phone layout is simply
+   scaled up towards the breakpoint, which is the usual fate of a design that
+   exists at 390 and 1920 and nowhere in between. */
+.figma-scale-mobile {
+  --fig-u: calc(100vw / 390);
+}
+
