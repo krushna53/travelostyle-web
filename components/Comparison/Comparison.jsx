@@ -441,7 +441,7 @@ export default function TripComparison() {
       case "offer":
         return (
           <div className="text-sm md:w-[298px] md:h-[37px] md:overflow-hidden">
-            {trip.offerprice}
+            {trip.offer}
           </div>
         );
 
@@ -450,8 +450,9 @@ export default function TripComparison() {
           <div className="bg-[#F2E2DA] px-3 py-3 md:p-8 flex flex-col md:flex-row md:justify-between md:items-center gap-2 h-full w-[calc(100%+24px)] -ml-3 md:w-[calc(100%+32px)] md:-ml-4 md:h-[61px]">
             <div className="text-left min-w-0">
               <div className="text-xs text-gray-600">from</div>
-              <div className="font-bold text-lg leading-tight truncate">
-                {formatPrice(trip.price)}* / Person
+              <div className="text-lg leading-tight truncate">
+                <span className="font-bold">{formatPrice(trip.price)}*</span>{" "}
+                <span className="text-xs text-gray-600">/ person</span>
               </div>
               <div className="text-xs text-gray-600 mt-1">
                 double occupancy*
