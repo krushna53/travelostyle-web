@@ -52,13 +52,13 @@ export default async function Blog() {
               src="/blog-journal-dots-mobile.svg"
               alt=""
               aria-hidden="true"
-              className="pointer-events-none absolute -top-[55px] -right-[38px] h-[82px] w-[152px] z-0"
+              className="pointer-events-none absolute -top-[60px] -right-[38px] h-[82px] w-[152px] z-0"
             />
             <img
               src="/blog-journal-dots-bottom-mobile.svg"
               alt=""
               aria-hidden="true"
-              className="pointer-events-none absolute -bottom-[130px] -left-[70px] h-[113px] w-[196px]"
+              className="pointer-events-none absolute -bottom-[119px] -left-[70px] h-[113px] w-[196px]"
             />
             <h1
               className={`${HERO_TITLE_CLASS} relative z-[2] flex items-center justify-center w-[336px] h-[29px] max-w-full text-[40px]`}

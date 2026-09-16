@@ -1,78 +1,82 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
-import DottedLine from "@/components/ui/DottedLine";
 
+// Figma "Private RTB Journeys", the Day 1-8 polaroid trail. Every frame is a
+// Rectangle 911 (2px #1A1A1A, 5px radius, #FAFAFA) wrapping a SQUARE Rectangle
+// 912 photo with its own 1px #1A1A1A hairline, and the chin below it carries
+// the DAY label. Figma's numbers, on its 1920 board:
+//
+//   day  left      top      frame w x h        rot      photo
+//   1     126.00   623.00   388.32 x 442.39    6.48    347.77
+//   2     438.31   606.12   269.10 x 306.57   -1.23    241.00
+//   4     605.15   748.31   269.10 x 306.57    8.65    241.00
+//   5     810.65   567.57   388.32 x 442.39   -0.01    347.77
+//   6    1095.70   717.22   325.60 x 370.94   12.27    291.60
+//   7    1254.09   541.46   269.10 x 306.57   -3.68    241.00
+//   8    1494.74   397.25   338.33 x 385.44    0.07    303.00
+//
+// Those exact numbers are what appears below, each one multiplied by
+// --fig-u (see .figma-scale in globals.css) so it lands on a fixed pixel value
+// at every breakpoint and on the literal design pixel at 1920. `top` is
+// measured from the band's own top, which is Day 8's 397.25, and the inset is
+// (frame - 2*border - photo) / 2 with the chin taking what is left.
 const routeDays = [
   {
     day: "DAY 1",
     img: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=600",
-    styles:
-      "absolute left-[3.5%] top-[105px] w-[215px] -rotate-[8deg] z-30 shadow-[5px_12px_30px_rgba(0,0,0,0.15)] border-neutral-200/80",
-    aspect: "aspect-[4/3.4]",
-    textSize: "text-[11.5px]",
-    padding: "p-3.5 pb-5.5",
+    box: "left-[calc(126*var(--fig-u))] top-[calc(225.75*var(--fig-u))] w-[calc(388.32*var(--fig-u))] rotate-[6.48deg] z-30",
+    padding: "p-[calc(18.28*var(--fig-u))] pb-[calc(72.34*var(--fig-u))]",
+    chin: "h-[calc(72.34*var(--fig-u))]",
   },
   {
     day: "DAY 2",
     img: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=600",
-    styles:
-      "absolute left-[16.5%] top-[20px] w-[200px] rotate-[2deg] z-10 shadow-[2px_10px_26px_rgba(0,0,0,0.12)] border-neutral-200/60",
-    aspect: "aspect-[4/3.4]",
-    textSize: "text-[11px]",
-    padding: "p-3 pb-5",
+    box: "left-[calc(438.31*var(--fig-u))] top-[calc(208.87*var(--fig-u))] w-[calc(269.1*var(--fig-u))] -rotate-[1.23deg] z-10",
+    padding: "p-[calc(12.05*var(--fig-u))] pb-[calc(49.52*var(--fig-u))]",
+    chin: "h-[calc(49.52*var(--fig-u))]",
   },
   {
     day: "DAY 4",
-     img: "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?w=600",
-    styles:
-      "absolute left-[24%] top-[140px] w-[205px] -rotate-[5deg] z-40 shadow-[6px_16px_34px_rgba(0,0,0,0.16)] border-neutral-200",
-    aspect: "aspect-[4/3.4]",
-    textSize: "text-[11.5px]",
-    padding: "p-3.5 pb-5.5",
+    img: "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?w=600",
+    box: "left-[calc(605.15*var(--fig-u))] top-[calc(351.06*var(--fig-u))] w-[calc(269.1*var(--fig-u))] rotate-[8.65deg] z-40",
+    padding: "p-[calc(12.05*var(--fig-u))] pb-[calc(49.52*var(--fig-u))]",
+    chin: "h-[calc(49.52*var(--fig-u))]",
   },
   {
     day: "DAY 5",
     img: "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=600",
-    styles:
-      "absolute left-[36%] top-[5px] w-[255px] rotate-[0deg] z-20 shadow-[0_20px_42px_rgba(0,0,0,0.15)] border-neutral-200/90",
-    aspect: "aspect-[4/3.5]",
-    textSize: "text-[13px]",
-    padding: "p-4 pb-7",
+    box: "left-[calc(810.65*var(--fig-u))] top-[calc(170.32*var(--fig-u))] w-[calc(388.32*var(--fig-u))] rotate-[0deg] z-20",
+    padding: "p-[calc(18.28*var(--fig-u))] pb-[calc(72.34*var(--fig-u))]",
+    chin: "h-[calc(72.34*var(--fig-u))]",
   },
   {
     day: "DAY 6",
     img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600",
-    styles:
-      "absolute left-[50%] top-[135px] w-[205px] -rotate-[7deg] z-30 shadow-[4px_13px_30px_rgba(0,0,0,0.13)] border-neutral-200/70",
-    aspect: "aspect-[4/3.4]",
-    textSize: "text-[11.5px]",
-    padding: "p-3.5 pb-5.5",
+    box: "left-[calc(1095.7*var(--fig-u))] top-[calc(319.97*var(--fig-u))] w-[calc(325.6*var(--fig-u))] rotate-[12.27deg] z-30",
+    padding: "p-[calc(15*var(--fig-u))] pb-[calc(60.34*var(--fig-u))]",
+    chin: "h-[calc(60.34*var(--fig-u))]",
   },
   {
     day: "DAY 7",
     img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600",
-    styles:
-      "absolute left-[60.5%] top-[20px] w-[195px] rotate-[6deg] z-40 shadow-[5px_13px_32px_rgba(0,0,0,0.14)] border-neutral-200/70",
-    aspect: "aspect-[4/3.4]",
-    textSize: "text-[11px]",
-    padding: "p-3 pb-5",
+    box: "left-[calc(1254.09*var(--fig-u))] top-[calc(144.21*var(--fig-u))] w-[calc(269.1*var(--fig-u))] -rotate-[3.68deg] z-40",
+    padding: "p-[calc(12.05*var(--fig-u))] pb-[calc(49.52*var(--fig-u))]",
+    chin: "h-[calc(49.52*var(--fig-u))]",
   },
   {
     day: "DAY 8",
     img: "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?w=600",
-    styles:
-      "absolute left-[73.5%] top-[-40px] w-[240px] rotate-[1.5deg] z-20 shadow-[4px_16px_38px_rgba(0,0,0,0.14)] border-neutral-200",
-    aspect: "aspect-[4/3.6]",
-    textSize: "text-[12.5px]",
-    padding: "p-4 pb-6.5",
+    box: "left-[calc(1494.74*var(--fig-u))] top-0 w-[calc(338.33*var(--fig-u))] rotate-[0.07deg] z-20",
+    padding: "p-[calc(15.665*var(--fig-u))] pb-[calc(62.775*var(--fig-u))]",
+    chin: "h-[calc(62.775*var(--fig-u))]",
   },
 ];
 
 export default function CuratedRouteSection() {
   const router = useRouter();
   return (
-    <div className=" hidden md:flex w-full  bg-white relative flex flex-col items-center overflow-hidden select-none border-t border-[#3f4284]">
+    <div className="figma-scale hidden md:flex w-full  bg-white relative flex flex-col items-center overflow-hidden select-none border-t-[1px] border-[#3f4284]">
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -84,56 +88,59 @@ export default function CuratedRouteSection() {
         }}
       />
 
-      {/* Figma "Vector 35": 5px dashed #2C3078 in a 2097x672.89 box at left 0 /
-          top 336.39. Against a ~854px section that is 7% down, 79% tall and 109%
-          wide — the extra width bleeds off the right edge. */}
-      <DottedLine
-        name="privateRoute"
-        weight={5}
-        dash={16}
-        className="left-0 top-[7%] w-full h-[79%] overflow-visible z-0 opacity-90"
+  
+
+      <img
+        src="/doted-line-pg.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 top-[calc(134.4*var(--fig-u))] z-0 h-auto w-full"
       />
 
-      <div className="relative z-10 flex flex-col items-center text-center px-4 mb-15 mt-15">
-        <span className="font-taprom text-[46px] md:text-[52px] font-bold text-[#2d2d2d] bg-[#f1e3d9] px-5  tracking-wide leading-none rounded-2xs shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+      <div className="relative w-full text-center z-10 flex flex-col items-center mt-[calc(60*var(--fig-u))]">
+        <h2 className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg hero-bar group-hero-line1 px-[calc(16*var(--fig-u))] py-[calc(4*var(--fig-u))] text-[calc(64.6*var(--fig-u))]">
           A curated route, perfected by
-        </span>
-        <span className="font-taprom text-[46px] md:text-[52px] font-bold text-[#2d2d2d] bg-[#f1e3d9] px-5 mt-3.5 tracking-wide leading-none rounded-2xs shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+        </h2>
+        <h2 className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg hero-bar px-[calc(16*var(--fig-u))] py-[calc(4*var(--fig-u))] text-[calc(64.6*var(--fig-u))]">
           you, for you
-        </span>
+        </h2>
       </div>
 
-      <div className="w-full h-[480px] relative z-20 mx-auto px-4 flex items-center justify-start">
+    
+      <div className="relative z-20 h-[calc(729.6*var(--fig-u))] w-[calc(1920*var(--fig-u))] shrink-0">
         {routeDays.map((item, index) => (
           <div
             key={index}
-            className={`bg-white border border-[#919191]-100 transition-transform duration-200 hover:scale-105 hover:z-50 ${item.styles} ${item.padding}`}
+            className={`absolute rounded-[5px] border-2 border-[#1A1A1A] bg-[#FAFAFA] shadow-[0_15px_25px_rgba(26,26,26,0.1)] transition-transform duration-200 hover:scale-105 hover:z-50 ${item.box} ${item.padding}`}
           >
-            <div
-              className={`w-full overflow-hidden border border-neutral-200 rounded-3xs ${item.aspect}`}
-            >
+            {/* Rectangle 912 — square, with its own 1px hairline. */}
+            <div className="aspect-square w-full overflow-hidden border border-[#1A1A1A]">
               <img
                 src={item.img}
                 alt={item.day}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
                 loading="lazy"
               />
             </div>
+            {/* The label lives in the chin, i.e. the padding-bottom strip. */}
             <div
-              className={`mt-4.5 text-center font-black text-[#111] tracking-widest uppercase ${item.textSize}`}
+              className={`absolute inset-x-0 bottom-0 flex items-center justify-center text-[calc(21*var(--fig-u))] font-semibold uppercase leading-none tracking-[0.05em] text-black ${item.chin}`}
             >
               {item.day}
             </div>
           </div>
         ))}
-        <div className="absolute right-[5%] bottom-[10vw] z-50">
-          <button
-            onClick={() => router.push("/comparison")}
-            className="bg-[#242e6d] text-white font-semibold text-[11.5px] px-6 py-3 rounded-xs shadow-md hover:bg-[#1a2353] transition-colors duration-150 uppercase tracking-widest"
-          >
-            Compare Trips
-          </button>
-        </div>
+        {/* Figma: 210x47 at left 1602 / top 1011, radius 10, 2px #EFF3CF
+            border, #2C3078 fill. The band starts at 397.25, so top is
+            1011-397.25 = 613.75. All of it /19.2 into vw so it tracks the
+            cards. Unlike the pill buttons elsewhere on the board this one is a
+            rounded rect with a stroke, so it is not the shared button style. */}
+        <button
+          onClick={() => router.push("/comparison")}
+          className="absolute left-[calc(1602*var(--fig-u))] top-[calc(613.75*var(--fig-u))] z-50 flex h-[calc(47*var(--fig-u))] w-[calc(210*var(--fig-u))] items-center justify-center rounded-[calc(10*var(--fig-u))] border-2 border-[#EFF3CF] bg-[#2C3078] text-[calc(18*var(--fig-u))] font-semibold leading-none tracking-[0.05em] text-[#FAFAFA] transition-colors duration-150 hover:bg-[#1a2353]"
+        >
+          Compare Trips
+        </button>
       </div>
     </div>
   );

@@ -194,12 +194,19 @@ export default function TravelDestinationWidget() {
   );
 
   return (
+    // Figma gives this card 1705 on the 1920 board, not 1200 — the same
+    // content width the rest of the board uses (1704 at left 108). figma-scale
+    // supplies --fig-u, so it holds that width at 1920 and steps down with
+    // every other section instead of sitting at a flat 1200. The horizontal
+    // padding goes to 0 so 1705 is the card itself, not the box around it; on
+    // mobile the unit resolves to ~0.2 and gives the 342 the phone board wants.
     <div
+      className="figma-scale"
       style={{
         width: "100%",
-        maxWidth: "1200px",
+        maxWidth: "calc(1705 * var(--fig-u))",
         margin: "0 auto",
-        padding: "20px 16px",
+        padding: "20px 0",
       }}
     >
       {isMobile ? (
