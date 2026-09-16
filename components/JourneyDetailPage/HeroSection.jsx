@@ -145,7 +145,7 @@ export default function HeroSection({
         </div>
       </div>
 
-      <div className="relative grid w-full overflow-hidden min-h-[640px] max-[900px]:min-h-[600px] max-[1200px]:min-h-[600px] max-[1250px]:min-h-[610px] max-[1281px]:min-h-[620px] max-[1910px]:min-h-[640px] min-[1911px]:min-h-[680px]">
+      <div className="relative grid w-full overflow-hidden min-h-[760px] ">
         <div className="relative col-start-1 row-start-1 col-end-2 row-end-2">
           <div className="absolute inset-0">
             <JourneyCardImage
@@ -156,62 +156,62 @@ export default function HeroSection({
         </div>
 
         <div
-          className="relative z-10 col-start-1 row-start-1 col-end-2 row-end-2 justify-self-start self-start h-auto rounded-[10px] border-2 border-[#2f2d89] bg-white shadow-[0_6px_28px_rgba(0,0,0,0.22)] w-[260px] ml-[14px] mt-[14px] p-[14px] max-[900px]:w-[300px] max-[900px]:ml-[16px] max-[900px]:mt-[16px] max-[900px]:p-[16px] max-[1200px]:w-[300px] max-[1200px]:ml-[24px] max-[1200px]:mt-[20px] max-[1200px]:p-[18px] max-[1250px]:w-[320px] max-[1250px]:ml-[32px] max-[1250px]:mt-[24px] max-[1250px]:p-[18px] max-[1281px]:w-[350px] max-[1281px]:ml-[48px] max-[1281px]:mt-[32px] max-[1281px]:p-[20px] max-[1910px]:w-[390px] max-[1910px]:ml-[80px] max-[1910px]:mt-[42px] max-[1910px]:p-[22px] min-[1911px]:w-[414px] min-[1911px]:ml-[108px] min-[1911px]:mt-[50px] min-[1911px]:p-[25px]"
+          className="relative z-10 col-start-1 row-start-1 col-end-2 row-end-2 justify-self-start self-start h-auto rounded-[10px] border-2 border-[#1A1A1A] bg-white shadow-[0_6px_28px_rgba(0,0,0,0.22)] w-[260px] ml-[14px] mt-[14px] p-[14px] max-[900px]:w-[300px] max-[900px]:ml-[16px] max-[900px]:mt-[16px] max-[900px]:p-[16px] max-[1200px]:w-[300px] max-[1200px]:ml-[24px] max-[1200px]:mt-[20px] max-[1200px]:p-[18px] max-[1250px]:w-[320px] max-[1250px]:ml-[32px] max-[1250px]:mt-[24px] max-[1250px]:p-[18px] max-[1281px]:w-[350px] max-[1281px]:ml-[48px] max-[1281px]:mt-[32px] max-[1281px]:p-[20px] max-[1910px]:w-[390px] max-[1910px]:ml-[80px] max-[1910px]:mt-[42px] max-[1910px]:p-[22px] min-[1911px]:w-[414px] min-[1911px]:ml-[108px] min-[1911px]:mt-[50px] min-[1911px]:p-[25px]"
         >
-          <h1 className="text-[15px] max-[900px]:text-[16px] max-[1250px]:text-[17px] max-[1910px]:text-[18px] min-[1911px]:text-[18px] font-bold leading-[1.3] text-ink">
+          <h1 className="text-[18px] max-[900px]:text-[16px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-[1.3] text-ink pb-3">
             {journey.title}
           </h1>
-          <p className="mt-[8px] text-[11px] max-[1250px]:text-[12px] max-[1910px]:text-[13px] min-[1911px]:text-[13px] leading-[1.5] text-[#444]">
+          <p className="mt-[8px] text-[14px] max-[1250px]:text-[16px] font-light max-[1910px]:text-[16px] min-[1911px]:text-[16px] leading-[1.5] text-[#000000] pb-2">
            {trimByWords(journey.desc, 25)}
           </p>
-          <div className="mt-[12px] flex items-center gap-[12px] xl:gap-[16px] text-[11px] xl:text-[12px] text-[#333]">
-            <div className="flex items-center gap-[6px]">
-              <Image src="/CalenderIcon.svg" alt="" width={14} height={14} className="shrink-0" />
+          <div className="mt-[12px] flex items-center gap-[12px] xl:gap-[22px] font-light text-[16px] xl:text-[16px] text-[#000000]">
+            <div className="flex items-center gap-[10px]">
+              <Image src="/CalenderIcon.svg" alt="" width={24} height={24} className="shrink-0" />
               <span>{journey.days || "13 Days | 12 Nights"}</span>
             </div>
-            <div className="flex items-center gap-[6px]">
-              <Image src="/Destination.svg" alt="" width={14} height={14} className="shrink-0" />
+            <div className="flex items-center gap-[10px]">
+              <Image src="/Destination.svg" alt="" width={24} height={24} className="shrink-0" />
               <span>{journey.destinations || "10 Destinations"}</span>
             </div>
           </div>
 
-          <div className="my-[14px] border-t border-[#EBEBEB]" />
+          
 
-          <div className="flex flex-col gap-[6px] text-[12px] xl:text-[13px]">
+          <div className="flex pt-4 flex-col gap-[6px] text-[12px] xl:text-[16px]">
             <div>
               <span className="font-bold text-ink">Starts In: </span>
-              <span className="text-[#444]">{journey.startCity || "Casablanca"}</span>
+              <span className="text-[#000000]">{journey.startCity || "Casablanca"}</span>
             </div>
             <div>
               <span className="font-bold text-ink">Ends In: </span>
-              <span className="text-[#444]">{journey.endCity || "Marrakech"}</span>
+              <span className="text-[#000000]">{journey.endCity || "Marrakech"}</span>
             </div>
             <div>
               <span className="font-bold text-ink">Best Seasons: </span>
-              <span className="text-[#444]">{journey.bestSeason || "Jan–March, July–Sep"}</span>
+              <span className="text-[#000000]">{journey.bestSeason || "Jan–March, July–Sep"}</span>
             </div>
             <div>
               <span className="font-bold text-ink">Pace: </span>
-              <span className="text-[#444]">{journey.pace }</span>
+              <span className="text-[#000000]">{journey.pace }</span>
             </div>
           </div>
 
           {/* Divider */}
-         <div className="mt-[14px] flex items-start gap-[14px]">
+         <div className="mt-[30px] mb-[20px] flex items-center gap-[26px]">
   <div className="shrink-0">
 
     {/* From */}
-    <p className="text-[11px] text-[#787878]">
+    <p className="text-[12px] text-[#000000] font-light">
       from
     </p>
 
     {/* Offer Price + per person */}
-    <p className="flex items-baseline gap-0 text-[18px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-none text-[#1D1D1D]">
+    <p className="flex items-baseline gap-0 text-[18px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-none text-[#000000]">
       <span>
         ${Number(journey.offerPrice).toLocaleString()}
-        <span className="relative -top-[1px] text-[12px] align-top">*</span>
+        <span className="relative -top-[1px] text-[12px] text-[#000000] font-light align-top">*</span>
       </span>
-      <span className="relative -top-[2px] text-[11px] font-normal text-[black]">/person</span>
+      <span className="relative -top-[2px] text-[12px] text-[#000000] font-light">/person</span>
     </p>
 
     {/* Original Price */}
@@ -225,7 +225,7 @@ export default function HeroSection({
     )}
 
     {/* Double occupancy */}
-    <p className="mt-[2px] text-[11px] leading-[1.3] text-[#777]">
+    <p className="mt-[2px] text-[12px] leading-[1.3] font-light text-[#000000]">
       double occupancy*
     </p>
 
@@ -248,12 +248,12 @@ export default function HeroSection({
             <>
               <button
                 onClick={() => setIsPrivateFormOpen(true)}
-                className="mt-[16px] h-[44px] w-full rounded-full bg-[#2D3482] text-[14px] font-semibold text-white transition hover:bg-[#252b78]"
+                className="mt-[16px] h-[44px] w-full md:w-[84%] rounded-full bg-[#2D3482] text-[18px] font-semibold text-white transition hover:bg-[#252b78]"
               >
                 Request a Private Journey
               </button>
 
-              <div className="mt-[12px] text-[12px] text-[#555]">
+              <div className="mt-[12px] text-[16px] font-light text-[#000000]">
                 Want to make this itinerary entirely your own?
                 <br />
                 <button
@@ -268,12 +268,12 @@ export default function HeroSection({
             <>
               <button
                 onClick={onCheckAvailability}
-                className="mt-[16px] h-[44px] w-full rounded-full bg-[#2D3482] text-[14px] font-semibold text-white transition hover:bg-[#252b78]"
+                className="mt-[16px] h-[44px] w-full md:w-[84%] rounded-full bg-[#2D3482] text-[18px] font-semibold text-white transition hover:bg-[#252b78]"
               >
                 Check Dates & Availability
               </button>
 
-              <div className="mt-[12px] text-[12px] text-[#555]">
+              <div className="mt-[12px] text-[16px] font-light text-[#000000]">
                 Want to customize this itinerary?
                 <br />
                 <button

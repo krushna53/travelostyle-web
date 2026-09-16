@@ -96,7 +96,7 @@ export default async function Blog() {
           />
 
           <div className="absolute left-[7.81vw] top-[15.16vw] z-10">
-            <h1 className={`${HERO_TITLE_CLASS} inline-block py-[2px] text-[2.6vw]`}>
+            <h1 className={`${HERO_TITLE_CLASS} inline-block py-[2px] text-[32px] min-[1281px]:text-[40px] min-[1440px]:text-[48px] min-[1600px]:text-[56px] min-[1919px]:text-[64px]`}>
               The TOS Travel Journal
             </h1>
           </div>

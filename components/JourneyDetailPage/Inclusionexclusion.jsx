@@ -324,8 +324,8 @@ export default function InclusionsExclusions({
             )}
 
             {/* DESKTOP ONLY */}
-           <section className="hidden md:block max-w-7xl mx-auto px-4 py-10">
-  <div className="grid lg:grid-cols-2 gap-8 items-start">
+           <section className="hidden md:block max-w-7xl min-[1920px]:max-w-[1709px] mx-auto px-4 py-12">
+  <div className="grid lg:grid-cols-2 gap-[79px] items-start">
 
     {inclusions?.length > 0 ? (
       <TableCard

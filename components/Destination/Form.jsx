@@ -268,7 +268,7 @@ export default function Form() {
 
               {/* Contact Number */}
               <div className="mt-6">
-                <label className="mb-[0.25vw] ml-[3px] block w-[180px] h-[13px] text-[0.9vw] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+                <label className="mb-[4px] ml-[3px] block w-[180px] h-[13px] text-[16px] md:text-[18px] max-md:w-auto max-md:h-auto text-[#FAFAFA]">
                   <span className="hidden md:inline">Contact Number*</span>
                   <span className="md:hidden">Contact Number / WhatsApp*</span>
                 </label>
@@ -284,7 +284,7 @@ export default function Form() {
                       name="countryCode"
                       value={formData.countryCode}
                       onChange={handleChange}
-                      className="w-full bg-transparent text-[0.72vw] max-md:text-[13px] text-white outline-none"
+                      className="w-full bg-transparent text-[14px] text-white outline-none"
                     >
                       {countryCodes.map((item, index) => (
                         <option
@@ -310,7 +310,7 @@ export default function Form() {
                       value={formData.contact}
                       onChange={handleChange}
                       placeholder="Your number"
-                      className="w-[100px] bg-transparent text-[0.72vw] max-md:text-[13px] text-white placeholder:text-white/70 focus:outline-none"
+                      className="w-[100px] bg-transparent text-[14px] text-white placeholder:text-white/70 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -352,7 +352,7 @@ export default function Form() {
                       errors.consent ? "outline outline-2 outline-red-400" : ""
                     }`}
                   />
-                  <p className="font-normal text-[15px] md:text-[14px] leading-[18px] md:leading-[32px] tracking-[0.05em] text-white">
+                  <p className="font-normal text-[16px] md:text-[18px] leading-[18px] md:leading-[32px] tracking-[0.05em] text-white">
                     I consent to being contacted on the above provided details by
                     TravelOStyle
                   </p>
@@ -371,7 +371,7 @@ export default function Form() {
                 {isSubmitting ? "Submitting..." : "Submit Inquiry"}
               </button>
 
-              <p className="font-nohemi mt-4 font-normal text-[16px] md:text-[12px] leading-[24px] md:leading-[32px] max-w-[334px] md:max-w-[1125px] tracking-[0.05em] text-[#FAFAFA] md:text-white/80">
+              <p className="font-nohemi mt-4 font-normal text-[16px] md:text-[18px] leading-[24px] md:leading-[32px] max-w-[334px] md:max-w-[1125px] tracking-[0.05em] text-[#FAFAFA] md:text-white/80">
                 TravelOStyle typically responds within 48 hours. Your details are
                 never shared with third parties.
               </p>
