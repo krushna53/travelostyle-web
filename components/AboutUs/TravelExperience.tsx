@@ -44,7 +44,7 @@ export default function TravelExperience() {
           {items.map((item, index) => (
             <div
               key={index}
-              className={`px-[27px] py-8 min-h-0 min-[1024px]:p-4 min-[1281px]:p-6 min-[768px]:min-h-[260px] ${
+              className={`px-[27px] py-8 min-h-0 min-[1024px]:px-4 min-[1024px]:py-1 min-[1281px]:p-6 min-[768px]:min-h-[260px] min-[1024px]:min-h-0 min-[1281px]:min-h-[260px] ${
                 index !== items.length - 1
                   ? "border-b-2 border-[#000000] min-[1024px]:border-b-0 min-[1024px]:border-r min-[1024px]:border-[#4A4A4A]"
                   : ""

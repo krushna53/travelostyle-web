@@ -9,7 +9,7 @@ function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default function TestimonialSection({ testimonialData }) {
+export default function TestimonialSection({ testimonialData, desktopHeading }) {
   const testimonials = (testimonialData?.data || []).map((item) => {
     const included = testimonialData?.included || [];
 
@@ -105,8 +105,11 @@ export default function TestimonialSection({ testimonialData }) {
   return (
     <section className="py-8 md:py-20 select-none overflow-hidden">
       <div className="mx-auto w-full px-4 min-[1281px]:max-w-[1200px] min-[1440px]:max-w-[1250px] min-[1600px]:max-w-[1320px] min-[1919px]:max-w-[1411px]">
-        <h2 className="mb-12 md:mb-24 text-left md:text-center font-serif italic text-[40px] md:text-[64px] min-[1024px]:text-[42px] min-[1281px]:text-[48px] min-[1440px]:text-[52px] min-[1600px]:text-[58px] min-[1919px]:text-[64px] text-[#1A1A1A] md:text-[#2d2d2d] tracking-[0.05em] md:tracking-wide font-taprom font-normal max-md:mx-auto max-md:leading-[48px]">
-          Hear from those who&apos;ve travelled with us 
+        <h2 className="mb-12 md:hidden text-left font-serif italic text-[40px] text-[#1A1A1A] tracking-[0.05em] font-taprom font-normal max-md:mx-auto max-md:leading-[48px]">
+          Hear from those who&apos;ve travelled with us
+        </h2>
+        <h2 className="hidden md:block mb-12 md:mb-24 text-center font-serif italic text-[64px] min-[1024px]:text-[42px] min-[1281px]:text-[48px] min-[1440px]:text-[52px] min-[1600px]:text-[58px] min-[1919px]:text-[64px] text-[#2d2d2d] tracking-wide font-taprom font-normal">
+          {desktopHeading || "Hear from those who’ve travelled with us"}
         </h2>
 
         <div className="hidden md:flex items-center justify-between gap-4 max-w-5xl min-[1281px]:max-w-[1200px] min-[1440px]:max-w-[1250px] min-[1600px]:max-w-[1320px] min-[1919px]:max-w-[1411px] mx-auto">
