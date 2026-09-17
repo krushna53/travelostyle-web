@@ -108,6 +108,7 @@ export default function ChoosePopularGroupJourney() {
         selectedTrips={selectedTrips}
         onCompare={handleCompareSelection}
         mobileSlider
+        columns="4-stepped"
         mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
       />
       <div className="flex justify-center">

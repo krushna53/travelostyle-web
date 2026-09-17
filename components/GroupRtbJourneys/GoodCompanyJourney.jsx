@@ -5,8 +5,13 @@ import DottedLine from "@/components/ui/DottedLine";
 
 export default function GoodCompaneyJourney() {
   const router = useRouter();
-  const description =
-    "TravelOStyle group journeys are made to explore a destination beyond its postcard alongside like-minded people. Bonus? There's no chaos of co-ordinating it yourself. The routes are planned, the price is fixed, the dates are set, the logistics are sorted and your group is waiting. All you have to do is decide whether you want to come along!";
+  // Figma's own three lines at 1183 wide (18/32 Nohemi, 5%). The board is
+  // scaled as a whole by --fig-u, so these breaks hold at every width.
+  const descriptionLines = [
+    "TravelOStyle group journeys are made to explore a destination beyond its postcard alongside like-minded people. Bonus?",
+    "There's no chaos of co-ordinating it yourself. The routes are planned, the price is fixed, the dates are set, the logistics are",
+    "sorted and your group is waiting. All you have to do is decide whether you want to come along!",
+  ];
   // Each photo SVG is a Figma export of Rectangle 912: a square canvas holding
   // the 346.77px photo ALREADY rotated by its frame's angle, with the 1px
   // #1A1A1A stroke baked in. Two consequences:
@@ -93,9 +98,13 @@ export default function GoodCompaneyJourney() {
             anchored to its bottom drifts with the viewport height — the sweep
             used to strand itself hundreds of px below the polaroids on a tall
             window. */}
+        {/* Vector 219 is 698 wide at board left 1252, so it runs 30px past
+            the 1920 edge and is cut there -- its tail starts 90px clear of
+            line one's bar. Pinned at right-0 it began at 1217 instead, and
+            once the heading took Figma's 5% tracking the tail ran into "good". */}
         <DottedLine
           name="groupArc"
-          className="top-[calc(39.94*var(--fig-u))] right-0 w-[calc(703*var(--fig-u))] h-[calc(242*var(--fig-u))]"
+          className="top-[calc(39.94*var(--fig-u))] right-[calc(-55*var(--fig-u))] w-[calc(703*var(--fig-u))] h-[calc(242*var(--fig-u))]"
         />
         {/* Vector 218, the long sweep behind the polaroids, as a flat PNG.
             Figma puts it at left -131 / top 625 in a 1209x508 box on the 1920
@@ -113,25 +122,35 @@ export default function GoodCompaneyJourney() {
           className="pointer-events-none absolute top-[calc(419.9*var(--fig-u))] left-0 w-[calc(1081*var(--fig-u))] h-[calc(513*var(--fig-u))]"
         />
       </div>
-      <div className="relative w-full text-center z-10 flex flex-col items-center mt-[calc(24*var(--fig-u))]">
-        <h2
-          className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg hero-bar group-hero-line1 px-[calc(16*var(--fig-u))] py-[calc(4*var(--fig-u))] text-[calc(64.6*var(--fig-u))] "
-        
-        >
-          Journeys that get better in good
-        </h2>
-        <h2
-          className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg hero-bar px-[calc(16*var(--fig-u))] py-[calc(4*var(--fig-u))] text-[calc(64.6*var(--fig-u))]"
-        >
-          company
+      {/* Figma "Group RTB Journeys", 1920 board, section top = board 202.6:
+            heading   Taprom 64/80/5% #1A1A1A, 862 wide, cap-top 324, 2 lines
+            Rect 932  862x53 at 529/317 behind line one
+            Rect 933  239x53 at 840/405 behind "company"
+            paragraph Nohemi 400 18/32/5%, 1183 wide at 372, cap-top 515.6
+          Figma's text tops are cap tops (leading-trim: cap). Each line is a
+          block w-fit span, so its bar (.hero-bar-group1/2) shrink-wraps the
+          words and every line box is exactly 80 -- inline-blocks would pick
+          up the strut's descender space and drift the second line down. */}
+      <div className="relative w-full text-center z-10 flex flex-col items-center mt-[calc(8.4*var(--fig-u))]">
+        <h2 className="font-taprom font-normal whitespace-nowrap tracking-[0.05em] text-[#1A1A1A] text-[calc(64*var(--fig-u))] leading-[calc(80*var(--fig-u))]">
+          <span className="block w-fit mx-auto sub-title-bg hero-bar-group1">
+            Journeys that get better in good
+          </span>
+          <span className="block w-fit mx-auto sub-title-bg hero-bar-group2">
+            company
+          </span>
         </h2>
 
-        <p className="text-[#333333] max-w-[calc(1183*var(--fig-u))] leading-[1.7] tracking-normal px-[calc(16*var(--fig-u))] font-normal text-[calc(20.4*var(--fig-u))]">
-          {description}
+        <p className="mt-[calc(40*var(--fig-u))] w-[calc(1183*var(--fig-u))] font-[Nohemi] font-normal tracking-[0.05em] text-black text-[calc(18*var(--fig-u))] leading-[calc(32*var(--fig-u))]">
+          {descriptionLines.map((line) => (
+            <span key={line} className="block whitespace-nowrap">
+              {line}
+            </span>
+          ))}
         </p>
       </div>
 
-      <div className="relative w-[calc(1872*var(--fig-u))] shrink-0 mt-[calc(48*var(--fig-u))] md:mt-[calc(96*var(--fig-u))] flex flex-wrap md:flex-nowrap justify-center items-start gap-8 md:gap-0 z-10">
+      <div className="relative w-[calc(1872*var(--fig-u))] shrink-0 mt-[calc(48*var(--fig-u))] md:mt-[calc(75.1*var(--fig-u))] flex flex-wrap md:flex-nowrap justify-center items-start gap-8 md:gap-0 z-10">
         {polaroids.map((photo) => (
           <div
             key={photo.id}

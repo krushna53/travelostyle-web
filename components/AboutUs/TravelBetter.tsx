@@ -140,13 +140,62 @@ export default function TravelBetter() {
             </p>
           </div>
 
-          <div className="min-[640px]:col-span-2 min-[1024px]:col-span-2 pt-6 min-[1024px]:pt-[calc(8*var(--fig-u))]">
-            <p className="font-taprom font-normal text-[45px] max-[1910px]:text-[40px] max-[1281px]:text-[35px] max-[1250px]:text-[30px] max-[1200px]:text-[25px] min-[1024px]:text-[calc(45*var(--fig-u))] leading-[56px] min-[1024px]:leading-[calc(56*var(--fig-u))] tracking-normal text-[#000000] max-w-[345px] min-[768px]:max-w-none">
-              Our range is wide because{" "}
-              <span className="[background-image:linear-gradient(#F2E2DA,#F2E2DA)] [background-size:100%_38px] min-[1024px]:[background-size:100%_calc(38*var(--fig-u))] [background-position:0_center] bg-no-repeat [-webkit-box-decoration-break:clone] [box-decoration-break:clone]">
-                we don&apos;t believe in a one-size-fits all
-              </span>{" "}
-              approach to the world
+          <div className="min-[640px]:col-span-2 min-[1024px]:col-span-2 pt-[18px] min-[1024px]:self-start min-[1024px]:pt-[calc(27.4*var(--fig-u))] min-[1024px]:pl-[calc(15*var(--fig-u))]">
+            {/* DESKTOP — Figma's own three lines, Taprom 48/64/5%, 787 wide at
+                board 1025 / cap-top 2819, i.e. 28 under the card row's 2791
+                top. Rectangle 1009 (345x40 at 1394/2825) sits behind "because
+                we don't" and Rectangle 1010 (552x40 at 1025/2892) behind
+                "believe in a one-size-fits all". The breaks are the board's, so
+                they are hard lines here; the bars are .hero-bar-range.
+
+                self-start rather than the row's items-center, so the cap top is
+                pinned to the cards' top edge instead of floating with whatever
+                height three 64px lines add up to.
+
+                Measured against the card ABOVE it, not the row it sits in: the
+                board leaves 62px from Rectangle 925's bottom (2757) to this cap
+                top (2819), but its card rows are 34 apart where ours are 20, so
+                pinning to row two's top left it 12px tight under Tailormade.
+                27.4 is that 62 less the row gap, less the 12.6px the browser
+                sets Taprom's cap top into a 64px line box. */}
+            <p className="hidden min-[1024px]:block font-taprom font-normal text-[calc(48*var(--fig-u))] leading-[calc(64*var(--fig-u))] tracking-[0.05em] text-[#000000]">
+              <span className="block whitespace-nowrap">
+                Our range is wide{" "}
+                <span className="sub-title-bg hero-bar-range hero-bar-range-line1 inline-block">because we don&apos;t</span>
+              </span>
+              <span className="block whitespace-nowrap">
+                <span className="sub-title-bg hero-bar-range inline-block">believe in a one-size-fits all</span>{" "}
+                approach
+              </span>
+              <span className="block whitespace-nowrap">to the world</span>
+            </p>
+
+            {/* MOBILE — "RES_About Us" on the 390 board: Taprom 40/48/5%, five
+                lines, left 27, cap-top 3829 = 48 under the Private Jet card.
+                Rectangle 1013 (152x32 @149/3885) is behind "we don't",
+                1048 (342x32 @26/3931) behind "believe in a one-size-" and 1049
+                (275x32 @26/3982) behind "fits all approach". The breaks are
+                the board's, so they are hard lines; each is nowrap so a
+                narrower phone cannot re-wrap them out from under their rects.
+
+                Sized in min(px, vw) so 390 is the literal board and anything
+                narrower scales the whole block down instead of running off the
+                right edge -- line three is 342 of the board's 363. The bars are
+                em, so they follow. */}
+            <p className="min-[1024px]:hidden font-taprom font-normal text-[min(40px,10.2564vw)] leading-[1.2] tracking-[0.05em] text-[#000000] pl-[calc(min(27px,6.9231vw)-16px)] min-[768px]:pl-0">
+              <span className="block whitespace-nowrap">Our range is wide</span>
+              <span className="block whitespace-nowrap">
+                because{" "}
+                <span className="sub-title-bg hero-bar-range-m hero-bar-range-m1 inline-block">we don&apos;t</span>
+              </span>
+              <span className="block whitespace-nowrap">
+                <span className="sub-title-bg hero-bar-range-m hero-bar-range-m2 inline-block">believe in a one-size-</span>
+              </span>
+              <span className="block whitespace-nowrap">
+                <span className="sub-title-bg hero-bar-range-m hero-bar-range-m3 inline-block">fits all approach</span>{" "}
+                to
+              </span>
+              <span className="block whitespace-nowrap">the world</span>
             </p>
           </div>
         </div>

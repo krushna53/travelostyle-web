@@ -25,54 +25,61 @@ const routeDays = [
   {
     day: "DAY 1",
     img: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=600",
-    box: "left-[calc(126*var(--fig-u))] top-[calc(225.75*var(--fig-u))] w-[calc(388.32*var(--fig-u))] rotate-[6.48deg] z-30",
+    box: "left-[calc(126*var(--fig-u))] top-[calc(225.75*var(--fig-u))] w-[calc(388.32*var(--fig-u))] rotate-[6.48deg] z-20",
     padding: "p-[calc(18.28*var(--fig-u))] pb-[calc(72.34*var(--fig-u))]",
     chin: "h-[calc(72.34*var(--fig-u))]",
   },
   {
     day: "DAY 2",
     img: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=600",
-    box: "left-[calc(438.31*var(--fig-u))] top-[calc(208.87*var(--fig-u))] w-[calc(269.1*var(--fig-u))] -rotate-[1.23deg] z-10",
+    box: "left-[calc(438.31*var(--fig-u))] top-[calc(208.87*var(--fig-u))] w-[calc(269.1*var(--fig-u))] -rotate-[1.23deg] z-40",
     padding: "p-[calc(12.05*var(--fig-u))] pb-[calc(49.52*var(--fig-u))]",
     chin: "h-[calc(49.52*var(--fig-u))]",
+    // Day 4 is stacked over this card and its left edge crosses the chin's
+    // right half, landing ~6px after the "2". Centring the label on the
+    // uncovered part of the chin instead gives it room on both sides.
+    labelShift: "-translate-x-[calc(18*var(--fig-u))]",
   },
   {
     day: "DAY 4",
     img: "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?w=600",
-    box: "left-[calc(605.15*var(--fig-u))] top-[calc(351.06*var(--fig-u))] w-[calc(269.1*var(--fig-u))] rotate-[8.65deg] z-40",
+    box: "left-[calc(605.15*var(--fig-u))] top-[calc(351.06*var(--fig-u))] w-[calc(269.1*var(--fig-u))] rotate-[8.65deg] z-50",
     padding: "p-[calc(12.05*var(--fig-u))] pb-[calc(49.52*var(--fig-u))]",
     chin: "h-[calc(49.52*var(--fig-u))]",
   },
   {
     day: "DAY 5",
     img: "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=600",
-    box: "left-[calc(810.65*var(--fig-u))] top-[calc(170.32*var(--fig-u))] w-[calc(388.32*var(--fig-u))] rotate-[0deg] z-20",
+    box: "left-[calc(810.65*var(--fig-u))] top-[calc(170.32*var(--fig-u))] w-[calc(388.32*var(--fig-u))] rotate-[0deg] z-30",
     padding: "p-[calc(18.28*var(--fig-u))] pb-[calc(72.34*var(--fig-u))]",
     chin: "h-[calc(72.34*var(--fig-u))]",
   },
   {
     day: "DAY 6",
     img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600",
-    box: "left-[calc(1095.7*var(--fig-u))] top-[calc(319.97*var(--fig-u))] w-[calc(325.6*var(--fig-u))] rotate-[12.27deg] z-30",
+    box: "left-[calc(1095.7*var(--fig-u))] top-[calc(319.97*var(--fig-u))] w-[calc(325.6*var(--fig-u))] rotate-[12.27deg] z-10",
     padding: "p-[calc(15*var(--fig-u))] pb-[calc(60.34*var(--fig-u))]",
     chin: "h-[calc(60.34*var(--fig-u))]",
   },
   {
     day: "DAY 7",
     img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600",
-    box: "left-[calc(1254.09*var(--fig-u))] top-[calc(144.21*var(--fig-u))] w-[calc(269.1*var(--fig-u))] -rotate-[3.68deg] z-40",
+    box: "left-[calc(1254.09*var(--fig-u))] top-[calc(144.21*var(--fig-u))] w-[calc(269.1*var(--fig-u))] -rotate-[3.68deg] z-[60]",
     padding: "p-[calc(12.05*var(--fig-u))] pb-[calc(49.52*var(--fig-u))]",
     chin: "h-[calc(49.52*var(--fig-u))]",
   },
   {
     day: "DAY 8",
     img: "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?w=600",
-    box: "left-[calc(1494.74*var(--fig-u))] top-0 w-[calc(338.33*var(--fig-u))] rotate-[0.07deg] z-20",
+    box: "left-[calc(1494.74*var(--fig-u))] top-0 w-[calc(338.33*var(--fig-u))] rotate-[0.07deg] z-[70]",
     padding: "p-[calc(15.665*var(--fig-u))] pb-[calc(62.775*var(--fig-u))]",
     chin: "h-[calc(62.775*var(--fig-u))]",
   },
 ];
 
+// Stacking is the board's layer order, bottom to top: day 6, 1, 5, 2, 4, 7, 8
+// -- so 2 overlaps 1, 4 overlaps 2 and 5, 5 overlaps 6, and 7 then 8 sit on
+// top of the right-hand run.
 export default function CuratedRouteSection() {
   const router = useRouter();
   return (
@@ -97,12 +104,22 @@ export default function CuratedRouteSection() {
         className="pointer-events-none absolute left-0 top-[calc(134.4*var(--fig-u))] z-0 h-auto w-full"
       />
 
-      <div className="relative w-full text-center z-10 flex flex-col items-center mt-[calc(60*var(--fig-u))]">
-        <h2 className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg hero-bar group-hero-line1 px-[calc(16*var(--fig-u))] py-[calc(4*var(--fig-u))] text-[calc(64.6*var(--fig-u))]">
-          A curated route, perfected by
-        </h2>
-        <h2 className="font-taprom whitespace-nowrap leading-[1.1] tracking-[-0.02em] text-[#222] text-center sub-title-bg hero-bar px-[calc(16*var(--fig-u))] py-[calc(4*var(--fig-u))] text-[calc(64.6*var(--fig-u))]">
-          you, for you
+      {/* Figma "Private RTB Journeys", 1920 board: "A curated route, perfected
+          by / you, for you" in Taprom 64/80/5% #1A1A1A, 862 wide, cap-top 336;
+          Rectangle 932 862x53 at 529/329 and Rectangle 933 362x53 at 769/417.
+          The wrapper keeps the 158.12 the old two headings took up, so the
+          polaroid board below does not move; the heading sits absolutely
+          inside it at its Figma line-box top (cap-top less the 15px the
+          browser sets Taprom's cap top into an 80px line box). Bars are
+          .hero-bar-private1/2. */}
+      <div className="relative w-full z-10 mt-[calc(60*var(--fig-u))] h-[calc(158.12*var(--fig-u))]">
+        <h2 className="absolute inset-x-0 top-[calc(56.8*var(--fig-u))] text-center font-taprom font-normal whitespace-nowrap tracking-[0.05em] text-[#1A1A1A] text-[calc(64*var(--fig-u))] leading-[calc(80*var(--fig-u))]">
+          <span className="block w-fit mx-auto sub-title-bg hero-bar-private1">
+            A curated route, perfected by
+          </span>
+          <span className="block w-fit mx-auto sub-title-bg hero-bar-private2">
+            you, for you
+          </span>
         </h2>
       </div>
 
@@ -124,7 +141,7 @@ export default function CuratedRouteSection() {
             </div>
             {/* The label lives in the chin, i.e. the padding-bottom strip. */}
             <div
-              className={`absolute inset-x-0 bottom-0 flex items-center justify-center text-[calc(21*var(--fig-u))] font-semibold uppercase leading-none tracking-[0.05em] text-black ${item.chin}`}
+              className={`absolute inset-x-0 bottom-0 flex items-center justify-center text-[calc(21*var(--fig-u))] font-semibold uppercase leading-none tracking-[0.05em] text-black ${item.chin} ${item.labelShift ?? ""}`}
             >
               {item.day}
             </div>

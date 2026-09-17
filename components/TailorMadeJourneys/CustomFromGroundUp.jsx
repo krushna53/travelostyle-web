@@ -4,35 +4,50 @@ import React from "react";
 export default function CustomFromGroundUp() {
   return (
     <>
-      <section className="relative bg-white pt-8 sm:pt-10 pb-2  overflow-hidden" style={{ paddingInline: "clamp(26px, 3.6vw, 69px)" }}>
+      <section className="relative bg-white pt-8 sm:pt-10 pb-2 overflow-x-clip md:overflow-hidden" style={{ paddingInline: "clamp(26px, 3.6vw, 69px)" }}>
         <div className="gap-8 items-start relative max-w-[1704px] mx-auto">
           <div className="md:col-span-7 space-y-6 md:pr-8 relative">
           
-            <div className="block md:hidden relative pt-14">
-              <div className="absolute -top-12 right-0 w-[180px] h-[150px] z-0 pointer-events-none">
+            {/* MOBILE — "RES_Tailor Made Journeys", 390 board. Measured off
+                the board render (its CSS export stops before this section):
+                  heading   Taprom 40/48/5%, two lines, 32px peach bars
+                  curve     tailor-doted.png at its own 191x202, flush with
+                            the board's right edge (the path runs past 191 and
+                            is cut there), top 35px above the button's bottom
+                  paragraph Nohemi 16/28/5%
+                The curve was squeezed into a 180x150 box before, which drew
+                it at 142px, and sat 26px short of the edge because the
+                section's side padding was between it and the board edge.
+                The path runs off the board's right edge, so it is pinned to the
+                SECTION's right edge — right: minus the section's own side
+                padding — and never floats mid-page on wider phones (762). At
+                390 that is the same spot as before (199..390). ResLine2's path
+                starts at x -31.5 and is cut at 0, so it goes flush against the
+                section's left edge the same way.
+                The curve rises above this section's top, so on mobile the
+                section clips only sideways (overflow-x-clip); overflow-hidden
+                cut its tail off. */}
+            <div className="block md:hidden relative pt-[6px]">
+              <div className="absolute top-[-132px] right-[calc(-1*clamp(26px,3.6vw,69px))] w-[191px] h-[202px] z-0 pointer-events-none">
                 <Image
-                  src="/CustomFormLine.svg"
+                  src="/tailor-doted.png"
                   alt="Dashed Swirl Line"
-                  fill
-                  className="object-contain object-top-right"
+                  width={191}
+                  height={202}
+                  className="w-[191px] h-[202px] max-w-none"
                   priority
                 />
               </div>
-              <div className="relative z-10 flex flex-col gap-1 mb-12">
-                <div className="inline-block w-fit bg-[#F3E3DC] px-1.5 py-[2px]">
-                  <h2 className="font-taprom text-[34px] leading-[0.92] font-normal text-[#111111]">
-                    Custom, from
-                  </h2>
-                </div>
+              <h2 className="relative z-10 mb-[68px] font-taprom text-[40px] leading-[48px] tracking-[0.05em] font-normal text-[#111111]">
+                <span className="block">
+                  <span className="sub-title-bg hero-bar-custom-m hero-bar-custom-m1 inline-block">Custom, from</span>
+                </span>
+                <span className="block">
+                  <span className="sub-title-bg hero-bar-custom-m hero-bar-custom-m2 inline-block">the ground up</span>
+                </span>
+              </h2>
 
-                <div className="inline-block w-fit bg-[#F3E3DC] px-1.5 py-[2px]">
-                  <h2 className="font-taprom text-[34px] leading-[0.92] font-normal text-[#111111]">
-                    the ground up
-                  </h2>
-                </div>
-              </div>
-
-              <div className="absolute left-[-32px] bottom-[-55px] z-0">
+              <div className="absolute left-[calc(-1*clamp(26px,3.6vw,69px))] bottom-[-65px] z-0 pointer-events-none">
                 <Image
                   src="/ResLine2Journey.svg"
                   alt="Journey Line"
@@ -49,7 +64,7 @@ export default function CustomFromGroundUp() {
                 Custom, from the ground up
               </h2>
             </div>
-            <div className="font-nohemi space-y-5 mt-4 text-black text-[16px] font-light sm:text-sm md:text-[21px] leading-[28px] md:leading-[1.85] tracking-[0.05em] md:tracking-normal max-w-[min(1052px,calc(100%-360px))] max-md:w-[calc(100vw-40px)] max-md:max-w-[334.94px] relative z-10">
+            <div className="font-nohemi max-md:font-[Nohemi] max-md:font-normal space-y-5 mt-4 text-black text-[16px] font-light sm:text-sm md:text-[21px] leading-[28px] md:leading-[1.85] tracking-[0.05em] md:tracking-normal max-w-[min(1052px,calc(100%-360px))] max-md:w-[calc(100vw-40px)] max-md:max-w-[339px] relative z-10">
     
               <p>
                 We start where you are, not where we like you to be or where the

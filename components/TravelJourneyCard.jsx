@@ -29,9 +29,20 @@ function mapJourneyToTrip(journey) {
 // "Destinations TravelOStyle Knows Best" rail). Written as an explicit
 // branch rather than a template-interpolated class so Tailwind's JIT scan
 // can still find the literal class names.
+//
+// "4-stepped" is the Group/Private RTB listing grids: four across as on the
+// 1920 board, but stepping down to 3 and then 2 on narrower windows. A grid
+// card needs ~330px -- below that the tag pills wrap under the photo and the
+// View Trip button pushes out of the card (seen at 1366 and 1024). All three
+// steps use min-[Npx] on purpose: Tailwind emits arbitrary min-[] variants
+// ahead of the named md/lg/xl ones, so mixing the two let xl:grid-cols-3
+// override min-[1441px]:grid-cols-4 and 1920 came out three across.
+// Four starts ABOVE 1440 -- a 1440 laptop keeps three across.
 const GRID_COLS_CLASS = {
   3: "md:grid-cols-3 md:max-w-[1218px]",
   4: "md:grid-cols-4 md:max-w-[1632px]",
+  "4-stepped":
+    "min-[768px]:grid-cols-2 min-[1280px]:grid-cols-3 min-[1441px]:grid-cols-4 md:max-w-[1632px]",
 };
 
 export default function TravelJourneyCard({

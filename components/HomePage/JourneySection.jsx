@@ -49,21 +49,36 @@ export default function JourneySection() {
 
         <div className="relative z-10 mx-auto h-full w-full max-w-[calc(1920*var(--fig-u))]">
 
-          {/* Heading + paragraph, both at board left 108 */}
-          <div className="absolute left-[calc(108*var(--fig-u))] top-[calc(415*var(--fig-u))] w-[calc(1097*var(--fig-u))]">
-            <h2 className="sub-title-bg hero-bar-home inline-block whitespace-nowrap font-taprom font-normal tracking-[0.05em] text-ink text-[calc(54*var(--fig-u))] leading-[calc(80*var(--fig-u))]">
-              Journeys made for you, by you &amp; with you.
-            </h2>
+          {/* Heading and paragraph are two separate board coordinates, not a
+              stacked pair: the heading is an inline-block (.sub-title-bg draws
+              one bar per element, so it has to shrink-wrap the text) and an
+              inline-block sits in a line box whose strut adds descender space
+              underneath it, which pushed a margin-stacked paragraph ~10 board
+              px below Figma's 1577. Positioning the paragraph at its own top
+              takes the strut out of the equation.
 
-            <p className="mt-[calc(8*var(--fig-u))] font-nohemi font-normal tracking-[0.05em] text-[#1A1A1A] text-[calc(18*var(--fig-u))] leading-[calc(36*var(--fig-u))]">
-              Make travel feel calmer, clearer, and more worth it with
-              TravelOstyle. Our journeys are designed around real people —
-              your budgets, your rhythms, your hopes and the realities you
-              are working with. We promise you honest guidance, thoughtful
-              planning, and a travel experience that feels looked after
-              from the get-go.
-            </p>
-          </div>
+              404, not the 415 Figma gives the text frame: the browser sets
+              Taprom 11px lower in an 80px line box than Figma does (see
+              .hero-bar-home in globals.css), so the frame is raised by that 11
+              to land the WORDS, the bar that hangs off them and the gap down to
+              the paragraph where the board has all three. */}
+          <h2 className="absolute left-[calc(108*var(--fig-u))] top-[calc(404*var(--fig-u))] sub-title-bg hero-bar-home inline-block whitespace-nowrap font-taprom font-normal tracking-[0.05em] text-ink text-[calc(54*var(--fig-u))] leading-[calc(80*var(--fig-u))]">
+            Journeys made for you, by you &amp; with you.
+          </h2>
+
+          {/* font-[Nohemi] is the family the rest of the site asks for by that
+              exact spelling; `font-nohemi` is not a Tailwind theme token here,
+              so it emitted nothing and this paragraph was silently set in Inter
+              — wider than Nohemi, which is why the em dash fell to line 2
+              instead of closing line 1 the way the board has it. */}
+          <p className="absolute left-[calc(108*var(--fig-u))] top-[calc(497*var(--fig-u))] w-[calc(1097*var(--fig-u))] font-[Nohemi] font-normal tracking-[0.05em] text-ink text-[calc(18*var(--fig-u))] leading-[calc(36*var(--fig-u))]">
+            Make travel feel calmer, clearer, and more worth it with
+            TravelOStyle. Our journeys are designed around real people —
+            your budgets, your rhythms, your hopes and the realities you
+            are working with. We promise you honest guidance, thoughtful
+            planning, and a travel experience that feels looked after
+            from the get-go.
+          </p>
 
           {/* Sparkles. Figma gives these as percentages of the 11623-tall page;
               resolved they land at board 1284/1454, 1284/1512 and 1720/1618. */}
@@ -133,16 +148,22 @@ export default function JourneySection() {
 
           {/* z-10 keeps .sub-title-bg's z-index -1 bar off the section's own
               background. Figma's three bars are 261, 308 and 171 wide, which is
-              where the line breaks fall. */}
-          <h2 className="absolute z-30 left-[calc(27*var(--fig-u))] top-[calc(89*var(--fig-u))] font-taprom font-normal leading-[1.2] tracking-[0.05em] text-ink text-[calc(40*var(--fig-u))]">
+              where the line breaks fall.
+
+              The 27 the board gives this heading is where its BARS start, not
+              its words: the bar is flush with the paragraph below it and the
+              type sits 8.8px inside (see .hero-bar-home-mobile, which hangs the
+              peach that far out on each side). So the text frame goes at 27 +
+              8.8 and the bar lands back on 27. */}
+          <h2 className="absolute z-30 left-[calc(35.8*var(--fig-u))] top-[calc(89*var(--fig-u))] font-taprom font-normal leading-[1.2] tracking-[0.05em] text-ink text-[calc(40*var(--fig-u))]">
             {["Journeys made", "for you, by you &", "with you."].map((line) => (
               <span key={line} className="block">
-                <span className="sub-title-bg hero-bar-mobile inline-block">{line}</span>
+                <span className="sub-title-bg hero-bar-home-mobile inline-block">{line}</span>
               </span>
             ))}
           </h2>
 
-          <p className="absolute z-30 left-[calc(27*var(--fig-u))] top-[calc(255.6*var(--fig-u))] w-[calc(337*var(--fig-u))] font-nohemi font-normal leading-[1.75] tracking-[0.05em] text-ink text-[calc(16*var(--fig-u))]">
+          <p className="absolute z-30 left-[calc(27*var(--fig-u))] top-[calc(255.6*var(--fig-u))] w-[calc(337*var(--fig-u))] font-[Nohemi] font-normal leading-[1.75] tracking-[0.05em] text-ink text-[calc(16*var(--fig-u))]">
             Make travel feel calmer, clearer, and more worth it with TravelOStyle.
           </p>
 
@@ -171,7 +192,7 @@ export default function JourneySection() {
           <Image src="/star.svg" alt="" aria-hidden="true" width={50} height={50}
             className="pointer-events-none absolute z-40 left-[calc(213.7*var(--fig-u))] top-[calc(741.9*var(--fig-u))] w-[calc(49.2*var(--fig-u))] h-auto max-w-none" />
 
-          <p className="absolute z-30 left-[calc(27*var(--fig-u))] top-[calc(799.6*var(--fig-u))] w-[calc(337*var(--fig-u))] font-nohemi font-normal leading-[1.75] tracking-[0.05em] text-ink text-[calc(16*var(--fig-u))]">
+          <p className="absolute z-30 left-[calc(27*var(--fig-u))] top-[calc(799.6*var(--fig-u))] w-[calc(337*var(--fig-u))] font-[Nohemi] font-normal leading-[1.75] tracking-[0.05em] text-ink text-[calc(16*var(--fig-u))]">
             Our journeys are designed around real people — your budgets, your
             rhythms, your hopes and the realities you are working with. We promise
             you honest guidance, thoughtful planning, and a travel experience that
