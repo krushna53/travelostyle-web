@@ -59,7 +59,7 @@ export default function BlogContent({
   ).slice(0, 3);
 
   return (
-    <section className="px-5 md:px-8 overflow-x-hidden lg:px-[60px] pb-[60px] lg:pb-[80px] min-[768px]:lg:px-[58px] min-[1024px]:lg:px-[72px] min-[1280px]:lg:px-[77px] min-[1366px]:lg:px-[81px] min-[1441px]:lg:px-[84px] min-[1500px]:lg:px-[108px]">
+    <section className="px-5 md:px-8 overflow-x-hidden lg:px-[60px] pb-[60px] lg:pb-[80px] min-[768px]:lg:px-[58px] min-[1024px]:lg:px-[72px] min-[1280px]:lg:px-[77px] min-[1366px]:lg:px-[81px] min-[1441px]:lg:px-[84px] min-[1500px]:lg:px-[54px] min-[1920px]:px-[108px]">
       <div className="mt-8 min-[1040px]:mt-[44px] flex flex-col min-[1040px]:flex-row items-start gap-10 min-[1040px]:gap-[48px]">
         {/* LEFT SIDE */}
         <div className="min-w-0 flex-1 min-w-0">
