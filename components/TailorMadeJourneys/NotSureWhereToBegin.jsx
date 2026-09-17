@@ -88,7 +88,7 @@ export default function NotSureWhereToBegin() {
 
   return (
     <div className="py-16 max-w-[1704px] mx-auto font-sans" style={{ paddingInline: "clamp(26px, 3.6vw, 69px)" }}>
-      <div className="max-w-[800px] mx-auto mb-12 text-left md:text-center">
+      <div className="max-w-[800px] mx-auto mb-12 max-md:mb-4 text-left md:text-center">
         <p className="md:hidden mb-3 font-taprom text-[24px] font-normal leading-[28px] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic]">
           get inspired
         </p>
@@ -102,13 +102,16 @@ export default function NotSureWhereToBegin() {
         </p>
       </div>
 
-      <TravelJourneyCard journeys={journeys}
-       selectedTrips={selectedTrips}
-        onCompare={handleCompareSelection}
-        mobileSlider
-        columns="4-stepped"
-        mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
-      />
+      <div className="max-md:mx-[calc(-1*clamp(26px,3.6vw,69px))]">
+        <TravelJourneyCard journeys={journeys}
+          selectedTrips={selectedTrips}
+          onCompare={handleCompareSelection}
+          mobileSlider
+          columns="4-stepped"
+          mobileWidthClass="w-[293px] min-w-[293px]"
+          sliderPadClass="pl-4 pr-4 scroll-pl-4 md:pl-0 md:pr-0"
+        />
+      </div>
       <div className="md:flex justify-center ml-3.5 md:ml-auto md:mt-10">
         <button
           onClick={goToAllJourneys}

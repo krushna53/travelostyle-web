@@ -94,7 +94,7 @@ const handleCompareSelection = (trip) => {
 
   return (
     <div className=" min-h-screen py-10 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="mb-12">
+      <div className="mb-12 max-md:mb-4">
         <p
           className="md:hidden font-taprom text-[32px] font-normal leading-[40px] tracking-[0.05em] text-black lowercase [text-box-trim:cap] [text-box-edge:cap_alphabetic]"
         >
@@ -111,14 +111,19 @@ const handleCompareSelection = (trip) => {
       </div>
 
 {/* <div className="grid grid-cols-4 gap-6"> */}
- <TravelJourneyCard
-  journeys={journeys}
-  selectedTrips={selectedTrips}
-  onCompare={handleCompareSelection}
-  mobileSlider
-  columns="4-stepped"
-  mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
-/>
+ {/* Same mobile rail as tailor-made: bleeds through the section's 16px
+     padding to the window edge, first card 16 in, 293 wide — same as the homepage. */}
+ <div className="max-md:-mx-4">
+  <TravelJourneyCard
+    journeys={journeys}
+    selectedTrips={selectedTrips}
+    onCompare={handleCompareSelection}
+    mobileSlider
+    columns="4-stepped"
+    mobileWidthClass="w-[293px] min-w-[293px]"
+    sliderPadClass="pl-4 pr-4 scroll-pl-4 md:pl-0 md:pr-0"
+  />
+ </div>
 {/* </div>    */}
   <div className="flex justify-left md:justify-center md:mt-8 md:mb-12">
         <button

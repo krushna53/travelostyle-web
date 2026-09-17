@@ -324,16 +324,24 @@ export default function SearchBar({ destinations = [], months = [] }) {
         {/* Hero Quote — desktop only. The mobile itinerary page shows this
             same wording in its own script-styled heading (AllJourneysPage.jsx),
             so repeating it here would duplicate it on mobile. */}
-        <div className="hidden md:flex justify-center items-center py-8 ">
-          <p
-            className="text-center    whitespace-nowrap  sub-title-bg  font-taprom font-normal text-[54px]   max-[1200px]:text-[28px]   max-[1250px]:text-[32px]   max-[1281px]:text-[38px]   max-[1910px]:text-[44px]   min-[1919px]:text-[54px] text-ink leading-[72px] tracking-[5%]  "
-          >
-            <span className="bg-[#F2D5C4] px-2 inline-block mb-5">
-              The range is wide because we&apos;ve never believed in a
+        <div className="hidden md:flex justify-center items-center pt-[91px] pb-[67px]">
+          {/* Figma "Itinerary Listing Page", 1920: Taprom 56/72/5%, centred,
+              cap-top 222; Rectangle 910 (1198x53) behind line one and 911
+              (912x53) behind line two, each starting on its line's cap top.
+              Real 53px bars (.hero-bar-itin1/2) rather than a full-line-height
+              background on the spans, which also stacked on an extra
+              .sub-title-bg bar from the <p>. Leading in em so the bars track
+              the size steps. */}
+          <p className="relative z-10 text-center whitespace-nowrap font-taprom font-normal text-ink tracking-[0.05em] leading-[1.2857] text-[56px] max-[1910px]:text-[44px] max-[1281px]:text-[38px] max-[1250px]:text-[32px] max-[1200px]:text-[28px]">
+            <span className="block">
+              <span className="sub-title-bg hero-bar-itin1 inline-block">
+                The range is wide because we&apos;ve never believed in a
+              </span>
             </span>
-            <br />
-            <span className="bg-[#F2D5C4] px-2 ">
-              one-size-fits-all approach to the world.
+            <span className="block">
+              <span className="sub-title-bg hero-bar-itin2 inline-block">
+                one-size-fits-all approach to the world.
+              </span>
             </span>
           </p>
         </div>

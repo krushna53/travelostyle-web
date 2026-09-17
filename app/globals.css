@@ -385,6 +385,26 @@ a,
   width: calc(100% + 0.4em);
 }
 
+/* Itinerary listing hero, 56/72 Taprom: Rectangles 910 and 911 are 53 tall,
+   top-aligned with each line's cap top (13.4px into a 72px line box).
+   910 is 1198 against a 1165 line (6px in, 27 out); 911 is 912 against 902
+   (1px in, 9 out). */
+.sub-title-bg.hero-bar-itin1::after,
+.sub-title-bg.hero-bar-itin2::after { top: 0.239em; height: 0.946em; }
+.sub-title-bg.hero-bar-itin1::after { left: -0.107em; width: calc(100% + 0.589em); }
+.sub-title-bg.hero-bar-itin2::after { left: -0.018em; width: calc(100% + 0.179em); }
+
+.sub-title-bg.hero-bar-itin-m::after { height: 0.8em; left: -0.125em; width: 8.4em; }
+.sub-title-bg.hero-bar-itin-m.hero-bar-itin-m1::after { top: 0.146em; }
+.sub-title-bg.hero-bar-itin-m.hero-bar-itin-m2::after { top: 0.221em; }
+.sub-title-bg.hero-bar-itin-m.hero-bar-itin-m3::after { top: 0.296em; }
+.sub-title-bg.hero-bar-itin-m.hero-bar-itin-m4::after { top: 0.371em; width: 2.725em; }
+
+.sub-title-bg.hero-bar-nohits-m::after { height: 0.8em; left: 0; width: 6.875em; }
+.sub-title-bg.hero-bar-nohits-m.hero-bar-nohits-m1::after { top: 0.171em; }
+.sub-title-bg.hero-bar-nohits-m.hero-bar-nohits-m2::after { top: 0.246em; }
+.sub-title-bg.hero-bar-nohits-m.hero-bar-nohits-m3::after { top: 0.321em; width: 3.275em; }
+
 /* Mobile boards set the heading in 40/48 Taprom with a 32px bar, so the bar is
    0.8em tall and sits 0.2em down, which centres it on a 1.2 line box. */
 .sub-title-bg.hero-bar-mobile::after {
@@ -572,10 +592,17 @@ a,
   }
 }
 
+/* Union.png (420x670) is the whole card — face, scalloped foot and the soft
+   shadow round all three sides — so it has to be laid over the card's full box.
+   It was sized by HEIGHT only (auto 100%, repeat-x, centred): that only fits a
+   card with the image's own 420:670 shape, which the 293-wide homepage card
+   happens to be. A narrower or taller card (262.53 on the listing pages) made
+   the image wider than the card, so it was cropped from the middle and its
+   left/right shadow was cut off. Fitting both axes keeps the shadow on every
+   card, whatever its size. */
 .card-scallop-bottom {
   position: relative;
-  background: url("/Union.png") repeat-x bottom center;
-   background-size: auto 100%;
+  background: url("/Union.png") no-repeat center / 100% 100%;
 }
 
 .no-scrollbar {

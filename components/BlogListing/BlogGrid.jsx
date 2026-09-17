@@ -42,7 +42,7 @@ export default function BlogGrid({ blogs, categories }) {
 
   return (
     <>
-      <div className="mx-auto w-full lg:max-w-[1612px] min-[1920px]:max-w-[1696px]">
+      <div className="mx-auto w-full lg:max-w-[1612px] min-[1920px]:max-w-[1704px]">
       {/* Categories */}
       <div className="mb-[24px] flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between md:gap-0">
         <h2 className="font-[Nohemi] text-[24px] font-semibold leading-[40px] tracking-[0.05em] text-[#000000]">
@@ -61,8 +61,8 @@ export default function BlogGrid({ blogs, categories }) {
                 rounded-full
                 border
                 border-ink
+                h-[31px]
                 px-[16px]
-                py-[10px]
                 text-[16px]
                 leading-none
                 text-ink
@@ -80,7 +80,7 @@ export default function BlogGrid({ blogs, categories }) {
         </div>
       </div>
 
-      <div className="mb-[24px] w-full h-[2px] bg-ink" />
+      <div className="mb-[24px] min-[1920px]:mb-[30px] w-full h-[2px] bg-ink" />
 
       {/* =====================================================
           BLOG GRID
@@ -92,6 +92,8 @@ export default function BlogGrid({ blogs, categories }) {
           grid-cols-1
           gap-5
           sm:grid-cols-2
+          lg:gap-x-6
+          lg:gap-y-7
           lg:grid-cols-3
           lg:[grid-template-columns:repeat(3,524px)]
           min-[1920px]:[grid-template-columns:repeat(3,552px)!important]
@@ -115,8 +117,8 @@ export default function BlogGrid({ blogs, categories }) {
             "
           >
             {/* TOP */}
-            <div className="flex items-center justify-between px-[12px] py-[10px]">
-              <p className="text-[16px] font-semibold leading-[40px] tracking-[0.05em] text-[#000000]">
+            <div className="flex h-[64px] items-center justify-between px-[12px] min-[1920px]:px-[14px]">
+              <p className="text-[16px] font-semibold leading-none tracking-[0.05em] text-[#000000]">
                 {blog.dateLabel}
               </p>
 
@@ -143,7 +145,7 @@ export default function BlogGrid({ blogs, categories }) {
             </div>
 
             {/* IMAGE */}
-            <div className="px-[12px]">
+            <div className="px-[12px] min-[1920px]:px-[14px]">
               <Image
                 src={blog.imageUrl}
                 alt={blog.title || "Blog"}
@@ -159,7 +161,7 @@ export default function BlogGrid({ blogs, categories }) {
             </div>
 
             {/* TITLE */}
-            <div className="min-h-[105px] px-[12px] pt-[12px]">
+            <div className="min-h-[105px] px-[12px] pt-[12px] min-[1920px]:px-[14px] min-[1920px]:pt-[28px]">
               <h4
                 className="
                   font-[Nohemi]
@@ -175,12 +177,12 @@ export default function BlogGrid({ blogs, categories }) {
             </div>
 
             {/* BOTTOM */}
-            <div className="mt-auto px-[12px] pb-[10px]">
+            <div className="mt-auto px-[12px] pb-[10px] min-[1920px]:px-[15px] min-[1920px]:pb-[6px]">
               <div className="border-t border-ink" />
 
               <Link
                 href={`/blog/${blog.slug}`}
-                className="mt-[10px] flex items-center justify-between"
+                className="mt-[10px] flex items-center justify-between min-[1920px]:mt-[20px] min-[1920px]:h-[24px]"
               >
                 <span
                   className="
