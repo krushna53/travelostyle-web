@@ -361,7 +361,7 @@ export default function HeroSection({
             </div>
           </div>
 
-          <div className="md:mx-[27px] overflow-hidden rounded-[5px] border-2 border-[#1A1A1A] bg-[#FAFAFA]">
+          <div className="md:mx-[27px] overflow-hidden rounded-t-[10px] border-2 border-[#1A1A1A] bg-[#FAFAFA]">
             <div className="flex border-b-2 border-[#1A1A1A]">
            <div className="flex-1 px-[14px] py-[12px]">
 

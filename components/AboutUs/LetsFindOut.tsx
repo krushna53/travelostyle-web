@@ -60,7 +60,7 @@ export default function LetsFindOut() {
     </section>
 
     {/* DESKTOP */}
-    <section className="hidden min-[1024px]:block bg-white overflow-hidden px-[40px] min-[1280px]:px-[70px] py-[60px] min-[1280px]:py-[100px]">
+    <section className="hidden min-[1024px]:block bg-white overflow-hidden px-[7.55vw] py-[60px] min-[1280px]:py-[100px]">
       <div className="flex items-center gap-x-16 min-[1280px]:gap-x-10 min-[1366px]:gap-x-12 min-[1440px]:gap-x-14 min-[1919px]:gap-x-8 pb-[70px]">
         <div className="min-w-0 flex-1 max-w-[420px] min-[1020px]:max-w-[450px] min-[1280px]:max-w-[750px] min-[1440px]:max-w-[780px] min-[1919px]:max-w-[950px]">
           <h2 className="min-[1919px]:text-[48px] min-[1440px]:max-[1910px]:text-[40px] min-[1350px]:max-[1439px]:text-[36px] min-[1281px]:max-[1349px]:text-[40px] max-[1281px]:text-[38px] max-[1250px]:text-[32px] max-[1200px]:text-[28px] max-[900px]:text-[22px] font-semibold leading-[56px] text-[#1A1A2E]">
@@ -69,13 +69,13 @@ export default function LetsFindOut() {
             Let&apos;s find out together
           </h2>
 
-          <p className="mt-6 min-[1919px]:text-[18px] max-[1910px]:text-[16px] max-[1281px]:text-[15px] max-[1250px]:text-[14px] max-[1200px]:text-[13px] max-[900px]:text-[12px] leading-[32px] text-black">
+          <p className="mt-6 max-w-[640px] min-[1919px]:text-[18px] max-[1910px]:text-[16px] max-[1281px]:text-[15px] max-[1250px]:text-[14px] max-[1200px]:text-[13px] max-[900px]:text-[12px] leading-[32px] text-black">
             Whether you know exactly where you want to go or you&apos;re still at
-            <br />
+            
             the &apos;somewhere warm, sometime soon&apos; stage – TravelOStyle is here.
-            <br />
+            
             Start a conversation, browse the journeys, or just tell us how you like
-            <br />
+           
             to travel. That&apos;s usually enough to begin.
           </p>
 

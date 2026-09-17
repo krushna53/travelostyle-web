@@ -164,7 +164,7 @@ export default function ContactInquiry() {
   return (
   <section className="w-full px-0 py-0 max-md:px-0 max-md:py-0 mt-8">
       <div
-        className="relative mx-auto h-auto min-[1101px]:h-[576px] min-[1251px]:h-[600px] min-[1282px]:h-[615px] min-[1911px]:h-[917px] min-[1920px]:h-[922px] max-w-[200vw] overflow-hidden
+        className="relative mx-auto h-auto  max-w-[200vw] overflow-hidden
         max-md:h-auto max-w-full max-md:min-h-screen"
       >
         <Image
@@ -181,12 +181,13 @@ export default function ContactInquiry() {
         <div
           className="relative z-10 flex flex-col h-auto gap-[36px] px-[40px] py-[44px] text-[#FAFAFA]
           min-[1101px]:flex-row min-[1101px]:h-full
-          min-[1101px]:gap-[60px] min-[1101px]:px-[54px] min-[1101px]:py-[24px]
-          min-[1251px]:gap-[62px] min-[1251px]:px-[56px] min-[1251px]:py-[25px]
-          min-[1282px]:gap-[64px] min-[1282px]:px-[58px] min-[1282px]:py-[26px]
-          min-[1911px]:gap-[96px] min-[1911px]:px-[86px] min-[1911px]:py-[38px]
+          min-[1101px]:gap-[60px] min-[1101px]:px-[54px] 
+          min-[1251px]:gap-[62px] min-[1251px]:px-[56px] 
+          min-[1282px]:gap-[64px] min-[1282px]:px-[58px] 
+          min-[1911px]:gap-[96px] min-[1911px]:px-[86px] min-[1911px]:py-[42px]
           max-md:px-6 max-md:py-8 max-md:gap-6"
         >
+
           <div className="w-full pt-0 min-[1101px]:w-[28%] min-[1101px]:pt-[12px] min-[1282px]:pt-[13px] min-[1911px]:pt-[19px]">
           <h2
  className="mt-[3px] mb-[2px] w-full min-[1101px]:w-[397px] text-[40px] font-semibold
@@ -221,7 +222,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               max-md:grid-cols-1 max-md:gap-y-5"
             >
               <div>
-              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[14px]  max-md:w-auto max-md:h-auto md:text-[16px] text-[#FAFAFA]">
   First Name*
 </label>
 
@@ -247,7 +248,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 
               <div>
-              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+              <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[14px]  max-md:w-auto max-md:h-auto md:text-[18px] text-[#FAFAFA]">
   Last Name*
 </label>
 
@@ -274,7 +275,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 
               <div>
-                <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+                <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[14px]  max-md:w-auto max-md:h-auto md:text-[18px] text-[#FAFAFA]">
   Title*
 </label>
 
@@ -301,7 +302,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
               </div>
 
               <div>
-             <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px] text-[#FAFAFA]">
+             <label className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[145px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto text-[14px]  max-md:w-auto max-md:h-auto md:text-[18px] text-[#FAFAFA]">
   Email*
 </label>
 
@@ -329,7 +330,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
 <div>
   <label
     className="mb-[5px] max-[1281px]:mb-[3px] ml-[3px] block w-[180px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto
-    text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] max-md:w-auto max-md:h-auto max-md:text-[14px]
+    text-[14px]  max-md:w-auto max-md:h-auto md:text-[18px]
     text-[#FAFAFA]"
   >
     Contact Number*
@@ -391,8 +392,8 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
             <div className="mt-[33px] max-[1910px]:mt-[32px] max-[1281px]:mt-[22px] max-[1250px]:mt-[21px] max-[1200px]:mt-[20px]">
             <label
   className="mt-[5px] mb-[9px] max-[1281px]:mb-[6px] max-[1200px]:mb-[5px] block w-[169px] h-[13px] max-[1100px]:w-auto max-[1100px]:h-auto
-  text-[13px] leading-[13px] text-[#FAFAFA]
-  max-md:w-auto max-md:h-auto max-md:text-[14px] max-md:leading-normal"
+  text-[14px] leading-[13px] text-[#FAFAFA]
+  max-md:w-auto max-md:h-auto md:text-[18px] max-md:leading-normal"
 >
   Your Message*
 </label>
@@ -435,21 +436,21 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
   <div className="flex flex-col">
   <div className="mt-5 w-full max-md:mt-5">
   {/* Checkbox + first consent line */}
-  <div className="flex items-start gap-3">
+  <div className="flex items-center gap-3">
     <input
       type="checkbox"
       name="consent"
       checked={formData.consent}
       onChange={handleChange}
-      className={`mt-0 h-[16px] w-[16px] shrink-0 cursor-pointer accent-white
+      className={`mt-0 h-[32px] w-[32px] shrink-0 cursor-pointer accent-white
       ${errors.consent ? "outline outline-2 outline-red-400" : ""}`}
     />
 
     <p
       className="h-[13px] w-[686px] max-[1100px]:h-auto max-[1100px]:w-auto max-[1100px]:leading-5
-      text-[13px] leading-[13px] text-white/90
+      text-[14px] leading-[13px] text-[#FAFAFA]
       max-md:h-auto max-md:w-auto
-      max-md:text-[12px] max-md:leading-5"
+      md:text-[18px] max-md:leading-5"
     >
       I consent to being contacted on the above provided details by TravelOStyle.
     </p>
@@ -468,16 +469,16 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
 
            <button
   type="submit"
-  className="mt-[19px] max-[1281px]:mt-[13px] max-[1250px]:mt-[12px] flex h-[40px] w-[150px] items-center justify-center gap-[10px] rounded-[100px] bg-white px-[24px] py-[16px] text-[14px] font-semibold text-[#2f2d89] max-md:mt-5 max-md:mb-5 max-md:h-[37px] max-md:w-auto max-md:self-start max-md:px-4 max-md:py-3"
+  className="mt-[19px] max-[1281px]:mt-[13px] max-[1250px]:mt-[12px] flex h-[47px] w-[206px] items-center justify-center gap-[10px] rounded-[100px] bg-white px-[24px] py-[16px] text-[16px] md:text-[21px] font-semibold text-[#2f2d89] md:mt-8 md:mb-4 max-md:h-[37px] max-md:w-auto max-md:self-start md:px-6 md:py-4"
 >
   Submit Inquiry
 </button>
 <p
     className="mt-[20px] w-full h-[13px] max-[1100px]:h-auto max-[1100px]:leading-5
-    text-[13px] leading-[13px] text-white/70
+    text-[14px] leading-[13px] text-[#FAFAFA]
     max-md:h-auto max-md:w-auto
     max-md:mt-2
-    max-md:text-[12px] max-md:leading-5"
+    md:text-[18px] max-md:leading-5"
   >
     TravelOStyle typically responds within 48 hours.
     Your details are never shared with third parties.
