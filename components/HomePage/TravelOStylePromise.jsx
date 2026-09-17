@@ -80,36 +80,11 @@ export default async function TravelOStylePromise() {
     .filter(Boolean);
 
   return (
-    <section className="py-16 md:py-20 select-none overflow-x-hidden">
-      <div className="mx-auto w-full max-w-[1200px] px-6">
+    <section className="py-16 md:py-20 md:pb-[120px] select-none overflow-x-hidden">
+      <div className="mx-auto w-full max-w-[1450px] px-6">
         <div className="text-left sm:text-center w-full mx-auto">
           <h2
-            className="
-    mx-auto
-    w-full
-    font-nohemi
-    text-left
-    text-[26px]
-    leading-[32px]
-    tracking-[0.05em]
-    font-bold
-    text-[#1A1A1A]
-
-    sm:max-w-[741px]
-    sm:text-center
-    sm:leading-[46px]
-    sm:tracking-normal
-    sm:font-bold
-    sm:text-[#1A1A1A]
-
-    sm:max-[900px]:text-[22px]
-    sm:max-[1200px]:text-[28px]
-    sm:max-[1250px]:text-[32px]
-    sm:max-[1281px]:text-[38px]
-    sm:max-[1910px]:text-[44px]
-    sm:min-[1919px]:text-[54px]
-  "
-          >
+            className="mx-auto w-full font-nohemi text-left text-[26px] leading-[32px] tracking-[0.05em] font-normal text-[#1A1A1A] sm:max-w-[741px] sm:text-center sm:leading-[46px] sm:tracking-normal sm:font-normal sm:text-[#1A1A1A] sm:max-[900px]:text-[22px] sm:max-[1200px]:text-[28px] sm:max-[1250px]:text-[32px] sm:max-[1281px]:text-[38px] sm:max-[1910px]:text-[44px] sm:min-[1920px]:text-[56px]">
             {heading}
           </h2>
           <div className="mx-auto w-full md:max-w-[339px] md:max-w-full">
@@ -149,9 +124,9 @@ export default async function TravelOStylePromise() {
       font-nohemi
       md:mx-auto
       md:block
-      md:max-w-[1000px]
+      md:max-w-[62.5vw] max-[1280px]:md:max-w-[90vw] max-[1024px]:md:max-w-[92vw]
       md:text-center
-      md:text-[15px]
+      md:text-[18px]
       md:leading-[24px]
       md:tracking-normal
       md:text-[#4A4A4A]
@@ -160,25 +135,25 @@ export default async function TravelOStylePromise() {
             />
           </div>
         </div>
-        <div className="mt-8 md:mt-16 grid grid-cols-1 min-[490px]:grid-cols-2 sm:grid-cols-3 md:flex md:flex-row flex-wrap justify-center items-center justify-items-center gap-4 md:gap-8 max-[1910px]:md:gap-6 max-[1281px]:md:gap-5 max-[1250px]:md:gap-4 max-[1200px]:md:gap-3 w-full md:max-w-none mx-auto">
+        <div className="mt-12 md:mt-16 grid grid-cols-1 min-[490px]:grid-cols-2 sm:grid-cols-3 md:flex md:flex-row flex-wrap justify-center items-center justify-items-center gap-4 md:gap-[65px] max-[1400px]:md:gap-[55px] max-[1281px]:md:gap-[48px] max-[1200px]:md:gap-[42px] min-[1911px]:md:gap-[89px] w-full md:max-w-none mx-auto">
           {promises.map((item, index) => {
             return (
               <div
                 key={index}
-                className="flex min-h-[130px] md:h-[145px] w-full max-w-[290px] md:w-[290px] flex-col items-center justify-center rounded-[6px] border-2 border-[#2f2d89] gap-2 p-5 overflow-hidden"
+                className="flex min-h-[130px] md:h-[180px] md:max-w-[360px] w-full max-w-[406px] flex-col items-center justify-center rounded-[6px] border-2 border-[#2f2d89] gap-2 md:gap-[28px] p-5 px-[32px] max-[1281px]:md:h-[175px] max-[1281px]:md:max-w-[350px] max-[1281px]:md:gap-[26px] max-[1281px]:md:px-[30px] max-[1400px]:md:h-[185px] max-[1400px]:md:max-w-[375px] max-[1400px]:md:gap-[29px] max-[1400px]:md:px-[34px] max-[1910px]:md:h-[195px] max-[1910px]:md:max-w-[390px] max-[1910px]:md:gap-[32px] max-[1910px]:md:px-[36px] min-[1911px]:md:h-[206px] min-[1911px]:md:max-w-[406px] min-[1911px]:md:gap-[35px] min-[1911px]:md:px-[40px] overflow-hidden"
                 style={{ backgroundColor: item.bg }}
               >
-                <div className="relative w-[36px] h-[36px] md:w-[40px] md:h-[40px] flex items-center justify-center">
+                <div className="relative w-[36px] h-[36px] md:w-[63px] md:h-[63px] flex items-center justify-center">
                   <Image
                     src={item.icon}
                     alt="Promise Icon"
-                    width={40}
-                    height={40}
+                    width={63}
+                    height={63}
                     className="object-contain"
                   />
                 </div>
 
-                <p className="whitespace-pre-line max-md:whitespace-normal font-nohemi text-center text-black text-[20px] leading-[25px] font-bold tracking-[0.03em] md:text-[20px] md:leading-[25px] md:tracking-normal md:font-bold">
+                <p className="whitespace-pre-line max-md:whitespace-normal font-nohemi text-center text-black text-[20px] leading-[32px] font-bold tracking-[0.03em] md:text-[24px] max-[1400px]:md:text-[20px] md:leading-[25px] md:tracking-normal md:font-bold">
                   {item.title}
                 </p>
               </div>
