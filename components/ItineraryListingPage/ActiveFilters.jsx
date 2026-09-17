@@ -55,7 +55,7 @@ export default function ActiveFilters({
                   value
                 )
               }
-              className="flex h-[13px] w-[13px] items-center justify-center rounded-full text-[0.7vw] text-[#666] hover:text-red-500 leading-none"
+              className="flex h-[13px] w-[13px] items-center justify-center rounded-full text-[13px] text-[#666] hover:text-red-500 leading-none"
             >
               ×
             </button>

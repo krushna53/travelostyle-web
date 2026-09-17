@@ -19,7 +19,7 @@ function HighlightCard({ card }) {
         />
         {card.caption && (
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-[1vw] pb-[0.8vw] pt-[2vw]">
-            <p className="text-[0.72vw] font-medium text-white">
+            <p className="text-[16px] font-medium text-white">
               {card.caption}
             </p>
           </div>

@@ -36,7 +36,7 @@ function AccordionItem({ item }) {
         onClick={() => setIsOpen((v) => !v)}
         className="flex w-full items-center justify-between px-[1.4vw] py-[1.1vw] text-left"
       >
-        <span className="text-[0.9vw] font-bold text-ink">
+        <span className="text-[18px] font-bold text-ink">
           {item.title}
         </span>
         <span className="relative flex h-[1.8vw] w-[1.8vw] shrink-0 items-center justify-center rounded-full bg-[#F7E4DC]">
@@ -56,7 +56,7 @@ function AccordionItem({ item }) {
       >
         <div className="overflow-hidden">
           <div
-            className={`${styles.infoRichText} border-t border-[#E5E5E5] px-[1.4vw] py-[1.2vw] text-left text-[0.8vw] leading-[1.7] text-[#333]`}
+            className={`${styles.infoRichText} border-t border-[#E5E5E5] px-[1.4vw] py-[1.2vw] text-left text-[16px] leading-[1.7] text-[#333]`}
             dangerouslySetInnerHTML={{ __html: item.content }}
           />
         </div>
@@ -73,7 +73,7 @@ export default function AdditionalInformationSection({ drupalData }) {
     <div className="bg-[#fafafa] px-[8vw] py-[3vw]">
       {groups.map((group, gi) => (
         <div key={gi} className={gi > 0 ? "mt-[3vw]" : ""}>
-          <h2 className="mb-[1.6vw] text-center text-[1.5vw] font-bold text-ink">
+          <h2 className="mb-[1.6vw] text-center text-[32px] font-bold text-ink">
             {group.title}
           </h2>
           <div className="flex flex-col gap-[1vw]">

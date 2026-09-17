@@ -14,17 +14,17 @@ function DayAccordion({ item, isOpen, onToggle }) {
         className="w-full flex items-start justify-between px-[1.2vw] py-[1vw] text-left"
       >
         <div className="flex-1 pr-4">
-          <p className="text-[0.65vw] font-medium uppercase tracking-[0.1em] text-[#888] mb-[0.2vw]">
+          <p className="text-[18px] font-semibold uppercase tracking-[0.1em] text-[#000000] mb-[0.2vw]">
             DAY {item.day}
           </p>
-          <p className="text-[0.85vw] font-medium text-ink">
+          <p className="text-[18px] font-semibold text-ink">
             {item.title}
           </p>
-          <p className="text-[0.72vw] font-normal text-[#666] mt-[0.2vw]">
+          <p className="text-[18px] font-normal text-[#000000] mt-[0.2vw]">
             <span className="font-bold text-ink">Stay:</span> {item.stay}
           </p>
           {isOpen && (
-            <p className="text-[0.75vw] text-[#444] leading-[1.6] mt-[0.8vw]">
+            <p className="text-[18px] text-[#000000] leading-[1.6] mt-[0.8vw]">
               {item.description}
             </p>
           )}
@@ -52,7 +52,7 @@ export default function ItinerarySection({
 
   return (
     <div className="px-[5.5vw] py-[3vw]">
-      <h2 className="text-center text-[1.4vw] font-semibold text-ink mb-[2.5vw]">
+      <h2 className="text-center text-[32px] font-semibold text-ink mb-[2.5vw]">
         Here&apos;s How Your Days Unfold
       </h2>
 

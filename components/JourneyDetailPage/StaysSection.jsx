@@ -37,9 +37,9 @@ function Lightbox({ images, name, startIndex, onClose }) {
         className="absolute top-0 left-0 right-0 flex items-center justify-between px-[2vw] py-[1.2vw]"
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="text-white text-[0.9vw] font-semibold">{name}</p>
+        <p className="text-white text-[18px] font-semibold">{name}</p>
         <div className="flex items-center gap-[1.5vw]">
-          <span className="text-white/60 text-[0.8vw]">
+          <span className="text-white/60 text-[16px]">
             {current + 1} / {images.length}
           </span>
           <button
@@ -119,10 +119,10 @@ function HotelCard({ hotel, onGalleryOpen }) {
       </div>
 
       <div className="flex flex-col flex-1 px-[0.8vw] pt-[0.7vw] pb-[0.8vw]">
-        <p className="text-[0.82vw] font-semibold text-ink">
+        <p className="text-[18px] font-semibold text-ink">
           {hotel.name}
         </p>
-        <p className="mt-[0.3vw] mb-[0.6vw] text-[0.7vw] leading-[1.5] text-[#555]">
+        <p className="mt-[0.3vw] mb-[0.6vw] text-[14px] leading-[1.5] text-[#000000]">
           {hotel.desc}
         </p>
       </div>
@@ -130,7 +130,7 @@ function HotelCard({ hotel, onGalleryOpen }) {
       <div className="mt-[0.8vw] border-t-2 border-ink">
         <button
           onClick={onGalleryOpen}
-          className="w-full py-[0.6vw] text-[0.75vw] font-medium text-ink text-center hover:bg-[#f8f8f8] transition-colors"
+          className="w-full py-[0.6vw] text-[16px] font-medium text-ink text-center hover:bg-[#f8f8f8] transition-colors"
         >
           View Gallery
         </button>
@@ -168,7 +168,7 @@ export default function StaysSection({ drupalData }) {
     );
   })
 ) : (
-  <p className="text-center text-[1vw] text-[#555] py-[2vw]">
+  <p className="text-center text-[18px] text-[#555] py-[2vw]">
     Coming soon
   </p>
 )}
@@ -177,7 +177,7 @@ export default function StaysSection({ drupalData }) {
       {/* Disclaimer */}
       <div className="mt-[1.5vw] flex items-start gap-[0.5vw] rounded-[0.4vw] bg-[#FDF4EC] border border-[#EDD9C4] px-[1vw] py-[0.8vw]">
         <Info size={14} className="text-[#C08050] shrink-0 mt-[0.1vw]" />
-        <p className="text-[0.7vw] text-[#555] leading-[1.6]">
+        <p className="text-[16px] text-[#000000] font-light leading-[1.6]">
           In case these accommodations are not available, you will be hosted at
           an accommodation of same level or category. You travel adviser will
           confirm with you at the time of booking.
