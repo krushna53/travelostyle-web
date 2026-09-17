@@ -68,7 +68,7 @@ export default function TravelBetter() {
         className="min-[1024px]:hidden pointer-events-none absolute left-0 top-[-35.56vw] min-[430px]:top-[-21.8vw] w-full h-auto z-0"
       />
 
-      <div className="relative z-10 max-w-[530px] min-[1024px]:max-w-[calc(530*var(--fig-u))]">
+      <div className="relative z-10 max-w-[530px] min-[1024px]:max-w-[900px]">
         <p className="font-taprom text-[48px] max-[1910px]:text-[43px] max-[1281px]:text-[38px] max-[1250px]:text-[33px] max-[1200px]:text-[28px] min-[1024px]:text-[calc(48*var(--fig-u))] font-normal leading-[32px] min-[1024px]:leading-[calc(64*var(--fig-u))] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic]">
           ways we like to travel
         </p>
@@ -77,12 +77,15 @@ export default function TravelBetter() {
           Travel better with us
         </h2>
 
-        <p className="mt-8 min-[1024px]:mt-[calc(32*var(--fig-u))] max-w-[830px] min-[1024px]:max-w-[calc(830*var(--fig-u))] text-[18px] max-[1910px]:text-[16px] min-[1024px]:text-[calc(18*var(--fig-u))] font-normal leading-[28px] min-[1024px]:leading-[calc(28*var(--fig-u))] tracking-[0.05em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic]">
-          TravelOStyle offers a curated collection of ready-to-book journeys
-          across the world &ndash; across travel styles, budget points, and modes of
-          travel. Alongside that, we personalise journeys for those who want
-          something that&rsquo;s truly, specifically theirs.
-        </p>
+       <p className="mt-8 min-[1024px]:mt-[calc(32*var(--fig-u))] max-w-[1000px] min-[1024px]:max-w-[900px] min-[390px]:text-[18px] mr-[2px]text-[19px] max-[1910px]:text-[16px] min-[1024px]:text-[calc(18*var(--fig-u))] font-normal leading-[28px] min-[1024px]:leading-[calc(28*var(--fig-u))] tracking-[0.03em] text-black [text-box-trim:cap] [text-box-edge:cap_alphabetic]">
+We offer a curated collection
+  <br className="min-[390px]:block min-[1024px]:hidden" />
+  of ready-to-book journeys across the world &mdash; across{" "}
+  <br className="hidden min-[1024px]:block" />
+  travel styles, budget points, and modes of travel. Alongside that, we personalise journeys{" "}
+  <br className="hidden min-[1024px]:block" />
+  for those who want something that&rsquo;s truly, specifically theirs.
+</p>
       </div>
 
       {/* Cards */}
