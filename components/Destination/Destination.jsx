@@ -112,7 +112,7 @@ export default function Destination({ initialJourneys = [] }) {
     onCompare={handleCompareSelection}
     mobileSlider
     mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
-    columns={4}
+    columns="4-stepped"
   />
 </div>
 </section>

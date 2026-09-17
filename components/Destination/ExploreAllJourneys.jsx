@@ -16,37 +16,41 @@ export default function ExploreAllJourneys() {
             <div className="w-full max-w-[776px]">
 
               {/* Desktop Heading */}
-              <h2 className="hidden lg:block font-[Taprom] text-[44px] min-[1440px]:text-[48px] min-[1600px]:text-[54px] min-[1800px]:text-[60px] min-[1919px]:text-[64px] leading-20 text-ink">
-                <span className="block w-fit sub-title-bg">
+              {/* Figma "Destinations Page", 1920: Taprom 64/80/5% #1A1A1A,
+                  cap tops 394/474/554, with Rectangles 932/933/936 (607, 702
+                  and 321 x 53) starting 8px before the words. Leading is 1.25em
+                  rather than a fixed 80px so the line box, and the em-based
+                  .hero-bar-dest bars hung off it, scale with the size steps.
+                  pl 0.125em puts the words 8px inside the bars, so the bars
+                  line up with the paragraph's left edge the way the board has
+                  them (bars and copy at 111, words at 119); -top 0.156em lifts
+                  the heading the 10px it sat low without moving the copy.
+                  38px below 1280: the left column is only ~432px there, and
+                  "world out there with your" at 44px wrapped onto two lines. */}
+              <h2 className="hidden lg:block relative -top-[0.156em] pl-[0.125em] font-[Taprom] font-normal tracking-[0.05em] leading-[1.25] text-[38px] min-[1280px]:text-[44px] min-[1440px]:text-[48px] min-[1600px]:text-[54px] min-[1800px]:text-[60px] min-[1919px]:text-[64px] text-ink">
+                <span className="block w-fit whitespace-nowrap sub-title-bg hero-bar-dest hero-bar-dest1">
                   There’s a version of the
                 </span>
 
-                <span className="block w-fit sub-title-bg">
+                <span className="block w-fit whitespace-nowrap sub-title-bg hero-bar-dest hero-bar-dest2">
                   world out there with your
                 </span>
 
-                <span className="block w-fit sub-title-bg">
+                <span className="block w-fit whitespace-nowrap sub-title-bg hero-bar-dest hero-bar-dest3">
                   name on it
                 </span>
               </h2>
 
-              {/* Mobile Heading */}
-              <h2 className="block lg:hidden font-[Taprom] font-normal max-w-[336px] mx-auto text-[40px] leading-[48px] tracking-[0.05em] text-[#000000] text-center">
-                <span className="w-fit mx-auto block sub-title-bg des mb-[15px]">
-                  There’s a version of
-                </span>
-
-                <span className="block sub-title-bg sub-title-bg des mb-[15px]">
-                  the world out there
-                </span>
-
-                <span className="block sub-title-bg sub-title-bg des mb-[15px]">
-                  that has your name
-                </span>
-
-                <span className="block sub-title-bg sub-title-bg des-on">
-                  on it.
-                </span>
+              {/* Mobile Heading — "RES_Destinations", 390 board: four centred
+                  lines of Taprom 40/48/5% on a 48px pitch (no gaps between
+                  them), each on its own 32px bar reaching a little past the
+                  words -- .hero-bar-dest-m. */}
+              <h2 className="block lg:hidden relative font-[Taprom] font-normal max-w-[339px] mx-auto text-[40px] leading-[48px] tracking-[0.05em] text-[#1A1A1A] text-center">
+                {["There’s a version of", "the world out there", "that has your name", "on it."].map((line) => (
+                  <span key={line} className="block">
+                    <span className="sub-title-bg hero-bar-dest-m inline-block whitespace-nowrap">{line}</span>
+                  </span>
+                ))}
               </h2>
 
               {/* Paragraph */}

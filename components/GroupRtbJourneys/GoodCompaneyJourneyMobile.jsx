@@ -70,8 +70,11 @@ const dashedLines = [
   { src: "/group/Line5.svg", box: "left-[calc(296*var(--fig-u))] top-[calc(827*var(--fig-u))] w-[calc(45*var(--fig-u))] h-[calc(62*var(--fig-u))]" },
 ];
 
-// Rectangles 1041-1043: three left-aligned lines of Taprom 40/48 starting at
-// board x 27, each with its own peach bar behind it.
+// Rectangles 1041-1043: three left-aligned lines of Taprom 40/48. The WORDS
+// start at board x 38 and their bars at 27, so the peach leads in 11px before
+// the first letter (see .hero-bar-group-m). Line tops are the cap tops
+// 194/242/290 less the 96 header and less the 7.85px the browser sets Taprom's
+// cap top into a 48px line box.
 const HEADING_LINES = ["Journeys that get", "better in good", "company"];
 
 export default function GoodCompaneyJourneyMobile() {
@@ -94,10 +97,10 @@ export default function GoodCompaneyJourneyMobile() {
             /* z-10 is load-bearing: .sub-title-bg's peach bar is an ::after at
                z-index -1, so it needs a stacking context between itself and
                this section's background or it paints behind it and vanishes. */
-            className="absolute z-10 left-[calc(27*var(--fig-u))] font-taprom leading-[1.2] tracking-[0.05em] text-[#1A1A1A] text-[calc(40*var(--fig-u))]"
-            style={{ top: `calc(${98 + i * 48}*var(--fig-u))` }}
+            className="absolute z-10 left-[calc(38*var(--fig-u))] font-taprom leading-[1.2] tracking-[0.05em] text-[#1A1A1A] text-[calc(40*var(--fig-u))]"
+            style={{ top: `calc(${90.15 + i * 48}*var(--fig-u))` }}
           >
-            <span className="sub-title-bg hero-bar-mobile inline-block">
+            <span className={`sub-title-bg hero-bar-group-m hero-bar-group-m${i + 1} inline-block`}>
               {line}
             </span>
           </h2>

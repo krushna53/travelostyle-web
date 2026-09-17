@@ -269,6 +269,122 @@ a,
   height: 0.805em;
 }
 
+/* Group RTB hero, 64/80 Taprom. The browser puts Taprom's cap top 15px into
+   an 80px line box; Figma draws Rectangle 932 7px above line one's cap top
+   (8px into the box) and Rectangle 933 1px below line two's (16px in), both
+   53 tall. Both rects run ~21px wider than the browser's words (862 vs 840,
+   239 vs 218), split evenly -- 0.168em a side. */
+.sub-title-bg.hero-bar-group1::after {
+  top: 0.125em;
+  height: 0.828em;
+  left: -0.168em;
+  width: calc(100% + 0.336em);
+}
+.sub-title-bg.hero-bar-group2::after {
+  top: 0.25em;
+  height: 0.828em;
+  left: -0.168em;
+  width: calc(100% + 0.336em);
+}
+
+/* Group RTB hero on the 390 board: "Journeys that get / better in good /
+   company" in 40/48 Taprom from board x 38, cap tops 194/242/290. Rectangles
+   1041-1043 start at x 27 -- 11px before the words -- and run 305, 248 and 171
+   wide against words of 283, 226 and 136, so 11px lead-out on the first two
+   and 24 on "company". Their tops sit 0, -1 and +2 off each cap top, which is
+   7.85/6.85/9.85px into the browser's 48px line box. */
+.sub-title-bg.hero-bar-group-m::after {
+  height: 0.8em;
+  left: -0.275em;
+  width: calc(100% + 0.55em);
+}
+.sub-title-bg.hero-bar-group-m.hero-bar-group-m1::after { top: 0.196em; }
+.sub-title-bg.hero-bar-group-m.hero-bar-group-m2::after { top: 0.171em; }
+.sub-title-bg.hero-bar-group-m.hero-bar-group-m3::after {
+  top: 0.246em;
+  width: calc(100% + 0.875em);
+}
+
+/* Private RTB hero, 64/80 Taprom -- same vertical geometry as the Group RTB
+   one (932 sits 7px above line one's cap top, 933 1px below line two's), but
+   its rects are drawn well outside the words: 932 is 862 against a 758 line,
+   52px each side, and 933 is 362 against 320, 31px in and 12px out. */
+.sub-title-bg.hero-bar-private1::after {
+  top: 0.125em;
+  height: 0.828em;
+  left: -0.8125em;
+  width: calc(100% + 1.625em);
+}
+.sub-title-bg.hero-bar-private2::after {
+  top: 0.25em;
+  height: 0.828em;
+  left: -0.4844em;
+  width: calc(100% + 0.6719em);
+}
+
+/* Private RTB hero on the 390 board: "A curated route, / perfected by you, /
+   for you" in 40/48 Taprom, centred on the text frame's 204.5, cap tops
+   153/201/249. Rectangles 1041-1043 sit 0/-1/+2 off each cap top (the same
+   7.85/6.85/9.85px into the line box as the Group RTB board) and are drawn
+   around words of 265, 273 and 121:
+     1041 268 at 66   -> 6px in, flush out
+     1042 289 at 53   -> 15px in, 1px out
+     1043 172 at 114  -> 30px in, 21px out */
+.sub-title-bg.hero-bar-private-m::after { height: 0.8em; }
+.sub-title-bg.hero-bar-private-m.hero-bar-private-m1::after {
+  top: 0.196em;
+  left: -0.15em;
+  width: calc(100% + 0.075em);
+}
+.sub-title-bg.hero-bar-private-m.hero-bar-private-m2::after {
+  top: 0.171em;
+  left: -0.375em;
+  width: calc(100% + 0.4em);
+}
+.sub-title-bg.hero-bar-private-m.hero-bar-private-m3::after {
+  top: 0.246em;
+  left: -0.75em;
+  width: calc(100% + 1.275em);
+}
+
+/* Tailor-made "Custom, from / the ground up" on the 390 board: 32px bars that
+   start ~2px before the words; line one's runs ~12px past "from", line two's
+   stops at "up", and it sits ~2px lower on its line than line one's does. */
+.sub-title-bg.hero-bar-custom-m::after { height: 0.8em; left: -0.05em; }
+.sub-title-bg.hero-bar-custom-m.hero-bar-custom-m1::after {
+  top: 0.196em;
+  width: calc(100% + 0.3em);
+}
+.sub-title-bg.hero-bar-custom-m.hero-bar-custom-m2::after {
+  top: 0.246em;
+  width: calc(100% + 0.05em);
+}
+
+/* Destinations hero, 64/80 Taprom: Rectangles 932/933/936 are 53 tall, start
+   8px before the words and sit 0/+1/+2 off each line's cap top (15px into the
+   browser's 80px line box). Their widths are the board's own -- 607, 702 and
+   321 -- against words the browser sets at 622, 693 and 281. */
+.sub-title-bg.hero-bar-dest::after { height: 0.828em; left: -0.125em; }
+.sub-title-bg.hero-bar-dest.hero-bar-dest1::after {
+  top: 0.234em;
+  width: calc(100% - 0.234em);
+}
+.sub-title-bg.hero-bar-dest.hero-bar-dest2::after {
+  top: 0.25em;
+  width: calc(100% + 0.141em);
+}
+.sub-title-bg.hero-bar-dest.hero-bar-dest3::after {
+  top: 0.266em;
+  width: calc(100% + 0.625em);
+}
+
+.sub-title-bg.hero-bar-dest-m::after {
+  top: 0.2em;
+  height: 0.8em;
+  left: -0.2em;
+  width: calc(100% + 0.4em);
+}
+
 /* Mobile boards set the heading in 40/48 Taprom with a 32px bar, so the bar is
    0.8em tall and sits 0.2em down, which centres it on a 1.2 line box. */
 .sub-title-bg.hero-bar-mobile::after {
@@ -278,33 +394,140 @@ a,
 }
 
 /* About Us hero: Rectangle 910 is 1337x53 at top 439 behind a 64/80 heading
-   whose line box starts at 416 and runs 1309 wide — so 23/64 down, 53/64 tall,
-   and 14px wider than the text on each side. */
+   1309 wide -- 53/64 tall and 14px wider than the text on each side. Figma's
+   416 for the heading is its CAP top (leading-trim: cap), which the browser
+   puts at line box + 15, so the line box starts at 401 and the bar is 38/64
+   down it, not the 23/64 that treating 416 as the line box gave. */
 .sub-title-bg.hero-bar-about::after {
-  top: 0.359em;
+  top: 0.5938em;
   height: 0.828em;
   left: -0.219em;
   width: 102.1%;
 }
 
-/* Homepage hero line, 54/80 Taprom: the base bar's 30/48/-8 restated in em so
-   it tracks the type instead of sitting still while the heading scales. */
-.sub-title-bg.hero-bar-home::after {
-  top: 0.5556em;
-  height: 0.8889em;
-  left: -0.1481em;
+/* Homepage "Journeys made for you..." on the 390 board, where it breaks over
+   three lines. Same 32px bar and same vertical placement as .hero-bar-mobile,
+   but the board pads that bar out past the words on BOTH sides -- its three
+   rects are 261, 308 and 171 wide against text that measures 236, 291 and 153,
+   so about 9 design px of peach lead in and lead out of every line. The shared
+   .hero-bar-mobile has none of that (measured: 0-3px in, 0 or less out), which
+   is why the ampersand on line two and the full stop on line three were sitting
+   on the very edge of the bar.
+
+   0.22em a side at 40px is 8.8px, which puts the three bars at 254, 309 and 170
+   against the board's 261, 308 and 171.
+
+   Its own class rather than a change to .hero-bar-mobile: About Us, Group RTB
+   and Private RTB share that one and are already within a few px of their own
+   boards, so widening it would push those three past theirs. */
+.sub-title-bg.hero-bar-home-mobile::after {
+  top: 0.2em;
+  height: 0.8em;
+  left: -0.22em;
+  width: calc(100% + 0.44em);
 }
-.sub-title-bg.it::after{
-    width: 104.5%;
-    height: 50px;
-    position: absolute;
-    top: -8px;
-    left: -4px;
+
+/* Homepage "Journeys made for you..." line. Figma draws Rectangle 910 at
+   967x53 / x 98 / y 1488 behind a 54/80 Taprom heading whose frame is at
+   x 108 / y 1495 and measures 957 wide. The horizontal pair transfers directly
+   (-10px and 967/957 of the text), and the height does too. The bar's TOP does
+   not: Figma and the browser disagree about where Taprom's baseline falls in an
+   80px line box -- Taprom is a Khmer face whose ascent/descent dwarf its Latin
+   glyphs -- so laying the bar at Figma's -7 puts its bottom edge through the
+   middle of the x-height, which is not what the board looks like.
+
+   So the bar is hung off the rendered baseline instead, which is where the
+   board puts it: bottom on the baseline, lowercase bodies enclosed, the
+   descenders of J and the three y's hanging below. Measured at 1920, the
+   baseline lands 57px under the line box, so the bar starts at 57 - 53 = 4.
+
+   All of it in em against the 54px type, so it tracks the heading at every
+   breakpoint rather than sitting still while --fig-u shrinks the words:
+     top     4 / 54     height 53 / 54
+     left  -10 / 54     width  967 / 957
+
+   (It replaces a generic 30/48/-8 inherited from .sub-title-bg, measured
+   against a different heading, which sat 26px too low and 5px too short and
+   left every ascender poking out of the top of the bar.) */
+.sub-title-bg.hero-bar-home::after {
+  width: 101.045%;
+  height: 1.0815em;
+  top: 0.1641em;
+  left: -.1852em;
+}
+/* About Us "Our range is wide because we don't believe in a one-size-fits
+   all approach to the world". Rectangles 1009 and 1010 are 40px rects behind a
+   48/64 Taprom line, their tops 6-9px under the line's cap top -- 20px into
+   the browser's 64px line box, which sets Taprom's cap top 12.6px down.
+
+   Rectangle 1010 ("believe in a one-size-fits all") starts on the text frame
+   and matches the words' own advance (552 vs 550), so it takes the span as is.
+   Rectangle 1009 ("because we don't") is drawn 3px before the word and runs
+   31px past "don't" to 345 -- the -line1 modifier reproduces that. */
+.sub-title-bg.hero-bar-range::after {
+  top: 0.419em;
+  height: 0.8333em;
+  left: 0;
+  width: 100%;
+}
+.sub-title-bg.hero-bar-range.hero-bar-range-line1::after {
+  left: -0.0625em;
+  width: calc(100% + 0.6458em);
+}
+/* Same heading on the 390 board: 32px rects behind 40/48 Taprom, their tops
+   6-9px under each line's cap top -- 15.5px into the 48px line box. Per line,
+   measured against the words at 390:
+     1013 "we don't"                149 / 152 -> 7px lead-in, 12px lead-out
+     1048 "believe in a one-size-"   26 / 342 -> 1px lead-in, flush out
+     1049 "fits all approach"        26 / 275 -> 1px lead-in, 2px lead-out */
+.sub-title-bg.hero-bar-range-m::after {
+  top: 0.3875em;
+  height: 0.8em;
+  left: 0;
+  width: 100%;
+}
+.sub-title-bg.hero-bar-range-m.hero-bar-range-m1::after {
+  left: -0.175em;
+  width: calc(100% + 0.475em);
+}
+.sub-title-bg.hero-bar-range-m.hero-bar-range-m2::after {
+  left: -0.025em;
+}
+.sub-title-bg.hero-bar-range-m.hero-bar-range-m3::after {
+  left: -0.025em;
+  width: calc(100% + 0.075em);
+}
+
+/* Homepage "Experience travel the way it should be with TravelOStyle".
+   Taprom 42/80/5% on the 1920 board, with the same 53px peach rect the rest of
+   the desktop boards use (Journeys = 967x53, About Us = 1337x53), sitting with
+   its bottom on the baseline.
+
+   80/42 is 1.9048em of line height, whose baseline falls 1.2672em below the
+   line box (half-leading plus Taprom's ascent), so a 53px rect -- 1.2619em --
+   starts a hair under 0. The board draws it 15px wider than the words, split
+   either side, which is 0.18em each.
+
+   Both lines share this one rule, which the old markup could not: .it was on a
+   <div> and .should-be fell through to the base .sub-title-bg bar on a <span>,
+   so the two resolved `top` against different origins -- a block's line box vs
+   an inline's content box -- and line two's rect sat 10px lower than line
+   one's. Both are inline-blocks now, so both origins are the line box.
+
+   Mobile keeps the 390 board's 32px rect at 40/48, the same numbers as
+   .hero-bar-home-mobile. */
+.sub-title-bg.hero-bar-experience::after {
+  height: 1.0619em;
+  top: 0.4053em;
+  left: -0.18em;
+  width: calc(100% + 0.36em);
 }
 @media (max-width: 767px) {
-  .sub-title-bg.it::after{
-    height: 36px;
-    top: 8px;
+  .sub-title-bg.hero-bar-experience::after {
+    top: 0.2em;
+    height: 0.8em;
+    left: -0.22em;
+    width: calc(100% + 0.44em);
   }
   .sub-title-bg:after{
     left: -2.4px;

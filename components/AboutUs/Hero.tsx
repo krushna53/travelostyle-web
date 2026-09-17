@@ -76,8 +76,21 @@ export default function Hero() {
           Vector 220    677.28 x 479.61 at  1333 / 590
           heading       1309 wide, 64/80 Taprom  at  416
           Rectangle 910 1337 x 53       at   292 / 439
-          paragraphs    1070 wide, 21/40         at  542.3 and 653.9
-          images start                          at  806  -> 604 tall */}
+          paragraphs    1070 wide, Nohemi 300 21/40 at 542.3 and 653.9
+          images start                          at  806  -> 604 tall
+
+        Figma exports these text tops with leading-trim: cap, so 416, 542.3
+        and 653.9 are CAP tops, not line-box tops -- the heading's 46px frame
+        height is Taprom's cap height at 64, not a line. Laid out as line-box
+        tops they put every baseline ~12px low while the bar stayed put. So
+        each element is placed by where its baseline lands in the browser,
+        measured at 1920:
+          heading   cap 416 + 46 = baseline 462; the browser sets Taprom's
+                    baseline 61px into an 80px line box -> top 462-61-202 = 199
+          para 1    baselines 556.8 / 596.8 -> top 328.1
+          para 2    baselines 668.4 / 708.4 -> top 440.3
+        and the bar keeps Figma's 439, which is 38px into the heading's line
+        box now (see .hero-bar-about). */}
     <section className="figma-scale hidden min-[1024px]:block relative mt-[calc(20*var(--fig-u))] h-[calc(604*var(--fig-u))]">
       <Image
         src="/Vector221.svg"
@@ -107,22 +120,22 @@ export default function Hero() {
             Vector 220 also drops 266px below this section, past the images that
             follow, which is why the section does not clip. */}
 
-        <h1 className="absolute inset-x-0 top-[calc(214*var(--fig-u))] z-10 text-center">
+        <h1 className="absolute inset-x-0 top-[calc(199*var(--fig-u))] z-10 text-center">
           <span className="sub-title-bg hero-bar-about inline-block font-taprom whitespace-nowrap leading-[1.25] tracking-[0.05em] text-black text-[calc(64*var(--fig-u))]">
             Making travel feel like it was always supposed to
           </span>
         </h1>
 
-        <p className="absolute left-1/2 -translate-x-1/2 top-[calc(340.3*var(--fig-u))] z-10 w-[calc(1070*var(--fig-u))] text-center font-light leading-[1.905] tracking-[0.05em] text-black text-[calc(21*var(--fig-u))]">
+        <p className="absolute left-1/2 -translate-x-1/2 top-[calc(328.1*var(--fig-u))] z-10 w-[calc(1070*var(--fig-u))] text-center font-[Nohemi] font-light leading-[1.905] tracking-[0.05em] text-black text-[calc(21*var(--fig-u))]">
           Travel, at its best, is a chance to reconnect with what matters to you. An opportunity to see the
           <br />
           world differently, or simply provide relief, or even come home with a story you actually want to tell.
         </p>
 
-        <p className="absolute left-1/2 -translate-x-1/2 top-[calc(451.9*var(--fig-u))] z-10 w-[calc(1070*var(--fig-u))] text-center font-light leading-[1.905] tracking-[0.05em] text-black text-[calc(21*var(--fig-u))]">
-          Not a logistics puzzle. Not a source of pre-departure dread. Not something
+        <p className="absolute left-1/2 -translate-x-1/2 top-[calc(440.3*var(--fig-u))] z-10 w-[calc(1070*var(--fig-u))] text-center font-[Nohemi] font-light leading-[1.905] tracking-[0.05em] text-black text-[calc(21*var(--fig-u))]">
+          Not a logistics puzzle. Not a source of pre-departure dread. Not something that costs you more
           <br />
-          that costs you more energy than it gives back.
+          energy than it gives back.
         </p>
       </div>
     </section>
