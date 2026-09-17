@@ -4,9 +4,18 @@ import React from "react";
 export default function CustomFromGroundUp() {
   return (
     <>
-      <section className="relative bg-white pt-8 sm:pt-10 pb-2 overflow-x-clip md:overflow-hidden" style={{ paddingInline: "clamp(26px, 3.6vw, 69px)" }}>
+      {/* Below md this section is the 390 board scaled to the window
+          (--fig-u = 100vw/390): heading, curves, paragraph and the side padding
+          all grow together, so the loop stays beside the heading AND reaches
+          the window's right edge, and the left tail stays on the left edge. At
+          390 every value is exactly what it was. The unit is only read by
+          max-md: classes, so desktop is untouched. */}
+      <section
+        className="relative bg-white pt-8 sm:pt-10 max-md:pt-[calc(32*var(--fig-u))] pb-2 overflow-x-clip md:overflow-hidden px-[clamp(26px,3.6vw,69px)] max-md:px-[calc(26*var(--fig-u))]"
+        style={{ "--fig-u": "calc(100vw / 390)" }}
+      >
         <div className="gap-8 items-start relative max-w-[1704px] mx-auto">
-          <div className="md:col-span-7 space-y-6 md:pr-8 relative">
+          <div className="md:col-span-7 space-y-6 max-md:space-y-[calc(24*var(--fig-u))] md:pr-8 relative">
           
             {/* MOBILE — "RES_Tailor Made Journeys", 390 board. Measured off
                 the board render (its CSS export stops before this section):
@@ -18,27 +27,26 @@ export default function CustomFromGroundUp() {
                 The curve was squeezed into a 180x150 box before, which drew
                 it at 142px, and sat 26px short of the edge because the
                 section's side padding was between it and the board edge.
-                The path runs off the board's right edge, so it is pinned to the
-                SECTION's right edge — right: minus the section's own side
-                padding — and never floats mid-page on wider phones (762). At
-                390 that is the same spot as before (199..390). ResLine2's path
-                starts at x -31.5 and is cut at 0, so it goes flush against the
-                section's left edge the same way.
+                Board 199 less the section's 26 padding = left 173, so at every
+                width (all values x --fig-u) it ends exactly on the window's
+                right edge and stays beside the heading. ResLine2's path starts
+                at x -31.5 and is cut at 0, so it sits at minus the padding —
+                flush on the left edge.
                 The curve rises above this section's top, so on mobile the
                 section clips only sideways (overflow-x-clip); overflow-hidden
                 cut its tail off. */}
-            <div className="block md:hidden relative pt-[6px]">
-              <div className="absolute top-[-132px] right-[calc(-1*clamp(26px,3.6vw,69px))] w-[191px] h-[202px] z-0 pointer-events-none">
+            <div className="block md:hidden relative pt-[calc(6*var(--fig-u))]">
+              <div className="absolute top-[calc(-132*var(--fig-u))] left-[calc(173*var(--fig-u))] w-[calc(191*var(--fig-u))] h-[calc(202*var(--fig-u))] z-0 pointer-events-none">
                 <Image
                   src="/tailor-doted.png"
                   alt="Dashed Swirl Line"
                   width={191}
                   height={202}
-                  className="w-[191px] h-[202px] max-w-none"
+                  className="w-full h-full max-w-none"
                   priority
                 />
               </div>
-              <h2 className="relative z-10 mb-[68px] font-taprom text-[40px] leading-[48px] tracking-[0.05em] font-normal text-[#111111]">
+              <h2 className="relative z-10 mb-[calc(68*var(--fig-u))] font-taprom text-[calc(40*var(--fig-u))] leading-[calc(48*var(--fig-u))] tracking-[0.05em] font-normal text-[#111111]">
                 <span className="block">
                   <span className="sub-title-bg hero-bar-custom-m hero-bar-custom-m1 inline-block">Custom, from</span>
                 </span>
@@ -47,13 +55,13 @@ export default function CustomFromGroundUp() {
                 </span>
               </h2>
 
-              <div className="absolute left-[calc(-1*clamp(26px,3.6vw,69px))] bottom-[-65px] z-0 pointer-events-none">
+              <div className="absolute left-[calc(-26*var(--fig-u))] bottom-[calc(-65*var(--fig-u))] w-[calc(80*var(--fig-u))] z-0 pointer-events-none">
                 <Image
                   src="/ResLine2Journey.svg"
                   alt="Journey Line"
                   width={80}
                   height={80}
-                  className="w-[80px] h-auto"
+                  className="w-full h-auto"
                   priority
                 />
               </div>
@@ -64,7 +72,7 @@ export default function CustomFromGroundUp() {
                 Custom, from the ground up
               </h2>
             </div>
-            <div className="font-nohemi max-md:font-[Nohemi] max-md:font-normal space-y-5 mt-4 text-black text-[16px] font-light sm:text-sm md:text-[21px] leading-[28px] md:leading-[1.85] tracking-[0.05em] md:tracking-normal max-w-[min(1052px,calc(100%-360px))] max-md:w-[calc(100vw-40px)] max-md:max-w-[339px] relative z-10">
+            <div className="font-nohemi max-md:font-[Nohemi] max-md:font-normal space-y-5 max-md:space-y-[calc(20*var(--fig-u))] mt-4 max-md:mt-[calc(16*var(--fig-u))] text-black text-[16px] font-light sm:text-sm max-md:text-[calc(16*var(--fig-u))] md:text-[21px] leading-[28px] max-md:leading-[calc(28*var(--fig-u))] md:leading-[1.85] tracking-[0.05em] md:tracking-normal max-w-[min(1052px,calc(100%-360px))] max-md:w-[calc(339*var(--fig-u))] max-md:max-w-none relative z-10">
     
               <p>
                 We start where you are, not where we like you to be or where the

@@ -87,7 +87,7 @@ export default function ChoosePopularGroupJourney() {
   }, []);
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8 font-sans overflow-hidden mb-3">
-      <div className="mb-12">
+      <div className="mb-12 max-md:mb-4">
         <p
           className="hidden md:block font-taprom font-normal leading-[40px] tracking-[0.05em] text-black lowercase [text-box-trim:cap] [text-box-edge:cap_alphabetic] md:text-center responsive-text-size-[28px]"
         >
@@ -103,14 +103,19 @@ export default function ChoosePopularGroupJourney() {
         </h2>
       </div>
 
-      <TravelJourneyCard
-        journeys={journeys}
-        selectedTrips={selectedTrips}
-        onCompare={handleCompareSelection}
-        mobileSlider
-        columns="4-stepped"
-        mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
-      />
+      {/* Same mobile rail as tailor-made: bleeds through the section's 16px
+          padding to the window edge, first card 16 in, 293 wide — same as the homepage. */}
+      <div className="max-md:-mx-4">
+        <TravelJourneyCard
+          journeys={journeys}
+          selectedTrips={selectedTrips}
+          onCompare={handleCompareSelection}
+          mobileSlider
+          columns="4-stepped"
+          mobileWidthClass="w-[293px] min-w-[293px]"
+          sliderPadClass="pl-4 pr-4 scroll-pl-4 md:pl-0 md:pr-0"
+        />
+      </div>
       <div className="flex justify-center">
         <button
           onClick={goToAllJourneys}

@@ -133,7 +133,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         <p className="mt-2 line-clamp-3 h-[48px] text-[10px] font-light leading-[16px] tracking-[0.05em] text-ink md:mt-2 md:line-clamp-2 md:h-auto md:min-h-[3.1em] md:text-[14px] md:font-normal md:leading-[1.55] md:tracking-normal md:text-[#666666]">
           {trip.desc}
         </p>
-        <div className="mt-3 flex h-[44px] flex-col gap-2 text-[10px] leading-[16px] tracking-[0.05em] text-ink md:mt-3 md:h-auto md:flex-row md:items-center md:gap-4 md:text-[14px] md:tracking-normal md:text-[#717171]">
+        <div className="mt-1 flex h-[44px] flex-col gap-2 text-[10px] leading-[16px] tracking-[0.05em] text-ink md:mt-3 md:h-auto md:flex-row md:items-center md:gap-4 md:text-[14px] md:tracking-normal md:text-[#717171]">
           <div className="flex items-center gap-2 md:gap-1">
             {/* <CalendarDays size={16} strokeWidth={1.8} className="md:size-3" /> */}
             <Image
@@ -161,7 +161,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
 
         <div className="flex-0" />
 
-        <div className="mt-4 flex items-end justify-between">
+        <div className="mt-3 md:mt-4 flex items-end justify-between">
           <div className="flex flex-col items-start md:flex-row md:items-end md:gap-1">
             <span className="text-[10px] leading-[21px] tracking-[0.05em] text-ink md:hidden">
               from
@@ -221,9 +221,9 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
           </a>
         </div>
 
-        <div className="mt-3 md:mt-4 md:min-h-8">
+        <div className="mt-2 md:mt-4 md:min-h-8">
           {trip.offer && (
-            <div className="flex items-center gap-2 rounded-md bg-[#F4E5DA] px-3 py-2 text-xs text-[#65574D] md:gap-1.5 md:rounded-[5px] md:px-2.5 md:py-2 md:text-[8px] my-2">
+            <div className="flex items-center gap-2 rounded-md bg-[#F4E5DA] px-3 py-2 text-xs text-[#65574D] md:gap-1.5 md:rounded-[5px] md:px-2.5 md:py-2 md:text-[8px] md:my-2">
               <Info size={11} className="shrink-0" />
               <span className="line-clamp-1">{trip.offer}</span>
             </div>
@@ -233,7 +233,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         <button
           type="button"
           onClick={handleAddToCompare}
-          className=" mb-6 md:mb-5 flex items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:mt-4 md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E] my-4"
+          className="mt-3 mb-6 md:mt-4 md:mb-5 flex items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E]"
         >
           {isSelected ? (
             <>

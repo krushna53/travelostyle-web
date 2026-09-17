@@ -45,66 +45,76 @@ export default async function Blog() {
           HERO
       ===================================================== */}
       <section className="relative w-full overflow-hidden">
-        {/* ---------- MOBILE ---------- */}
-        <div className="md:hidden flex flex-col items-center px-5 mt-20 pb-4">
-          <div className="relative">
-            <img
-              src="/blog-journal-dots-mobile.svg"
-              alt=""
-              aria-hidden="true"
-              className="pointer-events-none absolute -top-[60px] -right-[38px] h-[82px] w-[152px] z-0"
-            />
-            <img
-              src="/blog-journal-dots-bottom-mobile.svg"
-              alt=""
-              aria-hidden="true"
-              className="pointer-events-none absolute -bottom-[119px] -left-[70px] h-[113px] w-[196px]"
-            />
-            <h1
-              className={`${HERO_TITLE_CLASS} relative z-[2] flex items-center justify-center w-[336px] h-[29px] max-w-full text-[40px]`}
-            >
-              The TOS Journal
-            </h1>
-          </div>
+        {/* ---------- MOBILE ----------
+            390 Figma board scaled by --fig-u, so lines, title and image stay
+            locked together at every width up to 767. Title 336x29 at (27,80),
+            image 334x477 at (28,125). The loop bleeds off the right edge and the
+            sweep comes in from off the left edge; the sweep's end sits exactly
+            on the loop's start (behind the title) so they read as one line.
+            Lines are painted first, so the title and image cover them. */}
+        <div
+          className="md:hidden relative w-full h-[calc(618*var(--fig-u))]"
+          style={{ "--fig-u": "calc(100vw / 390)" }}
+        >
+          <DottedLine
+            name="blogLoop"
+            weight={3}
+            dash={16}
+            className="left-[calc(249*var(--fig-u))] top-[calc(20*var(--fig-u))] w-[calc(152*var(--fig-u))] h-[calc(82*var(--fig-u))]"
+          />
+          <DottedLine
+            name="blogSweep"
+            weight={3}
+            dash={16}
+            className="left-[calc(-83.2*var(--fig-u))] top-[calc(100*var(--fig-u))] w-[calc(334.2*var(--fig-u))] h-[calc(127.5*var(--fig-u))]"
+          />
 
-          <div className="relative mt-4 w-[334px] h-[477px] max-w-full overflow-hidden">
+          <h1
+            className={`${HERO_TITLE_CLASS} absolute z-10 flex items-center justify-center left-[calc(27*var(--fig-u))] top-[calc(80*var(--fig-u))] w-[calc(336*var(--fig-u))] h-[calc(29*var(--fig-u))] text-[calc(40*var(--fig-u))]`}
+          >
+            The TOS Journal
+          </h1>
+
+          <div className="absolute z-10 overflow-hidden left-[calc(28*var(--fig-u))] top-[calc(125*var(--fig-u))] w-[calc(334*var(--fig-u))] h-[calc(477*var(--fig-u))]">
             <Image src={heroImage} alt="Travel Journal" priority fill className="object-cover" />
           </div>
         </div>
 
         {/* ---------- DESKTOP ----------
-            Sized in vw against the 1920 Figma frame, so the whole hero scales as
-            one unit instead of drifting apart at other widths. Container is
-            825px tall at 1920 (was 500px, which cut 120px off the hero image and
-            left no room for the lower dotted sweep to reach the left edge); that
-            height is what puts "Categories" on Figma's y=985 and the card grid
-            on y=1080. */}
-        <div className="hidden md:block relative mx-auto mt-20 h-[38.75vw] w-full max-w-[1704px]">
+            One full-width board sized in vw against the 1920 Figma frame, so the
+            lines, title and image scale together and the loop always ends on the
+            image's left edge (56.82vw). Lefts include Figma's 108px (5.625vw)
+            page margin; the container used to be max-w-[1704px], which dropped
+            that margin below 1704px and pulled the lines away from the image. */}
+        <div className="hidden md:block relative mt-20 h-[38.75vw] w-full">
           {/* Dotted curve — upper, with the loop */}
           <DottedLine
             name="blogLoop"
             weight={5}
             dash={16}
-            className="left-[24.06vw] top-[1.04vw] w-[27.14vw] h-[15.83vw]"
+            className="left-[29.69vw] top-[1.04vw] w-[27.14vw] h-[15.83vw]"
           />
-          {/* Dotted curve — lower sweep, bleeds off the left edge */}
+          {/* Dotted curve — lower sweep, bleeds off the left edge. Its box is
+              sized so the path's top-right end lands exactly on blogLoop's
+              start point (24.2vw, 16.67vw), making the two one continuous line
+              instead of crossing each other. */}
           <DottedLine
             name="blogSweep"
             weight={5}
             dash={16}
-            className="-left-[13.36vw] top-[11.2vw] w-[42.08vw] h-[23.33vw]"
+            className="left-[-7.72vw] top-[16.53vw] w-[37.69vw] h-[18.13vw]"
           />
 
-          <div className="absolute left-[7.81vw] top-[15.16vw] z-10">
-            <h1 className={`${HERO_TITLE_CLASS} inline-block py-[2px] text-[32px] min-[1281px]:text-[40px] min-[1440px]:text-[48px] min-[1600px]:text-[56px] min-[1919px]:text-[64px]`}>
+          <div className="absolute left-[13.44vw] top-[15.16vw] z-10">
+            <h1 className={`${HERO_TITLE_CLASS} inline-block px-[0.31em]! py-0 leading-[0.86]! text-[3.333vw]`}>
               The TOS Travel Journal
             </h1>
           </div>
 
-          {/* Figma runs the image to the frame edge, past the 1704px container.
-              The calc resolves to -108px at 1920 and to 0 once the container is
-              full-width, so it hugs the viewport edge without overflowing. */}
-          <div className="absolute top-[1.04vw] right-[calc((100%-100vw)/2)] w-[43.18vw] h-[33.49vw] overflow-hidden">
+          {/* Anchored by its left edge (where the loop ends) rather than right-0:
+              100vw includes the scrollbar, so right-0 would slide the image under
+              the loop. The few px past the edge are clipped by the section. */}
+          <div className="absolute top-[1.04vw] left-[56.82vw] w-[43.18vw] h-[33.49vw] overflow-hidden">
             <Image src={heroImage} alt="Travel Journal" priority fill className="object-cover" />
           </div>
         </div>
