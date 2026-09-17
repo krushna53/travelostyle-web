@@ -153,6 +153,7 @@ export default function AllJourneysPage({
   filters.pricing.length > 0 ||
   filters.duration.length > 0 ||
   !!countryFilter;
+  const isNoResults = filteredJourneys.length === 0 && hasActiveFilters;
   const totalPages = Math.ceil(filteredJourneys.length / itemsPerPage);
 
   const paginatedJourneys = filteredJourneys.slice(
@@ -179,34 +180,51 @@ export default function AllJourneysPage({
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] font-sans px-4 pb-24 md:px-[108px] md:pb-0">
+    <div className="min-h-screen bg-white md:bg-[#fafafa] font-sans px-4 pb-24 md:px-[108px] md:pb-0">
+      {/* White on mobile: the journey cards' surface is #FAFAFA (card-bg), the
+          same as this page's desktop background, so on #fafafa they vanished
+          into the page. On white they read the way they do on the home page. */}
       {/* MOBILE-ONLY: breadcrumb + result count + clear all */}
-      <div className="pt-4 pb-3 md:hidden">
+      {/* --fig-u is the 390 board's unit (1px at 390, growing with the phone
+          up to the md breakpoint), so the script heading and its bars keep
+          the board's proportions on wider phones instead of sitting at a
+          fixed 40px in the corner of a 754px screen. */}
+      <div
+        className="pt-4 pb-3 md:hidden"
+        style={{ "--fig-u": "calc(100vw / 390)" }}
+      >
         <nav className="text-xs text-[#888]">
           <span>Home</span>
           <span className="mx-1">&gt;</span>
           <span className="text-ink font-medium">All Journeys</span>
         </nav>
 
-        {/* Script heading with the beige highlight sitting behind each line
-            (per Figma). inline decoration-clone keeps the band tight to the
-            glyphs and wrapping onto three lines, rather than one flat block. */}
-        <h1 className="ml-5 mt-5 w-full font-taprom text-[40px] relative z-0 font-normal leading-[1.3] tracking-[0.02em] text-ink flex flex-col items-start gap-3">
-          <span className="inline-block" style={{ backgroundColor: "#f6dbc9", padding: "2px 4px" }}>
-            We&apos;ve never believed
-          </span>
-          <span className="inline-block" style={{ backgroundColor: "#f6dbc9", padding: "2px 4px" }}>
-            in a one-size-fits-
-          </span>
-          <span className="inline-block" style={{ backgroundColor: "#f6dbc9", padding: "2px 4px" }}>
-           all approach to the
-          </span>
-          <span className="inline-block" style={{ backgroundColor: "#f6dbc9", padding: "2px 4px" }}>
-            world
-          </span>
+        {/* "RES_Itinerary Listing Page", 390 board: Taprom 40/48/5% #1A1A1A,
+            left-aligned with the words at x 32 (the page padding is 16), cap
+            tops 169/217/265/313. Rectangles 1049-1051 are 336x32 and 1052
+            109x32, all from x 27 -- fixed-width bars, not word-hugging ones --
+            stepping down 51px apiece, so each sits a little lower on its line
+            than the one before (.hero-bar-itin-m1..4). */}
+        {/* "RES_No Search Hits" swaps the heading for "Hear from those who've
+            travelled with us" (Rectangles 1049-1051: 275, 275 and 131 wide,
+            tops 155/206/257), sitting 12px higher, with the results rule
+            5px closer under it. On that board the words start at x 27, flush
+            with their bars -- not 32 as on the listing -- which is what leaves
+            the room after "those", "travelled" and "us". */}
+        <h1 className={`relative z-10 font-taprom text-[calc(40*var(--fig-u))] leading-[calc(48*var(--fig-u))] tracking-[0.05em] font-normal text-[#1A1A1A] ${isNoResults ? "ml-[calc(27*var(--fig-u)-16px)] mt-[calc(12*var(--fig-u))]" : "ml-[calc(32*var(--fig-u)-16px)] mt-[calc(24*var(--fig-u))]"}`}>
+          {(isNoResults
+            ? ["Hear from those", "who’ve travelled", "with us"]
+            : ["We’ve never believed", "in a one-size-fits-", "all approach to the", "world"]
+          ).map((line, i) => (
+            <span key={line} className="block">
+              <span className={`sub-title-bg inline-block whitespace-nowrap ${isNoResults ? `hero-bar-nohits-m hero-bar-nohits-m${i + 1}` : `hero-bar-itin-m hero-bar-itin-m${i + 1}`}`}>
+                {line}
+              </span>
+            </span>
+          ))}
         </h1>
 
-        <div className="mt-[48px] md:mt-6 flex items-center justify-between border-b-2 border-ink pb-3">
+        <div className={`${isNoResults ? "mt-[calc(40*var(--fig-u))]" : "mt-[calc(45*var(--fig-u))]"} md:mt-6 flex items-center justify-between border-b-2 border-ink pb-3`}>
           <span className="text-sm text-[#888]">
             {filteredJourneys.length} trips found
           </span>
@@ -256,36 +274,40 @@ export default function AllJourneysPage({
 
         <div className="flex-1 min-w-0">
         {filteredJourneys.length === 0 && hasActiveFilters ? (
-            <div className="flex flex-col gap-2 items-start md:items-center justify-center py-12 md:py-[115px] text-left md:text-center">
+            <div className="flex flex-col gap-2 items-start md:items-center justify-center pt-[16px] pb-12 md:py-[115px] text-left md:text-center">
+              {/* Mobile spacing is "RES_No Search Hits" (390): illustration
+                  176 wide with its drawing 29 under the rule (the SVG carries
+                  ~13px of empty space above it, hence pt 16), copy 21/32 then 16/24, OR, a
+                  224x37 button, and "Popular Journeys" 108 below it. */}
               <img
                 src="/no-results.svg"
                 alt="No journeys found"
-                className="mb-8 w-40 md:w-[346px] h-auto mx-auto"
+                className="mb-0 md:mb-8 w-[176px] md:w-[346px] h-auto mx-auto"
               />
 
-              <h3 className="font-medium text-[20px] md:text-[32px] leading-[28px] md:leading-[40px] tracking-[0.05em] text-left md:text-center text-ink mt-4 md:mt-8">
-                Sorry! We were unable to find the{" "}
+              <h3 className="font-medium text-[21px] md:text-[32px] leading-[32px] md:leading-[40px] tracking-[0.05em] text-left md:text-center text-ink mt-[11px] md:mt-8">
+                Sorry! We were unable to find{" "}
                 <br className="hidden md:inline" />the trip you requested.
               </h3>
-              <p className="max-w-[520px] font-normal text-[14px] md:text-[16px] leading-[22px] md:leading-[100%] tracking-[0.05em] text-left md:text-center text-ink md:mt-2">
-                Please adjust your filters to find a trip 
-                <br />
+              <p className="max-w-[321px] md:max-w-[520px] font-normal text-[16px] leading-[24px] md:leading-[100%] tracking-[0.05em] text-left md:text-center text-ink mt-[5px] md:mt-2">
+                Please adjust your filters to find a trip{" "}
+                <br className="hidden md:inline" />
                 that fits you
               </p>
 
-              <div className="my-4 font-normal text-[14px] md:text-[16px] leading-[100%] tracking-[0.05em] text-left md:text-center text-ink md:mt-2">
+              <div className="mt-4 mb-[10px] md:my-4 font-normal text-[16px] leading-[100%] tracking-[0.05em] text-left md:text-center text-ink md:mt-2">
                 OR
               </div>
 
               <button
                 onClick={clearAllFilters}
-                className="h-11 px-6 md:h-[43px] md:min-w-[202px] rounded-full bg-[#2E348D] text-sm md:text-[17px] text-white transition hover:bg-[#252b78] mt-2"
+                className="h-[37px] w-[224px] font-semibold tracking-[0.05em] text-[18px] md:w-auto md:font-normal md:tracking-normal md:px-6 md:h-[43px] md:min-w-[202px] rounded-full bg-[#2C3078] md:bg-[#2E348D] md:text-[17px] text-white transition hover:bg-[#252b78] mt-0 md:mt-2"
               >
                 Explore All Journeys
               </button>
-              <div className="w-full mt-10 md:mt-16 ">
+              <div className="w-full mt-[100px] md:mt-16">
                 <div className="border-b-2 border-ink mb-6">
-                  <h2 className="text-left font-normal text-[21px] leading-[100%] tracking-[5%] pb-2 border-b-2">
+                  <h2 className="text-left font-normal text-[16px] md:text-[21px] leading-[100%] tracking-[0.05em] pb-[14px] md:pb-2">
                     Popular Journeys
                   </h2>
                 </div>

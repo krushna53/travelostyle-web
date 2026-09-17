@@ -52,6 +52,7 @@ export default function TravelJourneyCard({
   mobileSlider = false,
   mobileWidthClass,
   columns = 3,
+  sliderPadClass = "pl-4 pr-4 scroll-pl-4",
 }) {
   const gridColsClass = GRID_COLS_CLASS[columns] || GRID_COLS_CLASS[3];
 
@@ -60,7 +61,7 @@ export default function TravelJourneyCard({
       <div
         className={`${
           mobileSlider
-            ? "flex overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pl-4 pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:mx-auto md:justify-items-center md:gap-6 md:overflow-visible md:px-0 md:pb-0"
+            ? `flex overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth ${sliderPadClass} max-md:[&>*]:snap-start pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:mx-auto md:justify-items-center md:gap-6 md:overflow-visible md:px-0 md:pb-0`
             : "flex flex-row flex-wrap overflow-x-auto snap-x snap-mandatory gap-4 scroll-smooth pt-2 pb-6 pl-4 pr-12 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-center md:grid md:mx-auto md:justify-items-center md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:pt-0"
         } ${gridColsClass}`}
       >
