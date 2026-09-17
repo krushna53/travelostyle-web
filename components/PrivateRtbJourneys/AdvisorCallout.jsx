@@ -10,7 +10,7 @@ export default function AdvisorCallout({ content }) {
 
   return (
     <section className="bg-white pt-8 pb-20 px-6 md:px-12 lg:px-16 w-full flex items-center justify-center font-sans">
-      <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-24">
+      <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-24 min-[1920px]:max-w-[1256px]">
 
         <div className="flex flex-col space-y-10 items-start">
           <h2 className="text-4xl sm:text-5xl md:text-[50px] font-bold text-black leading-tight tracking-tight">

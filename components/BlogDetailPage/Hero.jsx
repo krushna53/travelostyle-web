@@ -1,6 +1,6 @@
 export default function Hero({ blog, categories }) {
   return (
-    <section className="px-5 md:px-8 lg:px-[60px] pt-5 pb-5 min-[768px]:lg:px-[58px] min-[1024px]:lg:px-[72px] min-[1280px]:lg:px-[77px] min-[1366px]:lg:px-[81px] min-[1441px]:lg:px-[84px] min-[1500px]:lg:px-[108px]">
+    <section className="px-4 md:px-14 pt-5 pb-5 ">
       <div className="flex justify-between items-center gap-4">
         <p className="font-nohemi text-[16px] font-semibold leading-[40px] tracking-[0.05em] text-[#000000] min-[768px]:text-[9px] min-[1024px]:text-[11px] min-[1280px]:text-[11px] min-[1366px]:text-[12px] min-[1441px]:text-[13px] min-[1500px]:text-[16px]">
           {new Date(blog.attributes.created).toLocaleDateString("en-US", {
@@ -17,7 +17,6 @@ export default function Hero({ blog, categories }) {
             whitespace-nowrap
             bg-transparent md:bg-[#F2E2DA]
             border
-            border-ink
             md:border-[#1A1A1A]
             rounded-full
             font-nohemi
@@ -31,15 +30,9 @@ export default function Hero({ blog, categories }) {
             flex
             items-center
             justify-center
-            h-[31px]
+            // h-[31px]
             px-[16px]
-            md:h-auto
-            min-[768px]:text-[9px] min-[768px]:py-[5px] min-[768px]:px-[9px]
-            min-[1024px]:text-[11px] min-[1024px]:py-[7px] min-[1024px]:px-[11px]
-            min-[1280px]:text-[11px] min-[1280px]:py-[7px] min-[1280px]:px-[11px]
-            min-[1366px]:text-[12px] min-[1366px]:py-[8px] min-[1366px]:px-[12px]
-            min-[1441px]:text-[13px] min-[1441px]:py-[8px] min-[1441px]:px-[13px]
-            min-[1500px]:text-[16px] min-[1500px]:py-[10px] min-[1500px]:px-[16px]
+            py-[14px]
           "
           >
             {categories[0].attributes.name}
