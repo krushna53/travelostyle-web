@@ -1,8 +1,8 @@
 "use client";
 
-import { Info } from "lucide-react";
 import Image from "next/image";
 import MobileNavigationMenu from "./MobileNavigationMenu";
+import MobilePriceBar from "./MobilePriceBar";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";
 import BuildYourJourneyForm from "@/components/BuildYourJourneyForm";
 import JourneyCardImage from "@/components/JourneyCardImage";
@@ -361,93 +361,19 @@ export default function HeroSection({
             </div>
           </div>
 
-          <div className="md:mx-[27px] overflow-hidden rounded-t-[10px] border-2 border-[#1A1A1A] bg-[#FAFAFA]">
-            <div className="flex border-b-2 border-[#1A1A1A]">
-           <div className="flex-1 px-[14px] py-[12px]">
-
-  {/* From */}
-  <p className="text-[10px] font-light leading-[16px] tracking-[0.05em] text-[#1A1A1A]">
-    from
-  </p>
-
-  {/* Offer Price */}
-  <div className="flex items-end gap-[2px]">
-    <span className="text-[24px] font-semibold leading-[28px] tracking-[0.05em] text-[#1A1A1A] md:text-[28px] md:leading-[32px]">
-      ${Number(journey.offerPrice).toLocaleString()}
-    </span>
-
-    <span className="mb-[3px] text-[11px] font-normal leading-[14px] tracking-[0.05em] text-[#000000]">
-      /person
-    </span>
-  </div>
-
-  {/* Original Price */}
-  {journey.originalPrice && (
-    <p className="text-[12px] font-light leading-[16px] tracking-[0.05em] text-[#777]">
-      was{" "}
-      <span className="line-through">
-        ${Number(journey.originalPrice).toLocaleString()}
-      </span>
-    </p>
-  )}
-</div>
-{journey?.earlyBird && (
-<div className="my-[8px] mr-[14px] w-[168px] shrink-0 self-start rounded-[2px] bg-[#F2E2DA] px-[10px] py-[8px] md:m-0 md:w-[52%] md:shrink md:self-auto md:rounded-none md:border-l-2 md:border-[#1A1A1A] md:px-[14px] md:py-[12px]">
-  <div className="flex gap-[8px]">
-    <Info size={16} strokeWidth={1.5} className="mt-[1px] shrink-0" />
-    <p className="text-[8px] font-semi-bold leading-[16px] tracking-[0.05em] text-black">
-      {journey.offer || "Early Bird Offers available"}
-    </p>
-  </div>
-</div>
-)}
-            </div>
-            {isInspirational ? (
-              <>
-                <div className="flex items-center justify-center gap-3 bg-[#FAFAFA] px-4 py-[12px]">
-                  <button
-                    onClick={() => setIsPrivateFormOpen(true)}
-                    className="h-[37px] rounded-full bg-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA]"
-                  >
-                    Request a Private Journey
-                  </button>
-                </div>
-
-                <div className="border-t-2 border-[#1A1A1A] bg-[#FAFAFA] px-4 py-[12px] text-center text-[12px] font-light leading-[18px] tracking-[0.05em] text-[#1A1A1A]">
-                  Want to make this itinerary entirely your own?
-                  <br />
-                  <button
-                    onClick={() => setIsCraftFormOpen(true)}
-                    className="mt-1 font-bold text-ink underline underline-offset-2"
-                  >
-                    Tailor This Journey For You
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="flex flex-nowrap items-center gap-[10px] whitespace-nowrap bg-[#FAFAFA] px-[27px] py-[9px]">
-                <button
-                  onClick={() => setActiveView("dates-pricing")}
-                  className="h-[31px] w-[138px] shrink-0 rounded-[15.5px] bg-[#2C3078] text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA]"
-                >
-                  Check Dates
-                </button>
-
-                <span className="shrink-0 text-[12px] font-bold tracking-[0.05em] text-black">
-                  OR
-                </span>
-
-                <button
-                  onClick={() => setIsPrivateFormOpen(true)}
-                  className="shrink-0 text-[12px] font-bold text-ink underline underline-offset-[3px]"
-                >
-                  Request a Private Journey
-                </button>
-              </div>
-            )}
-          </div>
         </div>}
       </div>
+      {/* Price + Check Dates, pinned to the bottom on every mobile view. */}
+      <MobilePriceBar
+        journey={journey}
+        isInspirational={isInspirational}
+        onCheckDates={() => {
+          handleSetActiveView("dates-pricing");
+          window.scrollTo({ top: 0, behavior: "auto" });
+        }}
+        onRequestPrivate={() => setIsPrivateFormOpen(true)}
+        onTailor={() => setIsCraftFormOpen(true)}
+      />
         <MobileNavigationMenu
   journey={journey}
   departures={departures}

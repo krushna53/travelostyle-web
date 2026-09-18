@@ -14,7 +14,7 @@ const STATIC_GROUPS = [
     links: [
       { label: "Home", url: "/" },
       { label: "About Us", url: "/about-us" },
-      { label: "General FAQs", url: "/general-faqs" },
+      { label: "FAQs", url: "/faqs" },
       { label: "Write To Us", url: "/write-us" },
     ],
   },

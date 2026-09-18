@@ -92,9 +92,12 @@ export default function MobileMegaMenu({
     Offers
   </Link>
 
-  <button className="text-left text-white text-[18px] font-medium">
+  <Link
+    href="/faqs"
+    className="text-left text-white text-[18px] font-medium"
+  >
     FAQs
-  </button>
+  </Link>
 </div>
 
           <Link

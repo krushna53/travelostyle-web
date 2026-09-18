@@ -1,4 +1,8 @@
 const nextConfig = {
+  // The FAQs page used to live at /general-faqs.
+  async redirects() {
+    return [{ source: "/general-faqs", destination: "/faqs", permanent: true }];
+  },
   images: {
     dangerouslyAllowLocalIP: true,
     remotePatterns: [

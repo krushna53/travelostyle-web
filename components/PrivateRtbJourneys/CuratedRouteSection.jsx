@@ -21,17 +21,20 @@ import React from "react";
 // at every breakpoint and on the literal design pixel at 1920. `top` is
 // measured from the band's own top, which is Day 8's 397.25, and the inset is
 // (frame - 2*border - photo) / 2 with the chin taking what is left.
+//
+// Photos are Figma's own, public/private/day-N.jpg -- see
+// CuratedRouteSectionMobile.jsx for where they come from.
 const routeDays = [
   {
     day: "DAY 1",
-    img: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=600",
+    img: "/private/day-1.jpg",
     box: "left-[calc(126*var(--fig-u))] top-[calc(225.75*var(--fig-u))] w-[calc(388.32*var(--fig-u))] rotate-[6.48deg] z-20",
     padding: "p-[calc(18.28*var(--fig-u))] pb-[calc(72.34*var(--fig-u))]",
     chin: "h-[calc(72.34*var(--fig-u))]",
   },
   {
     day: "DAY 2",
-    img: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=600",
+    img: "/private/day-2.jpg",
     box: "left-[calc(438.31*var(--fig-u))] top-[calc(208.87*var(--fig-u))] w-[calc(269.1*var(--fig-u))] -rotate-[1.23deg] z-40",
     padding: "p-[calc(12.05*var(--fig-u))] pb-[calc(49.52*var(--fig-u))]",
     chin: "h-[calc(49.52*var(--fig-u))]",
@@ -42,35 +45,35 @@ const routeDays = [
   },
   {
     day: "DAY 4",
-    img: "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?w=600",
+    img: "/private/day-4.jpg",
     box: "left-[calc(605.15*var(--fig-u))] top-[calc(351.06*var(--fig-u))] w-[calc(269.1*var(--fig-u))] rotate-[8.65deg] z-50",
     padding: "p-[calc(12.05*var(--fig-u))] pb-[calc(49.52*var(--fig-u))]",
     chin: "h-[calc(49.52*var(--fig-u))]",
   },
   {
     day: "DAY 5",
-    img: "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=600",
+    img: "/private/day-5.jpg",
     box: "left-[calc(810.65*var(--fig-u))] top-[calc(170.32*var(--fig-u))] w-[calc(388.32*var(--fig-u))] rotate-[0deg] z-30",
     padding: "p-[calc(18.28*var(--fig-u))] pb-[calc(72.34*var(--fig-u))]",
     chin: "h-[calc(72.34*var(--fig-u))]",
   },
   {
     day: "DAY 6",
-    img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600",
+    img: "/private/day-6.jpg",
     box: "left-[calc(1095.7*var(--fig-u))] top-[calc(319.97*var(--fig-u))] w-[calc(325.6*var(--fig-u))] rotate-[12.27deg] z-10",
     padding: "p-[calc(15*var(--fig-u))] pb-[calc(60.34*var(--fig-u))]",
     chin: "h-[calc(60.34*var(--fig-u))]",
   },
   {
     day: "DAY 7",
-    img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600",
+    img: "/private/day-7.jpg",
     box: "left-[calc(1254.09*var(--fig-u))] top-[calc(144.21*var(--fig-u))] w-[calc(269.1*var(--fig-u))] -rotate-[3.68deg] z-[60]",
     padding: "p-[calc(12.05*var(--fig-u))] pb-[calc(49.52*var(--fig-u))]",
     chin: "h-[calc(49.52*var(--fig-u))]",
   },
   {
     day: "DAY 8",
-    img: "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?w=600",
+    img: "/private/day-8.jpg",
     box: "left-[calc(1494.74*var(--fig-u))] top-0 w-[calc(338.33*var(--fig-u))] rotate-[0.07deg] z-[70]",
     padding: "p-[calc(15.665*var(--fig-u))] pb-[calc(62.775*var(--fig-u))]",
     chin: "h-[calc(62.775*var(--fig-u))]",

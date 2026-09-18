@@ -63,45 +63,49 @@ function ListingSearchForm({ destinations = [], months = [] }) {
   };
 
   return (
-    <div className="border-2 border-ink rounded-lg px-6 py-4 my-6 mx-2 md:-mx-4 bg-white">
-      <div className="flex gap-4">
+    // Sizes clamp between a readable floor and the 1920 Figma values (46px
+    // fields, 210px CTA, 18px label) instead of pure vw, which left the CTA
+    // label overflowing its pill on smaller desktops. Below 1200 there isn't
+    // room for three fields + CTA in one row, so it drops to a 2x2 grid.
+    <div className="border-2 border-ink rounded-lg px-[clamp(12px,1.25vw,24px)] py-[clamp(12px,0.83vw,16px)] my-6 bg-white">
+      <div className="grid grid-cols-2 gap-[clamp(8px,1vw,19px)] min-[1200px]:grid-cols-[1fr_1fr_1fr_auto]">
         {/* WHERE */}
         <button
           onClick={() => toggle("dest")}
-          className="flex h-[2.4vw] flex-1 items-center justify-between rounded border border-gray-300 bg-white px-4"
+          className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center justify-between gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]"
         >
-          <span className={`text-[14px] truncate ${!selectedDestinations.length ? "text-gray-400" : "text-ink"}`}>
+          <span className={`min-w-0 truncate text-[clamp(13px,0.73vw,14px)] ${!selectedDestinations.length ? "text-gray-400" : "text-ink"}`}>
             {destLabel}
           </span>
-          {activeDropdown === "dest" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          {activeDropdown === "dest" ? <ChevronUp size={16} className="shrink-0" /> : <ChevronDown size={16} className="shrink-0" />}
         </button>
 
         {/* WHEN */}
         <button
           onClick={() => toggle("when")}
-          className="flex h-[2.4vw] flex-1 items-center justify-between rounded border border-gray-300 bg-white px-4"
+          className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center justify-between gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]"
         >
-          <span className={`text-[14px] truncate ${!selectedMonths.length ? "text-gray-400" : "text-ink"}`}>
+          <span className={`min-w-0 truncate text-[clamp(13px,0.73vw,14px)] ${!selectedMonths.length ? "text-gray-400" : "text-ink"}`}>
             {whenLabel}
           </span>
-          {activeDropdown === "when" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          {activeDropdown === "when" ? <ChevronUp size={16} className="shrink-0" /> : <ChevronDown size={16} className="shrink-0" />}
         </button>
 
         {/* BUDGET */}
         <button
           onClick={() => toggle("budget")}
-          className="flex h-[2.4vw] flex-1 items-center justify-between rounded border border-gray-300 bg-white px-4"
+          className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center justify-between gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]"
         >
-          <span className={`text-[14px] truncate ${!selectedBudget ? "text-gray-400" : "text-ink"}`}>
+          <span className={`min-w-0 truncate text-[clamp(13px,0.73vw,14px)] ${!selectedBudget ? "text-gray-400" : "text-ink"}`}>
             {budgetLabel}
           </span>
-          {activeDropdown === "budget" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          {activeDropdown === "budget" ? <ChevronUp size={16} className="shrink-0" /> : <ChevronDown size={16} className="shrink-0" />}
         </button>
 
         {/* CTA */}
         <button
           onClick={handleFindJourney}
-          className="h-[2.4vw] min-w-[10.5vw] rounded-full bg-[#2E348D] text-[18px] text-white transition hover:bg-[#252b78] shrink-0"
+          className="h-[clamp(38px,2.4vw,46px)] min-w-[clamp(160px,10.9vw,210px)] whitespace-nowrap rounded-full bg-[#2E348D] px-6 text-[clamp(15px,0.94vw,18px)] font-medium text-white transition hover:bg-[#252b78]"
         >
           Find Your Journey
         </button>
@@ -204,14 +208,14 @@ export default function SearchBar({ destinations = [], months = [] }) {
           Speak to our travel advisor (773) 983-8067 | open 10am-7pm CST
         </p>
         <div className="flex items-center gap-4 md:gap-6">
-          <button>FAQs</button>
+          <Link href="/faqs">FAQs</Link>
           <button className="hidden md:block">Contact Us</button>
         </div>
       </div>
 
       {/* Mobile Menu Drawer */}
       <div
-        className={`fixed inset-0 z-50 md:hidden transition-all duration-300 ${
+        className={`fixed inset-0 z-50 min-[1191px]:hidden transition-all duration-300 ${
           menuOpen ? "visible" : "invisible"
         }`}
       >
@@ -255,9 +259,9 @@ export default function SearchBar({ destinations = [], months = [] }) {
     Offers
   </Link>
 
-  <button className="text-left hover:underline">
+  <Link href="/faqs" className="text-left hover:underline">
     FAQs
-  </button>
+  </Link>
 </div>
             <div className="mt-8">
               <button className="rounded-full bg-white px-6 py-2.5 text-[13px] font-semibold text-[#2E2787]">
@@ -278,18 +282,21 @@ export default function SearchBar({ destinations = [], months = [] }) {
             items-center) and the logo (centered via top-1/2/-translate-y-1/2)
             both center against the exact same band, from just under the
             FAQ bar down to this row's own border line. */}
-        <div className="relative flex h-14 items-center justify-between border-b border-[#1A1A1A] md:h-auto md:pb-5 px-4 md:px-[108px]">
-          <button onClick={() => setMenuOpen(true)} className="block md:hidden">
+        <div className="relative flex h-14 items-center justify-between border-b border-[#1A1A1A] min-[1191px]:h-auto min-[1191px]:pb-5 px-4 md:px-[108px]">
+          <button onClick={() => setMenuOpen(true)} className="block min-[1191px]:hidden">
             <Image src="/MenuToggle.svg" alt="Menu" width={20} height={20} />
           </button>
           <Link href="/">
   <img
     src="/TravelOStyleBlack.svg"
     alt="TravelOStyle"
-    className="h-auto w-[140px] md:w-[309px] md:static absolute inset-x-0 top-1/2 mx-auto -translate-y-1/2 md:top-auto md:mx-0 md:translate-y-0 cursor-pointer"
+    className="h-auto w-[140px] md:w-[184px] min-[1191px]:w-[clamp(220px,16.1vw,309px)] min-[1191px]:static absolute inset-x-0 top-1/2 mx-auto -translate-y-1/2 min-[1191px]:top-auto min-[1191px]:mx-0 min-[1191px]:translate-y-0 cursor-pointer"
   />
 </Link>
-          <div className="hidden md:flex items-center gap-9 text-[14px] font-medium text-[#1E1E1E]">
+          {/* Eight links beside a 309px logo only fit from 1191 (the main
+              SearchHeader's breakpoint too); below that it's the hamburger.
+              Gap/size/logo scale to their 1920 values (36px, 14px, 309px). */}
+          <div className="hidden min-[1191px]:flex items-center whitespace-nowrap gap-[clamp(12px,1.875vw,36px)] text-[clamp(12px,0.73vw,14px)] font-medium text-[#1E1E1E]">
            <Link href="/about-us">About</Link>
 
 <Link href="/group-rtb-journeys">
@@ -315,8 +322,12 @@ export default function SearchBar({ destinations = [], months = [] }) {
 <Link href="/offers">
   Offers
 </Link>
+
+<Link href="/faqs">
+  FAQs
+</Link>
           </div>
-          <button onClick={() => setShowFindJourneyMobile(true)} className="block md:hidden">
+          <button onClick={() => setShowFindJourneyMobile(true)} className="block min-[1191px]:hidden">
             <Image src="/Search.svg" alt="Search" width={16} height={16} />
           </button>
         </div>

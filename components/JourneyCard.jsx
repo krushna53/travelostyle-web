@@ -107,7 +107,14 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
       } ${
         variant === "carousel"
           ? "md:w-[390px] md:min-w-[390px] md:px-8"
-          : "mx-auto md:mx-0 md:w-full md:min-w-0 md:max-w-[390px] md:px-6 min-[1920px]:w-[390px] min-[1920px]:min-w-[390px] min-[1920px]:shrink-0 min-[1920px]:px-5"
+          : variant === "fill"
+            ? // Stretches so the visible card face fills its grid cell, making the
+              // row run edge to edge with the rule above it (listing page).
+              // Union.png is 420 wide with a 15px shadow either side of a 390
+              // face, so the box overhangs the cell by 15/390 = 3.846% a side
+              // (percentages resolve against the cell) and pads that back in.
+              "mx-auto md:mx-0 md:-ml-[3.846%] md:w-[107.69%] md:min-w-0 md:max-w-none md:px-[calc(3.846%+14px)]"
+            : "mx-auto md:mx-0 md:w-full md:min-w-0 md:max-w-[390px] md:px-6 min-[1920px]:w-[390px] min-[1920px]:min-w-[390px] min-[1920px]:shrink-0 min-[1920px]:px-5"
       }`}
     >
       <div className="mb-2 flex min-h-[16px] flex-wrap gap-2 md:mb-3 md:min-h-[28px] md:gap-2">
