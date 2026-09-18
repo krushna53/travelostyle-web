@@ -104,7 +104,7 @@ export default function TestimonialSection({ testimonialData, desktopHeading }) 
 
   return (
     <section className="py-8 md:py-20 select-none overflow-hidden">
-      <div className="mx-auto w-full px-4 min-[1281px]:max-w-[1200px] min-[1440px]:max-w-[1250px] min-[1600px]:max-w-[1320px] min-[1919px]:max-w-[1411px]">
+      <div className="mx-auto w-full px-4 max-[1200px]:max-w-[85vw] min-[1281px]:max-w-[1230px] min-[1440px]:max-w-[1250px] min-[1600px]:max-w-[1320px] min-[1900px]:max-w-[1455px]">
         <h2 className="mb-12 md:hidden text-left font-serif italic text-[40px] text-[#1A1A1A] tracking-[0.05em] font-taprom font-normal max-md:mx-auto max-md:leading-[48px]">
           Hear from those who&apos;ve travelled with us
         </h2>

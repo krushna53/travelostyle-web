@@ -124,7 +124,7 @@ export default async function TravelOStylePromise() {
       font-nohemi
       md:mx-auto
       md:block
-      md:max-w-[62.5vw] max-[1280px]:md:max-w-[90vw] max-[1024px]:md:max-w-[92vw]
+      md:max-w-[62.5vw] max-[1200px]:md:max-w-[67vw] max-[1280px]:md:max-w-[90vw] max-[1024px]:md:max-w-[92vw]
       md:text-center
       md:text-[18px]
       md:leading-[24px]
@@ -135,12 +135,12 @@ export default async function TravelOStylePromise() {
             />
           </div>
         </div>
-        <div className="mt-12 md:mt-16 grid grid-cols-1 min-[490px]:grid-cols-2 sm:grid-cols-3 md:flex md:flex-row flex-wrap justify-center items-center justify-items-center gap-4 md:gap-[65px] max-[1400px]:md:gap-[55px] max-[1281px]:md:gap-[48px] max-[1200px]:md:gap-[42px] min-[1911px]:md:gap-[89px] w-full md:max-w-none mx-auto">
+        <div className="mt-12 md:mt-16 grid grid-cols-1 min-[490px]:grid-cols-2 sm:grid-cols-3 md:flex md:flex-row flex-wrap justify-center items-center justify-items-center gap-4 md:gap-[40px] max-[1400px]:md:gap-[31px] max-[1281px]:md:gap-[35px] max-[1200px]:md:gap-[64px] min-[1911px]:md:gap-[89px] w-full md:max-w-none mx-auto">
           {promises.map((item, index) => {
             return (
               <div
                 key={index}
-                className="flex min-h-[130px] md:h-[180px] md:max-w-[360px] w-full max-w-[406px] flex-col items-center justify-center rounded-[6px] border-2 border-[#2f2d89] gap-2 md:gap-[28px] p-5 px-[32px] max-[1281px]:md:h-[175px] max-[1281px]:md:max-w-[350px] max-[1281px]:md:gap-[26px] max-[1281px]:md:px-[30px] max-[1400px]:md:h-[185px] max-[1400px]:md:max-w-[375px] max-[1400px]:md:gap-[29px] max-[1400px]:md:px-[34px] max-[1910px]:md:h-[195px] max-[1910px]:md:max-w-[390px] max-[1910px]:md:gap-[32px] max-[1910px]:md:px-[36px] min-[1911px]:md:h-[206px] min-[1911px]:md:max-w-[406px] min-[1911px]:md:gap-[35px] min-[1911px]:md:px-[40px] overflow-hidden"
+                className="flex min-h-[130px] md:h-[180px] md:max-w-[360px] w-full max-w-[406px] flex-col items-center justify-center rounded-[6px] border-2 border-[#2f2d89] gap-2 md:gap-[28px] p-5 px-[32px] max-[1281px]:md:h-[175px] max-[1200px]:md:max-w-[380px] max-[1281px]:md:max-w-[315px] max-[1281px]:md:gap-[26px] max-[1281px]:md:px-[30px] max-[1400px]:md:h-[185px] max-[1460px]:md:max-w-[375px] max-[1400px]:md:gap-[29px] max-[1400px]:md:px-[34px] max-[1910px]:md:h-[195px] max-[1910px]:md:max-w-[390px] max-[1910px]:md:gap-[32px] max-[1910px]:md:px-[36px] min-[1911px]:md:h-[206px] min-[1911px]:md:max-w-[406px] min-[1911px]:md:gap-[35px] min-[1911px]:md:px-[40px] overflow-hidden"
                 style={{ backgroundColor: item.bg }}
               >
                 <div className="relative w-[36px] h-[36px] md:w-[63px] md:h-[63px] flex items-center justify-center">

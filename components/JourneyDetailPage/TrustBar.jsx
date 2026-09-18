@@ -63,7 +63,7 @@ export default function TrustBar({ isInspirational = false }) {
               acc.push(
                 <span
                   key={`star-${i}`}
-                  className="flex items-center justify-center leading-none font-bold text-ink text-[10px] max-[901px]:text-[10px] max-[1200px]:text-[11px] max-[1250px]:text-[12px] max-[1281px]:text-[13px] max-[1910px]:text-[14px] min-[1911px]:text-[15px]"
+                  className="flex items-center justify-center leading-none font-bold text-ink text-[24px] "
                 >
                   ✦
                 </span>,
@@ -73,7 +73,7 @@ export default function TrustBar({ isInspirational = false }) {
             return acc;
           }, [])}
 
-          <span className="flex items-center justify-center leading-none font-bold text-ink text-[10px] max-[901px]:text-[10px] max-[1200px]:text-[11px] max-[1250px]:text-[12px] max-[1281px]:text-[13px] max-[1910px]:text-[14px] min-[1911px]:text-[15px]">
+          <span className="flex items-center justify-center leading-none font-bold text-ink text-[24px]">
             ✦
           </span>
 
