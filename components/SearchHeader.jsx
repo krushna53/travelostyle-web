@@ -34,7 +34,7 @@ export default function SearchHeader({
         </p>
 
         <div className="flex items-center gap-4 md:gap-6">
-          <button>FAQs</button>
+          <Link href="/faqs">FAQs</Link>
           <button className="hidden min-[1191px]:block">Contact Us</button>
         </div>
       </div>
@@ -60,7 +60,7 @@ export default function SearchHeader({
 
             <div
               style={{ width: "60%" }}
-              className="flex items-center gap-7
+              className="flex items-center justify-end whitespace-nowrap gap-7 max-[1440px]:gap-[clamp(12px,1.46vw,28px)]
                   max-[1200px]:text-[12px]
                   max-[1250px]:text-[13px]
                   max-[1281px]:text-[14px]
@@ -81,6 +81,8 @@ export default function SearchHeader({
               <Link href="/destination">Destinations</Link>
 
               <Link href="/offers">Offers</Link>
+
+              <Link href="/faqs">FAQs</Link>
             </div>
           </div>
           <div className="block min-[1191px]:hidden relative min-[750px]:pb-4 flex items-center justify-between max-[1190px]:pt-2">

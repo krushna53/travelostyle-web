@@ -13,7 +13,7 @@ const footer = {
       title: "Company",
       links: [
         { label: "About Us", url: "/about-us" },
-        { label: "General FAQs", url: "/general-faqs" },
+        { label: "FAQs", url: "/faqs" },
         { label: "Write To Us", url: "/write-us" },
         { label: "Travel Journal", url: "//travel-journal" },
       ],

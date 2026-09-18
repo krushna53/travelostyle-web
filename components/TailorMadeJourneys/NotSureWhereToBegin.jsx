@@ -112,10 +112,18 @@ export default function NotSureWhereToBegin() {
           sliderPadClass="pl-4 pr-4 scroll-pl-4 md:pl-0 md:pr-0"
         />
       </div>
-      <div className="md:flex justify-center ml-3.5 md:ml-auto md:mt-10">
+      <div className="md:flex justify-center md:mt-10">
         <button
           onClick={goToAllJourneys}
-          className="bg-[#1C355E] hover:bg-[#12233F] text-white text-xs font-semibold px-4 md:px-6 py-2.5 rounded-full shadow-sm transition-all duration-200"
+          // Figma: 600 18/32 5%, #FAFAFA, radius 100, 37px tall, hugging the
+          // label -- 306 wide with 16px sides on mobile (flush with the copy
+          // above), 322 with 24px sides on desktop. Font family is inherited
+          // like the site's other buttons, not Figma's Nohemi. Figma trims the line
+          // box to cap height, so the 37px is a fixed height with the label
+          // centred rather than 12px + 32px line + 12px. Below ~390 the label
+          // scales down (4.62vw = 18px at 390) so it never outgrows a 320
+          // screen.
+          className="inline-flex h-[37px] items-center justify-center whitespace-nowrap rounded-[100px] bg-[#1C355E] px-4 text-[min(18px,4.62vw)] font-semibold leading-[32px] tracking-[0.05em] text-[#FAFAFA] transition-all duration-200 hover:bg-[#12233F] md:px-6 md:text-[18px]"
         >
           Explore All Curated Journeys
         </button>
