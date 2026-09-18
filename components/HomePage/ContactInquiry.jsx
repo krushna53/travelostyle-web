@@ -475,7 +475,7 @@ leading-[24px] font-normal tracking-[0.05em] text-[#FAFAFA]
 </button>
 <p
     className="mt-[20px] w-full h-[13px] max-[1100px]:h-auto max-[1100px]:leading-5
-    text-[14px] leading-[13px] text-[#FAFAFA]
+    text-[14px] leading-[21px] text-[#FAFAFA]
     max-md:h-auto max-md:w-auto
     max-md:mt-2
     md:text-[18px] max-md:leading-5"
