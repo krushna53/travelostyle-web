@@ -81,8 +81,6 @@ export default function FooterNewsletterForm() {
         consent: formData.consent ? "1" : "0",
       };
 
-      console.log("Newsletter Payload:", payload);
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/webform_rest/submit`,
         {
