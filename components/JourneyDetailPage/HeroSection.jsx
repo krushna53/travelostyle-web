@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import MobileNavigationMenu from "./MobileNavigationMenu";
-import MobilePriceBar from "./MobilePriceBar";
+import MobilePriceBar, { MobilePriceCard } from "./MobilePriceBar";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";
 import BuildYourJourneyForm from "@/components/BuildYourJourneyForm";
 import JourneyCardImage from "@/components/JourneyCardImage";
@@ -58,6 +58,9 @@ export default function HeroSection({
   const [activeView, setActiveView] = useState("menu");
   const [isPrivateFormOpen, setIsPrivateFormOpen] = useState(false);
   const [isCraftFormOpen, setIsCraftFormOpen] = useState(false);
+  // Inline mobile price card (menu view only); the floating bar hides while
+  // it's on screen. State, not a ref, so the bar re-observes when it mounts.
+  const [priceCardEl, setPriceCardEl] = useState(null);
   // Remembers where the mobile menu list was scrolled to when a tab was
   // opened, so the "back" button can return there instead of dumping the
   // user back at the top of the page.
@@ -91,6 +94,16 @@ export default function HeroSection({
     () => (isInspirational ? null : pickPriorityDeparture(departures)),
     [isInspirational, departures],
   );
+  const mobilePriceProps = {
+    journey,
+    isInspirational,
+    onCheckDates: () => {
+      handleSetActiveView("dates-pricing");
+      window.scrollTo({ top: 0, behavior: "auto" });
+    },
+    onRequestPrivate: () => setIsPrivateFormOpen(true),
+    onTailor: () => setIsCraftFormOpen(true),
+  };
   return (
     <>
     <section className="w-full bg-white hidden md:block">
@@ -361,18 +374,17 @@ export default function HeroSection({
             </div>
           </div>
 
+          <MobilePriceCard
+            cardRef={setPriceCardEl}
+            {...mobilePriceProps}
+          />
         </div>}
       </div>
-      {/* Price + Check Dates, pinned to the bottom on every mobile view. */}
+      {/* Compact price bar pinned to the bottom on every mobile view; on the
+          menu view it only shows once the inline card above is off screen. */}
       <MobilePriceBar
-        journey={journey}
-        isInspirational={isInspirational}
-        onCheckDates={() => {
-          handleSetActiveView("dates-pricing");
-          window.scrollTo({ top: 0, behavior: "auto" });
-        }}
-        onRequestPrivate={() => setIsPrivateFormOpen(true)}
-        onTailor={() => setIsCraftFormOpen(true)}
+        anchor={activeView === "menu" ? priceCardEl : null}
+        {...mobilePriceProps}
       />
         <MobileNavigationMenu
   journey={journey}

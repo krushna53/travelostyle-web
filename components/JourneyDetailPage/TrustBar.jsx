@@ -1,5 +1,20 @@
 "use client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+
+// Four-point star separator (same asset as ExperienceTravelSection).
+function StarIcon({ className = "" }) {
+  return (
+    <Image
+      src="/ConcaveStar.svg"
+      alt=""
+      aria-hidden="true"
+      width={32}
+      height={32}
+      className={`shrink-0 ${className}`}
+    />
+  );
+}
 
 const trustItems = [
   "Trusted local partners",
@@ -29,7 +44,7 @@ export default function TrustBar({ isInspirational = false }) {
           {mobileItems.map((label, i) => (
             <div key={i} className="flex shrink-0 items-center gap-[24px]">
               {i > 0 && (
-                <span className="text-[12px] font-bold text-[#1A1A1A]">✦</span>
+                <StarIcon className="h-[12px] w-[12px]" />
               )}
               <span className="whitespace-nowrap text-[18px] font-semibold leading-[24px] tracking-[0.05em] text-[#1A1A1A]">
                 {label}
@@ -61,21 +76,17 @@ export default function TrustBar({ isInspirational = false }) {
           )).reduce((acc, node, i) => {
             if (i > 0) {
               acc.push(
-                <span
+                <StarIcon
                   key={`star-${i}`}
-                  className="flex items-center justify-center leading-none font-bold text-ink text-[24px] "
-                >
-                  ✦
-                </span>,
+                  className="h-[24px] w-[24px]"
+                />,
               );
             }
             acc.push(node);
             return acc;
           }, [])}
 
-          <span className="flex items-center justify-center leading-none font-bold text-ink text-[24px]">
-            ✦
-          </span>
+          <StarIcon className="h-[24px] w-[24px]" />
 
           {isInspirational ? (
             <span className="whitespace-nowrap font-semibold text-ink text-[11px] max-[901px]:text-[11px] max-[1200px]:text-[13px] max-[1250px]:text-[15px] max-[1281px]:text-[16px] max-[1910px]:text-[17px] min-[1911px]:text-[18px]">

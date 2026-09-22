@@ -6,7 +6,7 @@ export default function GuestReview() {
 
       {/* Heading */}
       <h2 className="text-center font-taprom text-[52px] max-[1910px]:text-[47px] max-[1281px]:text-[42px] max-[1250px]:text-[37px] max-[1200px]:text-[32px] leading-none">
-        What are guests remember
+        What our guests remember
       </h2>
 
       <div className="mt-10 min-[768px]:mt-[80px] flex flex-wrap items-center justify-center gap-6 min-[768px]:gap-[50px]">

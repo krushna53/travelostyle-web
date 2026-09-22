@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Info, X, ChevronLeft, ChevronRight } from "lucide-react";
+import JourneyCardImage from "@/components/JourneyCardImage";
 
 
 function Lightbox({ images, name, startIndex, onClose }) {
@@ -109,13 +110,7 @@ function HotelCard({ hotel, onGalleryOpen }) {
   return (
     <div className="border-2 border-ink rounded-[0.6vw] overflow-hidden flex flex-col">
       <div className="relative h-[15vw] w-full">
-        <Image
-          src={hotel.image}
-          alt={hotel.name}
-          fill
-          unoptimized
-          className="object-cover"
-        />
+        <JourneyCardImage src={hotel.image} alt={hotel.name} />
       </div>
 
       <div className="flex flex-col flex-1 px-[0.8vw] pt-[0.7vw] pb-[0.8vw]">
@@ -130,7 +125,8 @@ function HotelCard({ hotel, onGalleryOpen }) {
       <div className="mt-[0.8vw] border-t-2 border-ink">
         <button
           onClick={onGalleryOpen}
-          className="w-full py-[0.6vw] text-[16px] font-medium text-ink text-center hover:bg-[#f8f8f8] transition-colors"
+          disabled={!hotel.images?.length}
+          className="w-full py-[0.6vw] text-[16px] font-medium text-ink text-center hover:bg-[#f8f8f8] transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
         >
           View Gallery
         </button>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import JourneyCardImage from "@/components/JourneyCardImage";
 import { MoveRight, Plus, Minus } from "lucide-react";
 
 function formatDate(dateStr) {
@@ -84,13 +84,7 @@ export default function JourneySummaryCard({
             <>
               <div className="mt-2.5 flex gap-3">
                 <div className="relative h-[92px] w-[104px] shrink-0 overflow-hidden rounded-[3px]">
-                  <Image
-                    src={journey.image || "/Morocco.svg"}
-                    alt={journey.title || "Journey"}
-                    fill
-                    unoptimized
-                    className="object-cover"
-                  />
+                  <JourneyCardImage src={journey.image} alt={journey.title || "Journey"} />
                 </div>
 
                 <div className="min-w-0 flex-1 text-[10px] leading-tight text-[#444444]">
@@ -174,13 +168,7 @@ export default function JourneySummaryCard({
       <div className="hidden sm:block w-full max-w-[210px] overflow-hidden rounded-[5px] border-[1.5px] border-[#222222] bg-[#fafafa] font-sans shadow-sm mb-6">
         <div className="p-2.5 pb-0">
           <div className="relative h-[125px] w-full overflow-hidden">
-            <Image
-              src={journey.image || "/Morocco.svg"}
-              alt={journey.title || "Journey"}
-              fill
-              unoptimized
-              className="object-cover"
-            />
+            <JourneyCardImage src={journey.image} alt={journey.title || "Journey"} />
           </div>
         </div>
 

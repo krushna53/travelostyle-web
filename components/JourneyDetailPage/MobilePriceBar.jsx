@@ -1,71 +1,55 @@
 "use client";
 
 import { Info } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /*
- * Mobile-only pricing + "Check Dates" bar, pinned to the bottom of the screen
- * on every mobile view of the journey page (menu, Highlights, Itinerary,
- * Dates & Pricing, ...), so the price and the booking action are always in
- * reach. Same content and styling as the card that used to sit under the
- * hero image.
+ * Mobile-only pricing + booking UI for the journey page, in two parts:
+ *
+ * - MobilePriceCard: the full price card (price, offer note, primary button,
+ *   secondary link). Rendered inline under the hero image on the "menu" view,
+ *   so it never covers the banner.
+ *
+ * - MobilePriceBar (default export): a compact one-row bar pinned to the
+ *   bottom of the screen, so the price and booking action stay in reach. When
+ *   an inline card element is passed as `anchor`, the bar hides while that
+ *   card is on screen (no duplicate) and slides up once it's scrolled out of
+ *   view. With no anchor (Highlights, Itinerary, ... views) it's always shown.
  *
  * The bar is position: fixed, so it would cover the end of the page (the
- * footer). While it's on screen, the body gets a bottom padding equal to the
- * bar's live height (it varies with "was" price / Early Bird / safe-area
- * inset); on md+ the bar is display: none, its height is 0 and so is the
- * padding.
+ * footer). While it's visible, the body gets a bottom padding equal to the
+ * bar's live height; on md+ the bar is display: none, its height is 0 and so
+ * is the padding.
  */
-export default function MobilePriceBar({
+
+export function MobilePriceCard({
   journey,
   isInspirational,
   onCheckDates,
   onRequestPrivate,
   onTailor,
+  cardRef,
 }) {
-  const barRef = useRef(null);
-
-  useEffect(() => {
-    const bar = barRef.current;
-    if (!bar) return;
-    const body = document.body;
-    const previous = body.style.paddingBottom;
-    const sync = () => {
-      body.style.paddingBottom = `${bar.offsetHeight}px`;
-    };
-    sync();
-    const observer = new ResizeObserver(sync);
-    observer.observe(bar);
-    return () => {
-      observer.disconnect();
-      body.style.paddingBottom = previous;
-    };
-  }, []);
-
   return (
     <div
-      ref={barRef}
-      className="fixed inset-x-0 bottom-0 z-40 block overflow-hidden rounded-t-[10px] border-2 border-b-0 border-[#1A1A1A] bg-[#FAFAFA] pb-[env(safe-area-inset-bottom)] shadow-[0_-6px_20px_rgba(0,0,0,0.12)] md:hidden"
+      ref={cardRef}
+      className="block overflow-hidden border-y-2 border-[#1A1A1A] bg-[#FAFAFA] md:hidden"
     >
       <div className="flex border-b-2 border-[#1A1A1A]">
         <div className="flex-1 px-[14px] py-[12px]">
-          {/* From */}
           <p className="text-[10px] font-light leading-[16px] tracking-[0.05em] text-[#1A1A1A]">
             from
           </p>
 
-          {/* Offer Price */}
           <div className="flex items-end gap-[2px]">
             <span className="text-[24px] font-semibold leading-[28px] tracking-[0.05em] text-[#1A1A1A]">
               ${Number(journey.offerPrice).toLocaleString()}
             </span>
-
             <span className="mb-[3px] text-[11px] font-normal leading-[14px] tracking-[0.05em] text-[#000000]">
               /person
             </span>
           </div>
 
-          {/* Original Price */}
           {journey.originalPrice && (
             <p className="text-[12px] font-light leading-[16px] tracking-[0.05em] text-[#777]">
               was{" "}
@@ -131,6 +115,95 @@ export default function MobilePriceBar({
           </button>
         </div>
       )}
+    </div>
+  );
+}
+
+export default function MobilePriceBar({
+  journey,
+  isInspirational,
+  onCheckDates,
+  onRequestPrivate,
+  onTailor,
+  anchor,
+}) {
+  const barRef = useRef(null);
+  const [anchorInView, setAnchorInView] = useState(false);
+  const visible = !anchor || !anchorInView;
+
+  // Hide the bar while the inline price card is on screen.
+  useEffect(() => {
+    if (!anchor) return;
+    const observer = new IntersectionObserver(([entry]) =>
+      setAnchorInView(entry.isIntersecting),
+    );
+    observer.observe(anchor);
+    return () => observer.disconnect();
+  }, [anchor]);
+
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar || !visible) return;
+    const body = document.body;
+    const previous = body.style.paddingBottom;
+    const sync = () => {
+      body.style.paddingBottom = `${bar.offsetHeight}px`;
+    };
+    sync();
+    const observer = new ResizeObserver(sync);
+    observer.observe(bar);
+    return () => {
+      observer.disconnect();
+      body.style.paddingBottom = previous;
+    };
+  }, [visible]);
+
+  return (
+    <div
+      ref={barRef}
+      aria-hidden={!visible}
+      className={`fixed inset-x-0 bottom-0 z-40 block rounded-t-[10px] border-2 border-b-0 border-[#1A1A1A] bg-[#FAFAFA] pb-[env(safe-area-inset-bottom)] shadow-[0_-6px_20px_rgba(0,0,0,0.12)] transition-transform duration-300 md:hidden ${
+        visible ? "translate-y-0" : "pointer-events-none translate-y-full"
+      }`}
+    >
+      <div className="flex items-center justify-between gap-[10px] px-[14px] py-[8px]">
+        <div className="min-w-0">
+          <p className="text-[10px] font-light leading-[14px] tracking-[0.05em] text-[#1A1A1A]">
+            from
+          </p>
+          <div className="flex items-end gap-[2px]">
+            <span className="text-[20px] font-semibold leading-[24px] tracking-[0.05em] text-[#1A1A1A]">
+              ${Number(journey.offerPrice).toLocaleString()}
+            </span>
+            <span className="mb-[2px] text-[10px] font-normal leading-[14px] tracking-[0.05em] text-[#000000]">
+              /person
+            </span>
+          </div>
+          {journey.originalPrice && (
+            <p className="text-[10px] font-light leading-[14px] tracking-[0.05em] text-[#777]">
+              was{" "}
+              <span className="line-through">
+                ${Number(journey.originalPrice).toLocaleString()}
+              </span>
+            </p>
+          )}
+        </div>
+
+        <div className="flex shrink-0 flex-col items-center gap-[4px]">
+          <button
+            onClick={isInspirational ? onRequestPrivate : onCheckDates}
+            className="h-[34px] rounded-full bg-[#2C3078] px-[16px] text-[14px] font-semibold tracking-[0.05em] text-[#FAFAFA]"
+          >
+            {isInspirational ? "Request a Private Journey" : "Check Dates"}
+          </button>
+          <button
+            onClick={isInspirational ? onTailor : onRequestPrivate}
+            className="text-[11px] font-bold text-ink underline underline-offset-2"
+          >
+            {isInspirational ? "or Tailor This Journey" : "or Request a Private Journey"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

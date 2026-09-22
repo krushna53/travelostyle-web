@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import JourneyCardImage from "@/components/JourneyCardImage";
 import { API_BASE_URL } from "@/lib/config";
 import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -644,14 +645,7 @@ export default function TripComparison() {
                   <div className={`${CARD_HEADER} flex flex-col`}>
                     <div className="relative h-[170px] md:h-[213px] rounded-lg overflow-hidden shrink-0 pt-[30px] md:pt-0">
                       <div className="relative h-[140px] md:w-[349px] md:h-[213px] overflow-hidden shrink-0 mx-auto">
-                        <Image
-                          src={trip.image}
-                          alt={trip.title}
-                          fill
-                          sizes="(max-width: 768px) 82vw, 349px"
-                          className="object-cover"
-                          unoptimized
-                        />
+                        <JourneyCardImage src={trip.image} alt={trip.title} />
                       </div>
                     </div>
                     <h3 className="text-left font-semibold text-[21px] leading-[32px] tracking-[0.05em] mt-2 line-clamp-2">

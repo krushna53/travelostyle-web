@@ -92,7 +92,7 @@ export default async function AboutUs() {
       <OriginStory />
       <TravelBetter />
       <TravelExperience />
-            <TestimonialSection testimonialData={testimonialData} desktopHeading="What are guests remember" />
+            <TestimonialSection testimonialData={testimonialData} desktopHeading="What our guests remember" />
       
       {/* <GuestReview /> */}
       <LetsFindOut />
