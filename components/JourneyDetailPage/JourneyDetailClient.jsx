@@ -61,7 +61,7 @@ function resolveImage(item, included) {
   const fileId = media?.relationships?.field_media_image?.data?.id;
   const file = included.find((i) => i.type === "file--file" && i.id === fileId);
   const raw = file?.attributes?.uri?.url;
-  return buildFileUrl(raw) || "/Morocco.svg";
+  return buildFileUrl(raw) || "";
 }
 
 // field_journey_tag ("Journey Type" field in Drupal, machine name
@@ -287,7 +287,7 @@ tabs.itinerary = {
             const featuredFileId = featuredMedia?.relationships?.field_media_image?.data?.id;
             const featuredFile = featuredFileId ? included.find((inc) => inc.id === featuredFileId) : null;
             const featuredRaw = featuredFile?.attributes?.uri?.url;
-            const image = buildFileUrl(featuredRaw) || "/Morocco.svg";
+            const image = buildFileUrl(featuredRaw) || "";
 
             // Gallery images (all media--image in field_gallery)
             const galleryRefs = hotel.relationships?.field_gallery?.data || [];
@@ -305,7 +305,7 @@ tabs.itinerary = {
               name: a.title || "",
               desc: a.field_description || "",
               image,
-              images: [image, ...images],
+              images: [image, ...images].filter(Boolean),
             };
           })
           .filter(Boolean);

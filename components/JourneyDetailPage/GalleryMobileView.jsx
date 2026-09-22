@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import JourneyCardImage from '@/components/JourneyCardImage';
 
 export default function GalleryMobileView({ selectedStay, onBack }) {
   const galleryImages = (
@@ -29,6 +30,11 @@ export default function GalleryMobileView({ selectedStay, onBack }) {
         </h2>
       </div>
       <div className="flex flex-col gap-4 overflow-y-auto max-h-[600px] pr-1">
+        {galleryImages.length === 0 && (
+          <div className="relative w-full h-64 overflow-hidden border border-neutral-300">
+            <JourneyCardImage src="" alt={selectedStay.name} />
+          </div>
+        )}
         {galleryImages.map((image) => (
           <div 
             key={image.id} 

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import GalleryMobileView from "./GalleryMobileView";
+import JourneyCardImage from "@/components/JourneyCardImage";
 
 export default function MobileStays({ onBack, StaysRecord }) {
   const staysData = Array.isArray(StaysRecord) ? StaysRecord : [];
@@ -44,11 +45,7 @@ export default function MobileStays({ onBack, StaysRecord }) {
             >
               {/* Image Container */}
               <div className="h-28 w-full relative overflow-hidden border-b-2 border-neutral-800 shrink-0">
-                <img
-                  src={stay.image}
-                  alt={stay.name}
-                  className="w-full h-full object-cover"
-                />
+                <JourneyCardImage src={stay.image} alt={stay.name} />
               </div>
               <div className="flex-1 p-3">
                 <div>
