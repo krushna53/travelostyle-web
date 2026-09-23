@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
+import JourneyCardImage from "@/components/JourneyCardImage";
 
 const SLOT_COUNT = 3;
 
@@ -94,10 +95,9 @@ export default function CompareTripsModal({ open, onClose }) {
                     <X size={12} />
                   </button>
 
-                  <div
-                    className="h-[90px] w-[90px] shrink-0 rounded-[6px] bg-[#F3F3F3] bg-cover bg-center"
-                    style={trip.image ? { backgroundImage: `url(${trip.image})` } : undefined}
-                  />
+                  <div className="relative h-[90px] w-[90px] shrink-0 overflow-hidden rounded-[6px]">
+                    <JourneyCardImage src={trip.image} alt={trip.title} />
+                  </div>
 
                   <p className="line-clamp-3 text-[13px] font-semibold text-[#1A1A1A]">
                     {trip.title}
