@@ -9,7 +9,10 @@ function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default function TestimonialSection({ testimonialData, desktopHeading }) {
+export default function TestimonialSection({
+  testimonialData,
+  desktopHeading = "Hear from those who’ve travelled with us",
+}) {
   const testimonials = (testimonialData?.data || []).map((item) => {
     const included = testimonialData?.included || [];
 

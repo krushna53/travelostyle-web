@@ -165,10 +165,23 @@ export default async function JourneyDetailPage({
         x.id === fileId
     );
 
+    // The description you type per-journey lives on the paragraph item
+    // itself (`item`), not on the shared taxonomy term (`term` — e.g.
+    // "Flights"/"Meals" — is reused across every journey, so its own
+    // Description field is the same everywhere). Prefer the paragraph's
+    // own description field (`field_descriptions`, confirmed in Structure >
+    // Paragraph types > Inclusion Exclusion Item > Manage fields); fall
+    // back to the term's shared description only if the paragraph didn't
+    // set one.
+    const paragraphDescription =
+      item.attributes?.field_descriptions?.value ??
+      item.attributes?.field_descriptions ??
+      "";
+
     targetArray.push({
   title: term.attributes?.name || "",
   description: stripHtml(
-    term.attributes?.description?.value || ""
+    paragraphDescription || term.attributes?.description?.value || ""
   ),
   icon: file?.attributes?.uri?.url
     ? `${API_BASE_URL}${file.attributes.uri.url}`
