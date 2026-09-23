@@ -18,6 +18,8 @@ import StepThree from "./StepThree";
 import StepFour from "./StepFour";
 import SuccessStep from "./SuccessStep";
 
+const PHONE_PATTERN = /^\d{10}$/;
+
 // Multi-step "Request A Private Journey" inquiry form:
 // Step 1 - Guest Details
 // Step 2 - How would you like to customize this journey?
@@ -44,13 +46,15 @@ export default function PrivateInquiryForm({
   // their current label-less look.
   label,
 }) {
-  console.log("journey",journey)
+  console.log("journey", journey);
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [showStepOneValidation, setShowStepOneValidation] =
+  useState(false);
 
   if (!isOpen) return null;
 
@@ -58,8 +62,9 @@ export default function PrivateInquiryForm({
   // this specific journey has stopover journeys configured in Drupal
   // (field_stopover_journey). If none were added for this journey, skip
   // the step entirely in both directions instead of showing an empty form.
-  const hasStopovers = Array.isArray(journey?.stopoverJourneyIds)
-    && journey.stopoverJourneyIds.length > 0;
+  const hasStopovers =
+    Array.isArray(journey?.stopoverJourneyIds) &&
+    journey.stopoverJourneyIds.length > 0;
 
   const updateField = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -85,25 +90,61 @@ export default function PrivateInquiryForm({
     toggleArrayValue("customizations", value);
   const toggleStopover = (value) => toggleArrayValue("stopovers", value);
 
-  const goNext = () => {
-    // Phone lives on step 1 — validate before leaving it, rather than
-    // only at final submit, so a bad number can't sail through to step
-    // 4 unnoticed.
-    if (step === 1 && !/^\d{10}$/.test((formData.phone || "").trim())) {
+const goNext = () => {
+  if (step === 1) {
+    setShowStepOneValidation(true);
+
+    const firstName = formData.firstName?.trim() || "";
+    const lastName = formData.lastName?.trim() || "";
+    const title = formData.title?.trim() || "";
+    const email = formData.email?.trim() || "";
+    const phone = formData.phone?.trim() || "";
+    const guests = formData.guests;
+    const travelingWithChildren =
+      formData.travelingWithChildren?.trim() || "";
+
+    // Required field validation
+    if (
+      !firstName ||
+      !lastName ||
+      !title ||
+      !email ||
+      !phone ||
+      !guests ||
+      !travelingWithChildren
+    ) {
+      return;
+    }
+
+    // Email validation
+    if (!EMAIL_PATTERN.test(email)) {
+      return;
+    }
+
+    // Phone validation
+    if (!PHONE_PATTERN.test(phone)) {
       setPhoneError("Please enter a valid 10-digit mobile number.");
       return;
     }
-    setStep((prev) => {
-      const next = Math.min(prev + 1, TOTAL_STEPS);
-      // Skip step 3 (stopovers) on the way forward if this journey has none.
-      return next === 3 && !hasStopovers ? Math.min(next + 1, TOTAL_STEPS) : next;
-    });
-  };
+
+    setPhoneError("");
+  }
+
+  setStep((prev) => {
+    const next = Math.min(prev + 1, TOTAL_STEPS);
+
+    return next === 3 && !hasStopovers
+      ? Math.min(next + 1, TOTAL_STEPS)
+      : next;
+  });
+};
   const goPrevious = () =>
     setStep((prev) => {
       const previous = Math.max(prev - 1, 1);
       // Skip step 3 (stopovers) on the way back if this journey has none.
-      return previous === 3 && !hasStopovers ? Math.max(previous - 1, 1) : previous;
+      return previous === 3 && !hasStopovers
+        ? Math.max(previous - 1, 1)
+        : previous;
     });
 
   const handleClose = () => {
@@ -137,7 +178,8 @@ export default function PrivateInquiryForm({
   // full list of resolved field_journey_tag term ids instead of just
   // the first.
   const journeyTypeValue = journey?.tagIds?.length ? journey.tagIds : "";
-  const departureNodeId = departure?.nodeId || departure?.id || departureId || "";
+  const departureNodeId =
+    departure?.nodeId || departure?.id || departureId || "";
   const journeyDepartureValue = departureNodeId;
   const journeyNodeId = journey?.nodeId || journey?.id || journeyId || "";
   const destinationValue = journeyNodeId;
@@ -162,7 +204,7 @@ export default function PrivateInquiryForm({
 
     try {
       const csrfRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/session/token`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/session/token`,
       );
 
       if (!csrfRes.ok) {
@@ -172,7 +214,7 @@ export default function PrivateInquiryForm({
       const csrfToken = await csrfRes.text();
 
       const credentials = btoa(
-        `${process.env.NEXT_PUBLIC_DRUPAL_USER}:${process.env.NEXT_PUBLIC_DRUPAL_PASS}`
+        `${process.env.NEXT_PUBLIC_DRUPAL_USER}:${process.env.NEXT_PUBLIC_DRUPAL_PASS}`,
       );
 
       const response = await fetch(
@@ -273,18 +315,20 @@ export default function PrivateInquiryForm({
                   travel_year: formData.travelYear,
                   travel_info_note: formData.travelInfoNote.trim(),
                   consent: formData.consent ? 1 : 0,
-                }
+                },
           ),
-        }
+        },
       );
-      console.log("journey",journey);
+      console.log("journey", journey);
 
       const data = await response.json();
 
       if (!response.ok) {
         console.error("Private journey inquiry submission error:", data);
-      
-        setSubmitError(data.message || "Something went wrong. Please try again.");
+
+        setSubmitError(
+          data.message || "Something went wrong. Please try again.",
+        );
         setIsSubmitting(false);
         return;
       }
@@ -366,6 +410,7 @@ export default function PrivateInquiryForm({
                         updateField={updateField}
                         showTravelWindow={!showDepartureDate}
                         phoneError={phoneError}
+                        showValidation={showStepOneValidation}
                       />
                     )}
                     {step === 2 && (

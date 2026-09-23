@@ -207,7 +207,7 @@ export default function BuildYourJourneyForm({
         // name — confirm/rename to match whatever element is added on
         // the Drupal side (see conversation).
         journey_id: formData.destinationId || "",
-        experiences: formData.experiences,
+        exeperience: formData.experiences,
         adults: formData.guests?.adults || 2,
         children: formData.guests?.children || 0,
         duration: formData.duration,
@@ -245,7 +245,6 @@ export default function BuildYourJourneyForm({
       const data = await response.json();
 
       if (!response.ok) {
-        console.error("Submission Error:", data);
         alert(data.message || data.error?.message || "Something went wrong.");
         setIsSubmitting(false);
         return;

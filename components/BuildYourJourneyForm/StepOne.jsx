@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import { EXPERIENCES } from "./constants";
+import { API_BASE_URL } from "@/lib/config";
 
 export default function StepOne({
   formData,
@@ -13,6 +13,7 @@ export default function StepOne({
   destinationOptions = [],
 }) {
   const [isDestOpen, setIsDestOpen] = useState(false);
+  const [experiences, setExperiences] = useState([]);
 
   const filteredDestinations = useMemo(() => {
     const query = (formData.destination || "").trim().toLowerCase();
@@ -29,21 +30,41 @@ export default function StepOne({
     setIsDestOpen(false);
   };
 
+ useEffect(() => {
+    fetch(`${API_BASE_URL}/jsonapi/taxonomy_term/travel_experiences`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch taxonomy terms from Drupal');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const terms = data?.data?.map((item) => ({
+          id: item.attributes.drupal_internal__tid, 
+          name: item.attributes.name,
+        }))
+        setExperiences(terms);
+      })
+      .catch((err) => {
+        console.error('Error fetching experiences:', err);
+      });
+  }, []);
+
   const renderCheckbox = (experience) => {
-    const isChecked = formData.experiences?.includes(experience);
+    const isChecked = formData.experiences?.includes(experience?.id);
     return (
       <label
-        key={experience}
+        key={experience.id}
         className="inline-flex items-center gap-2 cursor-pointer select-none group"
       >
         <input
           type="checkbox"
           checked={isChecked}
-          onChange={() => toggleExperience(experience)}
+          onChange={() => toggleExperience(experience?.id)}
           className="h-[18px] w-[18px] shrink-0 rounded-[4px] border-[1.5px] border-[#1A1A1A] accent-[#2C3078] cursor-pointer"
         />
         <span className="text-[14px] font-[400] leading-[21px] tracking-[0.05em] text-[#1A1A1A] group-hover:text-[#000000] whitespace-nowrap">
-          {experience}
+          {experience?.name}
         </span>
       </label>
     );
@@ -121,7 +142,7 @@ export default function StepOne({
 
         <div className="mt-4 flex flex-col gap-y-4">
           <div className="flex flex-col gap-y-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
-            {EXPERIENCES.map(renderCheckbox)}
+            {experiences.map(renderCheckbox)}
           </div>
         </div>
       </div>
