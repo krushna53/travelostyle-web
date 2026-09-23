@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import JourneyCardImage from "@/components/JourneyCardImage";
 import { MoveRight, Plus, Minus } from "lucide-react";
 
 function formatDate(dateStr) {
@@ -64,13 +64,7 @@ export default function GroupSummaryCard({ journey, trip }) {
           {isExpanded && (
             <div className="mt-2.5 flex gap-3">
               <div className="relative h-[92px] w-[104px] shrink-0 overflow-hidden rounded-[3px]">
-                <Image
-                  src={journey?.image || "/Morocco.svg"}
-                  alt={journey?.title || "The Moroccan Getaway"}
-                  fill
-                  unoptimized
-                  className="object-cover"
-                />
+                <JourneyCardImage src={journey?.image} alt={journey?.title || "The Moroccan Getaway"} />
               </div>
 
               <div className="min-w-0 flex-1 text-[10px] leading-tight text-[#4A4A4A]">
@@ -145,13 +139,7 @@ export default function GroupSummaryCard({ journey, trip }) {
         {/* Top Image */}
         <div className="p-1.5 pb-0">
           <div className="relative h-[135px] w-full overflow-hidden">
-            <Image
-              src={journey?.image || "/Morocco.svg"}
-              alt={journey?.title || "The Moroccan Getaway"}
-              fill
-              unoptimized
-              className="object-cover"
-            />
+            <JourneyCardImage src={journey?.image} alt={journey?.title || "The Moroccan Getaway"} />
           </div>
         </div>
 
