@@ -110,6 +110,7 @@ export const TRIP_REASONS = [
   "Graduation",
   "Friend Trip",
   "Because I love to travel",
+  "Other",
 ];
 
 // ---------------------------------------------------------------------
@@ -121,8 +122,16 @@ export const TRIP_REASONS = [
 
 // Confirmed as the complete list (only 2 real options configured).
 export const INSPIRATIONAL_CUSTOMIZATION_OPTIONS = [
-  "I would like to explore different accommodation categories or stay styles",
+   "I would like to explore different accommodation categories or stay styles",
   "I would like to adjust how relaxed or packed the journey feels",
+  "I would like to increase or decrease the no.of days for which I am traveling",
+  "I am traveling with my own group and would like a private rate",
+  "I would like to explore sights, activities, or experience different from those mentioned in the itinerary",
+  "I have dietary, accessibility, rooming, or other travel needs which I would like to discuss",
+  "My budget is flexible for the right experience",
+  "I would like to explore different travel dates",
+  "I am traveling with an infant and require some guidance",
+  "I would like to customize another part of the trip which is not listed above",
 ];
 
 // Option `id` values match the "Stopovers" element's configured option
