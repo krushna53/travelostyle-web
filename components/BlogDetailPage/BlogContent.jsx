@@ -5,6 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+const initialFormData = {
+  firstName: "",
+  email: "",
+  consent: false,
+};
+
 export default function BlogContent({
   blog,
   categories,
@@ -20,41 +26,122 @@ export default function BlogContent({
     categories?.[0]?.attributes?.name || "All",
   );
 
-  const [newsletterName, setNewsletterName] = useState("");
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterAgree, setNewsletterAgree] = useState(false);
-  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
-  const [newsletterError, setNewsletterError] = useState("");
+  const [formData, setFormData] = useState(initialFormData);
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
 
-  const handleNewsletterSubmit = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required.";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Please enter a valid email address.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!formData.consent) {
+      newErrors.consent = "Please agree to receive updates.";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!newsletterName.trim() || !newsletterEmail.trim()) {
-      setNewsletterError("Please enter your name and email.");
+    if (!validateForm()) {
       return;
     }
 
-    if (!EMAIL_PATTERN.test(newsletterEmail.trim())) {
-      setNewsletterError("Please enter a valid email address.");
-      return;
-    }
+    setIsSubmitting(true);
 
-    if (!newsletterAgree) {
-      setNewsletterError("Please agree to receive updates from TravelOStyle.");
-      return;
-    }
+    try {
+      const csrfRes = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/session/token`,
+      );
 
-    setNewsletterError("");
-    setNewsletterSubmitted(true);
+      if (!csrfRes.ok) {
+        throw new Error("Failed to fetch CSRF token");
+      }
+
+      const csrfToken = await csrfRes.text();
+
+      const credentials = btoa(
+        `${process.env.NEXT_PUBLIC_DRUPAL_USER}:${process.env.NEXT_PUBLIC_DRUPAL_PASS}`,
+      );
+
+      const payload = {
+        webform_id: "newsletter_subscription",
+        your_name: formData.firstName.trim(),
+        email_id: formData.email.trim(),
+        consent: formData.consent ? "1" : "0",
+      };
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/webform_rest/submit`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Basic ${credentials}`,
+            "X-CSRF-Token": csrfToken,
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Newsletter Submission Error:", data);
+
+        alert(data.message || data.error?.message || "Something went wrong.");
+
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log("Newsletter Success Response:", data);
+
+      setSubmitted(true);
+
+      // Reset form
+      setFormData(initialFormData);
+      setErrors({});
+    } catch (error) {
+      console.error("Newsletter Submission Error:", error);
+
+      alert("Unable to subscribe. Please check your connection.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const filteredRecommended = (
     selectedCategory === "All"
       ? recommendedBlogs
       : recommendedBlogs.filter((item) =>
-          item.categoryNames.includes(selectedCategory)
+          item.categoryNames.includes(selectedCategory),
         )
   ).slice(0, 3);
 
@@ -103,7 +190,7 @@ export default function BlogContent({
                       height={536}
                       className="w-full h-auto aspect-[333/438] object-cover object-center min-[768px]:aspect-[408/536]"
                     />
-                  )
+                  ),
               )}
             </div>
           )}
@@ -116,7 +203,12 @@ export default function BlogContent({
                   href={`/blog/${previousPost.slug}`}
                   className="flex items-center gap-[12px] text-[14px] font-medium text-ink self-start sm:self-auto"
                 >
-                  <Image src="/ArrowLeft.svg" alt="Previous" width={24} height={24} />
+                  <Image
+                    src="/ArrowLeft.svg"
+                    alt="Previous"
+                    width={24}
+                    height={24}
+                  />
                   <span>{previousPost.title}</span>
                 </Link>
               ) : (
@@ -129,7 +221,12 @@ export default function BlogContent({
                   className="flex items-center gap-[12px] text-[14px] font-medium text-ink self-end sm:self-auto"
                 >
                   <span>{nextPost.title}</span>
-                  <Image src="/ArrowUpRight.svg" alt="Next" width={24} height={24} />
+                  <Image
+                    src="/ArrowUpRight.svg"
+                    alt="Next"
+                    width={24}
+                    height={24}
+                  />
                 </Link>
               ) : (
                 <span />
@@ -156,7 +253,9 @@ export default function BlogContent({
             {allCategories.map((name) => (
               <button
                 key={name}
-                onClick={() => router.push(`/blog?category=${encodeURIComponent(name)}`)}
+                onClick={() =>
+                  router.push(`/blog?category=${encodeURIComponent(name)}`)
+                }
                 className="flex h-[31px] items-center justify-center px-[16px] text-[16px] leading-none rounded-full border border-ink font-normal text-ink lg:pointer-events-none bg-white"
               >
                 {name}
@@ -211,7 +310,12 @@ export default function BlogContent({
                     <span className="text-[16px] font-semibold leading-[40px] tracking-[0.05em] text-ink">
                       READ MORE
                     </span>
-                    <Image src="/ArrowUpRight.svg" alt="Arrow" width={24} height={24} />
+                    <Image
+                      src="/ArrowUpRight.svg"
+                      alt="Arrow"
+                      width={24}
+                      height={24}
+                    />
                   </Link>
                 </div>
               </div>
@@ -260,7 +364,12 @@ export default function BlogContent({
                     <span className="text-[16px] font-semibold leading-[40px] tracking-[0.05em] text-ink">
                       READ MORE
                     </span>
-                    <Image src="/ArrowUpRight.svg" alt="Arrow" width={24} height={24} />
+                    <Image
+                      src="/ArrowUpRight.svg"
+                      alt="Arrow"
+                      width={24}
+                      height={24}
+                    />
                   </Link>
                 </div>
               </div>
@@ -275,23 +384,31 @@ export default function BlogContent({
               Subscribe To Our Newsletter
             </h3>
 
-            {newsletterSubmitted ? (
+            {submitted ? (
               <p className="mt-[24px] text-[14px] font-semibold text-[#2C3078]">
                 Submitted! Thanks for subscribing — we&apos;ll be in touch.
               </p>
             ) : (
-              <form onSubmit={handleNewsletterSubmit} noValidate>
+              <form onSubmit={handleSubmit} noValidate>
                 <div className="mt-[24px]">
                   <label className="block text-[14px] text-ink">
                     Your Name<span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    value={newsletterName}
-                    onChange={(e) => setNewsletterName(e.target.value)}
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
                     placeholder="Your first name"
-                    className="mt-[8px] w-full border-b border-ink pb-[10px] text-[14px] outline-none placeholder:text-[#B5B5B5]"
+                    className={`mt-[8px] w-full border-b pb-[10px] text-[14px] outline-none placeholder:text-[#B5B5B5] ${
+                      errors.firstName && "border-red-400"
+                    }`}
                   />
+                  {errors.firstName && (
+                    <p className="mt-1 text-[11px] text-red-400">
+                      {errors.firstName}
+                    </p>
+                  )}
                 </div>
 
                 <div className="mt-[22px]">
@@ -300,18 +417,27 @@ export default function BlogContent({
                   </label>
                   <input
                     type="email"
-                    value={newsletterEmail}
-                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="Your Email ID"
-                    className="mt-[8px] w-full border-b border-ink pb-[10px] text-[14px] outline-none placeholder:text-[#B5B5B5]"
+                    className={`mt-[8px] w-full border-b pb-[10px] text-[14px] outline-none placeholder:text-[#B5B5B5] ${
+                      errors.email && "border-red-400"
+                    }`}
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-[11px] text-red-400">
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
 
                 <div className="mt-[22px] flex items-start gap-[12px]">
                   <input
                     type="checkbox"
-                    checked={newsletterAgree}
-                    onChange={(e) => setNewsletterAgree(e.target.checked)}
+                    name="consent"
+                    checked={formData.consent}
+                    onChange={handleChange}
                     className="mt-[2px] h-[18px] w-[18px] accent-[#2C3078]"
                   />
                   <p className="text-[13px] leading-[20px] text-ink">
@@ -319,15 +445,18 @@ export default function BlogContent({
                   </p>
                 </div>
 
-                {newsletterError && (
-                  <p className="mt-[10px] text-[12px] text-red-600">{newsletterError}</p>
+                {errors.consent && (
+                  <p className="mt-1 text-[11px] text-red-400">
+                    {errors.consent}
+                  </p>
                 )}
 
                 <button
                   type="submit"
                   className="mt-6 w-auto h-[42px] rounded-full bg-[#2C3078] px-6 text-[14px] text-white"
                 >
-                  Subscribe
+                  {" "}
+                  {isSubmitting ? "Subscribing..." : "Subscribe"}
                 </button>
               </form>
             )}
