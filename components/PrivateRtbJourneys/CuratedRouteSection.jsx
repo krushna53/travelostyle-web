@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React from "react";
+import { openCompareModal } from "@/lib/compareCart";
 
 // Figma "Private RTB Journeys", the Day 1-8 polaroid trail. Every frame is a
 // Rectangle 911 (2px #1A1A1A, 5px radius, #FAFAFA) wrapping a SQUARE Rectangle
@@ -84,7 +84,6 @@ const routeDays = [
 // -- so 2 overlaps 1, 4 overlaps 2 and 5, 5 overlaps 6, and 7 then 8 sit on
 // top of the right-hand run.
 export default function CuratedRouteSection() {
-  const router = useRouter();
   return (
     <div className="figma-scale hidden md:flex w-full  bg-white relative flex flex-col items-center overflow-hidden select-none border-t-[1px] border-[#3f4284]">
       <style
@@ -156,7 +155,7 @@ export default function CuratedRouteSection() {
             cards. Unlike the pill buttons elsewhere on the board this one is a
             rounded rect with a stroke, so it is not the shared button style. */}
         <button
-          onClick={() => router.push("/comparison")}
+          onClick={openCompareModal}
           className="absolute left-[calc(1602*var(--fig-u))] top-[calc(613.75*var(--fig-u))] z-50 flex h-[calc(47*var(--fig-u))] w-[calc(210*var(--fig-u))] items-center justify-center rounded-[calc(10*var(--fig-u))] border-2 border-[#EFF3CF] bg-[#2C3078] text-[calc(18*var(--fig-u))] font-semibold leading-none tracking-[0.05em] text-[#FAFAFA] transition-colors duration-150 hover:bg-[#1a2353]"
         >
           Compare Trips

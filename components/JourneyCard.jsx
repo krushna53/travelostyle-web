@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { CheckCircle2, CirclePlus, Info } from "lucide-react";
 import JourneyCardImage from "@/components/JourneyCardImage";
+import {
+  COMPARE_CHANGED_EVENT,
+  addTripToCompare,
+  isTripInCompare,
+} from "@/lib/compareCart";
 
 const TAG_COLORS = {
   "group journey": "bg-[#E1EEDB] text-[#1A1A1A]",
@@ -16,55 +19,6 @@ const DEFAULT_TAG_COLOR = "bg-[#EAEBCB] text-[#1A1A1A]";
 
 function getTagColor(tag) {
   return TAG_COLORS[tag?.toLowerCase().trim()] || DEFAULT_TAG_COLOR;
-}
-
-function isTripInCompareList(tripId) {
-  const existingTrips = JSON.parse(localStorage.getItem("compareTrips") || "[]");
-  return existingTrips.some((item) => item.id === tripId);
-}
-
-// Default "Add to Compare" behavior, used everywhere a card doesn't get a
-// page-specific `onCompare` override (the home carousel, "other
-// destinations" rail, and the all-journeys grid).
-function addTripToCompare(trip, router) {
-  const existingTrips = JSON.parse(localStorage.getItem("compareTrips") || "[]");
-  const alreadyExists = existingTrips.some((item) => item.id === trip.id);
-
-  if (alreadyExists) {
-    toast("Trip already added to comparison");
-    return false;
-  }
-
-  if (existingTrips.length >= 3) {
-    toast("You can compare up to 3 trips only.");
-    return false;
-  }
-
-  const compareTrip = {
-    id: trip.id,
-    title: trip.title,
-    image: trip.image,
-    days: trip.days,
-    duration: trip.days,
-    destinations: trip.destinations,
-    offer: trip.offer,
-    price: `$${Number(trip.price).toLocaleString()}`,
-    viewTripUrl: trip.viewTripUrl,
-    itinerary: [],
-    stays: [],
-    region: trip.region || "",
-    travelMode: "-",
-  };
-
-  localStorage.setItem("compareTrips", JSON.stringify([...existingTrips, compareTrip]));
-  localStorage.removeItem("isAddingTrip");
-  sessionStorage.setItem(
-    "comparisonReturnPage",
-    window.location.pathname + window.location.search,
-  );
-
-  router.push("/comparison");
-  return true;
 }
 
 // Shared card shell — plain white card with rounded corners and a soft
@@ -79,11 +33,15 @@ const CARD_BASE =
 // or a CSS grid — the content markup is identical everywhere so a fix here
 // fixes it everywhere.
 export default function JourneyCard({ trip, variant = "carousel", onCompare, mobileWidthClass }) {
-  const router = useRouter();
   const [isSelected, setIsSelected] = useState(false);
 
+  // Kept in sync with the cart so removing a trip in the compare modal
+  // flips this card back to "Add to Compare".
   useEffect(() => {
-    setIsSelected(isTripInCompareList(trip.id));
+    const sync = () => setIsSelected(isTripInCompare(trip.id));
+    sync();
+    window.addEventListener(COMPARE_CHANGED_EVENT, sync);
+    return () => window.removeEventListener(COMPARE_CHANGED_EVENT, sync);
   }, [trip.id]);
 
   const handleAddToCompare = (e) => {
@@ -92,8 +50,8 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
     try {
       if (onCompare) {
         onCompare(trip);
-      } else if (addTripToCompare(trip, router)) {
-        setIsSelected(true);
+      } else {
+        addTripToCompare(trip);
       }
     } catch (error) {
       console.error("Failed to add trip to comparison:", error);

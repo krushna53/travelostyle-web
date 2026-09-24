@@ -1,6 +1,5 @@
 "use client";
 
-import { toast } from "sonner";
 import JourneyCard from "@/components/JourneyCard";
 
 function mapJourneyToTrip(journey) {
@@ -47,8 +46,6 @@ const GRID_COLS_CLASS = {
 
 export default function TravelJourneyCard({
   journeys = [],
-  selectedTrips = [],
-  onCompare,
   mobileSlider = false,
   mobileWidthClass,
   columns = 3,
@@ -73,13 +70,6 @@ export default function TravelJourneyCard({
               trip={trip}
               variant="grid"
               mobileWidthClass={mobileWidthClass}
-              onCompare={() => {
-                if (selectedTrips?.includes(journey.id)) {
-                  toast("Trip already added to comparison");
-                  return;
-                }
-                onCompare(journey);
-              }}
             />
           );
         })}

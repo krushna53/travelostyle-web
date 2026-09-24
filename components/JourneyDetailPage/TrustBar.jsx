@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { openCompareModal } from "@/lib/compareCart";
 
 // Four-point star separator (same asset as ExperienceTravelSection).
 function StarIcon({ className = "" }) {
@@ -28,7 +28,6 @@ const trustItems = [
 // as the other three items. Group/Private journeys keep the "Compare
 // Trips" button as before.
 export default function TrustBar({ isInspirational = false }) {
-  const router = useRouter();
   const mobileItems = isInspirational
     ? [...trustItems, "Advisor-led planning"]
     : trustItems;
@@ -94,7 +93,7 @@ export default function TrustBar({ isInspirational = false }) {
             </span>
           ) : (
             <button
-              onClick={() => router.push("/comparison")}
+              onClick={openCompareModal}
               className="flex items-center justify-center h-[30px] px-[14px] rounded-[6px] bg-[#2E2787] text-white font-semibold border border-white hover:bg-[#3B33A0] transition-colors shrink-0 text-[11px] max-[901px]:text-[11px] max-[1200px]:h-[32px] max-[1200px]:text-[12px] max-[1250px]:h-[34px] max-[1250px]:text-[13px] max-[1281px]:h-[34px] max-[1281px]:px-[16px] max-[1281px]:text-[13px] max-[1910px]:h-[36px] max-[1910px]:px-[18px] max-[1910px]:text-[14px] min-[1911px]:h-[36px] min-[1911px]:px-5 min-[1911px]:text-[14px]"
             >
               Compare Trips
