@@ -4,48 +4,36 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import JourneyCardImage from "@/components/JourneyCardImage";
+import {
+  COMPARE_CHANGED_EVENT,
+  MAX_COMPARE_TRIPS as SLOT_COUNT,
+  clearCompareTrips,
+  getCompareTrips,
+  removeTripFromCompare,
+} from "@/lib/compareCart";
 
-const SLOT_COUNT = 3;
-
-function readCompareTrips() {
-  try {
-    return JSON.parse(localStorage.getItem("compareTrips") || "[]");
-  } catch {
-    return [];
-  }
-}
-
-// Popup opened from the "Compare Trips" button in the home banner
-// (PopularDestinations.jsx). Shows the up-to-3 slots the rest of the site's
-// "Add to Compare" buttons already fill via the "compareTrips" localStorage
-// key, lets the user drop trips or clear them here, and jumps straight to
-// the journeys list to fill an empty slot.
+// The compare "cart". Mounted once site-wide by CompareModalHost and opened
+// by any "Compare Trips" button or after an "Add to Compare" click. Shows
+// the up-to-3 slots from lib/compareCart, lets the user drop trips or clear
+// them, sends empty slots to the journeys listing, and "Compare Trips" to
+// the comparison page.
 export default function CompareTripsModal({ open, onClose }) {
   const router = useRouter();
   const [trips, setTrips] = useState([]);
 
   useEffect(() => {
-    if (open) setTrips(readCompareTrips());
+    if (!open) return;
+    const sync = () => setTrips(getCompareTrips());
+    sync();
+    window.addEventListener(COMPARE_CHANGED_EVENT, sync);
+    return () => window.removeEventListener(COMPARE_CHANGED_EVENT, sync);
   }, [open]);
 
   if (!open) return null;
 
-  const removeTrip = (id) => {
-    const next = trips.filter((trip) => trip.id !== id);
-    setTrips(next);
-    localStorage.setItem("compareTrips", JSON.stringify(next));
-  };
-
-  const clearAll = () => {
-    setTrips([]);
-    localStorage.setItem("compareTrips", JSON.stringify([]));
-  };
-
   const goPickATrip = () => {
     onClose();
-    document
-      .getElementById("take-your-next-trip")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    router.push("/itinerary");
   };
 
   const viewComparison = () => {
@@ -88,7 +76,7 @@ export default function CompareTripsModal({ open, onClose }) {
                 >
                   <button
                     type="button"
-                    onClick={() => removeTrip(trip.id)}
+                    onClick={() => removeTripFromCompare(trip.id)}
                     aria-label={`Remove ${trip.title}`}
                     className="absolute right-2 top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-[#1A1A1A] shadow transition hover:bg-white"
                   >
@@ -121,7 +109,7 @@ export default function CompareTripsModal({ open, onClose }) {
           <div className="flex items-center justify-between">
             <button
               type="button"
-              onClick={clearAll}
+              onClick={clearCompareTrips}
               className="text-[14px] text-[#666] underline underline-offset-4"
             >
               Clear All
@@ -133,7 +121,7 @@ export default function CompareTripsModal({ open, onClose }) {
               disabled={trips.length < 2}
               className="rounded-full bg-[#2C3078] px-6 py-2 text-[14px] font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Compare Now
+              Compare Trips
             </button>
           </div>
         </div>

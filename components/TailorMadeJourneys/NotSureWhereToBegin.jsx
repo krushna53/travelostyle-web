@@ -8,7 +8,6 @@ import { getJourneyCards, filterByType } from "@/lib/journeyCard";
 export default function NotSureWhereToBegin() {
    const router = useRouter();
    const [journeys, setJourneys] = useState([]);
-    const [selectedTrips, setSelectedTrips] = useState([]);
 
     // "Explore All Curated Journeys" takes the visitor to the full itinerary
     // listing, pre-filtered to Tailormade journeys (the sidebar's "style"
@@ -19,58 +18,6 @@ export default function NotSureWhereToBegin() {
         JSON.stringify({ style: ["Tailormade Journey"] })
       );
       router.push("/itinerary");
-    };
-    useEffect(() => {
-      const compareTrips = JSON.parse(
-        localStorage.getItem("compareTrips") || "[]",
-      );
-  
-      setSelectedTrips(compareTrips.map((trip) => trip.id));
-    }, []);
-    const handleCompareSelection = (trip) => {
-      const existingTrips = JSON.parse(
-        localStorage.getItem("compareTrips") || "[]",
-      );
-  
-      const alreadyExists = existingTrips.some((item) => item.id === trip.id);
-  
-      if (alreadyExists) {
-        return;
-      }
-  
-      const compareTrip = {
-        viewTripUrl: trip.viewTripUrl,
-        id: trip.id,
-        title: trip.title,
-        image: trip.image,
-        duration: trip.duration,
-        destinations: trip.destinations,
-        offer: trip.earlyBird,
-        price: `$${Number(trip.price).toLocaleString()}`,
-        itinerary: [],
-        stays: "-",
-        region: trip.region,
-        travelMode: "-",
-      };
-  
-      localStorage.setItem(
-        "compareTrips",
-        JSON.stringify([...existingTrips, compareTrip]),
-      );
-  
-      setSelectedTrips((prev) => [...prev, trip.id]);
-  
-      localStorage.setItem(
-        "compareSourcePage",
-        window.location.pathname + window.location.search,
-      );
-  
-      sessionStorage.setItem(
-        "comparisonReturnPage",
-        window.location.pathname + window.location.search,
-      );
-  
-      window.location.href = "/comparison";
     };
   
     useEffect(() => {
@@ -104,8 +51,6 @@ export default function NotSureWhereToBegin() {
 
       <div className="max-md:mx-[calc(-1*clamp(26px,3.6vw,69px))]">
         <TravelJourneyCard journeys={journeys}
-          selectedTrips={selectedTrips}
-          onCompare={handleCompareSelection}
           mobileSlider
           columns="4-stepped"
           mobileWidthClass="w-[293px] min-w-[293px]"

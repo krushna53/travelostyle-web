@@ -9,6 +9,10 @@ import { isInspirationalJourney } from "@/lib/journeyExperienceType";
 import { pickPriorityDeparture } from "@/lib/departures";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";
 import iso3166 from "iso-3166-2";
+import {
+  MAX_COMPARE_TRIPS,
+  removeTripFromCompare,
+} from "@/lib/compareCart";
 
 /* ---------------- data helpers (unchanged) ---------------- */
 function getLocation(id, included) {
@@ -164,9 +168,6 @@ const ROWS = [
    original design value. */
 const CARD_HEADER = "h-[248px] md:h-[288px]";
 
-/* Max trips allowed in comparison. Header copy says "up to 3" — badhana
-   ho to yahan change karo aur heading text bhi update karo. */
-const MAX_COMPARE_TRIPS = 30;
 
 const INCLUDE = [
   "field_journey_image.field_media_image",
@@ -342,9 +343,8 @@ export default function TripComparison() {
     scrollRef.current?.scrollBy({ left: 340, behavior: "smooth" });
 
   const removeTrip = (tripId) => {
-    const updatedTrips = trips.filter((trip) => trip.id !== tripId);
-    setTrips(updatedTrips);
-    localStorage.setItem("compareTrips", JSON.stringify(updatedTrips));
+    setTrips(trips.filter((trip) => trip.id !== tripId));
+    removeTripFromCompare(tripId);
   };
 
   const ROW_GAP = 16;
@@ -678,7 +678,6 @@ export default function TripComparison() {
                 <div
                   // for navigating to previous page from compare trips
                   // onClick={() => {
-                  //   localStorage.setItem("isAddingTrip", "true");
                   //   const returnPage =
                   //     sessionStorage.getItem("comparisonReturnPage") ||
                   //     localStorage.getItem("compareSourcePage") ||
@@ -689,7 +688,6 @@ export default function TripComparison() {
                   //   router.push(returnPage);
                   // }}
                   onClick={() => {
-                    localStorage.setItem("isAddingTrip", "true");
                     router.push("/itinerary");
                   }}
                   className="relative snap-start shrink-0 w-[82vw] sm:w-[320px] md:w-[392px] min-h-[400px] border-2 border-dashed border-[#1A1A1A] rounded-[10px] shadow-[0px_10px_15px_rgba(0,0,0,0.1)] flex flex-col items-center justify-start gap-[120px] cursor-pointer"

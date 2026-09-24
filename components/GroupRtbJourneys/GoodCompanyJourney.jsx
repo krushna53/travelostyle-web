@@ -1,10 +1,9 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React from "react";
 import DottedLine from "@/components/ui/DottedLine";
+import { openCompareModal } from "@/lib/compareCart";
 
 export default function GoodCompaneyJourney() {
-  const router = useRouter();
   // Figma's own three lines at 1183 wide (18/32 Nohemi, 5%). The board is
   // scaled as a whole by --fig-u, so these breaks hold at every width.
   const descriptionLines = [
@@ -174,7 +173,7 @@ export default function GoodCompaneyJourney() {
             
             {photo.hasButton && (
               <button
-                onClick={() => router.push("/comparison")}
+                onClick={openCompareModal}
                 className="absolute top-1/2 right-[calc(-28.8*var(--fig-u))] transform -translate-y-1/2 bg-[#212b68] text-white font-semibold text-[calc(10.5*var(--fig-u))] py-[calc(6*var(--fig-u))] px-[calc(14*var(--fig-u))] rounded-[3px] shadow-[0_4px_12px_rgba(0,0,0,0.3)] tracking-wide hover:bg-[#151c47] transition-colors z-50 whitespace-nowrap border border-white/15"
               >
                 Compare Trips
