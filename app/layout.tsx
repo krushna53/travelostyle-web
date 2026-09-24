@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import { Toaster } from "sonner";
+import CompareModalHost from "@/components/CompareModalHost";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">{children}
         <Toaster />
+        <CompareModalHost />
       </body>
     </html>
   );

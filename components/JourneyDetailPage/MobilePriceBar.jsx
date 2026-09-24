@@ -1,57 +1,70 @@
 "use client";
 
-import { Info } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ChevronDown, ChevronUp, Info } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
 
 /*
  * Mobile-only pricing + booking UI for the journey page, in two parts:
  *
- * - MobilePriceCard: the full price card (price, offer note, primary button,
- *   secondary link). Rendered inline under the hero image on the "menu" view,
- *   so it never covers the banner.
+ * - MobilePriceCard: the price card rendered inline under the hero image on
+ *   the "menu" view, so it never covers the banner.
  *
- * - MobilePriceBar (default export): a compact one-row bar pinned to the
- *   bottom of the screen, so the price and booking action stay in reach. When
+ * - MobilePriceBar (default export): the same card pinned to the bottom of
+ *   the screen, so the price and booking action stay in reach. When
  *   an inline card element is passed as `anchor`, the bar hides while that
  *   card is on screen (no duplicate) and slides up once it's scrolled out of
  *   view. With no anchor (Highlights, Itinerary, ... views) it's always shown.
  *
  * The bar is position: fixed, so it would cover the end of the page (the
  * footer). While it's visible, the body gets a bottom padding equal to the
- * bar's live height; on md+ the bar is display: none, its height is 0 and so
- * is the padding.
+ * bar's live height (tracked as it expands/collapses); on md+ the bar is
+ * display: none, its height is 0 and so is the padding.
  */
 
-export function MobilePriceCard({
+// Price summary + collapsible booking options, shared by the inline card and
+// the pinned bar. Collapsed it's just the price and a "Tap for Details"
+// toggle; expanded it reveals the offer note, the primary action and the
+// secondary link underneath the price.
+function PriceDetails({
   journey,
   isInspirational,
   onCheckDates,
   onRequestPrivate,
   onTailor,
-  cardRef,
 }) {
+  const [open, setOpen] = useState(false);
+  const panelId = useId();
+
+  const primary = isInspirational
+    ? { label: "Request Private Journey", onClick: onRequestPrivate }
+    : { label: "Check Departure Dates", onClick: onCheckDates };
+  const secondary = isInspirational
+    ? { label: "Tailor This Journey", onClick: onTailor }
+    : { label: "Request a Private Journey", onClick: onRequestPrivate };
+
   return (
-    <div
-      ref={cardRef}
-      className="block overflow-hidden border-y-2 border-[#1A1A1A] bg-[#FAFAFA] md:hidden"
-    >
-      <div className="flex border-b-2 border-[#1A1A1A]">
-        <div className="flex-1 px-[14px] py-[12px]">
-          <p className="text-[10px] font-light leading-[16px] tracking-[0.05em] text-[#1A1A1A]">
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="flex w-full items-center justify-between gap-[10px] px-[27px] py-[10px] text-left"
+      >
+        <div className="min-w-0">
+          <p className="text-[12px] font-light leading-[16px] tracking-[0.05em] text-[#1A1A1A]">
             from
           </p>
-
           <div className="flex items-end gap-[2px]">
-            <span className="text-[24px] font-semibold leading-[28px] tracking-[0.05em] text-[#1A1A1A]">
+            <span className="text-[22px] font-semibold leading-[28px] tracking-[0.05em] text-[#1A1A1A]">
               ${Number(journey.offerPrice).toLocaleString()}
             </span>
-            <span className="mb-[3px] text-[11px] font-normal leading-[14px] tracking-[0.05em] text-[#000000]">
+            <span className="mb-[3px] text-[12px] font-normal leading-[14px] tracking-[0.05em] text-[#000000]">
               /person
             </span>
           </div>
-
           {journey.originalPrice && (
-            <p className="text-[12px] font-light leading-[16px] tracking-[0.05em] text-[#777]">
+            <p className="text-[12px] font-light leading-[16px] tracking-[0.05em] text-[#1A1A1A]">
               was{" "}
               <span className="line-through">
                 ${Number(journey.originalPrice).toLocaleString()}
@@ -60,73 +73,74 @@ export function MobilePriceCard({
           )}
         </div>
 
-        {journey?.earlyBird && (
-          <div className="my-[8px] mr-[14px] w-[168px] shrink-0 self-start rounded-[2px] bg-[#F2E2DA] px-[10px] py-[8px]">
-            <div className="flex gap-[8px]">
-              <Info size={16} strokeWidth={1.5} className="mt-[1px] shrink-0" />
-              <p className="text-[8px] leading-[16px] tracking-[0.05em] text-black">
-                {journey.offer || "Early Bird Offers available"}
-              </p>
+        <span className="flex shrink-0 items-center gap-[12px] text-[14px] font-semibold tracking-[0.02em] text-[#1A1A1A]">
+          {open ? "Hide details" : "Tap for Details"}
+          <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#F2E2DA]">
+            {open ? (
+              <ChevronDown size={18} strokeWidth={1.5} />
+            ) : (
+              <ChevronUp size={18} strokeWidth={1.5} />
+            )}
+          </span>
+        </span>
+      </button>
+
+      <div
+        id={panelId}
+        inert={!open}
+        className={`grid transition-[grid-template-rows] duration-300 ${
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="border-t-2 border-[#1A1A1A] px-[27px] pt-[12px] pb-[14px]">
+            {journey?.earlyBird && (
+              <div className="flex gap-[10px] rounded-[2px] bg-[#F2E2DA] px-[14px] py-[8px]">
+                <Info size={16} strokeWidth={1.5} className="mt-[2px] shrink-0" />
+                <p className="text-[12px] leading-[20px] tracking-[0.05em] text-black">
+                  {journey.offer || "Early Bird Offers available"}
+                </p>
+              </div>
+            )}
+
+            <div className="mt-[16px] flex flex-col items-center">
+              <button
+                type="button"
+                onClick={primary.onClick}
+                className="h-[37px] rounded-full bg-[#2C3078] px-[20px] text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA]"
+              >
+                {primary.label}
+              </button>
+              <span className="mt-[8px] text-[12px] font-bold tracking-[0.05em] text-black">
+                OR
+              </span>
+              <button
+                type="button"
+                onClick={secondary.onClick}
+                className="mt-[6px] text-[14px] font-bold text-ink underline underline-offset-[3px]"
+              >
+                {secondary.label}
+              </button>
             </div>
           </div>
-        )}
-      </div>
-
-      {isInspirational ? (
-        <>
-          <div className="flex items-center justify-center gap-3 bg-[#FAFAFA] px-4 py-[12px]">
-            <button
-              onClick={onRequestPrivate}
-              className="h-[37px] rounded-full bg-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA]"
-            >
-              Request a Private Journey
-            </button>
-          </div>
-
-          <div className="border-t-2 border-[#1A1A1A] bg-[#FAFAFA] px-4 py-[12px] text-center text-[12px] font-light leading-[18px] tracking-[0.05em] text-[#1A1A1A]">
-            Want to make this itinerary entirely your own?
-            <br />
-            <button
-              onClick={onTailor}
-              className="mt-1 font-bold text-ink underline underline-offset-2"
-            >
-              Tailor This Journey For You
-            </button>
-          </div>
-        </>
-      ) : (
-        <div className="flex flex-nowrap items-center gap-[10px] whitespace-nowrap bg-[#FAFAFA] px-[27px] py-[9px]">
-          <button
-            onClick={onCheckDates}
-            className="h-[31px] w-[138px] shrink-0 rounded-[15.5px] bg-[#2C3078] text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA]"
-          >
-            Check Dates
-          </button>
-
-          <span className="shrink-0 text-[12px] font-bold tracking-[0.05em] text-black">
-            OR
-          </span>
-
-          <button
-            onClick={onRequestPrivate}
-            className="shrink-0 text-[12px] font-bold text-ink underline underline-offset-[3px]"
-          >
-            Request a Private Journey
-          </button>
         </div>
-      )}
+      </div>
+    </>
+  );
+}
+
+export function MobilePriceCard({ cardRef, ...props }) {
+  return (
+    <div
+      ref={cardRef}
+      className="block overflow-hidden border-y-2 border-[#1A1A1A] bg-[#FAFAFA] md:hidden"
+    >
+      <PriceDetails {...props} />
     </div>
   );
 }
 
-export default function MobilePriceBar({
-  journey,
-  isInspirational,
-  onCheckDates,
-  onRequestPrivate,
-  onTailor,
-  anchor,
-}) {
+export default function MobilePriceBar({ anchor, ...props }) {
   const barRef = useRef(null);
   const [anchorInView, setAnchorInView] = useState(false);
   const visible = !anchor || !anchorInView;
@@ -166,44 +180,7 @@ export default function MobilePriceBar({
         visible ? "translate-y-0" : "pointer-events-none translate-y-full"
       }`}
     >
-      <div className="flex items-center justify-between gap-[10px] px-[14px] py-[8px]">
-        <div className="min-w-0">
-          <p className="text-[10px] font-light leading-[14px] tracking-[0.05em] text-[#1A1A1A]">
-            from
-          </p>
-          <div className="flex items-end gap-[2px]">
-            <span className="text-[20px] font-semibold leading-[24px] tracking-[0.05em] text-[#1A1A1A]">
-              ${Number(journey.offerPrice).toLocaleString()}
-            </span>
-            <span className="mb-[2px] text-[10px] font-normal leading-[14px] tracking-[0.05em] text-[#000000]">
-              /person
-            </span>
-          </div>
-          {journey.originalPrice && (
-            <p className="text-[10px] font-light leading-[14px] tracking-[0.05em] text-[#777]">
-              was{" "}
-              <span className="line-through">
-                ${Number(journey.originalPrice).toLocaleString()}
-              </span>
-            </p>
-          )}
-        </div>
-
-        <div className="flex shrink-0 flex-col items-center gap-[4px]">
-          <button
-            onClick={isInspirational ? onRequestPrivate : onCheckDates}
-            className="h-[34px] rounded-full bg-[#2C3078] px-[16px] text-[14px] font-semibold tracking-[0.05em] text-[#FAFAFA]"
-          >
-            {isInspirational ? "Request a Private Journey" : "Check Dates"}
-          </button>
-          <button
-            onClick={isInspirational ? onTailor : onRequestPrivate}
-            className="text-[11px] font-bold text-ink underline underline-offset-2"
-          >
-            {isInspirational ? "or Tailor This Journey" : "or Request a Private Journey"}
-          </button>
-        </div>
-      </div>
+      <PriceDetails {...props} />
     </div>
   );
 }

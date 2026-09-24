@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import CompareTripsModal from "./CompareTripsModal";
+import { openCompareModal } from "@/lib/compareCart";
 
 const PLACEHOLDER_IMAGE = "/placeholder-image.svg";
 
@@ -15,10 +14,8 @@ export default function PopularDestinations({
   heroDescription,
   heroSlides,
 }) {
-  const router = useRouter();
   const [slides] = useState(heroSlides || []);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [showCompareModal, setShowCompareModal] = useState(false);
 
   const currentSlide = slides[currentSlideIndex];
   const slideAttributes = currentSlide?.attributes;
@@ -220,7 +217,7 @@ export default function PopularDestinations({
                 "Images are only for representation purposesss"}
             </p>
             <button
-              onClick={() => setShowCompareModal(true)}
+              onClick={openCompareModal}
               className="mb-5 hidden md:flex box-border h-[47px] w-[210px] items-center justify-center gap-[10px] rounded-[10px] border-2 border-white bg-[#2E2787] px-[24px] py-[16px] text-white transition-colors hover:bg-[#3B33A0]"
             >
               <span className="h-[15px] w-[162px] whitespace-nowrap text-center text-[15px] leading-[15px] font-semibold">
@@ -230,11 +227,6 @@ export default function PopularDestinations({
           </div>
         </div>
       </div>
-
-      <CompareTripsModal
-        open={showCompareModal}
-        onClose={() => setShowCompareModal(false)}
-      />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TravelJourneyCard from "../TravelJourneyCard";
 
 // `initialJourneys` is fetched server-side (see app/destination/page.jsx)
@@ -10,59 +10,6 @@ import TravelJourneyCard from "../TravelJourneyCard";
 export default function Destination({ initialJourneys = [] }) {
 
      const [journeys] = useState(initialJourneys);
-      const [selectedTrips, setSelectedTrips] = useState([]);
-      useEffect(() => {
-        const compareTrips = JSON.parse(
-          localStorage.getItem("compareTrips") || "[]",
-        );
-    
-        setSelectedTrips(compareTrips.map((trip) => trip.id));
-      }, []);
-      const handleCompareSelection = (trip) => {
-        const existingTrips = JSON.parse(
-          localStorage.getItem("compareTrips") || "[]",
-        );
-    
-        const alreadyExists = existingTrips.some((item) => item.id === trip.id);
-    
-        if (alreadyExists) {
-          return;
-        }
-    
-        const compareTrip = {
-          id: trip.id,
-          title: trip.title,
-          image: trip.image,
-          duration: trip.duration,
-          destinations: trip.destinations,
-          offer: trip.earlyBird,
-          price: `$${Number(trip.price).toLocaleString()}`,
-          viewTripUrl: trip.viewTripUrl,
-          itinerary: [],
-          stays: "-",
-          region: trip.region,
-          travelMode: "-",
-        };
-    
-        localStorage.setItem(
-          "compareTrips",
-          JSON.stringify([...existingTrips, compareTrip]),
-        );
-    
-        setSelectedTrips((prev) => [...prev, trip.id]);
-    
-        localStorage.setItem(
-          "compareSourcePage",
-          window.location.pathname + window.location.search,
-        );
-    
-        sessionStorage.setItem(
-          "comparisonReturnPage",
-          window.location.pathname + window.location.search,
-        );
-    
-        window.location.href = "/comparison";
-      };
 
   return (
   <section
@@ -108,8 +55,6 @@ export default function Destination({ initialJourneys = [] }) {
  <div className="mt-12 w-full overflow-hidden">
   <TravelJourneyCard
     journeys={journeys.slice(0, 8)}
-    selectedTrips={selectedTrips}
-    onCompare={handleCompareSelection}
     mobileSlider
     mobileWidthClass="max-md:w-[262.53px] max-md:min-w-[262.53px]"
     columns="4-stepped"
