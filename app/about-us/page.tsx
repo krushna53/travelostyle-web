@@ -37,7 +37,7 @@ type Journey = {
 // ------------------------------------
 async function getTestimonials() {
   const res = await fetch(
-    `${API_BASE_URL}/jsonapi/node/testimonial?include=${TESTIMONIAL_INCLUDE}`,
+    `${API_BASE_URL}/jsonapi/node/testimonial?filter[status][value]=1&include=${TESTIMONIAL_INCLUDE}`,
     {
       cache: "no-store",
     }
@@ -63,7 +63,7 @@ async function getJourneys(): Promise<{
   included: any[];
 }> {
   const res = await fetch(
-    `${API_BASE_URL}/jsonapi/node/journey?include=field_journey_image.field_media_image,field_journey_tag,field_month`,
+    `${API_BASE_URL}/jsonapi/node/journey?filter[status][value]=1&include=field_journey_image.field_media_image,field_journey_tag,field_month`,
     {
       cache: "no-store",
     }
