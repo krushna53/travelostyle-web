@@ -54,7 +54,7 @@ export default function BuildYourJourneyForm({
     let cancelled = false;
 
     fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/jsonapi/node/journey?include=field_journey_tag`
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/jsonapi/node/journey?filter[status][value]=1&include=field_journey_tag`
     )
       .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
       .then((json) => {

@@ -68,7 +68,7 @@ const TESTIMONIAL_INCLUDE =
 
 async function getTestimonials() {
   const res = await fetch(
-    `${API_BASE_URL}/jsonapi/node/testimonial?include=${TESTIMONIAL_INCLUDE}`,
+    `${API_BASE_URL}/jsonapi/node/testimonial?filter[status][value]=1&include=${TESTIMONIAL_INCLUDE}`,
     {
       cache: "no-store",
     }
@@ -227,7 +227,7 @@ export default async function JourneyDetailPage({
   };
   // Fetch departures linked to this journey
   const departureRes = await fetch(
-    `${API_BASE_URL}/jsonapi/node/book_your_journey`,
+    `${API_BASE_URL}/jsonapi/node/book_your_journey?filter[status][value]=1`,
     { cache: "no-store" }
   );
 

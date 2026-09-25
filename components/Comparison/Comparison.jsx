@@ -36,7 +36,10 @@ function getEndCity(journey, included) {
 function getStayCityState(day, included) {
   const hotelId = day.relationships?.field_stay?.data?.id;
   const hotelNode = included.find(
-    (i) => i.type === "node--hotel" && i.id === hotelId,
+    (i) =>
+      i.type === "node--hotel" &&
+      i.id === hotelId &&
+      i.attributes?.status !== false,
   );
   const locationId = hotelNode?.relationships?.field_location?.data?.id;
   const locationNode = included.find(
@@ -138,7 +141,7 @@ function getStays(journey, included) {
   const hotelRefs = staysTab.relationships?.field_hotels?.data || [];
   return hotelRefs
     .map((h) => included.find((i) => i.id === h.id))
-    .filter(Boolean)
+    .filter((hotel) => hotel && hotel.attributes?.status !== false)
     .map((hotel) => ({
       name: hotel.attributes?.title || "",
     }));
@@ -231,11 +234,11 @@ export default function TripComparison() {
         }
 
         const [res, departureRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/jsonapi/node/journey?include=${INCLUDE}`),
+          fetch(`${API_BASE_URL}/jsonapi/node/journey?filter[status][value]=1&include=${INCLUDE}`),
           // Needed for Group journeys' "Request a Private Journey" — same
           // closest-offer/closest-date pre-fill logic as the journey detail
           // page's hero card.
-          fetch(`${API_BASE_URL}/jsonapi/node/book_your_journey`),
+          fetch(`${API_BASE_URL}/jsonapi/node/book_your_journey?filter[status][value]=1`),
         ]);
 
         const json = await res.json();
