@@ -249,7 +249,7 @@ tabs.itinerary = {
 
         const hotel = hotelId
           ? included.find(
-              (inc) => inc.id === hotelId
+              (inc) => inc.id === hotelId && inc.attributes?.status !== false
             )
           : null;
 
@@ -278,7 +278,9 @@ tabs.itinerary = {
         tabs.stays = hotelRefs
           .map((r) => {
             const hotel = included.find((inc) => inc.id === r.id);
-            if (!hotel) return null;
+            // Skip hotels unpublished in Drupal (status: false) so an
+            // unpublished stay never shows in the Stays tab.
+            if (!hotel || hotel.attributes?.status === false) return null;
             const a = hotel.attributes || {};
 
             // Featured image (card thumbnail)

@@ -24,7 +24,7 @@ export default async function PolicyDetails({ params }: PageProps) {
 
   let res: Response | null = null;
   try {
-    res = await fetch(`${API_BASE_URL}/jsonapi/node/page`, {
+    res = await fetch(`${API_BASE_URL}/jsonapi/node/page?filter[status][value]=1`, {
       cache: "no-store",
     });
   } catch (error) {
