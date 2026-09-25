@@ -292,7 +292,7 @@ export default function Form() {
                           value={item.code}
                           className="text-[#000000] bg-white"
                         >
-                          {item.code} ({item.country})
+                        {item.code} {item.country}
                         </option>
                       ))}
                     </select>

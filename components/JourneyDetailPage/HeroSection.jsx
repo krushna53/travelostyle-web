@@ -171,7 +171,7 @@ export default function HeroSection({
         <div
           className="relative z-10 col-start-1 row-start-1 col-end-2 row-end-2 justify-self-start self-start h-auto rounded-[10px] border-2 border-[#1A1A1A] bg-white shadow-[0_6px_28px_rgba(0,0,0,0.22)] w-[260px] ml-[14px] mt-[14px] p-[14px] max-[900px]:w-[300px] max-[900px]:ml-[16px] max-[900px]:mt-[16px] max-[900px]:p-[16px] max-[1200px]:w-[300px] max-[1200px]:ml-[24px] max-[1200px]:mt-[20px] max-[1200px]:p-[18px] max-[1250px]:w-[320px] max-[1250px]:ml-[32px] max-[1250px]:mt-[24px] max-[1250px]:p-[18px] max-[1281px]:w-[350px] max-[1281px]:ml-[48px] max-[1281px]:mt-[32px] max-[1281px]:p-[20px] max-[1910px]:w-[390px] max-[1910px]:ml-[80px] max-[1910px]:mt-[42px] max-[1910px]:p-[22px] min-[1911px]:w-[414px] min-[1911px]:ml-[108px] min-[1911px]:mt-[50px] min-[1911px]:p-[25px]"
         >
-          <h1 className="text-[18px] max-[900px]:text-[16px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-[1.3] text-ink pb-3">
+          <h1 className="text-[18px] max-[900px]:text-[16px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-[1.3] text-ink pb-3 break-words">
             {journey.title}
           </h1>
           <p className="mt-[8px] text-[14px] max-[1250px]:text-[16px] font-light max-[1910px]:text-[16px] min-[1911px]:text-[16px] leading-[1.5] text-[#000000] pb-2">
@@ -193,15 +193,15 @@ export default function HeroSection({
           <div className="flex pt-4 flex-col gap-[6px] text-[12px] xl:text-[16px]">
             <div>
               <span className="font-bold text-ink">Starts In: </span>
-              <span className="text-[#000000]">{journey.startCity || "Casablanca"}</span>
+              <span className="text-[#000000]">{journey.startCity}</span>
             </div>
             <div>
               <span className="font-bold text-ink">Ends In: </span>
-              <span className="text-[#000000]">{journey.endCity || "Marrakech"}</span>
+              <span className="text-[#000000]">{journey.endCity}</span>
             </div>
             <div>
               <span className="font-bold text-ink">Best Seasons: </span>
-              <span className="text-[#000000]">{journey.bestSeason || "Jan–March, July–Sep"}</span>
+              <span className="text-[#000000]">{journey.bestSeason}</span>
             </div>
             <div>
               <span className="font-bold text-ink">Pace: </span>
@@ -332,18 +332,18 @@ export default function HeroSection({
 
                 <div className="flex items-center gap-[8px]">
                   <Image src="/Destination.svg" alt="" width={16} height={16} className="shrink-0" />
-                  <span>{journey.destinations || "10 Destinations"}</span>
+                  <span>{journey.destinations}</span>
                 </div>
               </div>
               <div className="mt-[14px] space-y-[8px] text-[12px] font-light leading-[16px] tracking-[0.05em] text-black">
                 <div>
                   <span className="font-semibold">Best Seasons:</span>{" "}
-                  {journey.bestSeason || "Jan–March, July–Sep"}
+                  {journey.bestSeason}
                 </div>
 
                 <div>
                   <span className="font-semibold">Pace:</span>{" "}
-                  {journey.pace || "Moderate"}
+                  {journey.pace}
                 </div>
 
                 <div>
