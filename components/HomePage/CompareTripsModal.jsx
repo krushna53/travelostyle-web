@@ -72,7 +72,7 @@ export default function CompareTripsModal({ open, onClose }) {
               trip ? (
                 <div
                   key={trip.id}
-                  className="relative flex h-[112px] items-center gap-[14px] rounded-[5px] border-2 border-[#1A1A1A] bg-[#FAFAFA] px-[9px]"
+                  className="relative flex min-h-[112px] items-stretch gap-[14px] rounded-[5px] border-2 border-[#1A1A1A] bg-[#FAFAFA] px-[9px] pt-[10px] pb-[12px]"
                 >
                   <button
                     type="button"
@@ -87,8 +87,8 @@ export default function CompareTripsModal({ open, onClose }) {
                     <JourneyCardImage src={trip.image} alt={trip.title} />
                   </div>
 
-                  <div className="min-w-0 pr-[28px]">
-                    <p className="line-clamp-2 text-[16px] font-medium leading-[22px] tracking-[0.05em] text-black lg:text-[18px] lg:leading-[24px]">
+                  <div className="flex min-w-0 flex-1 flex-col pr-[28px]">
+                    <p title={trip.title} className="line-clamp-2 min-h-[44px] text-[16px] font-medium leading-[22px] tracking-[0.05em] text-black lg:min-h-[48px] lg:text-[18px] lg:leading-[24px]">
                       {trip.title}
                     </p>
                     {trip.days && (
@@ -97,7 +97,7 @@ export default function CompareTripsModal({ open, onClose }) {
                       </p>
                     )}
                     {trip.price && !trip.price.includes("NaN") && (
-                      <div className="mt-[6px]">
+                      <div className="mt-auto pt-[6px]">
                         <p className="text-[10px] font-light leading-[12px] tracking-[0.05em] text-black">
                           from
                         </p>
@@ -116,7 +116,7 @@ export default function CompareTripsModal({ open, onClose }) {
                   key={index}
                   type="button"
                   onClick={goPickATrip}
-                  className="flex h-[112px] items-center justify-center rounded-[5px] border-2 border-dashed border-[#1A1A1A] px-4 text-center transition hover:bg-white"
+                  className="flex min-h-[112px] items-center justify-center rounded-[5px] border-2 border-dashed border-[#1A1A1A] px-4 text-center transition hover:bg-white"
                 >
                   <span className="text-[16px] font-medium tracking-[0.05em] text-black lg:text-[18px]">
                     + Add trip to compare
