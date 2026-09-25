@@ -15,18 +15,18 @@ function stripHtml(html) {
     .trim();
 }
 const MOCK_JOURNEY = {
-  title: "The Moroccan Getaway",
-  tags: ["Culture & Heritage", "Culture"],
-  desc: "From imperial cities to Saharan silence — a journey through Morocco's most celebrated contrasts.",
-  image: "/Morocco.svg",
-  days: "13 Days | 12 Nights",
-  destinations: "10 Destinations",
-  price: "$5000",
-  startCity: "Casablanca",
-  endCity: "Marrakech",
-  bestSeason: "Jan–March, July–Sep",
-  pace: "Moderate",
-  offer: "Black Friday offer available for August & September departure/s",
+  title: "",
+  tags: [""],
+  desc: "",
+  image: "",
+  days: "",
+  destinations: "",
+  price: "",
+  startCity: "",
+  endCity: "",
+  bestSeason: "",
+  pace: "",
+  offer: "",
   earlyBird: true,
   highlights: [
     {

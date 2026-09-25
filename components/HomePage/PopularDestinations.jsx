@@ -47,7 +47,7 @@ export default function PopularDestinations({
           <div className="absolute top-16 left-5 right-5 z-10">
             <h2 className="text-white text-[24px] leading-[30px] font-bold max-w-[240px]">
               {/* Your Next Journey Awaits */}
-              {heading}dqw
+              {heading}
             </h2>
 
             <p className="mt-4 text-white text-[14px] leading-[22px] max-w-[260px]">
