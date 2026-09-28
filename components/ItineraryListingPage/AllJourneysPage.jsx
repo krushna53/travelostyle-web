@@ -23,6 +23,9 @@ const EMPTY_FILTER_OPTIONS = {
 // and always failed against the ddev backend's self-signed cert
 // (ERR_CERT_AUTHORITY_INVALID). The server's fetch honors
 // NODE_TLS_REJECT_UNAUTHORIZED, so doing it there works.
+/**
+ * @param {{ initialJourneys?: any[], initialFilterOptions?: object }} props
+ */
 export default function AllJourneysPage({
   initialJourneys = [],
   initialFilterOptions = EMPTY_FILTER_OPTIONS,
