@@ -174,7 +174,6 @@ export default async function Home() {
       {/* ONLY POPULAR JOURNEYS */}
       <PopularDestinations
   journeys={popularJourneys as any[]}
-  included={journeyData.included as any[]}
   heroHeading={homeHero?.heading}
   heroDescription={homeHero?.description}
   heroSlides={heroSlides}
