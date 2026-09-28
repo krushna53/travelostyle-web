@@ -1,8 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+
+const DropdownArrow = ({ open }) => (
+  <svg
+    width="14"
+    height="12"
+    viewBox="0 0 14 12"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={`shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
+  >
+    <path
+      d="M6.92773 12L-0.000468159 -1.30507e-06L13.8559 -9.36995e-08L6.92773 12Z"
+      fill="#B6B6B6"
+    />
+  </svg>
+);
 
 const travelOptions = [
   "Group Journey",
@@ -57,6 +72,19 @@ export default function TravelForm({
   );
   const router = useRouter();
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const formRef = useRef(null);
+
+  // Panels float over the page, so close them on an outside click.
+  useEffect(() => {
+    if (!activeDropdown) return;
+    const handleClickOutside = (e) => {
+      if (formRef.current && !formRef.current.contains(e.target)) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [activeDropdown]);
 
   const [selectedDestinations, setSelectedDestinations] = useState([]);
   const [selectedMonths, setSelectedMonths] = useState([]);
@@ -130,7 +158,7 @@ export default function TravelForm({
   };
 
   return (
-    <div className="pt-3 border-t border-[#1A1A1A]">
+    <div ref={formRef} className="relative pt-3 border-t border-[#1A1A1A]">
       <div className="flex gap-4">
           <button
           onClick={() =>
@@ -146,11 +174,7 @@ export default function TravelForm({
               : "When do you want to travel?"}
           </span>
 
-          {activeDropdown === "date" ? (
-            <ChevronUp size={18} />
-          ) : (
-            <ChevronDown size={18} />
-          )}
+          <DropdownArrow open={activeDropdown === "date"} />
         </button>
         <button
           onClick={() =>
@@ -170,11 +194,7 @@ export default function TravelForm({
               : "Where do you want to go?"}
           </span>
 
-          {activeDropdown === "destination" ? (
-            <ChevronUp size={18} />
-          ) : (
-            <ChevronDown size={18} />
-          )}
+          <DropdownArrow open={activeDropdown === "destination"} />
         </button>
 
        <button
@@ -185,11 +205,7 @@ export default function TravelForm({
         >
           <span className="text-[13px] max-[1910px]:text-[13px]">{selectedTravelType}</span>
 
-          {activeDropdown === "travel" ? (
-            <ChevronUp size={18} />
-          ) : (
-            <ChevronDown size={18} />
-          )}
+          <DropdownArrow open={activeDropdown === "travel"} />
         </button>
 
         <button
@@ -200,7 +216,7 @@ export default function TravelForm({
         </button>
       </div>
       {activeDropdown === "travel" && (
-        <div className="mt-3 rounded-lg border border-gray-400 bg-white p-4 shadow-md">
+        <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-[10px] border-2 border-black bg-[#FAFAFA] p-4 shadow-[5px_10px_15px_rgba(26,26,26,0.1)]">
           <h3 className="mb-4 text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] font-semibold">
             Choose a way of travel
           </h3>
@@ -226,7 +242,7 @@ export default function TravelForm({
       )}
 
       {activeDropdown === "destination" && (
-        <div className="mt-3 rounded-lg border border-gray-400 bg-white p-4 shadow-md">
+        <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-[10px] border-2 border-black bg-[#FAFAFA] p-4 shadow-[5px_10px_15px_rgba(26,26,26,0.1)]">
           <h3 className="mb-4 text-lg font-semibold text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px]">
             Popular Destinations
           </h3>
@@ -236,10 +252,10 @@ export default function TravelForm({
               <button
                 key={item.id}
                 onClick={() => handleDestinationSelect(item.value)}
-                className={`rounded-full border px-4 py-1 text-xs transition-all text-[13px] max-[1910px]:text-[13px] ${
+                className={`flex h-[30px] items-center rounded-full border border-[#1A1A1A] px-4 text-xs text-[#1A1A1A] transition-all text-[13px] max-[1910px]:text-[13px] ${
                   selectedDestinations.includes(item.value)
-                    ? "border-[#2E348D] bg-[#F5EFE8] text-[#2E348D]"
-                    : "border-gray-300 bg-white"
+                    ? "bg-[#F2E2DA]"
+                    : "bg-transparent"
                 }`}
               >
                 {item.label}
@@ -263,7 +279,7 @@ export default function TravelForm({
       )}
 
       {activeDropdown === "date" && (
-        <div className="mt-3 rounded-lg border border-gray-400 bg-white p-4 shadow-md">
+        <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-[10px] border-2 border-black bg-[#FAFAFA] p-4 shadow-[5px_10px_15px_rgba(26,26,26,0.1)]">
           <h3 className="text-xl font-semibold text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px]">
             When do you want to go?
           </h3>
@@ -277,10 +293,10 @@ export default function TravelForm({
               <button
                 key={month}
                 onClick={() => handleMonthSelect(month)}
-                className={`rounded-full border px-4 py-1 text-xs transition-all text-[13px] max-[1910px]:text-[13px] ${
+                className={`flex h-[30px] items-center rounded-full border border-[#1A1A1A] px-4 text-xs text-[#1A1A1A] transition-all text-[13px] max-[1910px]:text-[13px] ${
                   selectedMonths.includes(month)
-                    ? "border-[#2E348D] bg-[#F5EFE8] text-[#2E348D]"
-                    : "border-gray-300 bg-white"
+                    ? "bg-[#F2E2DA]"
+                    : "bg-transparent"
                 }`}
               >
                 {month}

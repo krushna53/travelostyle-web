@@ -15,7 +15,7 @@ export default function SearchBar({
   const [menuOpen, setMenuOpen] = useState(false);
   const [showFindJourneyMobile, setShowFindJourneyMobile] = useState(false);
   return (
-    <section className="w-full overflow-hidden ">
+    <section className="w-full overflow-x-clip">
       <SearchHeader
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}

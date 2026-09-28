@@ -8,6 +8,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "backend.travelostyle.com",
+        pathname: "/sites/default/files/**",
+      },
+      {
+        protocol: "https",
         hostname: "travelostyle-drupal-backend.ddev.site",
         pathname: "/sites/default/files/**",
       },
