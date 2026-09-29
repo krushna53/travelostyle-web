@@ -3,6 +3,11 @@
 import { useRef } from "react";
 import TestimonialSection from "@/components/HomePage/TestimonialSection";
 import { buildFileUrl } from "@/lib/config";
+import {
+  getEarlyBirdJourneyIds,
+  getVisibleOfferMessage,
+  isJourneyEarlyBird,
+} from "@/lib/offerMessage";
 import DetailTabs from "./DetailTabs";
 import HeroSection from "./HeroSection";
 import OtherDestinations from "./OtherDestinations";
@@ -386,7 +391,7 @@ function resolveExperienceType(item, included) {
   return "";
 }
 
-function transformItem(item, included) {
+function transformItem(item, included, departures = []) {
   const tabSections = resolveTabSections(item, included);
   const journeyStyleTerms = resolveJourneyStyleTerms(item, included);
   const journeyTypeSubmissionIds = resolveJourneyTypeSubmissionIds(item, included);
@@ -426,7 +431,10 @@ function transformItem(item, included) {
     destinations: `${item.attributes.field_destinations_count || 10} Destinations`,
     offerPrice: item.attributes.field_offer_price,
 originalPrice: item.attributes.field_original_price,
-    offer: item.attributes.field_offer_message || "",
+    offer: getVisibleOfferMessage(
+      item.attributes.field_offer_message,
+      isJourneyEarlyBird(item, getEarlyBirdJourneyIds(departures)),
+    ),
 
     
     // field_early_bird is a plain Boolean attribute on the journey node
@@ -479,7 +487,7 @@ export default function JourneyDetailClient({
 }) {
   const journey =
     initialData?.data
-      ? transformItem(initialData.data, initialData.included || [])
+      ? transformItem(initialData.data, initialData.included || [], departures)
       : MOCK_JOURNEY;
 
   // "Check Dates & Availability" on the hero card (Group journeys only)

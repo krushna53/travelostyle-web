@@ -7,6 +7,11 @@ import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { isInspirationalJourney } from "@/lib/journeyExperienceType";
 import { pickPriorityDeparture } from "@/lib/departures";
+import {
+  getEarlyBirdJourneyIds,
+  getVisibleOfferMessage,
+  isJourneyEarlyBird,
+} from "@/lib/offerMessage";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";
 import iso3166 from "iso-3166-2";
 import {
@@ -266,6 +271,12 @@ export default function TripComparison() {
 
           return {
             ...trip,
+            // Re-derive from live Drupal data so a stale "Early Bird" message
+            // saved in the compare cart is hidden once the flag is turned off.
+            offer: getVisibleOfferMessage(
+              journey.attributes?.field_offer_message,
+              isJourneyEarlyBird(journey, getEarlyBirdJourneyIds(journeyDepartures)),
+            ),
             startCity: getStartCity(journey, included),
             endCity: getEndCity(journey, included),
             tabItinerary: getItinerary(journey, included),
