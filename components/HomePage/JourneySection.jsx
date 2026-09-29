@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 
 export default function JourneySection() {
   return (
@@ -96,14 +96,14 @@ export default function JourneySection() {
               the PHOTO, not the padding around it, fills the frame. */}
           <div className="absolute left-[calc(1404*var(--fig-u))] top-[calc(166*var(--fig-u))] z-10 w-[calc(316*var(--fig-u))] rotate-[-9.87deg] rounded-[5px] border-2 border-[#2C3078] bg-[#FAFAFA] p-[calc(14.5*var(--fig-u))] pb-[calc(58.5*var(--fig-u))] shadow-[0_15px_25px_rgba(26,26,26,0.1)]">
             <div className="relative aspect-square w-full">
-              <img src="/Tree.svg" alt="" aria-hidden="true"
+              <img src="/Tree.webp" alt="" aria-hidden="true"
                 className="absolute left-1/2 top-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2 w-[115.90%] rotate-[9.8667deg]" />
             </div>
           </div>
 
           <div className="absolute left-[calc(1315*var(--fig-u))] top-[calc(408*var(--fig-u))] z-10 w-[calc(354.86*var(--fig-u))] rotate-[6.48deg] rounded-[5px] border-2 border-[#2C3078] bg-[#FAFAFA] p-[calc(16.53*var(--fig-u))] pb-[calc(65.94*var(--fig-u))] shadow-[0_15px_25px_rgba(26,26,26,0.1)]">
             <div className="relative aspect-square w-full">
-              <img src="/Road.svg" alt="" aria-hidden="true"
+              <img src="/Road.webp" alt="" aria-hidden="true"
                 className="absolute left-1/2 top-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2 w-[110.76%] -rotate-[6.4849deg]" />
             </div>
           </div>
@@ -171,14 +171,14 @@ export default function JourneySection() {
               rotated, so each is counter-rotated and scaled by canvas/photo. */}
           <div className="absolute z-10 left-[calc(138*var(--fig-u))] top-[calc(310*var(--fig-u))] w-[calc(239.86*var(--fig-u))] rotate-[-9.87deg] rounded-[5px] border-2 border-[#2C3078] bg-[#FAFAFA] p-[calc(10.525*var(--fig-u))] pb-[calc(43.915*var(--fig-u))] shadow-[0_15px_25px_rgba(26,26,26,0.1)]">
             <div className="relative aspect-square w-full">
-              <img src="/Tree.svg" alt="" aria-hidden="true"
+              <img src="/Tree.webp" alt="" aria-hidden="true"
                 className="absolute left-1/2 top-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2 w-[115.90%] rotate-[9.8667deg]" />
             </div>
           </div>
 
           <div className="absolute z-20 left-[calc(-27*var(--fig-u))] top-[calc(452*var(--fig-u))] w-[calc(269.35*var(--fig-u))] rotate-[6.48deg] rounded-[5px] border-2 border-[#2C3078] bg-[#FAFAFA] p-[calc(12.065*var(--fig-u))] pb-[calc(49.575*var(--fig-u))] shadow-[0_15px_25px_rgba(26,26,26,0.1)]">
             <div className="relative aspect-square w-full">
-              <img src="/Road.svg" alt="" aria-hidden="true"
+              <img src="/Road.webp" alt="" aria-hidden="true"
                 className="absolute left-1/2 top-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2 w-[110.76%] -rotate-[6.4849deg]" />
             </div>
           </div>

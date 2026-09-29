@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import React from "react";
 import { useRouter } from "next/navigation";
 
@@ -12,7 +12,7 @@ export default function PopularRegionCard({regions}) {
         {regions.map((region) => (
           <div
             key={region.id}
-            className="group relative w-full max-w-[320px] aspect-square min-[640px]:w-[calc(50%-12px)] min-[640px]:max-w-none min-[1024px]:w-[calc(33.333%-16px)] rounded-[10px] overflow-hidden shadow-sm border-2 border-[#1A1A1A] cursor-pointer"
+            className="group relative w-full max-w-[320px] aspect-square min-[640px]:w-[calc(50%-12px)] min-[640px]:max-w-none min-[1024px]:w-[calc(33.333%-16px)] rounded-[10px] overflow-hidden bg-[#3A3A3A] shadow-sm border-2 border-[#1A1A1A] cursor-pointer"
           >
             <Image
               src={region.image}
@@ -34,7 +34,7 @@ export default function PopularRegionCard({regions}) {
               </div>
 
               <div className="space-y-2.5">
-                <p
+                <div
                   className="text-sm sm:text-[15px] text-white tracking-wide drop-shadow-sm leading-snug"
                   dangerouslySetInnerHTML={{ __html: region.subtitle }}
                 />

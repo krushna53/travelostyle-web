@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { useState } from "react";
 
 export default function JourneyCardImage({ src, alt, className }) {

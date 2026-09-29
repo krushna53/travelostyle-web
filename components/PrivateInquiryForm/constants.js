@@ -49,7 +49,7 @@ export const STOPOVER_OPTIONS = [
     title: "Dubai, U.A.E",
     duration: "3 Days, 2 Nights",
     price: 750,
-    image: "/Dubai.svg",
+    image: "/Dubai.webp",
   },
   {
     id: "muscat-3d2n",
@@ -77,7 +77,7 @@ export const STOPOVER_OPTIONS = [
     title: "Dubai, U.A.E",
     duration: "5 Days, 4 Nights",
     price: 1500,
-    image: "/Dubai.svg",
+    image: "/Dubai.webp",
   },
 ];
 
@@ -144,7 +144,7 @@ export const INSPIRATIONAL_STOPOVER_OPTIONS = [
     title: "Dubai, U.A.E",
     duration: "2 Nights",
     price: 750,
-    image: "/Dubai.svg",
+    image: "/Dubai.webp",
   },
   {
     id: "mumbai-2n",

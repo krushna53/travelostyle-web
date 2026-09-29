@@ -34,7 +34,7 @@ export default function PopularRegions() {
 
           const image =
             buildFileUrl(fileEntity?.attributes?.uri?.url) ||
-            "/placeholder.jpg";
+            "/placeholder-image.svg";
 
           return {
             id: item.id,

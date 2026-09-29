@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 
 
 

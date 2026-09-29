@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import TalkToAdvisorButton from "@/components/GeneralInquiryForm/TalkToAdvisorButton";
 
 export default function LetsFindOut() {
@@ -17,7 +17,7 @@ export default function LetsFindOut() {
       <div className="relative -mx-5 mt-10 h-[470px] w-[calc(100%+40px)] min-[440px]:max-[1000px]:mx-0 min-[440px]:max-[1000px]:w-full">
         <div className="absolute top-0 left-[119px] w-[284px] h-[324px] md:left-[107px] min-[440px]:max-[1000px]:left-1/2 min-[440px]:max-[1000px]:-translate-x-[calc(50%-40px)]">
           <Image
-            src="/FreeMan.svg"
+            src="/FreeMan.webp"
             alt=""
             width={537}
             height={584}
@@ -27,7 +27,7 @@ export default function LetsFindOut() {
 
         <div className="absolute bottom-0 -left-[100px] z-10 w-[319px] h-[363px] min-[440px]:max-[1000px]:left-1/2 min-[440px]:max-[1000px]:-translate-x-[calc(50%+40px)] min-[440px]:max-[1000px]:bottom-[-40px]">
           <Image
-            src="/CattonBro.svg"
+            src="/CattonBro.webp"
             alt=""
             width={570}
             height={627}
@@ -87,7 +87,7 @@ export default function LetsFindOut() {
 
           <div className="absolute top-0 right-0 w-[271px] h-[292px] min-[1200px]:w-[287px] min-[1200px]:h-[310px] min-[1280px]:w-[453px] min-[1280px]:h-[490px] min-[1919px]:w-[589px] min-[1919px]:h-[637px]">
             <Image
-              src="/FreeMan.svg"
+              src="/FreeMan.webp"
               alt=""
               width={537}
               height={584}
@@ -97,7 +97,7 @@ export default function LetsFindOut() {
 
           <div className="absolute bottom-[-25px] left-[-38px] z-10 w-[278px] h-[316px] min-[1200px]:bottom-[-26px] min-[1200px]:left-[-41px] min-[1200px]:w-[294px] min-[1200px]:h-[335px] min-[1280px]:bottom-[-41px] min-[1280px]:left-[-65px] min-[1280px]:w-[464px] min-[1280px]:h-[529px] min-[1919px]:bottom-[-53px] min-[1919px]:left-[-85px] min-[1919px]:w-[603px] min-[1919px]:h-[688px]">
             <Image
-              src="/CattonBro.svg"
+              src="/CattonBro.webp"
               alt=""
               width={570}
               height={627}

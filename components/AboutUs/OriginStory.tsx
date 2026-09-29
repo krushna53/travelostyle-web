@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 
 // One tint per rail, matching the desktop staggered columns below.
 const MOBILE_RAIL_BG = ["bg-[#EFF3CF]", "bg-[#F2E2DA]", "bg-[#F2D09F]"];
@@ -6,9 +6,9 @@ const MOBILE_RAIL_BG = ["bg-[#EFF3CF]", "bg-[#F2E2DA]", "bg-[#F2D09F]"];
 // Six per rail so one copy of the set is wider than any phone viewport —
 // otherwise the -50% loop would expose a gap mid-scroll.
 const MOBILE_RAILS = [
-  ["/Rectangle920.svg", "/Rectangle911.svg", "/Rectangle914.svg", "/Rectangle917.svg", "/Rectangle912.svg", "/Rectangle915.svg"],
-  ["/Rectangle918.svg", "/Rectangle913.svg", "/Rectangle916.svg", "/Rectangle920.svg", "/Rectangle914.svg", "/Rectangle911.svg"],
-  ["/Rectangle912.svg", "/Rectangle917.svg", "/Rectangle915.svg", "/Rectangle913.svg", "/Rectangle918.svg", "/Rectangle916.svg"],
+  ["/Rectangle920.webp", "/Rectangle911.webp", "/Rectangle914.webp", "/Rectangle917.webp", "/Rectangle912.webp", "/Rectangle915.webp"],
+  ["/Rectangle918.webp", "/Rectangle913.webp", "/Rectangle916.webp", "/Rectangle920.webp", "/Rectangle914.webp", "/Rectangle911.webp"],
+  ["/Rectangle912.webp", "/Rectangle917.webp", "/Rectangle915.webp", "/Rectangle913.webp", "/Rectangle918.webp", "/Rectangle916.webp"],
 ];
 
 export default function OriginStory() {
@@ -51,23 +51,23 @@ export default function OriginStory() {
 
           {/* Column 1 — 4 images, starts at top */}
           <div className="flex flex-col gap-3 min-[768px]:gap-4 min-[1024px]:gap-[calc(16*var(--fig-u))] bg-[#EFF3CF] flex-1 min-[1024px]:flex-none rounded-lg">
-            <Image src="/Rectangle920.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
-            <Image src="/Rectangle911.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
-            <Image src="/Rectangle914.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
-            <Image src="/Rectangle917.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
+            <Image src="/Rectangle920.webp" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
+            <Image src="/Rectangle911.webp" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
+            <Image src="/Rectangle914.webp" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
+            <Image src="/Rectangle917.webp" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
           </div>
 
           {/* Column 2 — 3 images, offset down */}
           <div className="flex flex-col h-[400px] min-[1024px]:h-[calc(400*var(--fig-u))] gap-3 min-[768px]:gap-4 min-[1024px]:gap-[calc(16*var(--fig-u))] bg-[#F2E2DA] mt-15 min-[768px]:mt-25 min-[1024px]:mt-[calc(150*var(--fig-u))] flex-1 min-[1024px]:flex-none rounded-lg">
-            <Image src="/Rectangle912.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
-            <Image src="/Rectangle915.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
-            <Image src="/Rectangle918.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
+            <Image src="/Rectangle912.webp" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
+            <Image src="/Rectangle915.webp" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
+            <Image src="/Rectangle918.webp" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
           </div>
 
           {/* Column 3 — 2 images, offset even more */}
           <div className="flex flex-col h-[300px] min-[1024px]:h-[calc(300*var(--fig-u))] gap-3 min-[768px]:gap-4 min-[1024px]:gap-[calc(16*var(--fig-u))] bg-[#F2D09F] mt-30 min-[768px]:mt-50 min-[1024px]:mt-[calc(200*var(--fig-u))] flex-1 min-[1024px]:flex-none rounded-lg">
-            <Image src="/Rectangle913.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
-            <Image src="/Rectangle916.svg" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
+            <Image src="/Rectangle913.webp" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
+            <Image src="/Rectangle916.webp" alt="" width={264} height={264} className="rounded-[12px] w-full min-[1024px]:w-[calc(264*var(--fig-u))] aspect-square object-cover" />
           </div>
 
         </div>

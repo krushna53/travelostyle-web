@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import MobileMegaMenu from "./MobileMegaMenu";
 import Link from "next/link";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import React, { useState } from "react";
 import CtaBanner from "./CtaBanner";
 
