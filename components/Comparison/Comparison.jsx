@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import JourneyCardImage from "@/components/JourneyCardImage";
-import { API_BASE_URL } from "@/lib/config";
+import { API_CLIENT_BASE } from "@/lib/config";
 import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { isInspirationalJourney } from "@/lib/journeyExperienceType";
@@ -234,11 +234,11 @@ export default function TripComparison() {
         }
 
         const [res, departureRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/jsonapi/node/journey?filter[status][value]=1&include=${INCLUDE}`),
+          fetch(`${API_CLIENT_BASE}/jsonapi/node/journey?filter[status][value]=1&include=${INCLUDE}`),
           // Needed for Group journeys' "Request a Private Journey" — same
           // closest-offer/closest-date pre-fill logic as the journey detail
           // page's hero card.
-          fetch(`${API_BASE_URL}/jsonapi/node/book_your_journey?filter[status][value]=1`),
+          fetch(`${API_CLIENT_BASE}/jsonapi/node/book_your_journey?filter[status][value]=1`),
         ]);
 
         const json = await res.json();
