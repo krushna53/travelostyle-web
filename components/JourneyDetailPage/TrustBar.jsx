@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { openCompareModal } from "@/lib/compareCart";
 
 // Four-point star separator (same asset as ExperienceTravelSection).

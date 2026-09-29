@@ -12,7 +12,7 @@ export default function WhyTakeJourney({
 }) {
   return (
     <section 
-      className="relative w-full bg-cover bg-center flex flex-col justify-center items-center py-16 px-4 md:pl-[7.86vw] md:pr-[7.86vw] text-white"
+      className="relative w-full bg-[#3A3A3A] bg-cover bg-center flex flex-col justify-center items-center py-16 px-4 md:pl-[7.86vw] md:pr-[7.86vw] text-white"
       style={{ backgroundImage: `url('${bgImageUrl}')` }}
     >
 

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import Link from "next/link";
 import { useState } from "react";
 import { openCompareModal } from "@/lib/compareCart";
@@ -33,7 +33,7 @@ export default function PopularDestinations({
     <div className="relative md:h-[700px]">
       {/* MOBILE */}
       <div className="block md:hidden bg-[#F6F6F6]">
-        <div className="relative h-[600px] w-full overflow-hidden">
+        <div className="relative h-[600px] w-full overflow-hidden bg-[#3A3A3A]">
           <Image
             src={currentSlide?.image || PLACEHOLDER_IMAGE}
             alt={currentSlide?.attributes?.title || "travel"}
@@ -128,7 +128,7 @@ export default function PopularDestinations({
       </div>
 
       {/* DESKTOP */}
-      <div className="hidden md:block relative h-[720px]">
+      <div className="hidden md:block relative h-[720px] bg-[#3A3A3A]">
         <Image
           src={currentSlide?.image || PLACEHOLDER_IMAGE}
           alt={currentSlide?.attributes?.title || "travel"}

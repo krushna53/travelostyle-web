@@ -13,6 +13,12 @@ import {
   getBlogSlug,
 } from "@/lib/blog";
 
+// Render each page on its first visit, then serve it from cache and
+// refresh it in the background (the Drupal fetches revalidate every 60s).
+export async function generateStaticParams() {
+  return [];
+}
+
 export default async function BlogDetailBySlug({
   params,
 }: {
@@ -59,7 +65,7 @@ export default async function BlogDetailBySlug({
 
   const categoryRes = await fetch(
     `${API_BASE_URL}/jsonapi/taxonomy_term/categories`,
-    { cache: "no-store" },
+    { next: { revalidate: 60 } },
   );
   const { data: categoryData = [] } = await categoryRes.json();
   const allCategoryNames = categoryData.map((cat: any) => cat.attributes.name);
@@ -83,7 +89,7 @@ export default async function BlogDetailBySlug({
           item,
           included,
           "field_banner_image",
-          "/recommended-blog.svg",
+          "/recommended-blog.webp",
         ),
         slug: getBlogSlug(item),
       };

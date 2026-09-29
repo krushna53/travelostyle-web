@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 
 export default function BookYourJourneyMobile({ onBack }) {
   const [activeYear, setActiveYear] = useState(2026);

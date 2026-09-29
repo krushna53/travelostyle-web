@@ -61,7 +61,7 @@ export default function Index({ matrixContent, whyTakeContent, bookingStepsConte
       {whyTakeContent ? (
         <WhyTakeJourney
           title={whyTakeContent.heading}
-          bgImageUrl="/PrivateJourneyBP.svg"
+          bgImageUrl="/PrivateJourneyBP.webp"
           features={whyTakeContent.features}
           ctaTitle={whyTakeContent.ctaTitle}
           ctaSubtitle={whyTakeContent.ctaSubtitle}

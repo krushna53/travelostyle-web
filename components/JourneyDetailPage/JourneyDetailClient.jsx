@@ -33,7 +33,7 @@ const MOCK_JOURNEY = {
       type: "text",
       text: "Ancient Medinas where the call to prayer still echoes off the same walls of always-narrow alleyways, where the spice merchant and silk traders are still there.",
     },
-    { type: "image", image: "/Morocco.svg", alt: "Morocco Medina" },
+    { type: "image", image: "/Morocco.webp", alt: "Morocco Medina" },
     {
       type: "text",
       text: "Cedar Forests, mountain passes, a valley that seems to go on forever — this is the Morocco that changes you. All of it.",
@@ -48,7 +48,7 @@ const MOCK_JOURNEY = {
     },
     {
       type: "image",
-      image: "/Kenya.svg",
+      image: "/Kenya.webp",
       alt: "Marrakech",
       caption: "Marrakech — Show Me It Is If Necessary",
     },

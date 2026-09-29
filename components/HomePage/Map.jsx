@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import destinations from "@/lib/travelostyle_destinations_FRONTEND.json";
 
 const months = [

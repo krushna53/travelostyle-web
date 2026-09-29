@@ -2,7 +2,7 @@
 import { useState } from "react";
 import React from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";
 import GroupInquiryForm from "@/components/GroupInquiryForm";
 import GeneralInquiryForm from "../GeneralInquiryForm";

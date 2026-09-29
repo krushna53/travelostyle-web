@@ -1,18 +1,18 @@
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import TalkToAdvisorButton from "@/components/GeneralInquiryForm/TalkToAdvisorButton";
 
 export default function PrivateJourneysLuxury() {
   return (
     <section className="py-16">
-      <div className="relative h-[720px] md:h-[450px] lg:h-[520px] w-full overflow-hidden rounded-1xl">
+      <div className="relative h-[720px] md:h-[450px] lg:h-[520px] w-full overflow-hidden rounded-1xl bg-[#3A3A3A]">
         <Image
-          src="/private/BoatMobileHQ.jpg"
+          src="/private/BoatMobileHQ.webp"
           alt="Private Journey"
           fill
           className="object-cover object-top md:hidden"
         />
         <Image
-          src="/Ship.svg"
+          src="/Ship.webp"
           alt="Private Journey"
           fill
           className="hidden md:block object-cover object-bottom"

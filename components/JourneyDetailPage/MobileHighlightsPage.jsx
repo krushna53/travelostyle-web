@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import CtaBanner from "./CtaBanner";
 
 export default function MobileHighlights({ onBack, highlightsRecord, journey }) {

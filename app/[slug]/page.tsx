@@ -19,13 +19,19 @@ interface PageNode {
   };
 }
 
+// Render each page on its first visit, then serve it from cache and
+// refresh it in the background (the Drupal fetches revalidate every 60s).
+export async function generateStaticParams() {
+  return [];
+}
+
 export default async function PolicyDetails({ params }: PageProps) {
   const { slug } = await params;
 
   let res: Response | null = null;
   try {
     res = await fetch(`${API_BASE_URL}/jsonapi/node/page?filter[status][value]=1`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
   } catch (error) {
     console.error("Fetch error:", error);

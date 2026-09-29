@@ -70,7 +70,7 @@ async function getTestimonials() {
   const res = await fetch(
     `${API_BASE_URL}/jsonapi/node/testimonial?filter[status][value]=1&include=${TESTIMONIAL_INCLUDE}`,
     {
-      cache: "no-store",
+      next: { revalidate: 60 },
     }
   );
 
@@ -81,6 +81,12 @@ async function getTestimonials() {
 
   return res.json();
 }
+// Render each page on its first visit, then serve it from cache and
+// refresh it in the background (the Drupal fetches revalidate every 60s).
+export async function generateStaticParams() {
+  return [];
+}
+
 export default async function JourneyDetailPage({
   params,
 }: {
@@ -93,7 +99,7 @@ export default async function JourneyDetailPage({
   let res: Response | null = null;
   try {
     res = await fetch(`${API_BASE_URL}/api/journey/${id}?include=${INCLUDE}`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
   } catch {
     // Connection failure (backend truly unreachable) — fall back to mock
@@ -228,7 +234,7 @@ export default async function JourneyDetailPage({
   // Fetch departures linked to this journey
   const departureRes = await fetch(
     `${API_BASE_URL}/jsonapi/node/book_your_journey?filter[status][value]=1`,
-    { cache: "no-store" }
+    { next: { revalidate: 60 } }
   );
 
   const departureData = await departureRes.json();

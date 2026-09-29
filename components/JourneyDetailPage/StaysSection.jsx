@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { Info, X, ChevronLeft, ChevronRight } from "lucide-react";
 import JourneyCardImage from "@/components/JourneyCardImage";
 

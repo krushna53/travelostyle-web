@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 
 
 // Every highlight card — image or text, first row or second — is the
@@ -9,7 +9,7 @@ import Image from "next/image";
 function HighlightCard({ card }) {
   if (card.type === "image") {
     return (
-      <div className="relative h-[160px] overflow-hidden rounded-[10px] border-2 border-[#C8CE90]">
+      <div className="relative h-[160px] overflow-hidden rounded-[10px] border-2 border-[#C8CE90] bg-[#3A3A3A]">
         <Image
           src={card.image}
           alt={card.alt || ""}
