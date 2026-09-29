@@ -203,30 +203,11 @@ const goNext = () => {
     setIsSubmitting(true);
 
     try {
-      const csrfRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/session/token`,
-      );
-
-      if (!csrfRes.ok) {
-        throw new Error("Failed to fetch CSRF token");
-      }
-
-      const csrfToken = await csrfRes.text();
-
-      const credentials = btoa(
-        `${process.env.NEXT_PUBLIC_DRUPAL_USER}:${process.env.NEXT_PUBLIC_DRUPAL_PASS}`,
-      );
-
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/webform_rest/submit`,
+        "/api/webform-submit",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Basic ${credentials}`,
-            "X-CSRF-Token": csrfToken,
-          },
+          headers: { "Content-Type": "application/json" },
           // Same modal/component powers both the departure-specific "Request
           // A Private Journey" flow and the generic "Inspirational
           // Itineraries" flow (see the `showDepartureDate`/`label` props) —

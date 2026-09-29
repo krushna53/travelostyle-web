@@ -68,7 +68,7 @@ min-[1800px]:max-w-[1704px]">
                         </div>
 
                         <h3 className="mt-5 text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px] font-semibold leading-[1.3] text-ink">
-                          {item.title}
+                          {item.title}ss
                         </h3>
 
                       <div
@@ -180,7 +180,7 @@ min-[1800px]:max-w-[1704px]">
                 {index + 1}
               </span>
               <h3 className="mt-3 text-[18px] font-bold text-[#222]">
-                {item.title}
+                {item.title}d
               </h3>
 
            <div
