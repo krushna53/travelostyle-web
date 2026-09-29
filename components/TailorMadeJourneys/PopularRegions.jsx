@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import PopularRegionCard from "../PopularRegionCard";
-import { API_BASE_URL, buildFileUrl } from "@/lib/config";
+import { API_CLIENT_BASE, buildFileUrl } from "@/lib/config";
 
 export default function PopularRegions() {
   const [regions, setRegions] = useState([]);
@@ -12,7 +12,7 @@ export default function PopularRegions() {
     async function loadRegions() {
       try {
         const res = await fetch(
-          `${API_BASE_URL}/jsonapi/taxonomy_term/region?sort=-drupal_internal__tid&include=field_region_image.field_media_image`,
+          `${API_CLIENT_BASE}/jsonapi/taxonomy_term/region?sort=-drupal_internal__tid&include=field_region_image.field_media_image`,
         );
 
         const json = await res.json();
