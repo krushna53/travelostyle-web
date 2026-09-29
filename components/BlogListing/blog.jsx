@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import heroImage from "./Hero.png";
 import BlogGrid from "./BlogGrid";
 import { API_BASE_URL } from "@/lib/config";
@@ -15,7 +15,7 @@ export default async function Blog() {
   const { data: blogs, included } = await getAllBlogs();
 
   const categoryRes = await fetch(`${API_BASE_URL}/jsonapi/taxonomy_term/categories`, {
-    cache: "no-store",
+    next: { revalidate: 60 },
   });
   const { data: categoryData = [] } = await categoryRes.json();
 
@@ -27,7 +27,7 @@ export default async function Blog() {
     return {
       id: blog.id,
       title: blog.attributes.title,
-      imageUrl: resolveBlogImage(blog, included, "field_banner_image", "/recommended-blog.svg"),
+      imageUrl: resolveBlogImage(blog, included, "field_banner_image", "/recommended-blog.webp"),
       categoryName: categoryNames[0] || "Experiences",
       categoryNames,
       dateLabel: new Date(blog.attributes.created).toLocaleDateString("en-US", {

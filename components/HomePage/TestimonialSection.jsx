@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { API_BASE_URL } from "@/lib/config";
 
 function capitalizeFirst(str) {
@@ -31,7 +31,7 @@ export default function TestimonialSection({
 
     const imageUrl = file?.attributes?.uri?.url
       ? `${API_BASE_URL}${file.attributes.uri.url}`
-      : "/Morocco.svg";
+      : "/Morocco.webp";
 
     // NAME
     const name =

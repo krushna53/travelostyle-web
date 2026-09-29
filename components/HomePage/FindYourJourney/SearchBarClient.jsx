@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { useState } from "react";
 import FindJourneyMobile from "./FindYourJourneyMobile";
 import TravelForm from "./TravelForm";

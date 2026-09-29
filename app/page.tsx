@@ -65,7 +65,7 @@ async function getTestimonials() {
   const res = await fetch(
     `${API_BASE_URL}/jsonapi/node/testimonial?include=${TESTIMONIAL_INCLUDE}`,
     {
-      cache: "no-store",
+      next: { revalidate: 60 },
     }
   );
 
@@ -94,7 +94,7 @@ async function getHeroSlides() {
     `${API_BASE_URL}/jsonapi/node/hero_slide?include=field_hero_banner_image`,
     {
       headers: { Accept: "application/vnd.api+json" },
-      cache: "no-store",
+      next: { revalidate: 60 },
     }
   );
 
@@ -130,7 +130,7 @@ async function getJourneys(): Promise<{
   const res = await fetch(
     `${API_BASE_URL}/jsonapi/node/journey?include=field_journey_image.field_media_image,field_journey_tag,field_month`,
     {
-      cache: "no-store",
+      next: { revalidate: 60 },
     }
   );
 

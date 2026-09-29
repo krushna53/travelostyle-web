@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { useEffect, useRef, useState } from "react";
 import { getJourneyCards } from "@/lib/journeyCard";
 import JourneyCard from "@/components/JourneyCard";

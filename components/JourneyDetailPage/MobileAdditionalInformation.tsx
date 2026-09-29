@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import React, { useState } from "react";
 import { DEFAULT_ADDITIONAL_INFO } from "./AdditionalInformationSection";
 import styles from "./MobileAdditionalInformation.module.css";

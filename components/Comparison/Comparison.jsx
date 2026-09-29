@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import JourneyCardImage from "@/components/JourneyCardImage";
 import { API_CLIENT_BASE } from "@/lib/config";
 import { useEffect, useLayoutEffect, useState, useRef } from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { useState } from "react";
 import bgImage from "./bgimg.png";
 import { countryCodes } from "../utils/country";
@@ -138,7 +138,7 @@ export default function Form() {
   };
 
   return (
-    <section className="relative min-h-fit md:min-h-[700px] w-full overflow-hidden">
+    <section className="relative min-h-fit md:min-h-[700px] w-full overflow-hidden bg-[#3A3A3A]">
       <Image
         src={bgImage}
         alt="Background"

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Info } from "lucide-react";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 
 function TableCard({ title, items = [], theme }) {
     const current =

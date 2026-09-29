@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { getBlock, resolveRefs } from "@/lib/blockContent";
 import ComingSoon from "@/components/ComingSoon";
 

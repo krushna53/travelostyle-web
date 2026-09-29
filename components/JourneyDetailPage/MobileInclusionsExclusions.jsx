@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Info } from "lucide-react";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 
 export default function MobileInclusionsExclusions({ onBack }) {
   const [isInclusionsOpen, setIsInclusionsOpen] = useState(true);
