@@ -481,7 +481,7 @@ export default function TravelDestinationWidget() {
                 }}
               >
                 <TileLayer
-                  url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
+                  url={`https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png?key=${process.env.NEXT_PUBLIC_CARTO_API_KEY}`}
                   className="screenshot-exact-tiles"
                 />
                 <MapZoomController

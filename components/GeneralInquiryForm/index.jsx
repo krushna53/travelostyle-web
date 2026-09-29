@@ -105,22 +105,7 @@ export default function GeneralInquiryForm({ isOpen, onClose, onSubmit }) {
     setIsSubmitting(true);
 
     try {
-      // 1. CSRF Token Fetch
-      const csrfRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/session/token`
-      );
-
-      if (!csrfRes.ok) {
-        throw new Error("Failed to fetch CSRF token");
-      }
-
-      const csrfToken = await csrfRes.text();
-
-      const credentials = btoa(
-        `${process.env.NEXT_PUBLIC_DRUPAL_USER}:${process.env.NEXT_PUBLIC_DRUPAL_PASS}`
-      );
-
-      // 2. Drupal Webform REST Payload
+      // Drupal Webform REST Payload
       const payload = {
         webform_id: "contact_inquiry",
         first_name: formData.firstName.trim(),
@@ -133,20 +118,11 @@ export default function GeneralInquiryForm({ isOpen, onClose, onSubmit }) {
         consent: formData.consent ? "1" : "0",
       };
 
-      // 3. API Request
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/webform_rest/submit`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Basic ${credentials}`,
-            "X-CSRF-Token": csrfToken,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch("/api/webform-submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
       const data = await response.json();
 

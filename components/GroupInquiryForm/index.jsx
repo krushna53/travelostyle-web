@@ -106,56 +106,34 @@ export default function GroupInquiryForm({
     }
 
      try {
-      const csrfRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/session/token`
-      );
-
-      if (!csrfRes.ok) {
-        throw new Error("Failed to fetch CSRF token");
-      }
-
-      const csrfToken = await csrfRes.text();
-
-      const credentials = btoa(
-        `${process.env.NEXT_PUBLIC_DRUPAL_USER}:${process.env.NEXT_PUBLIC_DRUPAL_PASS}`
-      );
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/webform_rest/submit`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Basic ${credentials}`,
-            "X-CSRF-Token": csrfToken,
-          },
-          body: JSON.stringify({
-            webform_id: "group_trip_inquiry_webform",
-            // Node ID (not the JSON:API UUID) — same pattern as
-            // PrivateInquiryForm. `journey`/`trip` are the shared journey
-            // and departure objects from JourneyDetailClient/DatePricing,
-            // which carry `nodeId` (drupal_internal__nid).
-            journey_id: journeyNodeId,
-            journey_departure_id: tripNodeId,
-            // Entity-autocomplete fields on the webform — Drupal only
-            // extracts an ID from a "Label (id)" string (see
-            // toAutocompleteValue above).
-            journey_departure: journeyDepartureValue,
-            journeytype: journeyTypeValue,
-            destination: destinationValue,
-            first_name: formData.firstName.trim(),
-            last_name: formData.lastName.trim(),
-            title: formData.title.trim(),
-            email: formData.email.trim(),
-            country_code: formData.countryCode,
-            phone: formData.phone.trim(),
-            traveling_with_children: formData.travelingWithChildren,
-            message: formData.message.trim(),
-            consent: formData.consent,
-          }),
-        }
-      );
+      const response = await fetch("/api/webform-submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          webform_id: "group_trip_inquiry_webform",
+          // Node ID (not the JSON:API UUID) — same pattern as
+          // PrivateInquiryForm. `journey`/`trip` are the shared journey
+          // and departure objects from JourneyDetailClient/DatePricing,
+          // which carry `nodeId` (drupal_internal__nid).
+          journey_id: journeyNodeId,
+          journey_departure_id: tripNodeId,
+          // Entity-autocomplete fields on the webform — Drupal only
+          // extracts an ID from a "Label (id)" string (see
+          // toAutocompleteValue above).
+          journey_departure: journeyDepartureValue,
+          journeytype: journeyTypeValue,
+          destination: destinationValue,
+          first_name: formData.firstName.trim(),
+          last_name: formData.lastName.trim(),
+          title: formData.title.trim(),
+          email: formData.email.trim(),
+          country_code: formData.countryCode,
+          phone: formData.phone.trim(),
+          traveling_with_children: formData.travelingWithChildren,
+          message: formData.message.trim(),
+          consent: formData.consent,
+        }),
+      });
 
       const data = await response.json();
 
