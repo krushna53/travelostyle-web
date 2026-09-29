@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import { API_BASE_URL } from "@/lib/config";
+import { API_CLIENT_BASE } from "@/lib/config";
 
 export default function StepOne({
   formData,
@@ -31,7 +31,7 @@ export default function StepOne({
   };
 
  useEffect(() => {
-    fetch(`${API_BASE_URL}/jsonapi/taxonomy_term/travel_experiences`)
+    fetch(`${API_CLIENT_BASE}/jsonapi/taxonomy_term/travel_experiences`)
       .then((res) => {
         if (!res.ok) {
           throw new Error('Failed to fetch taxonomy terms from Drupal');

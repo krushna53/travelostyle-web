@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, Plus, Minus } from "lucide-react";
+import { API_CLIENT_BASE } from "@/lib/config";
 import { STEPS, TOTAL_STEPS, initialFormData } from "./constants";
 import StepOne from "./StepOne";
 import StepGuests from "./StepGuests";
@@ -54,7 +55,7 @@ export default function BuildYourJourneyForm({
     let cancelled = false;
 
     fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/jsonapi/node/journey?filter[status][value]=1&include=field_journey_tag`
+      `${API_CLIENT_BASE}/jsonapi/node/journey?filter[status][value]=1&include=field_journey_tag`
     )
       .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
       .then((json) => {
