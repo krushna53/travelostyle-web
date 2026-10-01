@@ -94,14 +94,14 @@ function PriceDetails({
       >
         <div className="overflow-hidden">
           <div className="border-t-2 border-[#1A1A1A] px-[27px] pt-[12px] pb-[14px]">
-           
+            {(journey?.offer || journey?.earlyBird) && (
               <div className="flex gap-[10px] rounded-[2px] bg-[#F2E2DA] px-[14px] py-[8px]">
                 <Info size={16} strokeWidth={1.5} className="mt-[2px] shrink-0" />
                 <p className="text-[12px] leading-[20px] tracking-[0.05em] text-black">
-                  {journey.offer || "Early Bird Offers available"}ss
+                  {journey.offer || "Early Bird Offers available"}
                 </p>
               </div>
-        
+            )}
 
             <div className="mt-[16px] flex flex-col items-center">
               <button

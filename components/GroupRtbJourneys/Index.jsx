@@ -63,7 +63,7 @@ export default function Index({
       {whyTakeContent ? (
         <WhyTakeJourney
           title={whyTakeContent.heading}
-          bgImageUrl="/GroupJourneyBP.svg"
+          bgImageUrl="/GroupJourneyBP.webp"
           features={whyTakeContent.features}
           ctaTitle={whyTakeContent.ctaTitle}
           ctaSubtitle={whyTakeContent.ctaSubtitle}

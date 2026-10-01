@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import MobileNavigationMenu from "./MobileNavigationMenu";
 import MobilePriceBar, { MobilePriceCard } from "./MobilePriceBar";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";

@@ -25,7 +25,7 @@
 const polaroids = [
   {
     id: 1,
-    imgUrl: "/Kampus.svg", // 385 canvas, photo baked at 6.4849deg
+    imgUrl: "/Kampus.webp", // 385 canvas, photo baked at 6.4849deg
     box: "left-[calc(-35*var(--fig-u))] top-[calc(303*var(--fig-u))] w-[calc(268.23*var(--fig-u))] rotate-[6.48deg] z-10",
     imgRotation: "-rotate-[6.4849deg]",
     imgScale: "w-[111.02%]",
@@ -33,7 +33,7 @@ const polaroids = [
   },
   {
     id: 2,
-    imgUrl: "/Trecmanfreemind.svg", // 413 canvas, baked at -12.0268deg
+    imgUrl: "/Trecmanfreemind.webp", // 413 canvas, baked at -12.0268deg
     box: "left-[calc(131*var(--fig-u))] top-[calc(472*var(--fig-u))] w-[calc(268.23*var(--fig-u))] -rotate-[12.03deg] z-20",
     imgRotation: "rotate-[12.0268deg]",
     imgScale: "w-[119.10%]",
@@ -41,7 +41,7 @@ const polaroids = [
   },
   {
     id: 3,
-    imgUrl: "/ChadWitbooi.svg", // 353 canvas, baked at 0.867072deg
+    imgUrl: "/ChadWitbooi.webp", // 353 canvas, baked at 0.867072deg
     box: "left-[calc(18*var(--fig-u))] top-[calc(735*var(--fig-u))] w-[calc(268.23*var(--fig-u))] rotate-[0.87deg] z-30",
     imgRotation: "-rotate-[0.867deg]",
     imgScale: "w-[101.80%]",
@@ -49,7 +49,7 @@ const polaroids = [
   },
   {
     id: 4,
-    imgUrl: "/Minanl.svg", // 375 canvas, baked at -4.51117deg
+    imgUrl: "/Minanl.webp", // 375 canvas, baked at -4.51117deg
     box: "left-[calc(134*var(--fig-u))] top-[calc(899*var(--fig-u))] w-[calc(268.23*var(--fig-u))] -rotate-[4.51deg] z-40",
     imgRotation: "rotate-[4.5112deg]",
     imgScale: "w-[108.14%]",

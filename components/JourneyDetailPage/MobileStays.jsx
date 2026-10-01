@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import React, { useState } from "react";
 import GalleryMobileView from "./GalleryMobileView";
 import JourneyCardImage from "@/components/JourneyCardImage";

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { useRouter } from "next/navigation";
 
 // `regions` is fetched server-side (see app/destination/page.jsx +
@@ -62,7 +62,7 @@ export default function Region({ regions = [] }) {
         {regions.map((region) => (
          <div
   key={region.id}
-  className="group relative w-full max-w-[336px] mx-auto md:max-w-none aspect-square rounded-[10px] overflow-hidden shadow-sm border-2 border-[#1A1A1A] cursor-pointer"
+  className="group relative w-full max-w-[336px] mx-auto md:max-w-none aspect-square rounded-[10px] overflow-hidden bg-[#3A3A3A] shadow-sm border-2 border-[#1A1A1A] cursor-pointer"
 >
 
             <Image
@@ -82,7 +82,7 @@ export default function Region({ regions = [] }) {
               </div>
 
               <div className="space-y-2.5">
-                <p
+                <div
                   className="text-sm sm:text-[15px] text-white tracking-wide drop-shadow-sm leading-snug"
                   dangerouslySetInnerHTML={{
                     __html: region.description,

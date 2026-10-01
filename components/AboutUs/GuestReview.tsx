@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 
 export default function GuestReview() {
   return (
@@ -23,7 +23,7 @@ export default function GuestReview() {
         {/* Guest Card */}
         <div className="w-[240px] border border-[#4E4DAA] bg-white p-3 rounded-[4px]">
           <Image
-            src="/John & John Doe.svg"
+            src="/John & John Doe.webp"
             alt="Guest"
             width={214}
             height={214}

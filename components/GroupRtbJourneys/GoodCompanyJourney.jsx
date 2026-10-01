@@ -26,7 +26,7 @@ export default function GoodCompaneyJourney() {
   const polaroids = [
     {
       id: 1,
-      imgUrl: "/Kampus.svg", // 385 canvas, photo baked at 6.4849deg
+      imgUrl: "/Kampus.webp", // 385 canvas, photo baked at 6.4849deg
       rotation: "rotate-[6.4849deg]",
       imgRotation: "-rotate-[6.4849deg]",
       imgScale: "w-[111.02%]",
@@ -37,7 +37,7 @@ export default function GoodCompaneyJourney() {
     },
     {
       id: 2,
-      imgUrl: "/Trecmanfreemind.svg", // 413 canvas, photo baked at -12.0268deg
+      imgUrl: "/Trecmanfreemind.webp", // 413 canvas, photo baked at -12.0268deg
       rotation: "-rotate-[12.0268deg]",
       imgRotation: "rotate-[12.0268deg]",
       imgScale: "w-[119.10%]",
@@ -48,7 +48,7 @@ export default function GoodCompaneyJourney() {
     },
     {
       id: 3,
-      imgUrl: "/ChadWitbooi.svg", // 353 canvas, photo baked at 0.867072deg
+      imgUrl: "/ChadWitbooi.webp", // 353 canvas, photo baked at 0.867072deg
       rotation: "rotate-[0.867deg]",
       imgRotation: "-rotate-[0.867deg]",
       imgScale: "w-[101.80%]",
@@ -59,7 +59,7 @@ export default function GoodCompaneyJourney() {
     },
     {
       id: 4,
-      imgUrl: "/Minanl.svg", // 375 canvas, photo baked at -4.51117deg
+      imgUrl: "/Minanl.webp", // 375 canvas, photo baked at -4.51117deg
       rotation: "-rotate-[4.5112deg]",
       imgRotation: "rotate-[4.5112deg]",
       imgScale: "w-[108.14%]",
@@ -70,7 +70,7 @@ export default function GoodCompaneyJourney() {
     },
     {
       id: 5,
-      imgUrl: "/CottonBro.svg", // 397 canvas, photo baked at 8.76569deg
+      imgUrl: "/CottonBro.webp", // 397 canvas, photo baked at 8.76569deg
       rotation: "rotate-[8.7657deg]",
       imgRotation: "-rotate-[8.7657deg]",
       imgScale: "w-[114.48%]",

@@ -3,6 +3,11 @@
 import { useState } from "react";
 import JourneysWeLove from "./JourneysWeLove";
 
+/**
+ * @param {{ initialJourneys?: Array<Record<string, any>> | null }} props
+ *   initialJourneys — journey cards pre-fetched on the server by
+ *   getJourneyCards() in app/page.tsx (null = let the carousel fetch itself).
+ */
 export default function YourNextTrip({ initialJourneys = null }) {
   const [activeTab, setActiveTab] = useState("journeys");
 

@@ -39,11 +39,12 @@ export default async function WhollyJourneyHero() {
   const image = hero?.image || PLACEHOLDER_IMAGE;
 
   return (
-    <section className="relative w-full h-[600px] min-[768px]:h-[680px] min-[1024px]:h-[520px] min-[1400px]:h-[620px] min-[1600px]:h-[700px] min-[1920px]:h-[800px] flex items-center overflow-hidden">
+    <section className="relative w-full h-[600px] min-[768px]:h-[680px] min-[1024px]:h-[520px] min-[1400px]:h-[620px] min-[1600px]:h-[700px] min-[1920px]:h-[800px] flex items-center overflow-hidden bg-[#3A3A3A]">
       <div className="absolute inset-0 z-0">
         <img
           src={image}
           alt="Safari Journey Background"
+          fetchPriority="high"
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-black/30 md:bg-black/25" />

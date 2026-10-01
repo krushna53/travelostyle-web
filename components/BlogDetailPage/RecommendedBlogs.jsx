@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import Link from "next/link";
 import { getAllBlogs, getBlogSlug, resolveBlogImage } from "@/lib/blog";
 
@@ -14,7 +14,7 @@ export default async function RecommendedBlogs({ currentBlogId }) {
           blog,
           included,
           "field_banner_image",
-          "/recommended-blog.svg",
+          "/recommended-blog.webp",
         );
 
         const categoryId = blog.relationships?.field_categories?.data?.[0]?.id;

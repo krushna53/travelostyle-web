@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import { useState, useEffect } from "react";
 import { countryCodes } from "../utils/country";
 
@@ -142,11 +142,11 @@ export default function ContactInquiry() {
   return (
   <section className="w-full px-0 py-0 max-md:px-0 max-md:py-0 mt-8">
       <div
-        className="relative mx-auto h-auto  max-w-[200vw] overflow-hidden
+        className="relative mx-auto h-auto  max-w-[200vw] overflow-hidden bg-[#3A3A3A]
         max-md:h-auto max-w-full max-md:min-h-screen"
       >
         <Image
-          src="/Australia.svg"
+          src="/Australia.webp"
           alt="Australia"
           fill
           priority

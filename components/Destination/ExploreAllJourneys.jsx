@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import Image from "@/components/SafeImage";
 import Link from "next/link";
 import img from "./img.png";
 
