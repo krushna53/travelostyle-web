@@ -182,10 +182,11 @@ export default function HeroSection({
               <Image src="/CalenderIcon.svg" alt="" width={24} height={24} className="shrink-0" />
               <span>{journey.days || "13 Days | 12 Nights"}</span>
             </div>
-            <div className="flex items-center gap-[10px]">
+          
+           {journey?.destinations&&<div className="flex items-center gap-[10px]">
               <Image src="/Destination.svg" alt="" width={24} height={24} className="shrink-0" />
-              <span>{journey.destinations || "10 Destinations"}</span>
-            </div>
+              <span>{journey.destinations}</span>
+            </div>}
           </div>
 
           
@@ -330,10 +331,12 @@ export default function HeroSection({
                   <span>{journey.days || "13 Days | 12 Nights"}</span>
                 </div>
 
-                <div className="flex items-center gap-[8px]">
-                  <Image src="/Destination.svg" alt="" width={16} height={16} className="shrink-0" />
-                  <span>{journey.destinations}</span>
-                </div>
+                {journey?.destinations && (
+                  <div className="flex items-center gap-[8px]">
+                    <Image src="/Destination.svg" alt="" width={16} height={16} className="shrink-0" />
+                    <span>{journey.destinations}</span>
+                  </div>
+                )}
               </div>
               <div className="mt-[14px] space-y-[8px] text-[12px] font-light leading-[16px] tracking-[0.05em] text-black">
                 <div>
