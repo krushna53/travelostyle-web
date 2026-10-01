@@ -423,7 +423,9 @@ function transformItem(item, included) {
     desc: item.attributes.field_short_description || MOCK_JOURNEY.desc,
     image: resolveImage(item, included),
     days: `${item.attributes.field_duration_days || 13} Days | ${item.attributes.field_duration_nights || 12} Nights`,
-    destinations: `${item.attributes.field_destinations_count || 10} Destinations`,
+    destinations: item.attributes.field_destinations_count
+      ? `${item.attributes.field_destinations_count} Destinations`
+      : "",
     offerPrice: item.attributes.field_offer_price,
 originalPrice: item.attributes.field_original_price,
     offer: item.attributes.field_offer_message || "",
