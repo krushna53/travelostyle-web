@@ -31,7 +31,7 @@ const footer = {
     {
       title: "Legal",
      links: [
-        { label: "Booking Terms & Conditions", url: "/booking-terms-and-conditions" },
+        { label: "Booking Terms & Conditions", url: "/booking-terms-conditions" },
         { label: "Cookie Preferences", url: "/cookie-preferences" },
         { label: "Website Terms Of Use", url: "/website-terms-of-use" },
         { label: "Privacy Policy", url: "/privacy-policy" },
