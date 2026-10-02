@@ -232,17 +232,33 @@ export default async function JourneyDetailPage({
       : testimonialData.data,
   };
   // Fetch departures linked to this journey
-  const departureRes = await fetch(
-    `${API_BASE_URL}/jsonapi/node/book_your_journey?filter[status][value]=1`,
-    { next: { revalidate: 60 } }
-  );
+ const departureRes = await fetch(
+  `${API_BASE_URL}/jsonapi/node/book_your_journey?filter[status][value]=1&include=field_offers`,
+  { next: { revalidate: 60 } }
+);
 
   const departureData = await departureRes.json();
 
-  const departures = departureData.data.filter(
+const departures = departureData.data
+  .filter(
     (departure: any) =>
       departure.relationships?.field_journey?.data?.id === journeyId
-  );
+  )
+  .map((departure: any) => {
+    const offerReference =
+      departure.relationships?.field_offers?.data;
+
+    const offerTerm = departureData.included?.find(
+      (item: any) =>
+        item.type === "taxonomy_term--offers" &&
+        item.id === offerReference?.id
+    );
+
+    return {
+      ...departure,
+      offerName: offerTerm?.attributes?.name || "",
+    };
+  });
 
   // "Other Destinations We Know You'll Love" (rendered inside
   // JourneyDetailClient via OtherDestinations -> JourneysWeLove) used to

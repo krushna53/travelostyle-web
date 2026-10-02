@@ -86,6 +86,7 @@ export default function HeroSection({
 }, [activeView]);
   const categories = rawItem ? resolveCategories(rawItem, included) : MOCK_CATEGORIES;
   const isInspirational = Boolean(journey?.isInspirational);
+  const showFrom = isInspirational;
   // Group journeys: "Request a Private Journey" from the summary card has
   // no specific date attached, so it's pre-filled with whichever upcoming
   // departure is most relevant — the soonest one currently on offer, or
@@ -97,6 +98,7 @@ export default function HeroSection({
   const mobilePriceProps = {
     journey,
     isInspirational,
+    showFrom,
     onCheckDates: () => {
       handleSetActiveView("dates-pricing");
       window.scrollTo({ top: 0, behavior: "auto" });
@@ -214,9 +216,11 @@ export default function HeroSection({
   <div className="shrink-0">
 
     {/* From */}
-    <p className="text-[12px] text-[#000000] font-light">
-      from
+   {showFrom && (
+<p className="text-[12px] text-[#000000] font-light">
+       from
     </p>
+  )}
 
     {/* Offer Price + per person */}
     <p className="flex items-baseline gap-0 text-[18px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-none text-[#000000]">
