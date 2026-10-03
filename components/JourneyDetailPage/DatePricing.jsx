@@ -16,6 +16,7 @@ export default function JourneyPricing({
     // "Book Your Journey" title, matching the other mobile tab headers.
     onBack,
 }) {
+    const showFrom = Boolean(journey?.isInspirational);
       console.log("DATE PRICING JOURNEY ID:", journeyId);
 
     const [expandedCard, setExpandedCard] = useState(null);
@@ -24,20 +25,19 @@ export default function JourneyPricing({
     const [isOpenGeneralInquiryForm, setIsOpenGeneralInquiryForm] = useState(false);
     const router = useRouter();
 
-    const openPrivateForm = (trip) =>
-        setPrivateFormDeparture({
-            id: trip.id,
-            nodeId: trip.nodeId,
-            title: trip.title,
-            startDate: trip.startDate,
-            endDate: trip.endDate,
-            // So JourneySummaryCard shows this specific departure's price
-            // (incl. any offer) instead of falling back to the journey's
-            // generic "from" price.
-            originalPrice: trip.originalPrice,
-            offerPercentage: trip.offerPercentage,
-            discountedPrice: trip.discountedPrice,
-        });
+   
+const openPrivateForm = (trip) =>
+    setPrivateFormDeparture({
+        id: trip.id,
+        nodeId: trip.nodeId,
+        title: trip.title,
+        startDate: trip.startDate,
+        endDate: trip.endDate,
+        originalPrice: trip.originalPrice,
+        offerPrice: trip.offerPrice,
+        offerPercentage: 0,
+        discountedPrice: trip.discountedPrice,
+    });
     const openGroupForm = (trip) => setGroupFormTrip(trip);
 
     const toggleCard = (index) => {
@@ -45,50 +45,72 @@ export default function JourneyPricing({
     };
     const [selectedYear, setSelectedYear] = useState("2026");
 
-   const trips = departures.map((item) => {
+   
+const trips = departures.map((item) => {
 
-    // Original Price comes from Drupal field_original_price
+    // Original Price from Drupal
     const originalPrice = Number(
         item.attributes?.field_original_price || 0
     );
 
-    // Offer comes from Drupal field_offer
-    const offerPercentage = Number(
-        item.attributes?.field_offer || 0
+    // Actual Offer Price entered manually in Drupal
+const offerPrice = Number(
+    item.attributes?.field_offer || 0
+);
+
+// Offers dropdown value from Drupal
+const offerName = item.offerName || "";
+    // Early Bird flag
+    const isEarlyBird = Boolean(
+        item.attributes?.field_early_bird
     );
 
-    // Early Bird is a separate flag on the departure (field_early_bird) —
-    // only relevant when an offer/discount is also present on this trip.
-    const isEarlyBird = Boolean(item.attributes?.field_early_bird);
+    // Use the manually entered offer price directly
+    const hasOffer = offerPrice > 0;
+    
 
-    const discountedPrice =
-        offerPercentage > 0
-            ? originalPrice * (1 - offerPercentage / 100)
-            : originalPrice;
+    const discountedPrice = hasOffer 
+    ? offerPrice 
+    : originalPrice;
 
-    const hasEarlyBirdOffer = isEarlyBird && offerPercentage > 0;
-    const isSoldOut = item.attributes?.field_status === "soldout";
+// Calculate discount percentage
+const offerPercentage = hasOffer && originalPrice > offerPrice
+    ? Math.round(((originalPrice - offerPrice) / originalPrice) * 100)
+    : 0;
+ 
+const hasEarlyBirdOffer = isEarlyBird && hasOffer;
+    const isSoldOut =
+        item.attributes?.field_status === "soldout";
 
     return {
         id: item.id,
-        // Node ID (not the JSON:API UUID) — needed for the Drupal
-        // webform_rest submission in PrivateInquiryForm.
-        nodeId: item.attributes?.drupal_internal__nid ?? null,
-        // Node title — paired with nodeId to build the "Label (id)"
-        // value the webform's journey_departure entity-autocomplete
-        // field expects.
-        title: item.attributes?.title || "",
 
-        startDate: item.attributes?.field_departure_date,
-        endDate: item.attributes?.field_return_date,
+        nodeId:
+            item.attributes?.drupal_internal__nid ?? null,
 
-        statusType: item.attributes?.field_status,
+        title:
+            item.attributes?.title || "",
+
+        startDate:
+            item.attributes?.field_departure_date,
+
+        endDate:
+            item.attributes?.field_return_date,
+
+        statusType:
+            item.attributes?.field_status,
 
         originalPrice,
-        offerPercentage,
+        offerPrice,
         discountedPrice,
+
+        // Retained for compatibility with existing components
+        offerPercentage,
+
+        hasOffer,
         isEarlyBird,
         hasEarlyBirdOffer,
+        offerName,
 
         button: isSoldOut
             ? "Request a Private Journey"
@@ -267,9 +289,11 @@ export default function JourneyPricing({
                                     </div>
 
                                     <div className="text-right">
-                                      <p className="text-[10px] text-[#757575] text-left">
-    from
-</p>
+                                     {showFrom && (
+    <p className="text-[10px] text-[#757575] text-left">
+     from
+      </p>
+        )}
 
  <div className="flex items-baseline justify-end">
     <span className="text-[22px] font-bold">
@@ -282,12 +306,12 @@ export default function JourneyPricing({
   </div>
 
 
- {trip.offerPercentage > 0 && (
+{trip.hasOffer && (
     <div className="text-[10px] text-[#9CA3AF] text-left">
-      was{" "}
-      <span className="line-through">
-        {formatPrice(trip.originalPrice)}
-      </span>
+        was{" "}
+        <span className="line-through">
+            {formatPrice(trip.originalPrice)}
+        </span>
     </div>
 )}
 
@@ -299,22 +323,15 @@ export default function JourneyPricing({
                             {isExpanded && (
                                 <div className="border-t border-neutral-300 p-4">
                                     <div className="text-center mb-4">
-                                        {trip.offerPercentage > 0 ? (
-                                            <>
-                                                <p className="text-[#128914] font-semibold">
-                                                    {trip.offerPercentage}% off
-                                                </p>
-                                                {trip.isEarlyBird && (
-                                                    <p className="mt-1 text-xs text-black">
-                                                        Early Bird Offer applied to price
-                                                    </p>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <p className="text-[#757575]">
-                                                No offers available
-                                            </p>
-                                        )}
+      {trip.offerName ? (
+    <p className="mt-1 text-black font-semibold">
+        {trip.offerName}
+    </p>
+) : (
+    <p className="mt-1 text-[#757575]">
+        No offers available
+    </p>
+)}
                                     </div>
 
                                     <button
@@ -467,9 +484,11 @@ export default function JourneyPricing({
                                         </td>
                                       <td className="border px-4 py-5">
     {/* From */}
-    <div className="text-[10px] text-[#757575] mb-1">
-        from
-    </div>
+   {showFrom && (
+  <div className="text-[10px] text-[#757575] mb-1">
+   from
+  </div>
+    )}
 
     {/* Discounted price */}
     <div className="flex items-baseline gap-[2px]">
@@ -484,34 +503,35 @@ export default function JourneyPricing({
     </div>
 
     {/* Original price */}
-    {trip.offerPercentage > 0 && (
-       <div className="text-[10px] text-[#9CA3AF]">
-    was{" "}
-    <span className="line-through">
-        {formatPrice(trip.originalPrice)}
-    </span>
-</div>
-    )}
+   {trip.hasOffer && (
+    <div className="text-[10px] text-[#9CA3AF]">
+        was{" "}
+        <span className="line-through">
+            {formatPrice(trip.originalPrice)}
+        </span>
+    </div>
+)}
 </td>
                                       <td className="border px-4 py-5">
-    {trip.offerPercentage > 0 ? (
-        <>
-            <div className="text-[14px] text-[#128914]">
-                {trip.offerPercentage}% off
-            </div>
-            {trip.isEarlyBird && (
-                <div className="mt-1 text-[12px] text-black">
-                    Early Bird Offer applied to price
-                </div>
-            )}
-        </>
-    ) : (
-        <div className="text-[14px] text-[#4B5563]">
-            No offers available
-        </div>
-    )}
-</td>
-                                        <td className="border px-2 max-[1200px]:px-2 max-[1250px]:px-3 max-[1281px]:px-3 max-[1910px]:px-4 min-[1911px]:px-4 py-5 text-center">
+   
+
+{trip.offerPercentage > 0 && (
+    <p className="text-[#128914] font-semibold">
+        {trip.offerPercentage}% Discount
+    </p>
+)}
+
+{trip.offerName ? (
+    <p className="mt-1 text-black font-semibold">
+        {trip.offerName}
+    </p>
+) : (
+    <p className="mt-1 text-[#757575]">
+        No offers available
+    </p>
+)}
+</td>          
+        <td className="border px-2 max-[1200px]:px-2 max-[1250px]:px-3 max-[1281px]:px-3 max-[1910px]:px-4 min-[1911px]:px-4 py-5 text-center">
                                             {trip.statusType === "soldout" ? (
                                                 <span
                                                     onClick={() => openPrivateForm(trip)}

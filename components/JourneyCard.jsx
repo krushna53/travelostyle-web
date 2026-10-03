@@ -34,7 +34,7 @@ const CARD_BASE =
 // fixes it everywhere.
 export default function JourneyCard({ trip, variant = "carousel", onCompare, mobileWidthClass }) {
   const [isSelected, setIsSelected] = useState(false);
-
+  const showFrom = trip.experienceType?.toLowerCase().includes("inspir");
   // Kept in sync with the cart so removing a trip in the compare modal
   // flips this card back to "Add to Compare".
   useEffect(() => {
@@ -128,9 +128,11 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
 
         <div className="mt-3 md:mt-4 flex items-end justify-between">
           <div className="flex flex-col items-start md:flex-row md:items-end md:gap-1">
-            <span className="text-[10px] leading-[21px] tracking-[0.05em] text-ink md:hidden">
-              from
-            </span>
+           {showFrom && (
+ <span className="text-[10px] leading-[21px] tracking-[0.05em] text-ink md:hidden">
+  from
+ </span>
+ )}
 
             {/* Mobile (per Figma): "$3000*" and "/person" share a baseline,
                 with "double occupancy*" wrapping onto the line below. Desktop
@@ -151,9 +153,11 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
             </span>
 
             <div className="hidden md:flex md:flex-col">
-              <span className="md:text-[9px] md:leading-[1.15] md:text-[#7B7B7B]">
-                from
-              </span>
+             {showFrom && (
+ <span className="md:text-[9px] md:leading-[1.15] md:text-[#7B7B7B]">
+  from
+ </span>
+ )}
               <div className="md:flex md:items-baseline md:gap-0">
                 <h4 className="md:text-[20px] md:font-semibold md:leading-none md:text-[#1D1D1D]">
                   ${Number(trip.price).toLocaleString()}

@@ -28,6 +28,7 @@ import { useEffect, useId, useRef, useState } from "react";
 function PriceDetails({
   journey,
   isInspirational,
+  showFrom,
   onCheckDates,
   onRequestPrivate,
   onTailor,
@@ -52,9 +53,12 @@ function PriceDetails({
         className="flex w-full items-center justify-between gap-[10px] px-[27px] py-[10px] text-left"
       >
         <div className="min-w-0">
-          <p className="text-[12px] font-light leading-[16px] tracking-[0.05em] text-[#1A1A1A]">
-            from
-          </p>
+          {showFrom && (
+            <p className="text-[12px] font-light leading-[16px] tracking-[0.05em] text-[#1A1A1A]">
+              from
+              </p>
+              )}
+      
           <div className="flex items-end gap-[2px]">
             <span className="text-[22px] font-semibold leading-[28px] tracking-[0.05em] text-[#1A1A1A]">
               ${Number(journey.offerPrice).toLocaleString()}
