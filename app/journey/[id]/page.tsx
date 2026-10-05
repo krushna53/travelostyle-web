@@ -239,8 +239,8 @@ export default async function JourneyDetailPage({
 
   const departureData = await departureRes.json();
 
-const departures = departureData.data
-  .filter(
+const departures = departureData?.data
+  ?.filter(
     (departure: any) =>
       departure.relationships?.field_journey?.data?.id === journeyId
   )

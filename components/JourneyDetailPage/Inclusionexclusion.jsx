@@ -1,8 +1,83 @@
 "use client";
 
-import { useState } from "react";
-import { Info } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { Info, X } from "lucide-react";
 import Image from "@/components/SafeImage";
+
+const DESCRIPTION_LIMIT = 250;
+
+// Shows the description as-is when it is <= 250 characters. Beyond that it is
+// cut at 250 characters with a "more" link at the end; clicking it opens a
+// popup (blurred page behind, cross on top) with the full description under
+// the inclusion/exclusion title.
+function Description({ title, text = "", className = "", theme = "inclusion" }) {
+    const [open, setOpen] = useState(false);
+    const isLong = text.length > DESCRIPTION_LIMIT;
+
+    useEffect(() => {
+        if (!open) return;
+        const onKey = (e) => e.key === "Escape" && setOpen(false);
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        window.addEventListener("keydown", onKey);
+        return () => {
+            document.body.style.overflow = prevOverflow;
+            window.removeEventListener("keydown", onKey);
+        };
+    }, [open]);
+
+    if (!isLong) return <p className={className}>{text}</p>;
+
+    return (
+        <>
+            <p className={className}>
+                {text.slice(0, DESCRIPTION_LIMIT).trimEnd()}...{" "}
+                <button
+                    type="button"
+                    onClick={() => setOpen(true)}
+                    className="font-semibold text-black underline cursor-pointer"
+                >
+                    more
+                </button>
+            </p>
+
+            {open &&
+                createPortal(
+                    <div
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-md p-4"
+                        onClick={() => setOpen(false)}
+                    >
+                        <div
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label={title}
+                            className={`relative w-full max-w-[560px] max-h-[85vh] overflow-y-auto rounded-xl border-2 border-black p-6 pt-12 ${
+                                theme === "inclusion" ? "bg-[#EFF3CF]" : "bg-[#F2E2DA]"
+                            }`}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                type="button"
+                                onClick={() => setOpen(false)}
+                                aria-label="Close"
+                                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-black cursor-pointer"
+                            >
+                                <X size={16} />
+                            </button>
+                            <h3 className="mb-3 text-[18px] font-bold text-black">
+                                {title}
+                            </h3>
+                            <p className="text-[14px] leading-[22px] text-gray-700 whitespace-pre-line">
+                                {text}
+                            </p>
+                        </div>
+                    </div>,
+                    document.body
+                )}
+        </>
+    );
+}
 
 function TableCard({ title, items = [], theme }) {
     const current =
@@ -116,7 +191,7 @@ border-r-2
         text-gray-600
       "
                     >
-                        {item.description}
+                        <Description title={item.title} text={item.description} theme={theme} />
                     </div>
 
 
@@ -207,9 +282,12 @@ font-bold
           <span className="whitespace-nowrap">{item.title}</span>
         </div>
 
-        <p className="text-xs mt-2 text-black">
-          {item.description}
-        </p>
+        <Description
+          title={item.title}
+          text={item.description}
+          className="text-xs mt-2 text-black"
+          theme="inclusion"
+        />
       </div>
     ))
   ) : (
@@ -277,9 +355,12 @@ font-bold
           <span className="whitespace-nowrap">{item.title}</span>
         </div>
 
-        <p className="text-xs mt-2 text-black">
-          {item.description}
-        </p>
+        <Description
+          title={item.title}
+          text={item.description}
+          className="text-xs mt-2 text-black"
+          theme="exclusion"
+        />
       </div>
     ))
 
