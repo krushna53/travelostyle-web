@@ -6,6 +6,7 @@ import TestimonialSection from "@/components/HomePage/TestimonialSection";
 import TravelOStylePromise from "@/components/HomePage/TravelOStylePromise";
 import { API_BASE_URL } from "@/lib/config";
 import { getJourneyCards } from "@/lib/journeyCard";
+import { getHotelTypeTerms } from "@/lib/hotelTypes";
 
 function stripHtml(html: string): string {
   return html
@@ -267,6 +268,11 @@ const departures = departureData?.data
   // here and passing it down avoids that browser fetch entirely.
   const otherJourneys = await getJourneyCards();
 
+  // "Hotel Type" taxonomy terms — the hotels chosen in the paragraph field
+  // field_private_tailor_hotel. Private / Tailor-made journeys show these in
+  // the itinerary "Stay:" line and the Stays tab instead of field_stay.
+  const hotelTypeTerms = await getHotelTypeTerms();
+
   return (
     <>
       <SearchBar />
@@ -277,6 +283,7 @@ const departures = departureData?.data
         inclusions={inclusions}
         exclusions={exclusions}
         otherJourneys={otherJourneys}
+        hotelTypeTerms={hotelTypeTerms}
       />
      <TestimonialSection
   testimonialData={journeyTestimonials}

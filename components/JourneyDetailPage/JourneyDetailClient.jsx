@@ -162,9 +162,112 @@ function resolvePace(item, included) {
   return e?.attributes?.name || "";
 }
 
+// ── PRIVATE / TAILOR-MADE HOTELS ─────────────────────────────────────────
+// Private and Tailor-made journeys can pick a hotel from the "Hotel Type"
+// vocabulary (hotel_type) in the paragraph field field_private_tailor_hotel
+// — on each itinerary day, and optionally on the Stays tab paragraph. When
+// one is picked it replaces the regular field_stay hotel; when none is
+// picked the regular stay is shown as before. Other journey types always
+// use field_stay.
+
+// Journey Style tag labels (field_journey_tag) that count as Private /
+// Tailor-made, e.g. "Private Journey", "Tailor Made Journey".
+function isPrivateOrTailorJourney(journeyStyleTerms) {
+  return journeyStyleTerms.some((t) => /private|tailor/i.test(t.label || ""));
+}
+
+function relRefs(rel) {
+  const data = rel?.data;
+  return Array.isArray(data) ? data : data ? [data] : [];
+}
+
+function mediaImageUrl(mediaId, pool) {
+  const media = pool.find((inc) => inc.type === "media--image" && inc.id === mediaId);
+  const fileId = media?.relationships?.field_media_image?.data?.id;
+  const file = fileId ? pool.find((inc) => inc.type === "file--file" && inc.id === fileId) : null;
+  return buildFileUrl(file?.attributes?.uri?.url);
+}
+
+// Turns a hotel_type term into the same card shape the Stays tab uses for
+// hotel nodes ({ name, desc, image, images }). Image fields aren't
+// hardcoded — every media--image relationship on the term is used, with
+// field_featured_image (if present) first.
+function resolveHotelTypeCard(termId, pool) {
+  if (!termId) return null;
+  const term = pool.find(
+    (inc) => inc.type === "taxonomy_term--hotel_type" && inc.id === termId,
+  );
+  if (!term || term.attributes?.status === false) return null;
+
+  const a = term.attributes || {};
+  const rels = term.relationships || {};
+  const keys = Object.keys(rels).sort((x, y) =>
+    x === "field_featured_image" ? -1 : y === "field_featured_image" ? 1 : 0,
+  );
+  const images = keys
+    .flatMap((k) => relRefs(rels[k]))
+    .filter((r) => r?.type === "media--image" || r?.type === "file--file")
+    .map((r) =>
+      r.type === "file--file"
+        ? buildFileUrl(pool.find((inc) => inc.type === "file--file" && inc.id === r.id)?.attributes?.uri?.url)
+        : mediaImageUrl(r.id, pool),
+    )
+    .filter(Boolean);
+
+  const rawDesc =
+    a.description?.processed ||
+    a.description?.value ||
+    a.field_description?.processed ||
+    a.field_description?.value ||
+    (typeof a.field_description === "string" ? a.field_description : "");
+
+  return {
+    key: `term:${term.id}`,
+    // Private & Tailor hotels are indicative, so always suffixed
+    // "or similar" (itinerary "Stay:" line and Stays tab card).
+    name: a.name ? `${a.name} or similar` : "",
+    desc: stripHtml(rawDesc)
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, '"')
+      .replace(/&#0?39;/g, "'")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">"),
+    image: images[0] || "",
+    images: [...new Set(images)],
+  };
+}
+
+// Card shape for a regular hotel node (field_stay / field_hotels).
+function resolveHotelNodeCard(hotel, included) {
+  const a = hotel.attributes || {};
+
+  // Featured image (card thumbnail)
+  const featuredMediaId = hotel.relationships?.field_featured_image?.data?.id;
+  const image = (featuredMediaId && mediaImageUrl(featuredMediaId, included)) || "";
+
+  // Gallery images (all media--image in field_gallery)
+  const galleryRefs = hotel.relationships?.field_gallery?.data || [];
+  const images = galleryRefs.map((gr) => mediaImageUrl(gr.id, included)).filter(Boolean);
+
+  return {
+    key: `hotel:${hotel.id}`,
+    name: a.title || "",
+    desc: a.field_description || "",
+    image,
+    images: [image, ...images].filter(Boolean),
+  };
+}
 
 
-function resolveTabSections(item, included) {
+
+function resolveTabSections(item, included, { useTailorHotels = false, hotelPool = [] } = {}) {
+  // Private / Tailor-made hotel overrides collected while walking the tabs,
+  // applied to the Stays list once every tab has been read (the Itinerary
+  // tab may come before or after the Stays tab).
+  const dayOverrides = []; // [{ hotelId, card }] in day order
+  let staysTabOverride = null; // card from the Stays tab paragraph itself
+  let stayHotels = null; // [{ hotelId, card }] from field_hotels
+
   // Level 1: journey_tabs_section container(s). This field only has one
   // value in the intended content model, but it used to only ever read
   // containerRefs[0] — if a content editor ends up with a second
@@ -176,12 +279,14 @@ function resolveTabSections(item, included) {
   // nothing shows up" for all tabs at once. Now every container's
   // field_section_tabs is merged, so a stray extra container still gets
   // picked up instead of dropped.
-  const containerRefs = item.relationships?.field_journey_tabs_section?.data;
-  if (!Array.isArray(containerRefs) || containerRefs.length === 0) return {};
+  // Drupal returns a single object (not an array) when the field allows
+  // only one value, so normalise both shapes — otherwise every tab is lost.
+  const containerRefs = relRefs(item.relationships?.field_journey_tabs_section);
+  if (containerRefs.length === 0) return {};
 
   const tabRefs = containerRefs.flatMap((ref) => {
     const container = included.find((inc) => inc.id === ref.id);
-    return container?.relationships?.field_section_tabs?.data || [];
+    return relRefs(container?.relationships?.field_section_tabs);
   });
   if (tabRefs.length === 0) return {};
 
@@ -258,10 +363,20 @@ tabs.itinerary = {
             )
           : null;
 
+        // Private / Tailor-made: the Hotel Type picked on this day wins
+        // over field_stay; no pick → fall back to field_stay.
+        const tailorCard = useTailorHotels
+          ? resolveHotelTypeCard(
+              relRefs(day.relationships?.field_private_tailor_hotel)[0]?.id,
+              hotelPool,
+            )
+          : null;
+        if (tailorCard) dayOverrides.push({ hotelId, card: tailorCard });
+
         return {
           day: a.field_day_number,
           title: a.field_day_title || "",
-          stay: hotel?.attributes?.title || "",
+          stay: tailorCard?.name || hotel?.attributes?.title || "",
           description: stripHtml(
             a.field_description?.processed
           ),
@@ -280,42 +395,25 @@ tabs.itinerary = {
       // ── STAYS ──────────────────────────────────────────────────────────
       case "paragraph--stays_tab": {
         const hotelRefs = para.relationships?.field_hotels?.data || [];
-        tabs.stays = hotelRefs
-          .map((r) => {
-            const hotel = included.find((inc) => inc.id === r.id);
-            // Skip hotels unpublished in Drupal (status: false) so an
-            // unpublished stay never shows in the Stays tab.
-            if (!hotel || hotel.attributes?.status === false) return null;
-            const a = hotel.attributes || {};
+        stayHotels = (stayHotels || []).concat(
+          hotelRefs
+            .map((r) => {
+              const hotel = included.find((inc) => inc.id === r.id);
+              // Skip hotels unpublished in Drupal (status: false) so an
+              // unpublished stay never shows in the Stays tab.
+              if (!hotel || hotel.attributes?.status === false) return null;
+              return { hotelId: hotel.id, card: resolveHotelNodeCard(hotel, included) };
+            })
+            .filter(Boolean),
+        );
 
-            // Featured image (card thumbnail)
-            const featuredMediaId = hotel.relationships?.field_featured_image?.data?.id;
-            const featuredMedia = featuredMediaId ? included.find((inc) => inc.id === featuredMediaId) : null;
-            const featuredFileId = featuredMedia?.relationships?.field_media_image?.data?.id;
-            const featuredFile = featuredFileId ? included.find((inc) => inc.id === featuredFileId) : null;
-            const featuredRaw = featuredFile?.attributes?.uri?.url;
-            const image = buildFileUrl(featuredRaw) || "";
-
-            // Gallery images (all media--image in field_gallery)
-            const galleryRefs = hotel.relationships?.field_gallery?.data || [];
-            const images = galleryRefs
-              .map((gr) => {
-                const gMedia = included.find((inc) => inc.id === gr.id);
-                const gFileId = gMedia?.relationships?.field_media_image?.data?.id;
-                const gFile = gFileId ? included.find((inc) => inc.id === gFileId) : null;
-                const gRaw = gFile?.attributes?.uri?.url;
-                return buildFileUrl(gRaw);
-              })
-              .filter(Boolean);
-
-            return {
-              name: a.title || "",
-              desc: a.field_description || "",
-              image,
-              images: [image, ...images].filter(Boolean),
-            };
-          })
-          .filter(Boolean);
+        // Hotel Type picked directly on the Stays tab paragraph.
+        if (useTailorHotels && !staysTabOverride) {
+          staysTabOverride = resolveHotelTypeCard(
+            relRefs(para.relationships?.field_private_tailor_hotel)[0]?.id,
+            hotelPool,
+          );
+        }
         break;
       }
 
@@ -345,6 +443,37 @@ tabs.itinerary = {
       }
     }
   });
+
+  // ── STAYS: apply Private / Tailor-made hotels ───────────────────────────
+  // Each regular hotel that an itinerary day replaced with a Hotel Type is
+  // swapped for that Hotel Type card (same position); hotels with no pick
+  // stay as they are. A Hotel Type set on the Stays tab paragraph leads the
+  // list, and day picks not already shown are appended. Duplicates dropped.
+  if (stayHotels || dayOverrides.length || staysTabOverride) {
+    let cards;
+    if (useTailorHotels) {
+      const overrideByHotel = new Map();
+      dayOverrides.forEach(({ hotelId, card }) => {
+        if (hotelId && !overrideByHotel.has(hotelId)) overrideByHotel.set(hotelId, card);
+      });
+      cards = [
+        staysTabOverride,
+        ...(stayHotels || []).map(
+          ({ hotelId, card }) => overrideByHotel.get(hotelId) || card,
+        ),
+        ...dayOverrides.map((o) => o.card),
+      ];
+    } else {
+      cards = (stayHotels || []).map((s) => s.card);
+    }
+
+    const seen = new Set();
+    tabs.stays = cards.filter((c) => {
+      if (!c || seen.has(c.key)) return false;
+      seen.add(c.key);
+      return true;
+    });
+  }
 
   return tabs;
 }
@@ -391,9 +520,22 @@ function resolveExperienceType(item, included) {
   return "";
 }
 
-function transformItem(item, included, departures = []) {
-  const tabSections = resolveTabSections(item, included);
+function transformItem(item, included, departures = [], hotelTypeTerms = null) {
   const journeyStyleTerms = resolveJourneyStyleTerms(item, included);
+  const isPrivateOrTailor = isPrivateOrTailorJourney(journeyStyleTerms);
+  const tabSections = resolveTabSections(item, included, {
+    // Always on: a Private & Tailor hotel is only ever picked for private /
+    // tailor-made journeys, so whenever one is set it should be shown —
+    // even if the journey's Journey Type tag doesn't say Private/Tailormade.
+    useTailorHotels: true,
+    // Hotel Type terms (+ their media/files) come from a separate fetch;
+    // the journey's own `included` is searched too in case they're there.
+    hotelPool: [
+      ...included,
+      ...(hotelTypeTerms?.data || []),
+      ...(hotelTypeTerms?.included || []),
+    ],
+  });
   const journeyTypeSubmissionIds = resolveJourneyTypeSubmissionIds(item, included);
   const experienceTypeRaw = resolveExperienceType(item, included);
   const isInspirational = experienceTypeRaw.toLowerCase().includes("inspir");
@@ -486,10 +628,11 @@ export default function JourneyDetailClient({
   inclusions,
   exclusions,
   otherJourneys,
+  hotelTypeTerms,
 }) {
   const journey =
     initialData?.data
-      ? transformItem(initialData.data, initialData.included || [], departures)
+      ? transformItem(initialData.data, initialData.included || [], departures, hotelTypeTerms)
       : MOCK_JOURNEY;
 
   // "Check Dates & Availability" on the hero card (Group journeys only)
