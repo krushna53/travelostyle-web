@@ -123,20 +123,10 @@ function resolveJourneyTypeSubmissionIds(item, included) {
     })
     .filter((id) => id != null);
 }
-function resolveLocation(rel, included) {
-  const id = rel?.data?.id;
-
-  if (!id) return "";
-
-  const node = included.find(
-    (i) =>
-      i.type === "node--location" &&
-      i.id === id
-  );
-
-  if (!node) return "";
-
-  const locality = node.attributes?.field_address?.locality;
+// field_starts_in / field_ends_in are Address fields on the journey itself
+// (previously references to node--location), so read the value directly.
+function resolveLocation(address) {
+  const locality = address?.locality;
 
   return locality
     ? locality.charAt(0).toUpperCase() + locality.slice(1)
@@ -371,17 +361,17 @@ tabs.itinerary = {
               hotelPool,
             )
           : null;
-        if (tailorCard) dayOverrides.push({ hotelId, card: tailorCard });
-
-        return {
-          day: a.field_day_number,
-          title: a.field_day_title || "",
-          stay: tailorCard?.name || hotel?.attributes?.title || "",
-          description: stripHtml(
-            a.field_description?.processed
+        if (tailorCard) dayOverrides.push({card: tailorCard });
+return {
+     day: a.field_day_number,
+     title: a.field_day_title || "",
+     stay: useTailorHotels
+     ? tailorCard?.name || ""
+      : hotel?.attributes?.title || "",
+      description: stripHtml(
+      a.field_description?.processed
           ),
         };
-
       })
       .filter(Boolean),
 
@@ -452,17 +442,7 @@ tabs.itinerary = {
   if (stayHotels || dayOverrides.length || staysTabOverride) {
     let cards;
     if (useTailorHotels) {
-      const overrideByHotel = new Map();
-      dayOverrides.forEach(({ hotelId, card }) => {
-        if (hotelId && !overrideByHotel.has(hotelId)) overrideByHotel.set(hotelId, card);
-      });
-      cards = [
-        staysTabOverride,
-        ...(stayHotels || []).map(
-          ({ hotelId, card }) => overrideByHotel.get(hotelId) || card,
-        ),
-        ...dayOverrides.map((o) => o.card),
-      ];
+      cards = [staysTabOverride, ...dayOverrides.map((o) => o.card)];
     } else {
       cards = (stayHotels || []).map((s) => s.card);
     }
@@ -523,11 +503,14 @@ function resolveExperienceType(item, included) {
 function transformItem(item, included, departures = [], hotelTypeTerms = null) {
   const journeyStyleTerms = resolveJourneyStyleTerms(item, included);
   const isPrivateOrTailor = isPrivateOrTailorJourney(journeyStyleTerms);
+  const experienceTypeRaw = resolveExperienceType(item, included);
+  const isInspirational = experienceTypeRaw.toLowerCase().includes("inspir");
+  const experienceType = isInspirational ? "inspirational" : "group";
   const tabSections = resolveTabSections(item, included, {
     // Always on: a Private & Tailor hotel is only ever picked for private /
     // tailor-made journeys, so whenever one is set it should be shown —
     // even if the journey's Journey Type tag doesn't say Private/Tailormade.
-    useTailorHotels: true,
+    useTailorHotels: isInspirational,
     // Hotel Type terms (+ their media/files) come from a separate fetch;
     // the journey's own `included` is searched too in case they're there.
     hotelPool: [
@@ -537,9 +520,6 @@ function transformItem(item, included, departures = [], hotelTypeTerms = null) {
     ],
   });
   const journeyTypeSubmissionIds = resolveJourneyTypeSubmissionIds(item, included);
-  const experienceTypeRaw = resolveExperienceType(item, included);
-  const isInspirational = experienceTypeRaw.toLowerCase().includes("inspir");
-  const experienceType = isInspirational ? "inspirational" : "group";
   // TEMP debug — remove once experience-type detection is confirmed
   // working against the live Drupal data (field_journey_experience_type is
   // an entity reference to the "Journey Experience Type" taxonomy
@@ -597,8 +577,8 @@ originalPrice: item.attributes.field_original_price,
     // resolveJourneyTypeSubmissionIds() above for why the broader
     // journeyStyleTerms list isn't safe to submit as-is.
     tagIds: journeyTypeSubmissionIds,
-    startCity: resolveLocation(item.relationships?.field_starts_in, included) || MOCK_JOURNEY.startCity,
-    endCity: resolveLocation(item.relationships?.field_ends_in, included) || MOCK_JOURNEY.endCity,
+    startCity: resolveLocation(item.attributes?.field_starts_in) || MOCK_JOURNEY.startCity,
+    endCity: resolveLocation(item.attributes?.field_ends_in) || MOCK_JOURNEY.endCity,
     bestSeason: resolveBestSeasons(item, included) || MOCK_JOURNEY.bestSeason,
     pace: resolvePace(item, included) || MOCK_JOURNEY.pace,
     // Tab section data from field_journey_tabs_section paragraphs

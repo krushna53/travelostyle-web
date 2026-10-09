@@ -6,6 +6,7 @@ import { API_CLIENT_BASE } from "@/lib/config";
 import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { isInspirationalJourney } from "@/lib/journeyExperienceType";
+import { slugify } from "@/lib/slugify";
 import { pickPriorityDeparture } from "@/lib/departures";
 import {
   getEarlyBirdJourneyIds,
@@ -20,67 +21,178 @@ import {
 } from "@/lib/compareCart";
 
 /* ---------------- data helpers (unchanged) ---------------- */
-function getLocation(id, included) {
-  const node = included.find((i) => i.type === "node--location" && i.id === id);
-  return node?.attributes?.title || "";
+function getAddressLocality(value) {
+  const locality =
+    typeof value === "string" ? value : value?.locality || value?.value || "";
+  return locality ? locality.charAt(0).toUpperCase() + locality.slice(1) : "";
 }
 
-function getStartCity(journey, included) {
-  const id = journey.relationships?.field_starts_in?.data?.id;
-  return getLocation(id, included);
+function getStartCity(journey) {
+  return getAddressLocality(journey.attributes?.field_starts_in);
 }
 
-function getEndCity(journey, included) {
-  const id = journey.relationships?.field_ends_in?.data?.id;
-  return getLocation(id, included);
+function getEndCity(journey) {
+  return getAddressLocality(journey.attributes?.field_ends_in);
 }
 
-// City, State for a day's field_stay -> node--hotel -> field_location
-// (node--location) -> field_address. field_stay references the hotel
-// itself, not the location directly — the address lives one hop further.
-function getStayCityState(day, included) {
-  const hotelId = day.relationships?.field_stay?.data?.id;
+// The hotel referenced by a day stores its location directly in field_address.
+function getStayCityCountry(day, included) {
+  const hotelId = relationshipRefs(day.relationships?.field_stay)[0]?.id;
   const hotelNode = included.find(
     (i) =>
       i.type === "node--hotel" &&
       i.id === hotelId &&
       i.attributes?.status !== false,
   );
-  const locationId = hotelNode?.relationships?.field_location?.data?.id;
-  const locationNode = included.find(
-    (i) => i.type === "node--location" && i.id === locationId,
-  );
-  const address = locationNode?.attributes?.field_address;
+  const address = hotelNode?.attributes?.field_address;
   const city = address?.locality || "";
-  const stateCode = address?.administrative_area || "";
   const countryCode = address?.country_code || "";
-  const state =
-    (stateCode &&
-      countryCode &&
-      iso3166.subdivision(countryCode, stateCode)?.name) ||
-    stateCode;
-  return [city, state].filter(Boolean).join(", ");
+  const country =
+    (countryCode && iso3166.country(countryCode)?.name) || countryCode;
+  return [city, country].filter(Boolean).join(", ");
 }
 
-function getItinerary(journey, included) {
-  const containerId =
-    journey.relationships?.field_journey_tabs_section?.data?.[0]?.id;
-  const container = included.find((i) => i.id === containerId);
-  const tabRefs = container?.relationships?.field_section_tabs?.data || [];
-  const itineraryTab = tabRefs
-    .map((r) => included.find((i) => i.id === r.id))
-    .find((t) => t?.type === "paragraph--itinerary_tab");
-  if (!itineraryTab) return [];
+function relationshipRefs(relationship) {
+  const data = relationship?.data;
+  return Array.isArray(data) ? data : data ? [data] : [];
+}
 
-  const dayRefs = itineraryTab.relationships?.field_days?.data || [];
+function getTailorHotelName(relationship, included) {
+  const termId = relationshipRefs(relationship)[0]?.id;
+  if (!termId) return "";
+  const term = included.find(
+    (item) => item.type === "taxonomy_term--hotel_type" && item.id === termId,
+  );
+  return term?.attributes?.name ? `${term.attributes.name} or similar` : "";
+}
+
+async function fetchHotelTypeTerms() {
+  let nextUrl = `${API_CLIENT_BASE}/jsonapi/taxonomy_term/hotel_type?filter[status][value]=1`;
+  const terms = [];
+
+  try {
+    while (nextUrl) {
+      const response = await fetch(nextUrl);
+      if (!response.ok) break;
+
+      const json = await response.json();
+      terms.push(...(json.data || []));
+
+      const nextHref = json.links?.next?.href;
+      const jsonApiPathIndex = nextHref ? nextHref.indexOf("/jsonapi/") : -1;
+      nextUrl =
+        jsonApiPathIndex >= 0
+          ? `${API_CLIENT_BASE}${nextHref.slice(jsonApiPathIndex)}`
+          : null;
+    }
+  } catch (error) {
+    console.error("Comparison hotel types loading error:", error);
+  }
+
+  return terms;
+}
+
+async function fetchSelectedJourneys(trips) {
+  const results = await Promise.all(
+    trips.map(async (trip) => {
+      let alias = null;
+      try {
+        const pathname = new URL(
+          trip.viewTripUrl || "",
+          window.location.origin,
+        ).pathname;
+        alias = pathname.match(/\/journey\/([^/]+)\/?$/)?.[1] || null;
+      } catch {
+        // Use the title-derived alias below when the saved link isn't a URL.
+      }
+      alias ||= slugify(trip.title || "");
+
+      // Use the same Drupal endpoint as the journey detail page first. Its
+      // alias resolver returns the complete tab paragraph tree the page uses.
+      if (alias) {
+        try {
+          const response = await fetch(
+            `${API_CLIENT_BASE}/api/journey/${encodeURIComponent(alias)}?include=${INCLUDE}`,
+          );
+          if (response.ok) {
+            const json = await response.json();
+            if (json.data) return json;
+          }
+          console.error(
+            `Comparison journey detail request failed (${response.status})`,
+          );
+        } catch (error) {
+          console.error(`Comparison journey detail request failed for ${alias}:`, error);
+        }
+      }
+
+      // Fall back to Drupal JSON:API by UUID if the alias endpoint is
+      // unavailable for a saved comparison entry.
+      try {
+        const response = await fetch(
+          `${API_CLIENT_BASE}/jsonapi/node/journey/${encodeURIComponent(trip.id)}?include=${INCLUDE}`,
+        );
+        if (response.ok) {
+          const json = await response.json();
+          if (json.data) return json;
+        }
+      } catch (error) {
+        console.error(`Comparison JSON:API request failed for ${trip.id}:`, error);
+      }
+      return null;
+    }),
+  );
+
+  const data = results.map((result) => result?.data).filter(Boolean);
+  const includedById = new Map();
+  results.forEach((result) => {
+    (result?.included || []).forEach((item) => includedById.set(item.id, item));
+  });
+  return { data, included: [...includedById.values()] };
+}
+
+function getItinerary(journey, included, isInspirational) {
+  const containerRefs = relationshipRefs(
+    journey.relationships?.field_journey_tabs_section,
+  );
+
+  const tabRefs = containerRefs.flatMap((ref) => {
+    const container = included.find((item) => item.id === ref.id);
+
+    return relationshipRefs(
+      container?.relationships?.field_section_tabs,
+    );
+  });
+
+  const itineraryTab = tabRefs
+    .map((ref) => included.find((item) => item.id === ref.id))
+    .find((tab) => tab?.type === "paragraph--itinerary_tab");
+
+  if (!itineraryTab) {
+    console.log("Compare: itinerary tab not found", {
+      journeyId: journey.id,
+      containerRefs,
+      tabRefs,
+    });
+    return [];
+  }
+
+  const dayRefs = relationshipRefs(
+    itineraryTab.relationships?.field_days,
+  );
+
   return dayRefs
-    .map((d) => included.find((i) => i.id === d.id))
+    .map((ref) => included.find((item) => item.id === ref.id))
     .filter(Boolean)
     .map((day) => ({
       day: day.attributes?.field_day_number,
-      title: day.attributes?.field_day_title || "",
-      stayCityState: getStayCityState(day, included),
-    }));
+      location: isInspirational
+        ? getTailorHotelName(
+            day.relationships?.field_private_tailor_hotel,
+            included,
+          )
+        : getStayCityCountry(day, included),
+      }));
 }
 
 // {id, label} pairs for field_journey_tag ("Journey Style") terms — same
@@ -133,23 +245,59 @@ function formatPrice(price) {
   return Number.isNaN(numeric) ? String(price) : `$${numeric.toLocaleString()}`;
 }
 
-function getStays(journey, included) {
-  const containerId =
-    journey.relationships?.field_journey_tabs_section?.data?.[0]?.id;
-  const container = included.find((i) => i.id === containerId);
-  const tabRefs = container?.relationships?.field_section_tabs?.data || [];
-  const staysTab = tabRefs
-    .map((r) => included.find((i) => i.id === r.id))
-    .find((t) => t?.type === "paragraph--stays_tab");
-  if (!staysTab) return [];
+function getStays(journey, included, isInspirational) {
+  const containers = relationshipRefs(
+    journey.relationships?.field_journey_tabs_section,
+  )
+    .map((ref) => included.find((item) => item.id === ref.id))
+    .filter(Boolean);
+  const tabRefs = containers.flatMap((container) =>
+    relationshipRefs(container.relationships?.field_section_tabs),
+  );
+  const tabs = tabRefs
+    .map((ref) => included.find((item) => item.id === ref.id))
+    .filter(Boolean);
+  const staysTabs = tabs.filter((tab) => tab.type === "paragraph--stays_tab");
 
-  const hotelRefs = staysTab.relationships?.field_hotels?.data || [];
-  return hotelRefs
+  if (isInspirational) {
+    const dayRefs = containers.flatMap((container) =>
+      getItineraryDays(container, included),
+    );
+    const dayHotels = dayRefs.flatMap((day) =>
+      relationshipRefs(day.relationships?.field_private_tailor_hotel),
+    );
+    const staysTabHotels = staysTabs.flatMap((tab) =>
+      relationshipRefs(tab.relationships?.field_private_tailor_hotel),
+    );
+    const seen = new Set();
+    return [...staysTabHotels, ...dayHotels]
+      .map((reference) => {
+        if (!reference?.id || seen.has(reference.id)) return null;
+        seen.add(reference.id);
+        const name = getTailorHotelName({ data: reference }, included);
+        return name ? { name } : null;
+      })
+      .filter(Boolean);
+  }
+
+  return staysTabs
+    .flatMap((tab) => relationshipRefs(tab.relationships?.field_hotels))
     .map((h) => included.find((i) => i.id === h.id))
     .filter((hotel) => hotel && hotel.attributes?.status !== false)
     .map((hotel) => ({
       name: hotel.attributes?.title || "",
     }));
+}
+
+function getItineraryDays(container, included) {
+  const tabRefs = relationshipRefs(container?.relationships?.field_section_tabs);
+  const itineraryTab = tabRefs
+    .map((reference) => included.find((item) => item.id === reference.id))
+    .find((tab) => tab?.type === "paragraph--itinerary_tab");
+  const dayRefs = relationshipRefs(itineraryTab?.relationships?.field_days);
+  return dayRefs
+    .map((reference) => included.find((item) => item.id === reference.id))
+    .filter(Boolean);
 }
 
 /* ---------------- row config ----------------
@@ -186,15 +334,12 @@ const INCLUDE = [
   // only.
   "field_journey_experience_type",
   "field_month",
-  "field_starts_in",
-  "field_ends_in",
   "field_best_seasons",
   "field_pace",
   "field_journey_tabs_section",
   "field_journey_tabs_section.field_section_tabs",
   "field_journey_tabs_section.field_section_tabs.field_days",
   "field_journey_tabs_section.field_section_tabs.field_days.field_stay",
-  "field_journey_tabs_section.field_section_tabs.field_days.field_stay.field_location",
   "field_journey_tabs_section.field_section_tabs.field_hotels",
   "field_journey_tabs_section.field_section_tabs.field_hotels.field_featured_image.field_media_image",
   "field_journey_tabs_section.field_section_tabs.field_hotels.field_gallery.field_media_image",
@@ -238,21 +383,22 @@ export default function TripComparison() {
           return;
         }
 
-        const [res, departureRes] = await Promise.all([
-          fetch(`${API_CLIENT_BASE}/jsonapi/node/journey?filter[status][value]=1&include=${INCLUDE}`),
+        const [journeyJson, departureRes, hotelTypeTerms] = await Promise.all([
+          fetchSelectedJourneys(storedTrips),
           // Needed for Group journeys' "Request a Private Journey" — same
           // closest-offer/closest-date pre-fill logic as the journey detail
           // page's hero card.
           fetch(`${API_CLIENT_BASE}/jsonapi/node/book_your_journey?filter[status][value]=1`),
+          fetchHotelTypeTerms(),
         ]);
 
-        const json = await res.json();
         const departureJson = departureRes.ok
           ? await departureRes.json()
           : { data: [] };
 
-        const data = json.data || [];
-        const included = json.included || [];
+        const data = journeyJson.data;
+        const included = journeyJson.included;
+        const comparisonEntities = [...included, ...hotelTypeTerms];
         const allDepartures = departureJson.data || [];
 
         const enrichedTrips = storedTrips.map((trip) => {
@@ -277,10 +423,14 @@ export default function TripComparison() {
               journey.attributes?.field_offer_message,
               isJourneyEarlyBird(journey, getEarlyBirdJourneyIds(journeyDepartures)),
             ),
-            startCity: getStartCity(journey, included),
-            endCity: getEndCity(journey, included),
-            tabItinerary: getItinerary(journey, included),
-            tabStays: getStays(journey, included),
+            startCity: getStartCity(journey),
+            endCity: getEndCity(journey),
+            tabItinerary: getItinerary(
+              journey,
+              comparisonEntities,
+              isInspirational,
+            ),
+            tabStays: getStays(journey, comparisonEntities, isInspirational),
             isInspirational,
             // A trimmed journey object shaped for PrivateInquiryForm /
             // JourneySummaryCard — the comparison card's own `trip` fields
@@ -418,12 +568,10 @@ export default function TripComparison() {
             {trip.tabItinerary?.map((day) => (
               <div
                 key={day.day}
-                className="break-words text-[18px] leading-[18px] tracking-[0.05em]"
+                className="break-words text-[14px] leading-5 tracking-[0.02em]"
               >
                 <span className="font-semibold">Day {day.day}:</span>{" "}
-                <span className="font-nohemi">
-                  {capitalizeFirst(day.stayCityState)}
-                </span>
+                <span className="font-nohemi">{day.location}</span>
               </div>
             ))}
           </div>
