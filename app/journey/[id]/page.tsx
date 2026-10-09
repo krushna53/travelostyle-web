@@ -28,8 +28,6 @@ const INCLUDE = [
   "field_journey_experience_type",
   "field_category",
   "field_month",
-  "field_starts_in",
-  "field_ends_in",
   "field_best_seasons",
   "field_pace",
   "field_journey_tabs_section.field_section_tabs.field_include_exclude",
@@ -113,6 +111,7 @@ export default async function JourneyDetailPage({
     // it must stay outside the try/catch above or it'd be swallowed as a
     // network failure.
     if (!res.ok) {
+      console.error(`[journey] Drupal ${res.status} for /api/journey/${id}:`, (await res.text()).slice(0, 500));
       notFound();
     }
   }
