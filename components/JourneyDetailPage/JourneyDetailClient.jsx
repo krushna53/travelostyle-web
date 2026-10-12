@@ -153,12 +153,13 @@ function resolvePace(item, included) {
 }
 
 // ── PRIVATE / TAILOR-MADE HOTELS ─────────────────────────────────────────
-// Private and Tailor-made journeys can pick a hotel from the "Hotel Type"
-// vocabulary (hotel_type) in the paragraph field field_private_tailor_hotel
-// — on each itinerary day, and optionally on the Stays tab paragraph. When
-// one is picked it replaces the regular field_stay hotel; when none is
-// picked the regular stay is shown as before. Other journey types always
-// use field_stay.
+// A hotel can be picked from the "Hotel Type" vocabulary (hotel_type) in the
+// paragraph field field_private_tailor_hotel — on each itinerary day, and
+// optionally on the Stays tab paragraph. This is data-driven, not tied to the
+// Group / Inspirational selection: whenever Private / Tailor hotels are set
+// they are shown, and whenever regular hotels (field_stay / field_hotels)
+// are set they are shown too. On an itinerary day the Hotel Type pick wins
+// over field_stay for the "Stay:" line.
 
 // Journey Style tag labels (field_journey_tag) that count as Private /
 // Tailor-made, e.g. "Private Journey", "Tailor Made Journey".
@@ -250,7 +251,7 @@ function resolveHotelNodeCard(hotel, included) {
 
 
 
-function resolveTabSections(item, included, { useTailorHotels = false, hotelPool = [] } = {}) {
+function resolveTabSections(item, included, { hotelPool = [] } = {}) {
   // Private / Tailor-made hotel overrides collected while walking the tabs,
   // applied to the Stays list once every tab has been read (the Itinerary
   // tab may come before or after the Stays tab).
@@ -355,19 +356,19 @@ tabs.itinerary = {
 
         // Private / Tailor-made: the Hotel Type picked on this day wins
         // over field_stay; no pick → fall back to field_stay.
-        const tailorCard = useTailorHotels
-          ? resolveHotelTypeCard(
-              relRefs(day.relationships?.field_private_tailor_hotel)[0]?.id,
-              hotelPool,
-            )
-          : null;
-        if (tailorCard) dayOverrides.push({card: tailorCard });
+        const tailorCard = resolveHotelTypeCard(
+          relRefs(day.relationships?.field_private_tailor_hotel)[0]?.id,
+          hotelPool,
+        );
+        // Stays tab shows only the hotels picked on the itinerary days: the
+        // Private / Tailor Hotel Type if set, otherwise the day's field_stay.
+        const dayCard =
+          tailorCard || (hotel ? resolveHotelNodeCard(hotel, included) : null);
+        if (dayCard) dayOverrides.push({ card: dayCard });
 return {
      day: a.field_day_number,
      title: a.field_day_title || "",
-     stay: useTailorHotels
-     ? tailorCard?.name || ""
-      : hotel?.attributes?.title || "",
+     stay: tailorCard?.name || hotel?.attributes?.title || "",
       description: stripHtml(
       a.field_description?.processed
           ),
@@ -398,7 +399,7 @@ return {
         );
 
         // Hotel Type picked directly on the Stays tab paragraph.
-        if (useTailorHotels && !staysTabOverride) {
+        if (!staysTabOverride) {
           staysTabOverride = resolveHotelTypeCard(
             relRefs(para.relationships?.field_private_tailor_hotel)[0]?.id,
             hotelPool,
@@ -439,13 +440,11 @@ return {
   // swapped for that Hotel Type card (same position); hotels with no pick
   // stay as they are. A Hotel Type set on the Stays tab paragraph leads the
   // list, and day picks not already shown are appended. Duplicates dropped.
-  if (stayHotels || dayOverrides.length || staysTabOverride) {
-    let cards;
-    if (useTailorHotels) {
-      cards = [staysTabOverride, ...dayOverrides.map((o) => o.card)];
-    } else {
-      cards = (stayHotels || []).map((s) => s.card);
-    }
+  if (dayOverrides.length) {
+    // Only the hotels added on the itinerary days (in day order). The Stays
+    // tab's own field_hotels list / Hotel Type are intentionally not used,
+    // so it never shows hotels that no day uses.
+    const cards = dayOverrides.map((o) => o.card);
 
     const seen = new Set();
     tabs.stays = cards.filter((c) => {
@@ -507,10 +506,6 @@ function transformItem(item, included, departures = [], hotelTypeTerms = null) {
   const isInspirational = experienceTypeRaw.toLowerCase().includes("inspir");
   const experienceType = isInspirational ? "inspirational" : "group";
   const tabSections = resolveTabSections(item, included, {
-    // Always on: a Private & Tailor hotel is only ever picked for private /
-    // tailor-made journeys, so whenever one is set it should be shown —
-    // even if the journey's Journey Type tag doesn't say Private/Tailormade.
-    useTailorHotels: isInspirational,
     // Hotel Type terms (+ their media/files) come from a separate fetch;
     // the journey's own `included` is searched too in case they're there.
     hotelPool: [
