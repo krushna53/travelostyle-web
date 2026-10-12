@@ -73,6 +73,14 @@ export default function TravelForm({
   const router = useRouter();
   const [activeDropdown, setActiveDropdown] = useState(null);
   const formRef = useRef(null);
+  const [selectedDestinations, setSelectedDestinations] = useState([]);
+  const [selectedMonths, setSelectedMonths] = useState([]);
+  const [selectedDuration, setSelectedDuration] = useState("");
+  const [openToPossibilities, setOpenToPossibilities] = useState(false);
+  // Free-text filter for the destination field — typed once it's focused,
+  // cleared again once the panel closes so the field falls back to showing
+  // the selected-destinations summary (or the placeholder) like before.
+  const [destinationQuery, setDestinationQuery] = useState("");
 
   // Panels float over the page, so close them on an outside click.
   useEffect(() => {
@@ -80,16 +88,12 @@ export default function TravelForm({
     const handleClickOutside = (e) => {
       if (formRef.current && !formRef.current.contains(e.target)) {
         setActiveDropdown(null);
+        setDestinationQuery("");
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [activeDropdown]);
-
-  const [selectedDestinations, setSelectedDestinations] = useState([]);
-  const [selectedMonths, setSelectedMonths] = useState([]);
-  const [selectedDuration, setSelectedDuration] = useState("");
-  const [openToPossibilities, setOpenToPossibilities] = useState(false);
 
   // "Where do you want to go?" — popular Locations (city, labeled with
   // their region) and popular Regions from Drupal, falling back to the
@@ -103,6 +107,12 @@ export default function TravelForm({
     : destinations.length
       ? destinations.map((name) => ({ id: name, label: name, value: name }))
       : FALLBACK_DESTINATIONS.map((name) => ({ id: name, label: name, value: name }));
+
+  const filteredDestinationOptions = destinationQuery.trim()
+    ? destinationOptions.filter((item) =>
+        item.label.toLowerCase().includes(destinationQuery.trim().toLowerCase()),
+      )
+    : destinationOptions;
 
   // "When do you want to travel?" — months marked popular first; if none
   // are flagged yet, fall back to whatever Month terms actually exist in
@@ -166,7 +176,11 @@ export default function TravelForm({
           }
           className="flex h-[42px] w-[470px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
         >
-          <span className="truncate text-[13px] max-[1910px]:text-[13px]">
+          <span
+            className={`truncate text-[13px] max-[1910px]:text-[13px] ${
+              selectedMonths.length || selectedDuration ? "font-semibold" : ""
+            }`}
+          >
             {selectedMonths.length || selectedDuration
               ? `${selectedMonths.join(", ")}${
                   selectedMonths.length && selectedDuration ? ", " : ""
@@ -176,26 +190,43 @@ export default function TravelForm({
 
           <DropdownArrow open={activeDropdown === "date"} />
         </button>
-        <button
-          onClick={() =>
-            setActiveDropdown(
-              activeDropdown === "destination" ? null : "destination",
-            )
-          }
-          className="flex h-[42px] w-[410px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
-        >
-          <span className="truncate text-[13px] max-[1910px]:text-[13px]">
-            {selectedDestinations.length
-              ? selectedDestinations.length > 3
-                ? `${selectedDestinations.slice(0, 3).join(", ")} +${
-                    selectedDestinations.length - 3
-                  } more`
-                : selectedDestinations.join(", ")
-              : "Where do you want to go?"}
-          </span>
+        {activeDropdown === "destination" ? (
+          // Clicking the closed field above opens the panel and swaps this
+          // in — same size/border, but now a real text input so typing
+          // narrows the "Popular Destinations" pills below instead of only
+          // being able to click through them.
+          <div className="flex h-[42px] w-[410px] items-center rounded border-[1.5px] border-gray-400 bg-white px-4">
+            <input
+              autoFocus
+              type="text"
+              value={destinationQuery}
+              onChange={(e) => setDestinationQuery(e.target.value)}
+              placeholder="Search or choose from our popular destinations"
+              className="min-w-0 flex-1 truncate bg-transparent text-[13px] max-[1910px]:text-[13px] placeholder:text-gray-400 focus:outline-none"
+            />
+          </div>
+        ) : (
+          <button
+            onClick={() => setActiveDropdown("destination")}
+            className="flex h-[42px] w-[410px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
+          >
+            <span
+              className={`truncate text-[13px] max-[1910px]:text-[13px] ${
+                selectedDestinations.length ? "font-semibold" : ""
+              }`}
+            >
+              {selectedDestinations.length
+                ? selectedDestinations.length > 3
+                  ? `${selectedDestinations.slice(0, 3).join(", ")} +${
+                      selectedDestinations.length - 3
+                    } more`
+                  : selectedDestinations.join(", ")
+                : "Where do you want to go?"}
+            </span>
 
-          <DropdownArrow open={activeDropdown === "destination"} />
-        </button>
+            <DropdownArrow open={false} />
+          </button>
+        )}
 
        <button
           onClick={() =>
@@ -203,7 +234,7 @@ export default function TravelForm({
           }
           className="flex h-[42px] w-[496px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
         >
-          <span className="text-[13px] max-[1910px]:text-[13px]">{selectedTravelType}</span>
+          <span className="text-[13px] max-[1910px]:text-[13px] font-semibold">{selectedTravelType}</span>
 
           <DropdownArrow open={activeDropdown === "travel"} />
         </button>
@@ -248,19 +279,25 @@ export default function TravelForm({
           </h3>
 
           <div className="flex flex-wrap gap-3">
-            {destinationOptions.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleDestinationSelect(item.value)}
-                className={`flex h-[30px] items-center rounded-full border border-[#1A1A1A] px-4 text-xs text-[#1A1A1A] transition-all text-[13px] max-[1910px]:text-[13px] ${
-                  selectedDestinations.includes(item.value)
-                    ? "bg-[#F2E2DA]"
-                    : "bg-transparent"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+            {filteredDestinationOptions.length ? (
+              filteredDestinationOptions.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleDestinationSelect(item.value)}
+                  className={`flex h-[30px] items-center rounded-full border border-[#1A1A1A] px-4 text-xs text-[#1A1A1A] transition-all text-[13px] max-[1910px]:text-[13px] ${
+                    selectedDestinations.includes(item.value)
+                      ? "bg-[#F2E2DA]"
+                      : "bg-transparent"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))
+            ) : (
+              <p className="text-[13px] text-[#757575]">
+                No matching destinations
+              </p>
+            )}
           </div>
 
           <div className="mt-4">
