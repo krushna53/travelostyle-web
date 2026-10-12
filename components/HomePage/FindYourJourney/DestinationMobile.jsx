@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Search, X } from "lucide-react";
 
 // Fallback only — used if Drupal has no popular Locations/Regions yet.
@@ -37,6 +38,13 @@ export default function DestinationMobile({
       ? destinations.map((name) => ({ id: name, label: name, value: name }))
       : FALLBACK_DESTINATIONS.map((name) => ({ id: name, label: name, value: name }));
 
+  const [query, setQuery] = useState("");
+  const filteredDestinationOptions = query.trim()
+    ? destinationOptions.filter((item) =>
+        item.label.toLowerCase().includes(query.trim().toLowerCase()),
+      )
+    : destinationOptions;
+
   const handleSelect = (value) => {
     setSelectedDestinations((prev) =>
       prev.includes(value)
@@ -65,6 +73,8 @@ export default function DestinationMobile({
 
         <input
           type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           placeholder="Search by destination"
           className="w-full h-[38px] pl-10 pr-3 text-[13px] bg-transparent border border-[#7A7A7A] rounded-[3px] outline-none placeholder:text-[#9B9B9B]"
         />
@@ -80,20 +90,24 @@ export default function DestinationMobile({
       </h3>
 
       <div className="flex flex-wrap gap-2 mb-6">
-        {destinationOptions.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => handleSelect(item.value)}
-            className={`px-4 h-[28px] rounded-full border text-[11px] transition-all
-              ${
-                selectedDestinations.includes(item.value)
-                  ? "bg-[#F4E5D9] border-[#8E8E8E] text-[#333]"
-                  : "bg-white border-[#8E8E8E] text-[#333]"
-              }`}
-          >
-            {item.label}
-          </button>
-        ))}
+        {filteredDestinationOptions.length ? (
+          filteredDestinationOptions.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => handleSelect(item.value)}
+              className={`px-4 h-[28px] rounded-full border text-[11px] transition-all
+                ${
+                  selectedDestinations.includes(item.value)
+                    ? "bg-[#F4E5D9] border-[#8E8E8E] text-[#333]"
+                    : "bg-white border-[#8E8E8E] text-[#333]"
+                }`}
+            >
+              {item.label}
+            </button>
+          ))
+        ) : (
+          <p className="text-[12px] text-[#757575]">No matching destinations</p>
+        )}
       </div>
 
       <label className="flex items-center gap-3 cursor-pointer mb-8">
