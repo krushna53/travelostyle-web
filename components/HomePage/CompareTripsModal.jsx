@@ -96,7 +96,7 @@ export default function CompareTripsModal({ open, onClose }) {
                         {trip.days}
                       </p>
                     )}
-                    {trip.price && !trip.price.includes("NaN") && (
+                    {trip.price && !String(trip.price).includes("NaN") && (
                       <div className="mt-auto pt-[6px]">
                         <p className="text-[10px] font-light leading-[12px] tracking-[0.05em] text-black">
                           from
