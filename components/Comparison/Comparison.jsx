@@ -186,12 +186,22 @@ function getItinerary(journey, included, isInspirational) {
     .filter(Boolean)
     .map((day) => ({
       day: day.attributes?.field_day_number,
-      location: isInspirational
-        ? getTailorHotelName(
-            day.relationships?.field_private_tailor_hotel,
-            included,
-          )
-        : getStayCityCountry(day, included),
+      // Data-driven: the Private / Tailor hotel if one is set, otherwise
+      // the regular stay's city/country (not tied to Group / Inspirational).
+      location:
+        getTailorHotelName(
+          day.relationships?.field_private_tailor_hotel,
+          included,
+        ) ||
+        getStayCityCountry(day, included) ||
+        // The hotel has no address filled in yet: show the hotel name instead
+        // of leaving the day blank.
+        included.find(
+          (i) =>
+            i.id === day.relationships?.field_stay?.data?.id &&
+            i.attributes?.status !== false,
+        )?.attributes?.title ||
+        "",
       }));
 }
 
@@ -251,42 +261,29 @@ function getStays(journey, included, isInspirational) {
   )
     .map((ref) => included.find((item) => item.id === ref.id))
     .filter(Boolean);
-  const tabRefs = containers.flatMap((container) =>
-    relationshipRefs(container.relationships?.field_section_tabs),
+  const dayRefs = containers.flatMap((container) =>
+    getItineraryDays(container, included),
   );
-  const tabs = tabRefs
-    .map((ref) => included.find((item) => item.id === ref.id))
+  // Only the hotels added on the itinerary days (same as the Stays tab on the
+  // journey page): the day's Private / Tailor hotel if set, else its field_stay.
+  const seen = new Set();
+  return dayRefs
+    .map((day) => {
+      const tailorRef = relationshipRefs(
+        day.relationships?.field_private_tailor_hotel,
+      )[0];
+      const stayId = day.relationships?.field_stay?.data?.id;
+      const key = tailorRef?.id || stayId;
+      if (!key || seen.has(key)) return null;
+      seen.add(key);
+      const name =
+        (tailorRef && getTailorHotelName({ data: tailorRef }, included)) ||
+        included.find((i) => i.id === stayId && i.attributes?.status !== false)
+          ?.attributes?.title ||
+        "";
+      return name ? { name } : null;
+    })
     .filter(Boolean);
-  const staysTabs = tabs.filter((tab) => tab.type === "paragraph--stays_tab");
-
-  if (isInspirational) {
-    const dayRefs = containers.flatMap((container) =>
-      getItineraryDays(container, included),
-    );
-    const dayHotels = dayRefs.flatMap((day) =>
-      relationshipRefs(day.relationships?.field_private_tailor_hotel),
-    );
-    const staysTabHotels = staysTabs.flatMap((tab) =>
-      relationshipRefs(tab.relationships?.field_private_tailor_hotel),
-    );
-    const seen = new Set();
-    return [...staysTabHotels, ...dayHotels]
-      .map((reference) => {
-        if (!reference?.id || seen.has(reference.id)) return null;
-        seen.add(reference.id);
-        const name = getTailorHotelName({ data: reference }, included);
-        return name ? { name } : null;
-      })
-      .filter(Boolean);
-  }
-
-  return staysTabs
-    .flatMap((tab) => relationshipRefs(tab.relationships?.field_hotels))
-    .map((h) => included.find((i) => i.id === h.id))
-    .filter((hotel) => hotel && hotel.attributes?.status !== false)
-    .map((hotel) => ({
-      name: hotel.attributes?.title || "",
-    }));
 }
 
 function getItineraryDays(container, included) {
