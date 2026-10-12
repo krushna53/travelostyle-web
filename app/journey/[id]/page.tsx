@@ -269,7 +269,9 @@ const departures = departureData?.data
   // fetch this itself client-side, which always failed against the ddev
   // backend's self-signed cert (ERR_CERT_AUTHORITY_INVALID). Fetching it
   // here and passing it down avoids that browser fetch entirely.
-  const otherJourneys = await getJourneyCards();
+  const otherJourneys = (await getJourneyCards()).filter(
+    (journey) => journey.id !== journeyId,
+  );
 
   // "Hotel Type" taxonomy terms — the hotels chosen in the paragraph field
   // field_private_tailor_hotel. Private / Tailor-made journeys show these in
