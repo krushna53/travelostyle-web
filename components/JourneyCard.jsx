@@ -25,7 +25,7 @@ function getTagColor(tag) {
 // drop shadow. The scalloped bottom edge comes from the shared
 // .card-scallop-bottom class (card-bg.png), not from a card-shaped SVG.
 const CARD_BASE =
-  "card-scallop-bottom relative isolate flex shrink-0 cursor-pointer flex-col rounded-[16px]  px-[14px] pt-3 pb-4 max-md:snap-center md:h-[640px] md:pt-4 md:pb-11";
+  "card-scallop-bottom relative isolate flex shrink-0 flex-col rounded-[16px]  px-[14px] pt-3 pb-4 max-md:snap-center md:h-[640px] md:pt-4 md:pb-11";
 
 // Single journey card used across the site (home carousel, journey-type
 // listing grids, "other destinations" rail). `variant` only changes the
@@ -86,13 +86,19 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         ))}
       </div>
 
-      <div className="relative h-[128px] w-full shrink-0 overflow-hidden md:h-[213px] md:w-full">
+      <a
+        href={trip.viewTripUrl}
+        onClick={(e) => e.stopPropagation()}
+        className="relative block h-[128px] w-full shrink-0 overflow-hidden md:h-[213px] md:w-full"
+      >
         <JourneyCardImage src={trip.image} alt={trip.title} />
-      </div>
+      </a>
 
       <div className="flex flex-1 flex-col pt-2 text-left md:pt-4 justify-between">
         <h3 className="line-clamp-2 h-[48px] text-[16px] font-semibold leading-[24px] tracking-[0.05em] text-ink md:h-auto md:min-h-[2.6em] md:text-[21px] md:leading-[1.3] md:tracking-normal md:text-[#232323]">
-          {trip.title}
+          <a href={trip.viewTripUrl} onClick={(e) => e.stopPropagation()}>
+            {trip.title}
+          </a>
         </h3>
 
         <p className="mt-2 line-clamp-3 h-[48px] text-[10px] font-light leading-[16px] tracking-[0.05em] text-ink md:mt-2 md:line-clamp-2 md:h-auto md:min-h-[3.1em] md:text-[14px] md:font-normal md:leading-[1.55] md:tracking-normal md:text-[#666666]">
@@ -202,7 +208,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         <button
           type="button"
           onClick={handleAddToCompare}
-          className="mt-3 mb-6 md:mt-4 md:mb-5 flex items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E]"
+          className="mt-3 mb-6 md:mt-4 md:mb-5 flex cursor-pointer items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E]"
         >
           {isSelected ? (
             <>

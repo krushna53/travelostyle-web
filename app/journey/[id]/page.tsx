@@ -269,6 +269,7 @@ const departures = departureData?.data
   // fetch this itself client-side, which always failed against the ddev
   // backend's self-signed cert (ERR_CERT_AUTHORITY_INVALID). Fetching it
   // here and passing it down avoids that browser fetch entirely.
+  // Leave out the journey being viewed so it doesn't suggest itself.
   const otherJourneys = (await getJourneyCards()).filter(
     (journey) => journey.id !== journeyId,
   );
