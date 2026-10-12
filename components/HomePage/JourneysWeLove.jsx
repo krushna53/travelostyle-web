@@ -17,6 +17,7 @@ function mapJourneysToTrips(drupalJourneys) {
     image: journey.image,
     region: journey.region,
     tags: journey.types,
+    experienceType: journey.experienceType,
     viewTripUrl: journey.viewTripUrl,
     viewTripText: journey.viewTripText,
     active: index === 0,
