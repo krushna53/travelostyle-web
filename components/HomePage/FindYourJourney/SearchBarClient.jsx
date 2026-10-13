@@ -11,6 +11,7 @@ export default function SearchBar({
   styles = [],
   popularDestinations = [],
   popularMonths = [],
+  allDestinations = [],
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showFindJourneyMobile, setShowFindJourneyMobile] = useState(false);
@@ -29,6 +30,7 @@ export default function SearchBar({
           styles={styles}
           popularDestinations={popularDestinations}
           popularMonths={popularMonths}
+          allDestinations={allDestinations}
         />
       </div>
 
@@ -41,6 +43,7 @@ export default function SearchBar({
             styles={styles}
             popularDestinations={popularDestinations}
             popularMonths={popularMonths}
+            allDestinations={allDestinations}
           />
         </div>
       )}

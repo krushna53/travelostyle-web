@@ -14,6 +14,7 @@ export default function FindJourneyMobile({
   styles = [],
   popularDestinations = [],
   popularMonths = [],
+  allDestinations = [],
 }) {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -60,6 +61,7 @@ export default function FindJourneyMobile({
         setOpenToPossibilities={setOpenToPossibilities}
         destinations={destinations}
         popularDestinations={popularDestinations}
+        allDestinations={allDestinations}
       />
     );
   }

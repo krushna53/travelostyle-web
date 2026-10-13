@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "@/components/SafeImage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -7,34 +7,150 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import FindJourneyMobile from "@/components/HomePage/FindYourJourney/FindYourJourneyMobile";
 import { BUDGET_RANGES } from "@/lib/budgetRanges";
 
-function ListingSearchForm({ destinations = [], months = [] }) {
+// Same options as the homepage's TravelForm "How long do you want to
+// travel?" picker.
+const durations = ["5–8 Days", "8–15 Days", "15–25 Days", "25+ Days"];
+
+// Carries a selection made on the homepage's "Find Your Journey" widget
+// over to this page's own search bar, so it doesn't look like that
+// selection was lost on arrival. FilterSidebar reads the same
+// sessionStorage payload to actually filter the results; this only
+// syncs what the bar itself displays/keeps editable. Read once via each
+// field's useState initializer (not a useEffect) so the bar doesn't render
+// the "nothing selected" state for a frame before correcting itself.
+function readStoredJourneyData() {
+  if (typeof window === "undefined") return {};
+  const raw = sessionStorage.getItem("journeyData");
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed.filters || parsed;
+  } catch (error) {
+    console.error("Error reading journeyData from sessionStorage:", error);
+    return {};
+  }
+}
+
+function ListingSearchForm({
+  destinations = [],
+  months = [],
+  allDestinations = [],
+  popularDestinations = [],
+  popularMonths = [],
+}) {
   const router = useRouter();
+  const formRef = useRef(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [selectedDestinations, setSelectedDestinations] = useState([]);
-  const [selectedMonths, setSelectedMonths] = useState([]);
-  const [selectedBudget, setSelectedBudget] = useState("");
+  const [selectedDestinations, setSelectedDestinations] = useState(() => {
+    const region = readStoredJourneyData().region
+      ?? readStoredJourneyData().regions
+      ?? readStoredJourneyData().destinations;
+    return region ? (Array.isArray(region) ? region : [region]) : [];
+  });
+  const [selectedMonths, setSelectedMonths] = useState(() => {
+    const month = readStoredJourneyData().month ?? readStoredJourneyData().months;
+    return month ? (Array.isArray(month) ? month : [month]) : [];
+  });
+  const [selectedBudget, setSelectedBudget] = useState(() => {
+    const pricing = readStoredJourneyData().pricing;
+    const value = Array.isArray(pricing) ? pricing[0] : pricing;
+    return value || "";
+  });
+  const [selectedDuration, setSelectedDuration] = useState(() => {
+    const duration = readStoredJourneyData().duration;
+    const value = Array.isArray(duration) ? duration[0] : duration;
+    return value || "";
+  });
+  // Free-text filter for the "Where" field — same full Location search
+  // (city/region/country/state) as the homepage's TravelForm.
+  const [destinationQuery, setDestinationQuery] = useState("");
+  // true right after opening the field or picking a destination — the
+  // input then displays the selected destinations (editable, select-all on
+  // focus) instead of whatever was last typed. Typing again flips this
+  // back off so the box goes back to being a live search box. Same pattern
+  // as the homepage's TravelForm.
+  const [showDestinationSelection, setShowDestinationSelection] = useState(false);
 
-  const toggle = (key) =>
+  const toggle = (key) => {
     setActiveDropdown((prev) => (prev === key ? null : key));
+    setDestinationQuery("");
+  };
 
-  const toggleDest = (d) =>
+  // Panels float over the page, so close them on an outside click — same
+  // as the homepage's TravelForm. Without this, clicking anywhere else on
+  // the itinerary page left the panel open since nothing else here closed
+  // it.
+  useEffect(() => {
+    if (!activeDropdown) return;
+    const handleClickOutside = (e) => {
+      if (formRef.current && !formRef.current.contains(e.target)) {
+        setActiveDropdown(null);
+        setDestinationQuery("");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [activeDropdown]);
+
+  // Query is left as-is after a pick — clearing it used to snap the panel
+  // back to the unrelated "Popular Destinations" pill view mid-search,
+  // which looked like the search had been abandoned. Keeping it means the
+  // same result list (with a ✓ now on whatever was just picked) stays put,
+  // so searching for and picking several destinations in a row stays in
+  // one continuous list instead of bouncing between views.
+  const toggleDest = (d) => {
+    setShowDestinationSelection(true);
     setSelectedDestinations((prev) =>
       prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d]
     );
+  };
+
+  // Same curated list as the homepage's "Popular Destinations" by default;
+  // typing searches every Location (city/region/country/state), falling
+  // back to the plain region list if that curated/full fetch hasn't loaded.
+  const popularDestinationOptions = popularDestinations.length
+    ? popularDestinations
+    : destinations.map((d) => ({ id: d, label: d, value: d }));
+
+  const filteredDestinations = destinationQuery.trim()
+    ? (() => {
+        const q = destinationQuery.trim().toLowerCase();
+        const source = allDestinations.length
+          ? allDestinations
+          : destinations.map((d) => ({ id: d, label: d, value: d }));
+        const matches = source.filter((item) =>
+          (item.searchText || item.label.toLowerCase()).includes(q),
+        );
+        const seen = new Set();
+        return matches.filter((item) => {
+          const key = item.label.toLowerCase();
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+      })()
+    : popularDestinationOptions;
 
   const toggleMonth = (m) =>
     setSelectedMonths((prev) =>
       prev.includes(m) ? prev.filter((x) => x !== m) : [...prev, m]
     );
 
+  // Same curated "popular" months as the homepage's TravelForm, falling
+  // back to the full month taxonomy only if none are flagged popular yet.
+  const monthOptions = popularMonths.length ? popularMonths : months;
+
+  const handleDurationSelect = (duration) => setSelectedDuration(duration);
+
   const destLabel = selectedDestinations.length
     ? selectedDestinations.slice(0, 2).join(", ") +
       (selectedDestinations.length > 2 ? ` +${selectedDestinations.length - 2}` : "")
     : "Where do you want to go?";
 
-  const whenLabel = selectedMonths.length
-    ? selectedMonths.slice(0, 2).join(", ") +
-      (selectedMonths.length > 2 ? ` +${selectedMonths.length - 2}` : "")
+  const whenLabel = selectedMonths.length || selectedDuration
+    ? `${selectedMonths.slice(0, 2).join(", ")}${
+        selectedMonths.length > 2 ? ` +${selectedMonths.length - 2}` : ""
+      }${selectedMonths.length && selectedDuration ? ", " : ""}${selectedDuration}`
     : "When do you want to travel?";
 
   const budgetLabel =
@@ -55,6 +171,7 @@ function ListingSearchForm({ destinations = [], months = [] }) {
         region: selectedDestinations,
         month: selectedMonths,
         pricing: selectedBudget ? [selectedBudget] : [],
+        duration: selectedDuration ? [selectedDuration] : [],
       }),
     );
     setActiveDropdown(null);
@@ -67,29 +184,54 @@ function ListingSearchForm({ destinations = [], months = [] }) {
     // fields, 210px CTA, 18px label) instead of pure vw, which left the CTA
     // label overflowing its pill on smaller desktops. Below 1200 there isn't
     // room for three fields + CTA in one row, so it drops to a 2x2 grid.
-    <div className="border-2 border-ink rounded-lg px-[clamp(12px,1.25vw,24px)] py-[clamp(12px,0.83vw,16px)] my-6 bg-white">
+    <div
+      ref={formRef}
+      className="border-2 border-ink rounded-lg px-[clamp(12px,1.25vw,24px)] py-[clamp(12px,0.83vw,16px)] my-6 bg-white"
+    >
       <div className="grid grid-cols-2 gap-[clamp(8px,1vw,19px)] min-[1200px]:grid-cols-[1fr_1fr_1fr_auto]">
-        {/* WHERE */}
-        <button
-          onClick={() => toggle("dest")}
-          className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center justify-between gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]"
-        >
-          <span className={`min-w-0 truncate text-[clamp(13px,0.73vw,14px)] ${!selectedDestinations.length ? "text-gray-400" : "text-ink"}`}>
-            {destLabel}
-          </span>
-          {activeDropdown === "dest" ? <ChevronUp size={16} className="shrink-0" /> : <ChevronDown size={16} className="shrink-0" />}
-        </button>
-
-        {/* WHEN */}
+         {/* WHEN */}
         <button
           onClick={() => toggle("when")}
           className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center justify-between gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]"
         >
-          <span className={`min-w-0 truncate text-[clamp(13px,0.73vw,14px)] ${!selectedMonths.length ? "text-gray-400" : "text-ink"}`}>
+          <span className={`min-w-0 truncate text-[clamp(13px,0.73vw,14px)] ${!selectedMonths.length && !selectedDuration ? "text-gray-400" : "text-ink"}`}>
             {whenLabel}
           </span>
           {activeDropdown === "when" ? <ChevronUp size={16} className="shrink-0" /> : <ChevronDown size={16} className="shrink-0" />}
         </button>
+        {/* WHERE */}
+        {activeDropdown === "dest" ? (
+          <div className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]">
+            <input
+              autoFocus
+              type="text"
+              value={showDestinationSelection ? selectedDestinations.join(", ") : destinationQuery}
+              onFocus={(e) => {
+                if (showDestinationSelection) e.target.select();
+              }}
+              onChange={(e) => {
+                setShowDestinationSelection(false);
+                setDestinationQuery(e.target.value);
+              }}
+              placeholder="Search by city, region or country"
+              className="min-w-0 flex-1 truncate bg-transparent text-[clamp(13px,0.73vw,14px)] placeholder:text-gray-400 focus:outline-none"
+            />
+          </div>
+        ) : (
+          <button
+            onClick={() => {
+              setShowDestinationSelection(true);
+              toggle("dest");
+            }}
+            className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center justify-between gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]"
+          >
+            <span className={`min-w-0 truncate text-[clamp(13px,0.73vw,14px)] ${!selectedDestinations.length ? "text-gray-400" : "text-ink"}`}>
+              {destLabel}
+            </span>
+            <ChevronDown size={16} className="shrink-0" />
+          </button>
+        )}
+
 
         {/* BUDGET */}
         <button
@@ -114,22 +256,50 @@ function ListingSearchForm({ destinations = [], months = [] }) {
       {/* WHERE DROPDOWN */}
       {activeDropdown === "dest" && (
         <div className="mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
-          <h3 className="mb-3 text-[18px] font-semibold">Popular Destinations</h3>
-          <div className="flex flex-wrap gap-2">
-            {destinations.map((d) => (
-              <button
-                key={d}
-                onClick={() => toggleDest(d)}
-                className={`rounded-full border px-4 py-1 text-[14px] transition-all ${
-                  selectedDestinations.includes(d)
-                    ? "border-[#2E348D] bg-[#F5EFE8] text-[#2E348D]"
-                    : "border-gray-300 bg-white text-[#444]"
-                }`}
-              >
-                {d}
-              </button>
-            ))}
-          </div>
+          <h3 className="mb-3 text-[18px] font-semibold">
+            {destinationQuery.trim() ? "Search Results" : "Popular Destinations"}
+          </h3>
+          {destinationQuery.trim() ? (
+            <div className="max-h-[260px] overflow-y-auto rounded-[6px] border border-[#D9D9D9]">
+              {filteredDestinations.length ? (
+                filteredDestinations.map((item) => {
+                  const isSelected = selectedDestinations.includes(item.value);
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => toggleDest(item.value)}
+                      className={`flex w-full items-center justify-between gap-2 border-b border-[#EEEEEE] px-4 py-2.5 text-left text-[14px] last:border-b-0 ${
+                        isSelected
+                          ? "bg-[#F5EFE8] text-[#2E348D]"
+                          : "text-[#444] hover:bg-[#F5EFE8]"
+                      }`}
+                    >
+                      <span className="truncate">{item.label}</span>
+                      {isSelected && <span className="shrink-0 text-[#2E348D]">✓</span>}
+                    </button>
+                  );
+                })
+              ) : (
+                <p className="px-4 py-3 text-[14px] text-[#757575]">No matching destinations</p>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {filteredDestinations.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => toggleDest(item.value)}
+                  className={`rounded-full border px-4 py-1 text-[14px] transition-all ${
+                    selectedDestinations.includes(item.value)
+                      ? "border-[#2E348D] bg-[#F5EFE8] text-[#2E348D]"
+                      : "border-gray-300 bg-white text-[#444]"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -138,7 +308,7 @@ function ListingSearchForm({ destinations = [], months = [] }) {
         <div className="mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
           <h3 className="mb-3 text-[18px] font-semibold">Pick Month of Travel</h3>
           <div className="flex flex-wrap gap-2">
-            {months.map((m) => (
+            {monthOptions.map((m) => (
               <button
                 key={m}
                 onClick={() => toggleMonth(m)}
@@ -150,6 +320,27 @@ function ListingSearchForm({ destinations = [], months = [] }) {
               >
                 {m}
               </button>
+            ))}
+          </div>
+
+          <h4 className="mb-3 mt-5 text-[18px] font-semibold">
+            How long do you want to travel?
+          </h4>
+          <div className="flex flex-wrap gap-6">
+            {durations.map((item) => (
+              <label
+                key={item}
+                className="flex cursor-pointer items-center gap-2 text-[14px]"
+              >
+                <input
+                  type="checkbox"
+                  name="duration"
+                  checked={selectedDuration === item}
+                  onChange={() => handleDurationSelect(item)}
+                  className="h-[16px] w-[16px]"
+                />
+                {item}
+              </label>
             ))}
           </div>
         </div>
@@ -180,7 +371,13 @@ function ListingSearchForm({ destinations = [], months = [] }) {
   );
 }
 
-export default function SearchBar({ destinations = [], months = [] }) {
+export default function SearchBar({
+  destinations = [],
+  months = [],
+  allDestinations = [],
+  popularDestinations = [],
+  popularMonths = [],
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showFindJourneyMobile, setShowFindJourneyMobile] = useState(false);
 
@@ -359,7 +556,13 @@ export default function SearchBar({ destinations = [], months = [] }) {
 
         {/* Desktop Search Form */}
         <div className="hidden md:block px-4 md:px-[108px]">
-          <ListingSearchForm destinations={destinations} months={months} />
+          <ListingSearchForm
+            destinations={destinations}
+            months={months}
+            allDestinations={allDestinations}
+            popularDestinations={popularDestinations}
+            popularMonths={popularMonths}
+          />
         </div>
       </div>
 
@@ -369,6 +572,9 @@ export default function SearchBar({ destinations = [], months = [] }) {
             onClose={() => setShowFindJourneyMobile(false)}
             destinations={destinations}
             months={months}
+            allDestinations={allDestinations}
+            popularDestinations={popularDestinations}
+            popularMonths={popularMonths}
           />
         </div>
       )}

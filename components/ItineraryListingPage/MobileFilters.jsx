@@ -156,16 +156,15 @@ export default function MobileFilters({
         return (
           <>
             <p className="mb-2 text-sm text-[#888]">Filter by region</p>
-            {visibleOptions("region", filterOptions.region).map((item) => (
-              <CheckboxItem
-                key={item}
-                label={item}
-                count={getCount("region", item)}
-                checked={filters.region.includes(item)}
-                onChange={() => toggleFilter("region", item)}
-                mobile
-              />
-            ))}
+            {[...new Set([...(filterOptions.region || []), ...filters.region])].filter((item) => getCount("region", item) > 0 || filters.region.includes(item)).map((item) => (
+            <CheckboxItem
+              key={item}
+              label={item}
+              count={getCount("region", item)}
+              checked={filters.region.includes(item)}
+              onChange={() => toggleFilter("region", item)}
+            />
+          ))}
           </>
         );
 
