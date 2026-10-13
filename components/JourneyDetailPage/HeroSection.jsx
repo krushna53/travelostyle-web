@@ -232,8 +232,14 @@ export default function HeroSection({
       <span className="relative -top-[2px] text-[12px] text-[#000000] font-light">/person</span>
     </p>
 
-    {/* Original Price */}
-    {journey.originalPrice && (
+    {/* Original Price — Private/Tailor-made journeys don't commit to a
+        specific price up front the way Group journeys do, so a "0" value
+        there is a real "not set yet" rather than a genuine $0 original
+        price; hide the line entirely instead of showing "was $0". Group
+        keeps the existing behavior unchanged. */}
+    {(isInspirational
+      ? Number(journey?.originalPrice) > 0
+      : journey?.originalPrice) && (
       <p className="mt-[4px] text-[13px] font-medium text-[#777]">
         was{" "}
         <span className="line-through">

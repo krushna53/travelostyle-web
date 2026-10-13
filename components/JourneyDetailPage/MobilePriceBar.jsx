@@ -67,7 +67,9 @@ function PriceDetails({
               /person
             </span>
           </div>
-          {journey.originalPrice && (
+          {(isInspirational
+            ? Number(journey.originalPrice) > 0
+            : journey.originalPrice) && (
             <p className="text-[12px] font-light leading-[16px] tracking-[0.05em] text-[#1A1A1A]">
               was{" "}
               <span className="line-through">

@@ -1,4 +1,5 @@
 "use client";
+import { matchesDestinationSearch } from "@/lib/destinationSearch";
 
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
@@ -67,7 +68,7 @@ export default function AllJourneysPage({
   // ================= FILTER =================
 
   const filteredJourneys = useMemo(() => {
-    let data = [...journeys];
+    let data = journeys.filter((item) => matchesDestinationSearch(item, filters.destinationSearch));
 
     if (countryFilter) {
       data = data.filter(
@@ -81,18 +82,9 @@ export default function AllJourneysPage({
       data = data.filter((item) => !item.offer);
     }
 
-   if (filters.region.length) {
-  data = data.filter((item) => {
-    const journeyRegion = String(item.region || "")
-      .trim()
-      .toLowerCase();
-
-    return filters.region.some(
-      (region) =>
-        String(region || "").trim().toLowerCase() === journeyRegion
-    );
-  });
-}
+    if (filters.region.length) {
+      data = data.filter((item) => filters.region.some((region) => matchesDestinationSearch(item, region)));
+    }
 
     if (filters.style.length) {
       data = data.filter((item) =>
@@ -155,7 +147,7 @@ export default function AllJourneysPage({
   filters.month.length > 0 ||
   filters.pricing.length > 0 ||
   filters.duration.length > 0 ||
-  !!countryFilter;
+  !!countryFilter || !!filters.destinationSearch?.trim();
   const isNoResults = filteredJourneys.length === 0 && hasActiveFilters;
   const totalPages = Math.ceil(filteredJourneys.length / itemsPerPage);
 
@@ -177,7 +169,7 @@ export default function AllJourneysPage({
       duration: [],
     });
     setCountryFilter(null);
-    if (searchParams.get("country")) {
+    if (searchParams.get("country") || searchParams.get("search") || searchParams.get("region")) {
       router.replace(pathname);
     }
   };

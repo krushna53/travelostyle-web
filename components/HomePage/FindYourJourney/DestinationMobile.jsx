@@ -26,6 +26,7 @@ export default function DestinationMobile({
   setOpenToPossibilities,
   destinations = [],
   popularDestinations = [],
+  allDestinations = [],
 }) {
   // Popular Locations (city, labeled with their region) + popular Regions
   // from Drupal, falling back to the plain region list, then a static list.
@@ -39,10 +40,24 @@ export default function DestinationMobile({
       : FALLBACK_DESTINATIONS.map((name) => ({ id: name, label: name, value: name }));
 
   const [query, setQuery] = useState("");
+  // Same full-Location search as the desktop TravelForm — typing searches
+  // city/region/country/state across every Location, not just the popular
+  // chips below.
   const filteredDestinationOptions = query.trim()
-    ? destinationOptions.filter((item) =>
-        item.label.toLowerCase().includes(query.trim().toLowerCase()),
-      )
+    ? (() => {
+        const q = query.trim().toLowerCase();
+        const source = [...destinationOptions, ...allDestinations];
+        const matches = source.filter((item) =>
+          (item.searchText || item.label.toLowerCase()).includes(q),
+        );
+        const seen = new Set();
+        return matches.filter((item) => {
+          const key = item.label.toLowerCase();
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+      })()
     : destinationOptions;
 
   const handleSelect = (value) => {
@@ -86,12 +101,36 @@ export default function DestinationMobile({
 
 
       <h3 className="text-[13px] font-semibold text-[#333333] mb-4">
-        Choose from our popular destinations
+        {query.trim() ? "Search results" : "Choose from our popular destinations"}
       </h3>
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        {filteredDestinationOptions.length ? (
-          filteredDestinationOptions.map((item) => (
+      {query.trim() ? (
+        // Typing can match dozens of Locations — a compact scrollable list
+        // instead of a pill grid, same as the desktop TravelForm.
+        <div className="mb-6 max-h-[220px] overflow-y-auto rounded-[4px] border border-[#D9D9D9]">
+          {filteredDestinationOptions.length ? (
+            filteredDestinationOptions.map((item) => {
+              const isSelected = selectedDestinations.includes(item.value);
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleSelect(item.value)}
+                  className={`flex w-full items-center justify-between gap-2 border-b border-[#EEEEEE] px-3 py-2 text-left text-[12px] last:border-b-0 ${
+                    isSelected ? "bg-[#F4E5D9] text-[#333]" : "text-[#333]"
+                  }`}
+                >
+                  <span className="truncate">{item.label}</span>
+                  {isSelected && <span className="shrink-0 text-[#2F2E8B]">✓</span>}
+                </button>
+              );
+            })
+          ) : (
+            <p className="px-3 py-2 text-[12px] text-[#757575]">No matching destinations</p>
+          )}
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {filteredDestinationOptions.map((item) => (
             <button
               key={item.id}
               onClick={() => handleSelect(item.value)}
@@ -104,11 +143,9 @@ export default function DestinationMobile({
             >
               {item.label}
             </button>
-          ))
-        ) : (
-          <p className="text-[12px] text-[#757575]">No matching destinations</p>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
 
       <label className="flex items-center gap-3 cursor-pointer mb-8">
         <input

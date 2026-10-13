@@ -66,10 +66,14 @@ export default function TravelForm({
   styles = [],
   popularDestinations = [],
   popularMonths = [],
+  allDestinations = [],
 }) {
-  const [selectedTravelType, setSelectedTravelType] = useState(
-    (styles.length ? styles : travelOptions)[0] || "Private Journey",
-  );
+  // Multi-select — a visitor planning a trip often fits more than one
+  // category (e.g. both "Private Journey" and "Tailor-Made Journey"), so
+  // this is an array of selections. Starts empty (unlike the single-select
+  // version, which always had the first option pre-checked) so the field
+  // only shows a selection once the visitor actually picks one.
+  const [selectedTravelTypes, setSelectedTravelTypes] = useState([]);
   const router = useRouter();
   const [activeDropdown, setActiveDropdown] = useState(null);
   const formRef = useRef(null);
@@ -81,6 +85,7 @@ export default function TravelForm({
   // cleared again once the panel closes so the field falls back to showing
   // the selected-destinations summary (or the placeholder) like before.
   const [destinationQuery, setDestinationQuery] = useState("");
+  const [showDestinationSelection, setShowDestinationSelection] = useState(false);
 
   // Panels float over the page, so close them on an outside click.
   useEffect(() => {
@@ -108,10 +113,30 @@ export default function TravelForm({
       ? destinations.map((name) => ({ id: name, label: name, value: name }))
       : FALLBACK_DESTINATIONS.map((name) => ({ id: name, label: name, value: name }));
 
+  // Typing searches the full Location list (city/region/country/state) —
+  // not just the curated "popular" chips above — so a visitor can find a
+  // destination that exists but was never flagged as popular. Falls back
+  // to filtering the popular list by label alone if allDestinations hasn't
+  // loaded (e.g. that fetch failed server-side).
   const filteredDestinationOptions = destinationQuery.trim()
-    ? destinationOptions.filter((item) =>
-        item.label.toLowerCase().includes(destinationQuery.trim().toLowerCase()),
-      )
+    ? (() => {
+        const query = destinationQuery.trim().toLowerCase();
+        const source = [...destinationOptions, ...allDestinations];
+        const matches = source.filter((item) =>
+          (item.searchText || item.label.toLowerCase()).includes(query),
+        );
+        // Location-level results can repeat the same label (duplicate
+        // content in Drupal, or several cities collapsing to one region
+        // label) — keep the first of each so the panel doesn't show
+        // visually identical chips.
+        const seen = new Set();
+        return matches.filter((item) => {
+          const key = item.label.toLowerCase();
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+      })()
     : destinationOptions;
 
   // "When do you want to travel?" — months marked popular first; if none
@@ -130,10 +155,19 @@ export default function TravelForm({
   // guaranteed to match something the itinerary page can actually filter.
   const travelTypeOptions = styles.length ? styles : travelOptions;
 
+  const handleTravelTypeSelect = (item) => {
+    setSelectedTravelTypes((prev) =>
+      prev.includes(item)
+        ? prev.filter((value) => value !== item)
+        : [...prev, item],
+    );
+  };
+
   const handleFindJourney = () => {
     const findYourJourneyData = {
-      travelType: selectedTravelType,
+      travelType: selectedTravelTypes,
       destinations: selectedDestinations,
+      destinationSearch: selectedDestinations.length ? "" : destinationQuery.trim(),
       openToPossibilities: openToPossibilities,
       months: selectedMonths,
       duration: selectedDuration,
@@ -142,10 +176,14 @@ export default function TravelForm({
     sessionStorage.setItem("journeyData", JSON.stringify(findYourJourneyData));
 
     const region = selectedDestinations.join(",");
-    router.push(`/itinerary${region ? `?region=${encodeURIComponent(region)}` : ""}`);
+    const params = new URLSearchParams();
+    if (region) params.set("region", region);
+    else if (destinationQuery.trim()) params.set("search", destinationQuery.trim());
+    router.push(`/itinerary${params.size ? `?${params.toString()}` : ""}`);
   };
 
   const handleDestinationSelect = (value) => {
+    setShowDestinationSelection(true);
     setSelectedDestinations((prev) => {
       if (prev.includes(value)) {
         return prev.filter((item) => item !== value);
@@ -199,15 +237,24 @@ export default function TravelForm({
             <input
               autoFocus
               type="text"
-              value={destinationQuery}
-              onChange={(e) => setDestinationQuery(e.target.value)}
+              value={showDestinationSelection ? selectedDestinations.join(", ") : destinationQuery}
+              onFocus={(e) => {
+                if (showDestinationSelection) e.target.select();
+              }}
+              onChange={(e) => {
+                setShowDestinationSelection(false);
+                setDestinationQuery(e.target.value);
+              }}
               placeholder="Search or choose from our popular destinations"
               className="min-w-0 flex-1 truncate bg-transparent text-[13px] max-[1910px]:text-[13px] placeholder:text-gray-400 focus:outline-none"
             />
           </div>
         ) : (
           <button
-            onClick={() => setActiveDropdown("destination")}
+            onClick={() => {
+              setShowDestinationSelection(true);
+              setActiveDropdown("destination");
+            }}
             className="flex h-[42px] w-[410px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
           >
             <span
@@ -234,7 +281,15 @@ export default function TravelForm({
           }
           className="flex h-[42px] w-[496px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
         >
-          <span className="text-[13px] max-[1910px]:text-[13px] font-semibold">{selectedTravelType}</span>
+          <span className="truncate text-[13px] max-[1910px]:text-[13px] font-semibold">
+            {selectedTravelTypes.length
+              ? selectedTravelTypes.length > 2
+                ? `${selectedTravelTypes.slice(0, 2).join(", ")} +${
+                    selectedTravelTypes.length - 2
+                  } more`
+                : selectedTravelTypes.join(", ")
+              : "Choose a way of travel"}
+          </span>
 
           <DropdownArrow open={activeDropdown === "travel"} />
         </button>
@@ -262,8 +317,8 @@ export default function TravelForm({
                   className="w-[17px] max-[1281px]:w-[12px] max-[1250px]:w-[11px] h-[17px] max-[1281px]:h-[12px] max-[1250px]:h-[11px]"
                   type="checkbox"
                   name="travelType"
-                  checked={selectedTravelType === item}
-                  onChange={() => setSelectedTravelType(item)}
+                  checked={selectedTravelTypes.includes(item)}
+                  onChange={() => handleTravelTypeSelect(item)}
                 />
                 {item}
               </label>
@@ -275,12 +330,42 @@ export default function TravelForm({
       {activeDropdown === "destination" && (
         <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-[10px] border-2 border-black bg-[#FAFAFA] p-4 shadow-[5px_10px_15px_rgba(26,26,26,0.1)]">
           <h3 className="mb-4 text-lg font-semibold text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px]">
-            Popular Destinations
+            {destinationQuery.trim() ? "Search Results" : "Popular Destinations"}
           </h3>
 
-          <div className="flex flex-wrap gap-3">
-            {filteredDestinationOptions.length ? (
-              filteredDestinationOptions.map((item) => (
+          {destinationQuery.trim() ? (
+            // Typing can match dozens of Locations (any search containing a
+            // common letter) — a pill grid that size is overwhelming, so
+            // search results render as a compact scrollable list instead,
+            // same as the itinerary page's own destination search.
+            <div className="max-h-[260px] overflow-y-auto rounded-[6px] border border-[#D9D9D9]">
+              {filteredDestinationOptions.length ? (
+                filteredDestinationOptions.map((item) => {
+                  const isSelected = selectedDestinations.includes(item.value);
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => handleDestinationSelect(item.value)}
+                      className={`flex w-full items-center justify-between gap-2 border-b border-[#EEEEEE] px-4 py-2.5 text-left text-[13px] last:border-b-0 ${
+                        isSelected
+                          ? "bg-[#F2E2DA] text-[#1A1A1A]"
+                          : "text-[#1A1A1A] hover:bg-[#F2E5DE]"
+                      }`}
+                    >
+                      <span className="truncate">{item.label}</span>
+                      {isSelected && <span className="shrink-0 text-[#2E348D]">✓</span>}
+                    </button>
+                  );
+                })
+              ) : (
+                <p className="px-4 py-3 text-[13px] text-[#757575]">
+                  No matching destinations
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-3">
+              {filteredDestinationOptions.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => handleDestinationSelect(item.value)}
@@ -292,13 +377,9 @@ export default function TravelForm({
                 >
                   {item.label}
                 </button>
-              ))
-            ) : (
-              <p className="text-[13px] text-[#757575]">
-                No matching destinations
-              </p>
-            )}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="mt-4">
             <label className="inline-flex cursor-pointer items-center gap-2">
@@ -322,7 +403,7 @@ export default function TravelForm({
           </h3>
 
           <p className="mb-4 mt-2 text-sm text-[#757575]">
-            Pick Month of Travel
+            Pick Month of Travels
           </p>
 
           <div className="flex flex-wrap gap-3">
