@@ -37,19 +37,14 @@ export default function MobileItinerary({
       </h2>
 
       <div className="relative w-full h-52 bg-white border-2 border-neutral-800 overflow-hidden flex items-center justify-center mb-4 shadow-[1px_1px_0px_rgba(0,0,0,1)]">
-        {mapImage ? (
-          <Image
-            src={mapImage}
-            alt="Journey Map"
-            fill
-            unoptimized
-            className="object-cover"
-          />
-        ) : (
-          <span className="text-xs font-semibold text-neutral-700 tracking-wide">
-            No map available
-          </span>
-        )}
+        {/* No map uploaded for this journey -> default "Journey Map Coming Soon" image */}
+        <Image
+          src={mapImage || "/journey-map-placeholder.jpg"}
+          alt="Journey Map"
+          fill
+          unoptimized
+          className="object-cover"
+        />
       </div>
       <div className="space-y-3 pb-8">
         {itinerary.length === 0 ? (
