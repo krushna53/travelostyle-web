@@ -74,12 +74,15 @@ export default function MobileItinerary({
                     DAY {item.day}
                   </span>
                   <h3 className="text-[15px] font-extrabold text-neutral-900 leading-tight">
+                    {item.cityPair ? `${item.cityPair} - ` : ""}
                     {item.title}
                   </h3>
-                  <p className="text-xs text-neutral-600">
-                    <span className="font-bold text-neutral-900">Stay:</span>{" "}
-                    {item.stay}
-                  </p>
+                  {item.stay ? (
+                    <p className="text-xs text-neutral-600">
+                      <span className="font-bold text-neutral-900">Stay:</span>{" "}
+                      {item.stay}
+                    </p>
+                  ) : null}
                 </div>
                 <div className="flex-shrink-0 ml-2 w-6 h-6 rounded-full bg-[#F3EBE6] border border-neutral-400 flex items-center justify-center font-mono font-bold text-neutral-700 text-sm select-none">
                   {isOpen ? "−" : "+"}
@@ -94,7 +97,7 @@ export default function MobileItinerary({
                 }`}
               >
                 <div className="p-4 pt-2 text-[12.5px] text-neutral-800 leading-relaxed font-normal whitespace-pre-line">
-                  {item.description}
+                  {item.description || ""}
                 </div>
               </div>
             </div>
