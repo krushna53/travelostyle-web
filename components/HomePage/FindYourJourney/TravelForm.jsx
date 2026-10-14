@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { matchesDestinationSearch } from "@/lib/destinationSearch";
 
 const DropdownArrow = ({ open }) => (
   <svg
@@ -67,6 +69,7 @@ export default function TravelForm({
   popularDestinations = [],
   popularMonths = [],
   allDestinations = [],
+  journeys = [],
 }) {
   // Multi-select — a visitor planning a trip often fits more than one
   // category (e.g. both "Private Journey" and "Tailor-Made Journey"), so
@@ -139,6 +142,30 @@ export default function TravelForm({
       })()
     : destinationOptions;
 
+  // Journeys whose title/region/city/country/state match what's typed —
+  // shown mixed into the same results list (with their image) so a search
+  // that happens to match an actual trip ("Varanasi") surfaces that trip
+  // directly instead of only offering it as a destination filter. Clicking
+  // one of these goes straight to the journey's own page instead of
+  // toggling a destination selection. Reuses matchesDestinationSearch so
+  // this agrees with what the itinerary results page itself considers a
+  // match.
+  const matchingJourneys = destinationQuery.trim()
+    ? journeys.filter((journey) => matchesDestinationSearch(journey, destinationQuery))
+    : [];
+
+  // Shows which city/region actually matched the typed query under a
+  // journey's title — prefers whichever of start/end city contains the
+  // query so "Varanasi" shows "Varanasi" rather than the journey's other
+  // endpoint; falls back to region, then start city, when the match came
+  // from the title itself.
+  const getJourneyMatchCity = (journey, query) => {
+    const term = query.trim().toLowerCase();
+    const candidates = [journey.startCity, journey.endCity, journey.region].filter(Boolean);
+    if (!term) return candidates[0] || "";
+    return candidates.find((value) => value.toLowerCase().includes(term)) || candidates[0] || "";
+  };
+
   // "When do you want to travel?" — months marked popular first; if none
   // are flagged yet, fall back to whatever Month terms actually exist in
   // Drupal (so this only ever shows real terms, e.g. just the 4 that
@@ -192,6 +219,13 @@ export default function TravelForm({
     });
   };
 
+  // Goes straight to the journey, unlike picking a destination which only
+  // narrows the filter — matching this journey is a direct result, not
+  // another thing to add to a multi-select.
+  const handleJourneySelect = (journey) => {
+    if (journey.viewTripUrl) router.push(journey.viewTripUrl);
+  };
+
   const handleMonthSelect = (month) => {
     setSelectedMonths((prev) => {
       if (prev.includes(month)) {
@@ -228,52 +262,135 @@ export default function TravelForm({
 
           <DropdownArrow open={activeDropdown === "date"} />
         </button>
-        {activeDropdown === "destination" ? (
-          // Clicking the closed field above opens the panel and swaps this
-          // in — same size/border, but now a real text input so typing
-          // narrows the "Popular Destinations" pills below instead of only
-          // being able to click through them.
-          <div className="flex h-[42px] w-[410px] items-center rounded border-[1.5px] border-gray-400 bg-white px-4">
-            <input
-              autoFocus
-              type="text"
-              value={showDestinationSelection ? selectedDestinations.join(", ") : destinationQuery}
-              onFocus={(e) => {
-                if (showDestinationSelection) e.target.select();
+        <div className="relative">
+          {activeDropdown === "destination" ? (
+            // Clicking the closed field above opens the panel and swaps this
+            // in — same size/border, but now a real text input so typing
+            // narrows the "Popular Destinations" pills below instead of only
+            // being able to click through them.
+            <div className="flex h-[42px] w-[410px] items-center rounded border-[1.5px] border-gray-400 bg-white px-4">
+              <input
+                autoFocus
+                type="text"
+                value={showDestinationSelection ? selectedDestinations.join(", ") : destinationQuery}
+                onFocus={(e) => {
+                  if (showDestinationSelection) e.target.select();
+                }}
+                onChange={(e) => {
+                  setShowDestinationSelection(false);
+                  setDestinationQuery(e.target.value);
+                }}
+                placeholder="Search or choose from our popular destinations"
+                className="min-w-0 flex-1 truncate bg-transparent text-[13px] max-[1910px]:text-[13px] placeholder:text-gray-400 focus:outline-none"
+              />
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                setShowDestinationSelection(true);
+                setActiveDropdown("destination");
               }}
-              onChange={(e) => {
-                setShowDestinationSelection(false);
-                setDestinationQuery(e.target.value);
-              }}
-              placeholder="Search or choose from our popular destinations"
-              className="min-w-0 flex-1 truncate bg-transparent text-[13px] max-[1910px]:text-[13px] placeholder:text-gray-400 focus:outline-none"
-            />
-          </div>
-        ) : (
-          <button
-            onClick={() => {
-              setShowDestinationSelection(true);
-              setActiveDropdown("destination");
-            }}
-            className="flex h-[42px] w-[410px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
-          >
-            <span
-              className={`truncate text-[13px] max-[1910px]:text-[13px] ${
-                selectedDestinations.length ? "font-semibold" : ""
-              }`}
+              className="flex h-[42px] w-[410px] items-center justify-between rounded border-[1.5px] border-gray-400 bg-white px-4"
             >
-              {selectedDestinations.length
-                ? selectedDestinations.length > 3
-                  ? `${selectedDestinations.slice(0, 3).join(", ")} +${
-                      selectedDestinations.length - 3
-                    } more`
-                  : selectedDestinations.join(", ")
-                : "Where do you want to go?"}
-            </span>
+              <span
+                className={`truncate text-[13px] max-[1910px]:text-[13px] ${
+                  selectedDestinations.length ? "font-semibold" : ""
+                }`}
+              >
+                {selectedDestinations.length
+                  ? selectedDestinations.length > 3
+                    ? `${selectedDestinations.slice(0, 3).join(", ")} +${
+                        selectedDestinations.length - 3
+                      } more`
+                    : selectedDestinations.join(", ")
+                  : "Where do you want to go?"}
+              </span>
 
-            <DropdownArrow open={false} />
-          </button>
-        )}
+              <DropdownArrow open={false} />
+            </button>
+          )}
+
+          {/* Search Results — anchored to just this 410px field (not the
+              full search-bar row) since typing can return many more rows
+              than the curated Popular Destinations list and looked wrong
+              spanning the whole bar's width. */}
+          {activeDropdown === "destination" && destinationQuery.trim() && (
+            <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-[10px] border-2 border-black bg-[#FAFAFA] p-4 shadow-[5px_10px_15px_rgba(26,26,26,0.1)]">
+              <h3 className="mb-4 text-lg font-semibold text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px]">
+                Search Results
+              </h3>
+
+              <div className="max-h-[320px] overflow-y-auto rounded-[6px] border border-[#D9D9D9]">
+                {matchingJourneys.map((journey) => (
+                  <button
+                    key={`journey-${journey.id}`}
+                    onClick={() => handleJourneySelect(journey)}
+                    className="flex w-full items-center gap-3 border-b border-[#EEEEEE] px-4 py-2.5 text-left last:border-b-0 hover:bg-[#F2E5DE]"
+                  >
+                    <span className="relative h-[36px] w-[36px] shrink-0 overflow-hidden rounded-[4px] bg-[#EEEEEE]">
+                      {journey.image && (
+                        <Image
+                          src={journey.image}
+                          alt={journey.title}
+                          fill
+                          sizes="36px"
+                          className="object-cover"
+                        />
+                      )}
+                    </span>
+                    <span className="flex min-w-0 flex-col">
+                      <span className="truncate text-[13px] font-medium text-[#1A1A1A]">
+                        {journey.title}
+                      </span>
+                      {getJourneyMatchCity(journey, destinationQuery) && (
+                        <span className="truncate text-[12px] text-[#757575]">
+                          {getJourneyMatchCity(journey, destinationQuery)}
+                        </span>
+                      )}
+                    </span>
+                  </button>
+                ))}
+
+                {filteredDestinationOptions.length ? (
+                  filteredDestinationOptions.map((item) => {
+                    const isSelected = selectedDestinations.includes(item.value);
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleDestinationSelect(item.value)}
+                        className={`flex w-full items-center justify-between gap-2 border-b border-[#EEEEEE] px-4 py-2.5 text-left text-[13px] last:border-b-0 ${
+                          isSelected
+                            ? "bg-[#F2E2DA] text-[#1A1A1A]"
+                            : "text-[#1A1A1A] hover:bg-[#F2E5DE]"
+                        }`}
+                      >
+                        <span className="truncate">{item.label}</span>
+                        {isSelected && <span className="shrink-0 text-[#2E348D]">✓</span>}
+                      </button>
+                    );
+                  })
+                ) : matchingJourneys.length ? null : (
+                  <p className="px-4 py-3 text-[13px] text-[#757575]">
+                    No matching destinations
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-4">
+                <label className="inline-flex cursor-pointer items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={openToPossibilities}
+                    onChange={(e) => setOpenToPossibilities(e.target.checked)}
+                    className="h-4 w-4 accent-[#2E348D]"
+                  />
+
+                  <a className={`text-[13px] max-[1910px]:text-[13px] `}>I&apos;m open to possibilities!</a>
+                </label>
+              </div>
+            </div>
+          )}
+        </div>
 
        <button
           onClick={() =>
@@ -327,59 +444,30 @@ export default function TravelForm({
         </div>
       )}
 
-      {activeDropdown === "destination" && (
+      {/* Popular Destinations — full-width panel under the whole search bar
+          row, unchanged. Once typing starts, the narrower Search Results
+          panel nested in the WHERE field above takes over instead. */}
+      {activeDropdown === "destination" && !destinationQuery.trim() && (
         <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-[10px] border-2 border-black bg-[#FAFAFA] p-4 shadow-[5px_10px_15px_rgba(26,26,26,0.1)]">
           <h3 className="mb-4 text-lg font-semibold text-[17px] max-[1910px]:text-[17px] max-[1281px]:text-[14px]">
-            {destinationQuery.trim() ? "Search Results" : "Popular Destinations"}
+            Popular Destinations
           </h3>
 
-          {destinationQuery.trim() ? (
-            // Typing can match dozens of Locations (any search containing a
-            // common letter) — a pill grid that size is overwhelming, so
-            // search results render as a compact scrollable list instead,
-            // same as the itinerary page's own destination search.
-            <div className="max-h-[260px] overflow-y-auto rounded-[6px] border border-[#D9D9D9]">
-              {filteredDestinationOptions.length ? (
-                filteredDestinationOptions.map((item) => {
-                  const isSelected = selectedDestinations.includes(item.value);
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => handleDestinationSelect(item.value)}
-                      className={`flex w-full items-center justify-between gap-2 border-b border-[#EEEEEE] px-4 py-2.5 text-left text-[13px] last:border-b-0 ${
-                        isSelected
-                          ? "bg-[#F2E2DA] text-[#1A1A1A]"
-                          : "text-[#1A1A1A] hover:bg-[#F2E5DE]"
-                      }`}
-                    >
-                      <span className="truncate">{item.label}</span>
-                      {isSelected && <span className="shrink-0 text-[#2E348D]">✓</span>}
-                    </button>
-                  );
-                })
-              ) : (
-                <p className="px-4 py-3 text-[13px] text-[#757575]">
-                  No matching destinations
-                </p>
-              )}
-            </div>
-          ) : (
-            <div className="flex flex-wrap gap-3">
-              {filteredDestinationOptions.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleDestinationSelect(item.value)}
-                  className={`flex h-[30px] items-center rounded-full border border-[#1A1A1A] px-4 text-xs text-[#1A1A1A] transition-all text-[13px] max-[1910px]:text-[13px] ${
-                    selectedDestinations.includes(item.value)
-                      ? "bg-[#F2E2DA]"
-                      : "bg-transparent"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          )}
+          <div className="flex flex-wrap gap-3">
+            {filteredDestinationOptions.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleDestinationSelect(item.value)}
+                className={`flex h-[30px] items-center rounded-full border border-[#1A1A1A] px-4 text-xs text-[#1A1A1A] transition-all text-[13px] max-[1910px]:text-[13px] ${
+                  selectedDestinations.includes(item.value)
+                    ? "bg-[#F2E2DA]"
+                    : "bg-transparent"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
 
           <div className="mt-4">
             <label className="inline-flex cursor-pointer items-center gap-2">

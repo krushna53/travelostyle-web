@@ -68,7 +68,9 @@ export default function AllJourneysPage({
   // ================= FILTER =================
 
   const filteredJourneys = useMemo(() => {
-    let data = journeys.filter((item) => matchesDestinationSearch(item, filters.destinationSearch));
+    let data = journeys.filter((item) =>
+      matchesDestinationSearch(item, filters.destinationSearch),
+    );
 
     if (countryFilter) {
       data = data.filter(
@@ -83,7 +85,9 @@ export default function AllJourneysPage({
     }
 
     if (filters.region.length) {
-      data = data.filter((item) => filters.region.some((region) => matchesDestinationSearch(item, region)));
+      data = data.filter((item) =>
+        filters.region.some((region) => matchesDestinationSearch(item, region)),
+      );
     }
 
     if (filters.style.length) {
@@ -140,15 +144,23 @@ export default function AllJourneysPage({
     return data;
   }, [journeys, filters, sort, countryFilter]);
   const hasActiveFilters =
-  filters.region.length > 0 ||
-  filters.style.length > 0 ||
-  filters.offer.length > 0 ||
-  filters.category.length > 0 ||
-  filters.month.length > 0 ||
-  filters.pricing.length > 0 ||
-  filters.duration.length > 0 ||
-  !!countryFilter || !!filters.destinationSearch?.trim();
+    filters.region.length > 0 ||
+    filters.style.length > 0 ||
+    filters.offer.length > 0 ||
+    filters.category.length > 0 ||
+    filters.month.length > 0 ||
+    filters.pricing.length > 0 ||
+    filters.duration.length > 0 ||
+    !!countryFilter ||
+    !!filters.destinationSearch?.trim();
   const isNoResults = filteredJourneys.length === 0 && hasActiveFilters;
+  // The "busy crafting your next favorite group journey" waitlist pitch
+  // only makes sense when the dead-end search was specifically for Group
+  // Journeys — any other empty-filter combination (region, price, a
+  // different style, etc.) falls back to the plain "adjust your filters"
+  // message that was there before this was added.
+  const isGroupNoResults =
+    isNoResults && filters.style.includes("Group Journey");
   const totalPages = Math.ceil(filteredJourneys.length / itemsPerPage);
 
   const paginatedJourneys = filteredJourneys.slice(
@@ -156,6 +168,19 @@ export default function AllJourneysPage({
     currentPage * itemsPerPage,
   );
   const popularJourneys = journeys.slice(0, 6);
+
+  // Adds a Travel Style to the active filter (rather than replacing it) so
+  // clicking "Private" from the Group-empty-results pitch below surfaces
+  // Private journeys alongside whatever's already selected, same as
+  // checking it in the sidebar would.
+  const selectStyle = (styleName) => {
+    setFilters((prev) => ({
+      ...prev,
+      style: prev.style.includes(styleName)
+        ? prev.style
+        : [...prev.style, styleName],
+    }));
+  };
 
   const clearAllFilters = () => {
     setFilters({
@@ -169,7 +194,11 @@ export default function AllJourneysPage({
       duration: [],
     });
     setCountryFilter(null);
-    if (searchParams.get("country") || searchParams.get("search") || searchParams.get("region")) {
+    if (
+      searchParams.get("country") ||
+      searchParams.get("search") ||
+      searchParams.get("region")
+    ) {
       router.replace(pathname);
     }
   };
@@ -206,20 +235,31 @@ export default function AllJourneysPage({
             5px closer under it. On that board the words start at x 27, flush
             with their bars -- not 32 as on the listing -- which is what leaves
             the room after "those", "travelled" and "us". */}
-        <h1 className={`relative z-10 font-taprom text-[calc(40*var(--fig-u))] leading-[calc(48*var(--fig-u))] tracking-[0.05em] font-normal text-[#1A1A1A] ${isNoResults ? "ml-[calc(27*var(--fig-u)-16px)] mt-[calc(12*var(--fig-u))]" : "ml-[calc(32*var(--fig-u)-16px)] mt-[calc(24*var(--fig-u))]"}`}>
+        <h1
+          className={`relative z-10 font-taprom text-[calc(40*var(--fig-u))] leading-[calc(48*var(--fig-u))] tracking-[0.05em] font-normal text-[#1A1A1A] ${isNoResults ? "ml-[calc(27*var(--fig-u)-16px)] mt-[calc(12*var(--fig-u))]" : "ml-[calc(32*var(--fig-u)-16px)] mt-[calc(24*var(--fig-u))]"}`}
+        >
           {(isNoResults
             ? ["Hear from those", "who’ve travelled", "with us"]
-            : ["We’ve never believed", "in a one-size-fits-", "all approach to the", "world"]
+            : [
+                "We’ve never believed",
+                "in a one-size-fits-",
+                "all approach to the",
+                "world",
+              ]
           ).map((line, i) => (
             <span key={line} className="block">
-              <span className={`sub-title-bg inline-block whitespace-nowrap ${isNoResults ? `hero-bar-nohits-m hero-bar-nohits-m${i + 1}` : `hero-bar-itin-m hero-bar-itin-m${i + 1}`}`}>
+              <span
+                className={`sub-title-bg inline-block whitespace-nowrap ${isNoResults ? `hero-bar-nohits-m hero-bar-nohits-m${i + 1}` : `hero-bar-itin-m hero-bar-itin-m${i + 1}`}`}
+              >
                 {line}
               </span>
             </span>
           ))}
         </h1>
 
-        <div className={`${isNoResults ? "mt-[calc(40*var(--fig-u))]" : "mt-[calc(45*var(--fig-u))]"} md:mt-6 flex items-center justify-between border-b-2 border-ink pb-3`}>
+        <div
+          className={`${isNoResults ? "mt-[calc(40*var(--fig-u))]" : "mt-[calc(45*var(--fig-u))]"} md:mt-6 flex items-center justify-between border-b-2 border-ink pb-3`}
+        >
           <span className="text-sm text-[#888]">
             {filteredJourneys.length} trips found
           </span>
@@ -241,7 +281,9 @@ export default function AllJourneysPage({
           <nav className="font-light text-[14px] leading-[32px] tracking-[5%]  text-[#888]">
             <span>home</span>
             <span className="mx-[6px]">&gt;</span>
-            <span className="font-light text-[14px] leading-[32px] tracking-[5%] ">all journeys</span>
+            <span className="font-light text-[14px] leading-[32px] tracking-[5%] ">
+              all journeys
+            </span>
           </nav>
         </div>
         {/* Sort bar aligned with grid column */}
@@ -262,13 +304,13 @@ export default function AllJourneysPage({
             filters={filters}
             setFilters={setFilters}
             filterOptions={filterOptions}
-             journeys={journeys}
+            journeys={journeys}
             onClearAll={clearAllFilters}
           />
         </div>
 
         <div className="flex-1 min-w-0">
-        {filteredJourneys.length === 0 && hasActiveFilters ? (
+          {filteredJourneys.length === 0 && hasActiveFilters ? (
             <div className="flex flex-col gap-2 items-start md:items-center justify-center pt-[16px] pb-12 md:py-[115px] text-left md:text-center">
               {/* Mobile spacing is "RES_No Search Hits" (390): illustration
                   176 wide with its drawing 29 under the rule (the SVG carries
@@ -279,16 +321,56 @@ export default function AllJourneysPage({
                 alt="No journeys found"
                 className="mb-0 md:mb-8 w-[176px] md:w-[346px] h-auto mx-auto"
               />
+              {!isGroupNoResults && (
+                <>
+                  <h3 className="font-medium text-[21px] md:text-[32px] leading-[32px] md:leading-[40px] tracking-[0.05em] text-left md:text-center text-ink mt-[11px] md:mt-8">
+                    Sorry! We were unable to find{" "}
+                    <br className="hidden md:inline" />
+                    the trip you requested.
+                  </h3>
+                  <p className="max-w-[321px] md:max-w-[520px] font-normal text-[16px] leading-[24px] md:leading-[100%] tracking-[0.05em] text-left md:text-center text-ink mt-[5px] md:mt-2">
+                    Please adjust your filters to find a trip{" "}
+                    <br className="hidden md:inline" />
+                    that fits you
+                  </p>{" "}
+                </>
+              )}
 
-              <h3 className="font-medium text-[21px] md:text-[32px] leading-[32px] md:leading-[40px] tracking-[0.05em] text-left md:text-center text-ink mt-[11px] md:mt-8">
-                Sorry! We were unable to find{" "}
-                <br className="hidden md:inline" />the trip you requested.
-              </h3>
-              <p className="max-w-[321px] md:max-w-[520px] font-normal text-[16px] leading-[24px] md:leading-[100%] tracking-[0.05em] text-left md:text-center text-ink mt-[5px] md:mt-2">
-                Please adjust your filters to find a trip{" "}
-                <br className="hidden md:inline" />
-                that fits you
-              </p>
+              {isGroupNoResults && (
+                <>
+                  <h3 className="font-medium text-[21px] md:text-[32px] leading-[32px] md:leading-[40px] tracking-[0.05em] text-left md:text-center text-ink mt-[11px] md:mt-8">
+                    Our global design team is busy crafting{" "}
+                    <br className="hidden md:inline" />
+                    your next favorite group journey!
+                  </h3>
+
+                  <p className="max-w-[321px] md:max-w-[520px] font-normal text-[16px] leading-[24px] md:leading-[100%] tracking-[0.05em] text-left md:text-center text-ink mt-[5px] md:mt-2">
+                    They aren’t quite ready for the spotlight yet, but we
+                    promise they are worth the wait.
+                  </p>
+
+                  <p className="max-w-[321px] md:max-w-[520px] font-normal text-[16px] leading-[24px] md:leading-[100%] tracking-[0.05em] text-left md:text-center text-ink mt-4">
+                    Join our Exclusive Waitlist to grab the first seats, or
+                    explore our gorgeous{" "}
+                    <button
+                      type="button"
+                      onClick={() => selectStyle("Private Journey")}
+                      className="underline hover:opacity-80 transition-opacity"
+                    >
+                      Private
+                    </button>
+                    <span> &amp; </span>
+                    <button
+                      type="button"
+                      onClick={() => selectStyle("Tailormade Journey")}
+                      className="underline hover:opacity-80 transition-opacity"
+                    >
+                      Tailor-Made Itineraries
+                    </button>{" "}
+                    to find your spark today.
+                  </p>
+                </>
+              )}
 
               <div className="mt-4 mb-[10px] md:my-4 font-normal text-[16px] leading-[100%] tracking-[0.05em] text-left md:text-center text-ink md:mt-2">
                 OR
@@ -310,17 +392,17 @@ export default function AllJourneysPage({
                 <JourneyGrid journeys={popularJourneys} />
               </div>
             </div>
-         ) : (
-  <div>
-    <JourneyGrid journeys={paginatedJourneys} />
+          ) : (
+            <div>
+              <JourneyGrid journeys={paginatedJourneys} />
 
-    <Pagination
-      totalPages={totalPages}
-      currentPage={currentPage}
-      setCurrentPage={setCurrentPage}
-    />
-  </div>
-)}
+              <Pagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </div>
+          )}
         </div>
       </div>
 

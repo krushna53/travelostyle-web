@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import FindJourneyMobile from "@/components/HomePage/FindYourJourney/FindYourJourneyMobile";
 import { BUDGET_RANGES } from "@/lib/budgetRanges";
+import { matchesDestinationSearch } from "@/lib/destinationSearch";
 
 // Same options as the homepage's TravelForm "How long do you want to
 // travel?" picker.
@@ -37,6 +38,7 @@ function ListingSearchForm({
   allDestinations = [],
   popularDestinations = [],
   popularMonths = [],
+  journeys = [],
 }) {
   const router = useRouter();
   const formRef = useRef(null);
@@ -105,6 +107,13 @@ function ListingSearchForm({
     );
   };
 
+  // Goes straight to the journey, unlike picking a destination which only
+  // narrows the filter — matching this journey is a direct result, not
+  // another thing to add to a multi-select. Same as the homepage TravelForm.
+  const handleJourneySelect = (journey) => {
+    if (journey.viewTripUrl) router.push(journey.viewTripUrl);
+  };
+
   // Same curated list as the homepage's "Popular Destinations" by default;
   // typing searches every Location (city/region/country/state), falling
   // back to the plain region list if that curated/full fetch hasn't loaded.
@@ -130,6 +139,26 @@ function ListingSearchForm({
         });
       })()
     : popularDestinationOptions;
+
+  // Journeys whose title/region/city/country/state match what's typed —
+  // same matcher the results page itself uses, so a search that happens to
+  // match an actual trip surfaces it directly (image + title), not just as
+  // a destination filter chip.
+  const matchingJourneys = destinationQuery.trim()
+    ? journeys.filter((journey) => matchesDestinationSearch(journey, destinationQuery))
+    : [];
+
+  // Shows which city/region actually matched the typed query under a
+  // journey's title — prefers whichever of start/end city contains the
+  // query so "Varanasi" shows "Varanasi" rather than the journey's other
+  // endpoint; falls back to region, then start city, when the match came
+  // from the title itself.
+  const getJourneyMatchCity = (journey, query) => {
+    const term = query.trim().toLowerCase();
+    const candidates = [journey.startCity, journey.endCity, journey.region].filter(Boolean);
+    if (!term) return candidates[0] || "";
+    return candidates.find((value) => value.toLowerCase().includes(term)) || candidates[0] || "";
+  };
 
   const toggleMonth = (m) =>
     setSelectedMonths((prev) =>
@@ -186,7 +215,7 @@ function ListingSearchForm({
     // room for three fields + CTA in one row, so it drops to a 2x2 grid.
     <div
       ref={formRef}
-      className="border-2 border-ink rounded-lg px-[clamp(12px,1.25vw,24px)] py-[clamp(12px,0.83vw,16px)] my-6 bg-white"
+      className="relative border-2 border-ink rounded-lg px-[clamp(12px,1.25vw,24px)] py-[clamp(12px,0.83vw,16px)] my-6 bg-white"
     >
       <div className="grid grid-cols-2 gap-[clamp(8px,1vw,19px)] min-[1200px]:grid-cols-[1fr_1fr_1fr_auto]">
          {/* WHEN */}
@@ -200,37 +229,102 @@ function ListingSearchForm({
           {activeDropdown === "when" ? <ChevronUp size={16} className="shrink-0" /> : <ChevronDown size={16} className="shrink-0" />}
         </button>
         {/* WHERE */}
-        {activeDropdown === "dest" ? (
-          <div className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]">
-            <input
-              autoFocus
-              type="text"
-              value={showDestinationSelection ? selectedDestinations.join(", ") : destinationQuery}
-              onFocus={(e) => {
-                if (showDestinationSelection) e.target.select();
+        <div className="relative min-w-0">
+          {activeDropdown === "dest" ? (
+            <div className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]">
+              <input
+                autoFocus
+                type="text"
+                value={showDestinationSelection ? selectedDestinations.join(", ") : destinationQuery}
+                onFocus={(e) => {
+                  if (showDestinationSelection) e.target.select();
+                }}
+                onChange={(e) => {
+                  setShowDestinationSelection(false);
+                  setDestinationQuery(e.target.value);
+                }}
+                placeholder="Search by city, region or country"
+                className="min-w-0 flex-1 truncate bg-transparent text-[clamp(13px,0.73vw,14px)] placeholder:text-gray-400 focus:outline-none"
+              />
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                setShowDestinationSelection(true);
+                toggle("dest");
               }}
-              onChange={(e) => {
-                setShowDestinationSelection(false);
-                setDestinationQuery(e.target.value);
-              }}
-              placeholder="Search by city, region or country"
-              className="min-w-0 flex-1 truncate bg-transparent text-[clamp(13px,0.73vw,14px)] placeholder:text-gray-400 focus:outline-none"
-            />
-          </div>
-        ) : (
-          <button
-            onClick={() => {
-              setShowDestinationSelection(true);
-              toggle("dest");
-            }}
-            className="flex h-[clamp(38px,2.4vw,46px)] min-w-0 items-center justify-between gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]"
-          >
-            <span className={`min-w-0 truncate text-[clamp(13px,0.73vw,14px)] ${!selectedDestinations.length ? "text-gray-400" : "text-ink"}`}>
-              {destLabel}
-            </span>
-            <ChevronDown size={16} className="shrink-0" />
-          </button>
-        )}
+              className="flex h-[clamp(38px,2.4vw,46px)] w-full min-w-0 items-center justify-between gap-2 rounded border border-gray-300 bg-white px-[clamp(10px,0.83vw,16px)]"
+            >
+              <span className={`min-w-0 truncate text-[clamp(13px,0.73vw,14px)] ${!selectedDestinations.length ? "text-gray-400" : "text-ink"}`}>
+                {destLabel}
+              </span>
+              <ChevronDown size={16} className="shrink-0" />
+            </button>
+          )}
+
+          {/* Search Results — anchored to just this field (not the full
+              form width) since typing can return many more rows than the
+              curated Popular Destinations list and looked wrong spanning
+              the whole bar. */}
+          {activeDropdown === "dest" && destinationQuery.trim() && (
+            <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
+              <h3 className="mb-3 text-[18px] font-semibold">Search Results</h3>
+              <div className="max-h-[320px] overflow-y-auto rounded-[6px] border border-[#D9D9D9]">
+                {matchingJourneys.map((journey) => (
+                  <button
+                    key={`journey-${journey.id}`}
+                    onClick={() => handleJourneySelect(journey)}
+                    className="flex w-full items-center gap-3 border-b border-[#EEEEEE] px-4 py-2.5 text-left last:border-b-0 hover:bg-[#F5EFE8]"
+                  >
+                    <span className="relative h-[36px] w-[36px] shrink-0 overflow-hidden rounded-[4px] bg-[#EEEEEE]">
+                      {journey.image && (
+                        <Image
+                          src={journey.image}
+                          alt={journey.title}
+                          fill
+                          sizes="36px"
+                          className="object-cover"
+                        />
+                      )}
+                    </span>
+                    <span className="flex min-w-0 flex-col">
+                      <span className="truncate text-[14px] font-medium text-[#1A1A1A]">
+                        {journey.title}
+                      </span>
+                      {getJourneyMatchCity(journey, destinationQuery) && (
+                        <span className="truncate text-[12px] text-[#757575]">
+                          {getJourneyMatchCity(journey, destinationQuery)}
+                        </span>
+                      )}
+                    </span>
+                  </button>
+                ))}
+
+                {filteredDestinations.length ? (
+                  filteredDestinations.map((item) => {
+                    const isSelected = selectedDestinations.includes(item.value);
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => toggleDest(item.value)}
+                        className={`flex w-full items-center justify-between gap-2 border-b border-[#EEEEEE] px-4 py-2.5 text-left text-[14px] last:border-b-0 ${
+                          isSelected
+                            ? "bg-[#F5EFE8] text-[#2E348D]"
+                            : "text-[#444] hover:bg-[#F5EFE8]"
+                        }`}
+                      >
+                        <span className="truncate">{item.label}</span>
+                        {isSelected && <span className="shrink-0 text-[#2E348D]">✓</span>}
+                      </button>
+                    );
+                  })
+                ) : matchingJourneys.length ? null : (
+                  <p className="px-4 py-3 text-[14px] text-[#757575]">No matching destinations</p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
 
 
         {/* BUDGET */}
@@ -253,59 +347,37 @@ function ListingSearchForm({
         </button>
       </div>
 
-      {/* WHERE DROPDOWN */}
-      {activeDropdown === "dest" && (
-        <div className="mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
-          <h3 className="mb-3 text-[18px] font-semibold">
-            {destinationQuery.trim() ? "Search Results" : "Popular Destinations"}
-          </h3>
-          {destinationQuery.trim() ? (
-            <div className="max-h-[260px] overflow-y-auto rounded-[6px] border border-[#D9D9D9]">
-              {filteredDestinations.length ? (
-                filteredDestinations.map((item) => {
-                  const isSelected = selectedDestinations.includes(item.value);
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => toggleDest(item.value)}
-                      className={`flex w-full items-center justify-between gap-2 border-b border-[#EEEEEE] px-4 py-2.5 text-left text-[14px] last:border-b-0 ${
-                        isSelected
-                          ? "bg-[#F5EFE8] text-[#2E348D]"
-                          : "text-[#444] hover:bg-[#F5EFE8]"
-                      }`}
-                    >
-                      <span className="truncate">{item.label}</span>
-                      {isSelected && <span className="shrink-0 text-[#2E348D]">✓</span>}
-                    </button>
-                  );
-                })
-              ) : (
-                <p className="px-4 py-3 text-[14px] text-[#757575]">No matching destinations</p>
-              )}
-            </div>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {filteredDestinations.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => toggleDest(item.value)}
-                  className={`rounded-full border px-4 py-1 text-[14px] transition-all ${
-                    selectedDestinations.includes(item.value)
-                      ? "border-[#2E348D] bg-[#F5EFE8] text-[#2E348D]"
-                      : "border-gray-300 bg-white text-[#444]"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          )}
+      {/* POPULAR DESTINATIONS — full-width panel under the whole bar,
+          absolutely positioned so it floats over the page below instead of
+          pushing the layout down. Only the empty-query state renders here;
+          once typing starts, the narrower Search Results panel nested in
+          the WHERE field above takes over. */}
+      {activeDropdown === "dest" && !destinationQuery.trim() && (
+        <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
+          <h3 className="mb-3 text-[18px] font-semibold">Popular Destinations</h3>
+          <div className="flex flex-wrap gap-2">
+            {filteredDestinations.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => toggleDest(item.value)}
+                className={`rounded-full border px-4 py-1 text-[14px] transition-all ${
+                  selectedDestinations.includes(item.value)
+                    ? "border-[#2E348D] bg-[#F5EFE8] text-[#2E348D]"
+                    : "border-gray-300 bg-white text-[#444]"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* WHEN DROPDOWN */}
+      {/* WHEN DROPDOWN — absolutely positioned so it floats over the page
+          below instead of pushing the layout down, same as the WHERE
+          dropdown above. */}
       {activeDropdown === "when" && (
-        <div className="mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
+        <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
           <h3 className="mb-3 text-[18px] font-semibold">Pick Month of Travel</h3>
           <div className="flex flex-wrap gap-2">
             {monthOptions.map((m) => (
@@ -346,9 +418,9 @@ function ListingSearchForm({
         </div>
       )}
 
-      {/* BUDGET DROPDOWN */}
+      {/* BUDGET DROPDOWN — same floating treatment as WHEN/WHERE above. */}
       {activeDropdown === "budget" && (
-        <div className="mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
+        <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
           <h3 className="mb-3 text-[18px] font-semibold">Select Budget Range</h3>
           <div className="flex flex-wrap gap-2">
             {BUDGET_RANGES.map((b) => (
@@ -377,12 +449,13 @@ export default function SearchBar({
   allDestinations = [],
   popularDestinations = [],
   popularMonths = [],
+  journeys = [],
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showFindJourneyMobile, setShowFindJourneyMobile] = useState(false);
 
   return (
-    <section className="w-full overflow-hidden">
+    <section className="w-full">
       {/* Top Bar */}
       <div className="flex items-center justify-between bg-[#2E2787] px-4 md:px-[108px] py-2 text-[10px] md:text-[11px] text-white">
         <p className="flex items-center gap-2 truncate md:hidden">
@@ -562,6 +635,7 @@ export default function SearchBar({
             allDestinations={allDestinations}
             popularDestinations={popularDestinations}
             popularMonths={popularMonths}
+            journeys={journeys}
           />
         </div>
       </div>
@@ -575,6 +649,7 @@ export default function SearchBar({
             allDestinations={allDestinations}
             popularDestinations={popularDestinations}
             popularMonths={popularMonths}
+            journeys={journeys}
           />
         </div>
       )}

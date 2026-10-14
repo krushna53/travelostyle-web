@@ -398,7 +398,12 @@ export default function FilterSidebar({
     <>
       {/* REGION (Drupal: country) */}
       <FilterSection title="Region" mobile={mobile}>
-        {[...new Set([...(filterOptions.region || []), ...filters.region])].filter((item) => getCount("region", item) > 0 || filters.region.includes(item)).map((item) => (
+        {/* Base list is real Region taxonomy terms only (filterOptions.region) —
+              it used to also union in whatever's currently in filters.region,
+              so a value that got into the URL/session some other way
+              without being a real taxonomy term still rendered as an extra
+              checkbox the moment it was "selected". */}
+            {(filterOptions.region || []).filter((item) => getCount("region", item) > 0 || filters.region.includes(item)).map((item) => (
             <CheckboxItem
               key={item}
               label={item}
@@ -621,7 +626,12 @@ export default function FilterSidebar({
       <div className="rounded-[4px] border-2 border-[#000000] px-[19px] py-[6px]">
         {/* REGION (Drupal: country) */}
         <FilterSection title="Region">
-          {[...new Set([...(filterOptions.region || []), ...filters.region])].filter((item) => getCount("region", item) > 0 || filters.region.includes(item)).map((item) => (
+          {/* Base list is real Region taxonomy terms only (filterOptions.region) —
+              it used to also union in whatever's currently in filters.region,
+              so a value that got into the URL/session some other way
+              without being a real taxonomy term still rendered as an extra
+              checkbox the moment it was "selected". */}
+            {(filterOptions.region || []).filter((item) => getCount("region", item) > 0 || filters.region.includes(item)).map((item) => (
             <CheckboxItem
               key={item}
               label={item}
