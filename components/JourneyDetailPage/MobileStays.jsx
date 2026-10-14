@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import GalleryMobileView from "./GalleryMobileView";
 import JourneyCardImage from "@/components/JourneyCardImage";
 
-export default function MobileStays({ onBack, StaysRecord }) {
+export default function MobileStays({ onBack, onNext, StaysRecord }) {
   const staysData = Array.isArray(StaysRecord) ? StaysRecord : [];
 
   const [selectedStay, setSelectedStay] = useState(null);
@@ -30,7 +30,17 @@ export default function MobileStays({ onBack, StaysRecord }) {
           Stays
         </h1>
 
-        <div className="w-12" />
+        {onNext ? (
+          <button
+            onClick={onNext}
+            aria-label="Next section"
+            className="flex h-6 w-12 items-center justify-center rounded-full bg-white transition active:scale-95"
+          >
+            <Image src="/RightArrow.svg" alt="" width={56} height={24} />
+          </button>
+        ) : (
+          <div className="w-12" aria-hidden="true" />
+        )}
       </div>
       {staysData.length === 0 ? (
         <div className="flex min-h-[120px] items-center justify-center rounded-lg border p-4">
