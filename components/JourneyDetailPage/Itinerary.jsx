@@ -6,6 +6,7 @@ import CtaBanner from "./CtaBanner";
 
 export default function MobileItinerary({
   onBack,
+  onNext,
   itineraryRecord,
   mapImage,
   journey,
@@ -30,7 +31,17 @@ export default function MobileItinerary({
           Itinerary
         </h1>
 
-        <div className="w-12" />
+        {onNext ? (
+          <button
+            onClick={onNext}
+            aria-label="Next section"
+            className="flex h-6 w-12 items-center justify-center rounded-full bg-white transition active:scale-95"
+          >
+            <Image src="/RightArrow.svg" alt="" width={56} height={24} />
+          </button>
+        ) : (
+          <div className="w-12" aria-hidden="true" />
+        )}
       </div>
       <h2 className="text-sm font-bold text-neutral-800 mb-3 tracking-tight">
         Learn How Your Days Unfold
