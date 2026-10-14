@@ -18,14 +18,17 @@ function DayAccordion({ item, isOpen, onToggle }) {
             DAY {item.day}
           </p>
           <p className="text-[18px] font-semibold text-ink">
+            {item.cityPair ? `${item.cityPair} - ` : ""}
             {item.title}
           </p>
-          <p className="text-[18px] font-normal text-[#000000] mt-[0.2vw]">
-            <span className="font-bold text-ink">Stay:</span> {item.stay}
-          </p>
+          {item.stay ? (
+            <p className="text-[18px] font-normal text-[#000000] mt-[0.2vw]">
+              <span className="font-bold text-ink">Stay:</span> {item.stay}
+            </p>
+          ) : null}
           {isOpen && (
             <p className="text-[18px] text-[#000000] leading-[1.6] mt-[0.8vw]">
-              {item.description}
+              {item.description || ""}
             </p>
           )}
         </div>
@@ -58,7 +61,11 @@ export default function ItinerarySection({
 
       <div className="grid grid-cols-[2fr_3fr] gap-[2vw]">
         {/* Left: Map placeholder */}
-      <div className="border border-[#D9D9D9] rounded-[0.4vw] overflow-hidden min-h-[30vw] sticky top-[1vw] self-start relative">
+      <div
+        className={`border border-[#D9D9D9] rounded-[8px] overflow-hidden sticky top-[20px] self-start relative ${
+          mapImage ? "min-h-[576px]" : ""
+        }`}
+      >
   {mapImage ? (
     <Image
       src={mapImage}
@@ -67,9 +74,16 @@ export default function ItinerarySection({
       className="object-cover"
     />
   ) : (
-    <div className="flex items-center justify-center h-full">
-      No map available
-    </div>
+    // No map uploaded for this journey -> default "Journey Map Coming Soon"
+    // image. Sized by its own aspect ratio (1566x1005) so it fills the box
+    // edge to edge with no gap above or below.
+    <Image
+      src="/journey-map-placeholder.jpg"
+      alt="Journey Map"
+      width={1566}
+      height={1005}
+      className="block w-full h-auto"
+    />
   )}
 </div>
         {/* Right: Day accordion */}

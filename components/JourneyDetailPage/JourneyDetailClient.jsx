@@ -31,6 +31,7 @@ const MOCK_JOURNEY = {
   endCity: "",
   bestSeason: "",
   pace: "",
+  groupSize: "",
   offer: "",
   earlyBird: true,
   highlights: [
@@ -252,10 +253,8 @@ function resolveHotelNodeCard(hotel, included) {
 
 
 function resolveTabSections(item, included, { hotelPool = [] } = {}) {
-  // Private / Tailor-made hotel overrides collected while walking the tabs,
-  // applied to the Stays list once every tab has been read (the Itinerary
-  // tab may come before or after the Stays tab).
-  const dayOverrides = []; // [{ hotelId, card }] in day order
+  // Stays tab hotel references are collected while walking tabs, then mapped
+  // after all tab paragraphs have been read.
   let staysTabOverride = null; // card from the Stays tab paragraph itself
   let stayHotels = null; // [{ hotelId, card }] from field_hotels
 
@@ -360,18 +359,14 @@ tabs.itinerary = {
           relRefs(day.relationships?.field_private_tailor_hotel)[0]?.id,
           hotelPool,
         );
-        // Stays tab shows only the hotels picked on the itinerary days: the
-        // Private / Tailor Hotel Type if set, otherwise the day's field_stay.
-        const dayCard =
-          tailorCard || (hotel ? resolveHotelNodeCard(hotel, included) : null);
-        if (dayCard) dayOverrides.push({ card: dayCard });
 return {
      day: a.field_day_number,
+     cityPair: a.field_city_pair || "",
      title: a.field_day_title || "",
+     // Prefer the day's Private/Tailor hotel type when one is configured;
+     // otherwise show the regular hotel referenced by field_stay.
      stay: tailorCard?.name || hotel?.attributes?.title || "",
-      description: stripHtml(
-      a.field_description?.processed
-          ),
+     description: stripHtml(a.field_description?.processed || ""),
         };
       })
       .filter(Boolean),
@@ -435,19 +430,16 @@ return {
     }
   });
 
-  // ── STAYS: apply Private / Tailor-made hotels ───────────────────────────
-  // Each regular hotel that an itinerary day replaced with a Hotel Type is
-  // swapped for that Hotel Type card (same position); hotels with no pick
-  // stay as they are. A Hotel Type set on the Stays tab paragraph leads the
-  // list, and day picks not already shown are appended. Duplicates dropped.
-  if (dayOverrides.length) {
-    // Only the hotels added on the itinerary days (in day order). The Stays
-    // tab's own field_hotels list / Hotel Type are intentionally not used,
-    // so it never shows hotels that no day uses.
-    const cards = dayOverrides.map((o) => o.card);
-
+  // The Stays tab reflects only its own backend hotel and Hotel Type fields.
+  // Itinerary day hotel selections are rendered in the itinerary, not copied
+  // into this tab. De-duplicate while retaining Drupal's configured order.
+  const stayCards = [
+    ...(stayHotels || []).map((entry) => entry.card),
+    ...(staysTabOverride ? [staysTabOverride] : []),
+  ];
+  if (stayCards.length) {
     const seen = new Set();
-    tabs.stays = cards.filter((c) => {
+    tabs.stays = stayCards.filter((c) => {
       if (!c || seen.has(c.key)) return false;
       seen.add(c.key);
       return true;
@@ -574,8 +566,9 @@ originalPrice: item.attributes.field_original_price,
     tagIds: journeyTypeSubmissionIds,
     startCity: resolveLocation(item.attributes?.field_starts_in) || MOCK_JOURNEY.startCity,
     endCity: resolveLocation(item.attributes?.field_ends_in) || MOCK_JOURNEY.endCity,
-    bestSeason: resolveBestSeasons(item, included) || MOCK_JOURNEY.bestSeason,
-    pace: resolvePace(item, included) || MOCK_JOURNEY.pace,
+    bestSeason: resolveBestSeasons(item, included),
+    pace: resolvePace(item, included),
+    groupSize: item.attributes?.field_group_size ?? "",
     // Tab section data from field_journey_tabs_section paragraphs
     tabHighlights: tabSections.highlights || null,
    tabItinerary: tabSections.itinerary?.days || null,

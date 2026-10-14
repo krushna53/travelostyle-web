@@ -202,14 +202,24 @@ export default function HeroSection({
               <span className="font-bold text-ink">Ends In: </span>
               <span className="text-[#000000]">{journey.endCity}</span>
             </div>
-            <div>
-              <span className="font-bold text-ink">Best Seasons: </span>
-              <span className="text-[#000000]">{journey.bestSeason}</span>
-            </div>
-            <div>
-              <span className="font-bold text-ink">Pace: </span>
-              <span className="text-[#000000]">{journey.pace }</span>
-            </div>
+            {journey.bestSeason ? (
+              <div>
+                <span className="font-bold text-ink">Best Seasons: </span>
+                <span className="text-[#000000]">{journey.bestSeason}</span>
+              </div>
+            ) : null}
+            {journey.pace ? (
+              <div>
+                <span className="font-bold text-ink">Pace: </span>
+                <span className="text-[#000000]">{journey.pace}</span>
+              </div>
+            ) : null}
+            {Number(journey.groupSize) > 0 ? (
+              <div>
+                <span className="font-bold text-ink">Group Size: </span>
+                <span className="text-[#000000]">upto {journey.groupSize} guests</span>
+              </div>
+            ) : null}
           </div>
 
           {/* Divider */}
@@ -349,19 +359,26 @@ export default function HeroSection({
                 )}
               </div>
               <div className="mt-[14px] space-y-[8px] text-[12px] font-light leading-[16px] tracking-[0.05em] text-black">
-                <div>
-                  <span className="font-semibold">Best Seasons:</span>{" "}
-                  {journey.bestSeason}
-                </div>
+                {journey.bestSeason ? (
+                  <div>
+                    <span className="font-semibold">Best Seasons:</span>{" "}
+                    {journey.bestSeason}
+                  </div>
+                ) : null}
 
-                <div>
-                  <span className="font-semibold">Pace:</span>{" "}
-                  {journey.pace}
-                </div>
+                {journey.pace ? (
+                  <div>
+                    <span className="font-semibold">Pace:</span>{" "}
+                    {journey.pace}
+                  </div>
+                ) : null}
 
-                <div>
-                  <span className="font-semibold">Group Size:</span> upto 18 guests
-                </div>
+                {Number(journey.groupSize) > 0 ? (
+                  <div>
+                    <span className="font-semibold">Group Size:</span>{" "}
+                    upto {journey.groupSize} guests
+                  </div>
+                ) : null}
               </div>
               <div className="mt-[18px] flex flex-wrap gap-[8px]">
                 {categories?.map((category) => (
