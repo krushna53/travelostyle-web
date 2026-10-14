@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { Search, X } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { matchesDestinationSearch } from "@/lib/destinationSearch";
 
 // Fallback only — used if Drupal has no popular Locations/Regions yet.
 const FALLBACK_DESTINATIONS = [
@@ -27,7 +30,9 @@ export default function DestinationMobile({
   destinations = [],
   popularDestinations = [],
   allDestinations = [],
+  journeys = [],
 }) {
+  const router = useRouter();
   // Popular Locations (city, labeled with their region) + popular Regions
   // from Drupal, falling back to the plain region list, then a static list.
   // `value` (not `label`) is what gets stored/selected — for a popular
@@ -66,6 +71,25 @@ export default function DestinationMobile({
         ? prev.filter((item) => item !== value)
         : [...prev, value]
     );
+  };
+
+  // Journeys whose title/region/city/country/state match what's typed —
+  // same matcher the desktop TravelForm / itinerary search use, so a term
+  // that happens to match an actual trip surfaces it directly (image +
+  // title) here too, instead of only ever showing destination chips.
+  const matchingJourneys = query.trim()
+    ? journeys.filter((journey) => matchesDestinationSearch(journey, query))
+    : [];
+
+  const handleJourneySelect = (journey) => {
+    if (journey.viewTripUrl) router.push(journey.viewTripUrl);
+  };
+
+  const getJourneyMatchCity = (journey) => {
+    const term = query.trim().toLowerCase();
+    const candidates = [journey.startCity, journey.endCity, journey.region].filter(Boolean);
+    if (!term) return candidates[0] || "";
+    return candidates.find((value) => value.toLowerCase().includes(term)) || candidates[0] || "";
   };
 
   return (
@@ -108,6 +132,36 @@ export default function DestinationMobile({
         // Typing can match dozens of Locations — a compact scrollable list
         // instead of a pill grid, same as the desktop TravelForm.
         <div className="mb-6 max-h-[220px] overflow-y-auto rounded-[4px] border border-[#D9D9D9]">
+          {matchingJourneys.map((journey) => (
+            <button
+              key={`journey-${journey.id}`}
+              onClick={() => handleJourneySelect(journey)}
+              className="flex w-full items-center gap-2 border-b border-[#EEEEEE] px-3 py-2 text-left last:border-b-0"
+            >
+              <span className="relative h-[30px] w-[30px] shrink-0 overflow-hidden rounded-[4px] bg-[#EEEEEE]">
+                {journey.image && (
+                  <Image
+                    src={journey.image}
+                    alt={journey.title}
+                    fill
+                    sizes="30px"
+                    className="object-cover"
+                  />
+                )}
+              </span>
+              <span className="flex min-w-0 flex-col">
+                <span className="truncate text-[12px] font-medium text-[#333]">
+                  {journey.title}
+                </span>
+                {getJourneyMatchCity(journey) && (
+                  <span className="truncate text-[11px] text-[#757575]">
+                    {getJourneyMatchCity(journey)}
+                  </span>
+                )}
+              </span>
+            </button>
+          ))}
+
           {filteredDestinationOptions.length ? (
             filteredDestinationOptions.map((item) => {
               const isSelected = selectedDestinations.includes(item.value);
@@ -124,7 +178,7 @@ export default function DestinationMobile({
                 </button>
               );
             })
-          ) : (
+          ) : matchingJourneys.length ? null : (
             <p className="px-3 py-2 text-[12px] text-[#757575]">No matching destinations</p>
           )}
         </div>
