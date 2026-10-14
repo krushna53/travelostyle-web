@@ -214,6 +214,12 @@ export default function HeroSection({
                 <span className="text-[#000000]">{journey.pace}</span>
               </div>
             ) : null}
+            {Number(journey.groupSize) > 0 ? (
+              <div>
+                <span className="font-bold text-ink">Group Size: </span>
+                <span className="text-[#000000]">upto {journey.groupSize} guests</span>
+              </div>
+            ) : null}
           </div>
 
           {/* Divider */}
@@ -367,9 +373,12 @@ export default function HeroSection({
                   </div>
                 ) : null}
 
-                <div>
-                  <span className="font-semibold">Group Size:</span> upto 18 guests
-                </div>
+                {Number(journey.groupSize) > 0 ? (
+                  <div>
+                    <span className="font-semibold">Group Size:</span>{" "}
+                    upto {journey.groupSize} guests
+                  </div>
+                ) : null}
               </div>
               <div className="mt-[18px] flex flex-wrap gap-[8px]">
                 {categories?.map((category) => (

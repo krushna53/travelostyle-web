@@ -31,6 +31,7 @@ const MOCK_JOURNEY = {
   endCity: "",
   bestSeason: "",
   pace: "",
+  groupSize: "",
   offer: "",
   earlyBird: true,
   highlights: [
@@ -567,6 +568,7 @@ originalPrice: item.attributes.field_original_price,
     endCity: resolveLocation(item.attributes?.field_ends_in) || MOCK_JOURNEY.endCity,
     bestSeason: resolveBestSeasons(item, included),
     pace: resolvePace(item, included),
+    groupSize: item.attributes?.field_group_size ?? "",
     // Tab section data from field_journey_tabs_section paragraphs
     tabHighlights: tabSections.highlights || null,
    tabItinerary: tabSections.itinerary?.days || null,
