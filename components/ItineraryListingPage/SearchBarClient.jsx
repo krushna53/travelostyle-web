@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "@/components/SafeImage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
 import FindJourneyMobile from "@/components/HomePage/FindYourJourney/FindYourJourneyMobile";
 import { BUDGET_RANGES } from "@/lib/budgetRanges";
 import { matchesDestinationSearch } from "@/lib/destinationSearch";
@@ -131,12 +131,18 @@ function ListingSearchForm({
           (item.searchText || item.label.toLowerCase()).includes(q),
         );
         const seen = new Set();
-        return matches.filter((item) => {
-          const key = item.label.toLowerCase();
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        });
+        return matches
+          // Cities aren't shown as their own search result — only
+          // country/region-level entries (which have no `city`), so typing
+          // "India" or a region name doesn't flood the list with every
+          // city inside it.
+          .filter((item) => !item.city)
+          .filter((item) => {
+            const key = item.label.toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          });
       })()
     : popularDestinationOptions;
 
@@ -246,6 +252,20 @@ function ListingSearchForm({
                 placeholder="Search by city, region or country"
                 className="min-w-0 flex-1 truncate bg-transparent text-[clamp(13px,0.73vw,14px)] placeholder:text-gray-400 focus:outline-none"
               />
+              {(destinationQuery.trim() || selectedDestinations.length > 0) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDestinationQuery("");
+                    setSelectedDestinations([]);
+                    setShowDestinationSelection(false);
+                  }}
+                  className="shrink-0 text-gray-400 hover:text-gray-600"
+                  aria-label="Clear destination"
+                >
+                  <X size={14} />
+                </button>
+              )}
             </div>
           ) : (
             <button
