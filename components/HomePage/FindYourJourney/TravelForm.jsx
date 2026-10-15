@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { X } from "lucide-react";
 import { matchesDestinationSearch } from "@/lib/destinationSearch";
 
 const DropdownArrow = ({ open }) => (
@@ -133,12 +134,14 @@ export default function TravelForm({
         // label) — keep the first of each so the panel doesn't show
         // visually identical chips.
         const seen = new Set();
-        return matches.filter((item) => {
-          const key = item.label.toLowerCase();
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        });
+        return matches
+          .filter((item) => !item.city)
+          .filter((item) => {
+            const key = item.label.toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          });
       })()
     : destinationOptions;
 
@@ -283,6 +286,20 @@ export default function TravelForm({
                 placeholder="Search or choose from our popular destinations"
                 className="min-w-0 flex-1 truncate bg-transparent text-[13px] max-[1910px]:text-[13px] placeholder:text-gray-400 focus:outline-none"
               />
+              {(destinationQuery.trim() || selectedDestinations.length > 0) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDestinationQuery("");
+                    setSelectedDestinations([]);
+                    setShowDestinationSelection(false);
+                  }}
+                  className="shrink-0 text-gray-400 hover:text-gray-600"
+                  aria-label="Clear destination"
+                >
+                  <X size={14} />
+                </button>
+              )}
             </div>
           ) : (
             <button

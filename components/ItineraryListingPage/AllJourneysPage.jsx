@@ -169,17 +169,13 @@ export default function AllJourneysPage({
   );
   const popularJourneys = journeys.slice(0, 6);
 
-  // Adds a Travel Style to the active filter (rather than replacing it) so
-  // clicking "Private" from the Group-empty-results pitch below surfaces
-  // Private journeys alongside whatever's already selected, same as
-  // checking it in the sidebar would.
+  // Clicking "Private"/"Tailor-Made Itineraries" from the Group-empty-
+  // results pitch below replaces the stuck "Group Journey" filter with just
+  // that style, instead of adding to it — so results refresh immediately
+  // to that style alone, and the sidebar checkbox for whichever was
+  // clicked is the one left checked.
   const selectStyle = (styleName) => {
-    setFilters((prev) => ({
-      ...prev,
-      style: prev.style.includes(styleName)
-        ? prev.style
-        : [...prev.style, styleName],
-    }));
+    setFilters((prev) => ({ ...prev, style: [styleName] }));
   };
 
   const clearAllFilters = () => {
@@ -344,18 +340,18 @@ export default function AllJourneysPage({
                     your next favorite group journey!
                   </h3>
 
-                  <p className="max-w-[321px] md:max-w-[520px] font-normal text-[16px] leading-[24px] md:leading-[100%] tracking-[0.05em] text-left md:text-center text-ink mt-[5px] md:mt-2">
+                  <p className="max-w-[321px] md:max-w-[520px] font-normal text-[16px] leading-[28px] md:leading-[140%] tracking-[0.05em] text-left md:text-center text-ink mt-[5px] md:mt-2">
                     They aren’t quite ready for the spotlight yet, but we
                     promise they are worth the wait.
                   </p>
 
-                  <p className="max-w-[321px] md:max-w-[520px] font-normal text-[16px] leading-[24px] md:leading-[100%] tracking-[0.05em] text-left md:text-center text-ink mt-4">
+                  <p className="max-w-[321px] md:max-w-[520px] font-normal text-[16px] leading-[28px] md:leading-[140%] tracking-[0.05em] text-left md:text-center text-ink mt-1.5">
                     Join our Exclusive Waitlist to grab the first seats, or
                     explore our gorgeous{" "}
                     <button
                       type="button"
                       onClick={() => selectStyle("Private Journey")}
-                      className="underline hover:opacity-80 transition-opacity"
+                      className="font-semibold hover:underline"
                     >
                       Private
                     </button>
@@ -363,7 +359,7 @@ export default function AllJourneysPage({
                     <button
                       type="button"
                       onClick={() => selectStyle("Tailormade Journey")}
-                      className="underline hover:opacity-80 transition-opacity"
+                      className="font-semibold hover:underline"
                     >
                       Tailor-Made Itineraries
                     </button>{" "}

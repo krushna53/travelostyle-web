@@ -56,7 +56,10 @@ export default function DestinationMobile({
           (item.searchText || item.label.toLowerCase()).includes(q),
         );
         const seen = new Set();
-        return matches.filter((item) => {
+        // Cities aren't shown as their own search result — only
+        // country/region-level entries (which have no `city`), same as the
+        // desktop TravelForm.
+        return matches.filter((item) => !item.city).filter((item) => {
           const key = item.label.toLowerCase();
           if (seen.has(key)) return false;
           seen.add(key);
