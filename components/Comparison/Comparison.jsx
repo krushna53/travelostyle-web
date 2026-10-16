@@ -188,6 +188,7 @@ function getItinerary(journey, included, isInspirational) {
       day: day.attributes?.field_day_number,
       // Data-driven: the Private / Tailor hotel if one is set, otherwise
       // the regular stay's city/country (not tied to Group / Inspirational).
+     
       location:
         getTailorHotelName(
           day.relationships?.field_private_tailor_hotel,
@@ -200,7 +201,7 @@ function getItinerary(journey, included, isInspirational) {
           (i) =>
             i.id === day.relationships?.field_stay?.data?.id &&
             i.attributes?.status !== false,
-        )?.attributes?.title ||
+        )?.attributes?.title ||  day.attributes?.field_city_pair ||
         "",
       }));
 }
@@ -534,6 +535,7 @@ export default function TripComparison() {
     if (key === "stays") return { height: staysRowHeight };
     return undefined;
   };
+
 
   /* Renders the content of one comparison row for a trip. The MOBILE
      label lives inside the cell (md:hidden), so on phones every value is
