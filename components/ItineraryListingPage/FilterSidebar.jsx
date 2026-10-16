@@ -196,7 +196,7 @@ export default function FilterSidebar({
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const regionParam = searchParams.get("region");
+    const regionParam = [searchParams.get("region"), searchParams.get("country")?.split(",").filter((value) => value.trim().length !== 2).join(",")].filter(Boolean).join(",");
 
     // Always sync from the URL (including clearing back to [] when the
     // param is gone) so re-running "Find Your Journey" with no region

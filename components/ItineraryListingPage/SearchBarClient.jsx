@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "@/components/SafeImage";
 import Link from "next/link";
+import { destinationParams } from "@/lib/destinationParams";
 import { useRouter } from "next/navigation";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 import FindJourneyMobile from "@/components/HomePage/FindYourJourney/FindYourJourneyMobile";
@@ -120,31 +121,42 @@ function ListingSearchForm({
   const popularDestinationOptions = popularDestinations.length
     ? popularDestinations
     : destinations.map((d) => ({ id: d, label: d, value: d }));
-
   const filteredDestinations = destinationQuery.trim()
-    ? (() => {
-        const q = destinationQuery.trim().toLowerCase();
-        const source = allDestinations.length
-          ? allDestinations
-          : destinations.map((d) => ({ id: d, label: d, value: d }));
-        const matches = source.filter((item) =>
-          (item.searchText || item.label.toLowerCase()).includes(q),
-        );
-        const seen = new Set();
-        return matches
-          // Cities aren't shown as their own search result — only
-          // country/region-level entries (which have no `city`), so typing
-          // "India" or a region name doesn't flood the list with every
-          // city inside it.
-          .filter((item) => !item.city)
-          .filter((item) => {
-            const key = item.label.toLowerCase();
-            if (seen.has(key)) return false;
-            seen.add(key);
-            return true;
-          });
-      })()
-    : popularDestinationOptions;
+  ? (() => {
+      const q = destinationQuery.trim().toLowerCase();
+
+      const source = allDestinations.length
+        ? allDestinations
+        : destinations.map((d) => ({
+            id: d,
+            label: d,
+            value: d,
+          }));
+
+      const matches = source.filter((item) =>
+        (item.searchText || item.label.toLowerCase()).includes(q)
+      );
+
+      const exactMatches = matches.filter(
+        (item) => item.label.toLowerCase() === q
+      );
+
+      // If the exact country, city, or region exists,
+      // show only that exact match.
+      const results = exactMatches.length ? exactMatches : matches;
+
+      const seen = new Set();
+
+      return results.filter((item) => {
+        const key = item.label.toLowerCase();
+
+        if (seen.has(key)) return false;
+
+        seen.add(key);
+        return true;
+      });
+    })()
+  : popularDestinationOptions;
 
   // Journeys whose title/region/city/country/state match what's typed —
   // same matcher the results page itself uses, so a search that happens to
@@ -210,8 +222,8 @@ function ListingSearchForm({
       }),
     );
     setActiveDropdown(null);
-    const region = selectedDestinations.join(",");
-    router.push(`/itinerary${region ? `?region=${encodeURIComponent(region)}` : ""}`);
+    const params = destinationParams(selectedDestinations, allDestinations);
+    router.push(`/itinerary${params.size ? `?${params.toString()}` : ""}`);
   };
 
   return (
@@ -552,6 +564,9 @@ export default function SearchBar({
   <Link href="/faqs" className="text-left hover:underline">
     FAQs
   </Link>
+  <Link href="https://buy.stripe.com/eVqeV630mf347Gwb3yfjG01" className="text-left hover:underline">
+    Pay by Stripe
+  </Link>
 </div>
             <div className="mt-8">
               <button className="rounded-full bg-white px-6 py-2.5 text-[13px] font-semibold text-[#2E2787]">
@@ -615,6 +630,9 @@ export default function SearchBar({
 
 <Link href="/faqs">
   FAQs
+</Link>
+<Link href="https://buy.stripe.com/eVqeV630mf347Gwb3yfjG01">
+  Pay by Stripe
 </Link>
           </div>
           <button onClick={() => setShowFindJourneyMobile(true)} className="block min-[1191px]:hidden">

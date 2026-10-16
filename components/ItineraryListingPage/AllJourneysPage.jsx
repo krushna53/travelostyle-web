@@ -1,4 +1,5 @@
 "use client";
+import { matchesCountry } from "@/lib/destinationParams";
 import { matchesDestinationSearch } from "@/lib/destinationSearch";
 
 import { useMemo, useState, useEffect } from "react";
@@ -38,9 +39,7 @@ export default function AllJourneysPage({
 
   useEffect(() => {
     const countryParam = searchParams.get("country");
-    if (countryParam) {
-      setCountryFilter(countryParam);
-    }
+    setCountryFilter(countryParam || null);
   }, [searchParams]);
 
   const [journeys] = useState(initialJourneys);
@@ -72,12 +71,8 @@ export default function AllJourneysPage({
       matchesDestinationSearch(item, filters.destinationSearch),
     );
 
-    if (countryFilter) {
-      data = data.filter(
-        (item) =>
-          (item.countryCode || "").toUpperCase() ===
-          countryFilter.toUpperCase(),
-      );
+    if (countryFilter && !filters.region.length) {
+      data = data.filter((item) => matchesCountry(item, countryFilter));
     }
 
     if (!filters.displayAllOffers) {

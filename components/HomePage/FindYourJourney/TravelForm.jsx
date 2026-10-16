@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { destinationParams } from "@/lib/destinationParams";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { X } from "lucide-react";
@@ -204,11 +205,7 @@ export default function TravelForm({
     };
 
     sessionStorage.setItem("journeyData", JSON.stringify(findYourJourneyData));
-
-    const region = selectedDestinations.join(",");
-    const params = new URLSearchParams();
-    if (region) params.set("region", region);
-    else if (destinationQuery.trim()) params.set("search", destinationQuery.trim());
+    const params = destinationParams(selectedDestinations, allDestinations, destinationQuery);
     router.push(`/itinerary${params.size ? `?${params.toString()}` : ""}`);
   };
 
