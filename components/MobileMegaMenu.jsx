@@ -8,7 +8,6 @@ export default function MobileMegaMenu({
   setMenuOpen,
   showAllJourneys = false,
 }) {
-
   return (
     <div
       className={`fixed inset-0 z-50 min-[1191px]:block transition-all duration-300 ${
@@ -41,79 +40,80 @@ export default function MobileMegaMenu({
           </div>
 
           <div className="mt-8 flex flex-col gap-5">
-  <Link
-    href="/about-us"
-    className="text-left text-white text-[18px] font-medium"
-  >
-    About
-  </Link>
+            <Link
+              href="/about-us"
+              className="text-left text-white text-[18px] font-medium"
+            >
+              About
+            </Link>
 
-  <Link
-    href="/group-rtb-journeys"
-    className="text-left text-white text-[18px] font-medium"
-  >
-    Group Journeys
-  </Link>
+            <Link
+              href="/group-rtb-journeys"
+              className="text-left text-white text-[18px] font-medium"
+            >
+              Group Journeys
+            </Link>
 
-  <Link
-    href="/private-rtb-journeys"
-    className="text-left text-white text-[18px] font-medium"
-  >
-    Private Journeys
-  </Link>
+            <Link
+              href="/private-rtb-journeys"
+              className="text-left text-white text-[18px] font-medium"
+            >
+              Private Journeys
+            </Link>
 
-  <Link
-    href="/tailor-made-journeys"
-    className="text-left text-white text-[18px] font-medium"
-  >
-    Tailor-Made Journeys
-  </Link>
+            <Link
+              href="/tailor-made-journeys"
+              className="text-left text-white text-[18px] font-medium"
+            >
+              Tailor-Made Journeys
+            </Link>
 
-  {showAllJourneys && (
-  <Link
-    href="/itinerary"
-    className="text-left text-white text-[18px] font-medium"
-  >
-    All Journeys
-  </Link>
-)}
+            {showAllJourneys && (
+              <Link
+                href="/itinerary"
+                className="text-left text-white text-[18px] font-medium"
+              >
+                All Journeys
+              </Link>
+            )}
 
-  <Link
-    href="/destination"
-    className="text-left text-white text-[18px] font-medium"
-  >
-    Destinations
-  </Link>
+            <Link
+              href="/destination"
+              className="text-left text-white text-[18px] font-medium"
+            >
+              Destinations
+            </Link>
 
-  <Link
-    href="/offers"
-    className="text-left text-white text-[18px] font-medium"
-  >
-    Offers
-  </Link>
+            <Link
+              href="/offers"
+              className="text-left text-white text-[18px] font-medium"
+            >
+              Offers
+            </Link>
 
-  <Link
-    href="/faqs"
-    className="text-left text-white text-[18px] font-medium"
-  >
-    FAQs
-  </Link>
-</div>
+            <Link
+              href="/faqs"
+              className="text-left text-white text-[18px] font-medium"
+            >
+              FAQs
+            </Link>
+            <Link
+              href="https://buy.stripe.com/eVqeV630mf347Gwb3yfjG01"
+              className="text-left text-white text-[18px] font-medium"
+            >
+              Pay by Stripe
+            </Link>
+          </div>
 
           <Link
-  href="/itinerary"
-  className="mt-10 inline-block rounded-full bg-white px-6 py-3 text-[15px] font-semibold text-[#2F2F87]"
->
-  Explore All Journeys
-</Link>
+            href="/itinerary"
+            className="mt-10 inline-block rounded-full bg-white px-6 py-3 text-[15px] font-semibold text-[#2F2F87]"
+          >
+            Explore All Journeys
+          </Link>
 
           <div className="mt-10 flex items-center gap-5">
-            <Image
-              src="/Facebook.svg"
-              alt="Facebook"
-              width={28}
-              height={28}
-            />
+            <Image src="/Facebook.svg" alt="Facebook" width={28} height={28} />
 
             <Image
               src="/Instagram.svg"
@@ -128,13 +128,9 @@ export default function MobileMegaMenu({
               Talk to Our Travel Advisor
             </p>
 
-            <p className="mt-2 text-[15px]">
-              +1 773 983 8067
-            </p>
+            <p className="mt-2 text-[15px]">+1 773 983 8067</p>
 
-            <p className="mt-2 text-[15px]">
-              info@travelostyle.com
-            </p>
+            <p className="mt-2 text-[15px]">info@travelostyle.com</p>
           </div>
         </div>
 

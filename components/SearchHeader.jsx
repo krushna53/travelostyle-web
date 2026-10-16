@@ -83,6 +83,9 @@ export default function SearchHeader({
               <Link href="/offers">Offers</Link>
 
               <Link href="/faqs">FAQs</Link>
+               <Link href="https://buy.stripe.com/eVqeV630mf347Gwb3yfjG01" className="text-left hover:underline">
+                  Pay by Stripe
+                </Link>
             </div>
           </div>
           <div className="block min-[1191px]:hidden relative min-[750px]:pb-4 flex items-center justify-between max-[1190px]:pt-2">
