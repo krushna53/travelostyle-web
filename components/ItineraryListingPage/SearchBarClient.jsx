@@ -557,7 +557,7 @@ export default function SearchBar({
     All Journeys
   </Link>
 
-  <Link href="/offers" className="text-left hover:underline">
+  <Link href="/special-offers" className="text-left hover:underline">
     Offers
   </Link>
 
@@ -624,7 +624,7 @@ export default function SearchBar({
   Destinations
 </Link>
 
-<Link href="/offers">
+<Link href="/special-offers">
   Offers
 </Link>
 
