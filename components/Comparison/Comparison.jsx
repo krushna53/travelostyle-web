@@ -195,13 +195,14 @@ function getItinerary(journey, included, isInspirational) {
           included,
         ) ||
         getStayCityCountry(day, included) ||
-        // The hotel has no address filled in yet: show the hotel name instead
-        // of leaving the day blank.
+        // Keep a group's hotel visible even when its address has no city.
         included.find(
-          (i) =>
-            i.id === day.relationships?.field_stay?.data?.id &&
-            i.attributes?.status !== false,
-        )?.attributes?.title ||  day.attributes?.field_city_pair ||
+          (item) =>
+            item.type === "node--hotel" &&
+            item.id === relationshipRefs(day.relationships?.field_stay)[0]?.id &&
+            item.attributes?.status !== false,
+        )?.attributes?.title ||
+        day.attributes?.field_city_pair ||
         "",
       }));
 }
@@ -564,7 +565,9 @@ export default function TripComparison() {
             }}
             className="text-sm space-y-0.5 pr-1"
           >
-            {trip.tabItinerary?.map((day) => (
+            {trip.tabItinerary
+              ?.filter((day) => String(day.location || "").trim())
+              .map((day) => (
               <div
                 key={day.day}
                 className="break-words text-[14px] leading-5 tracking-[0.02em]"

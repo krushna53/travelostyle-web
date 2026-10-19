@@ -31,7 +31,7 @@ export default function TestimonialSection({
 
     const imageUrl = file?.attributes?.uri?.url
       ? `${API_BASE_URL}${file.attributes.uri.url}`
-      : "/Morocco.webp";
+      : "/testinomial.jpg";
 
     // NAME
     const name =
