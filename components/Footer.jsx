@@ -15,7 +15,7 @@ const footer = {
         { label: "About Us", url: "/about-us" },
         { label: "FAQs", url: "/faqs" },
         { label: "Write To Us", url: "/write-us" },
-        { label: "Travel Journal", url: "//travel-journal" },
+        { label: "Travel Journal", url: "/travel-journal" },
       ],
     },
     {
@@ -25,7 +25,7 @@ const footer = {
         { label: "Group Journeys", url: "/group-rtb-journeys" },
         { label: "Private Journeys", url: "/private-rtb-journeys" },
         { label: "Tailor-Made Journey", url: "/tailor-made-journeys" },
-        { label: "Offers", url: "/special-offers-deals-discounts" },
+        { label: "Offers", url: "/special-offers" },
       ],
     },
     {

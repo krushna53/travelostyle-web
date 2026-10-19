@@ -80,7 +80,7 @@ export default function SearchHeader({
 
               <Link href="/destination">Destinations</Link>
 
-              <Link href="/offers">Offers</Link>
+              <Link href="/special-offers">Offers</Link>
 
               <Link href="/faqs">FAQs</Link>
             </div>

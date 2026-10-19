@@ -86,7 +86,7 @@ export default function MobileMegaMenu({
   </Link>
 
   <Link
-    href="/offers"
+    href="/special-offers"
     className="text-left text-white text-[18px] font-medium"
   >
     Offers
