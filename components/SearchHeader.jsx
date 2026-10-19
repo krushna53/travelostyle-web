@@ -80,7 +80,7 @@ export default function SearchHeader({
 
               <Link href="/destination">Destinations</Link>
 
-              <Link href="/offers">Offers</Link>
+              <Link href="/special-offers">Offers</Link>
 
               <Link href="/faqs">FAQs</Link>
                <Link href="https://buy.stripe.com/eVqeV630mf347Gwb3yfjG01" className="text-left hover:underline">
