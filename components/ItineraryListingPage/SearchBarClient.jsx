@@ -9,6 +9,7 @@ import { ChevronDown, ChevronUp, X } from "lucide-react";
 import FindJourneyMobile from "@/components/HomePage/FindYourJourney/FindYourJourneyMobile";
 import { BUDGET_RANGES } from "@/lib/budgetRanges";
 import { matchesDestinationSearch } from "@/lib/destinationSearch";
+import { sortMonthsFromCurrent } from "@/lib/months";
 
 // Same options as the homepage's TravelForm "How long do you want to
 // travel?" picker.
@@ -186,7 +187,9 @@ function ListingSearchForm({
 
   // Same curated "popular" months as the homepage's TravelForm, falling
   // back to the full month taxonomy only if none are flagged popular yet.
-  const monthOptions = popularMonths.length ? popularMonths : months;
+  const monthOptions = sortMonthsFromCurrent(
+    popularMonths.length ? popularMonths : months,
+  );
 
   const handleDurationSelect = (duration) => setSelectedDuration(duration);
 
