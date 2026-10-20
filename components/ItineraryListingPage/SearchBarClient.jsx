@@ -581,7 +581,13 @@ export default function SearchBar({
             </div>
             <div className="mt-10 flex gap-4 items-center">
               <Image src="/Facebook.svg" alt="Facebook" width={34} height={32} />
-              <Image src="/Instagram.svg" alt="Instagram" width={34} height={32} />
+              <a
+                href="https://www.instagram.com/travelostyle1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Image src="/Instagram.svg" alt="Instagram" width={34} height={32} />
+              </a>
             </div>
           </div>
         </div>
