@@ -3,7 +3,8 @@ import { FaFacebookSquare, FaInstagram } from "react-icons/fa";
 import FooterNewsletterForm from "./FooterNewsletterForm";
 
 const footer = {
-  phone: "+1773 983 8067",
+  phone: "+1773 503 9742",
+  phone_unformatted: "+17735039742",
   email: "info@travelostyle.com",
   copyrightText: "© TravelOStyle 2026 | Designed by Eunoia Design House",
   facebookUrl: "",
@@ -147,7 +148,7 @@ export default function Footer() {
               <FaInstagram className="text-[24px] md:text-[26px] text-white cursor-pointer" />
             </a>
           </div>
-          <p className="text-[13px] md:text-[14px] font-light">{footer.phone}</p>
+          <p className="text-[13px] md:text-[14px] font-light"><a href="tel:{footer.phone_unformatted}">{footer.phone}</a></p>
           <p className="text-[13px] md:text-[14px] font-light mt-1 md:mt-2">{footer.email}</p>
         </div>
 
