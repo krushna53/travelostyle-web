@@ -3,6 +3,7 @@
 import Image from "@/components/SafeImage";
 import MobileMegaMenu from "./MobileMegaMenu";
 import Link from "next/link";
+import TalkToAdvisorButton from "@/components/GeneralInquiryForm/TalkToAdvisorButton";
 
 export default function SearchHeader({
   menuOpen,
@@ -35,7 +36,9 @@ export default function SearchHeader({
 
         <div className="flex items-center gap-4 md:gap-6">
           <Link href="/faqs">FAQs</Link>
-          <button className="hidden min-[1191px]:block">Contact Us</button>
+          <TalkToAdvisorButton className="hidden min-[1191px]:block">
+            Contact Us
+          </TalkToAdvisorButton>
         </div>
       </div>
 
