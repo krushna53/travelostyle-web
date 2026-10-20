@@ -3,7 +3,7 @@ import { FaFacebookSquare, FaInstagram } from "react-icons/fa";
 import FooterNewsletterForm from "./FooterNewsletterForm";
 
 const footer = {
-  phone: "+1773 983 8067",
+  phone: "+1773 503 9742",
   email: "info@travelostyle.com",
   copyrightText: "© TravelOStyle 2026 | Designed by Eunoia Design House",
   facebookUrl: "",
