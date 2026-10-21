@@ -182,17 +182,33 @@ export default async function JourneyDetailPage({
     // own description field (`field_descriptions`, confirmed in Structure >
     // Paragraph types > Inclusion Exclusion Item > Manage fields); fall
     // back to the term's shared description only if the paragraph didn't
-    // set one.
-    const paragraphDescription =
-      item.attributes?.field_descriptions?.value ??
-      item.attributes?.field_descriptions ??
+    // set one. `.processed` is Drupal's own filtered/sanitized HTML for a
+    // formatted-text field (bullet lists included) — preferred over `.value`
+    // (the raw unfiltered source) when present.
+    const paragraphDescriptionField = item.attributes?.field_descriptions;
+    const termDescriptionField = term.attributes?.description;
+    const rawDescriptionHtml =
+      paragraphDescriptionField?.processed ??
+      paragraphDescriptionField?.value ??
+      (typeof paragraphDescriptionField === "string" ? paragraphDescriptionField : "") ??
+      termDescriptionField?.processed ??
+      termDescriptionField?.value ??
       "";
+
+    // See where this lands wrong: if Drupal has a bulleted list here but the
+    // frontend shows it run together with no separators, check this log for
+    // the raw <ul>/<li> markup actually coming through JSON:API.
+    console.log(201,`[${relation}] "${term.attributes?.name}" raw description HTML:`, rawDescriptionHtml);
 
     targetArray.push({
   title: term.attributes?.name || "",
-  description: stripHtml(
-    paragraphDescription || term.attributes?.description?.value || ""
-  ),
+  // Plain-text version — used only to decide whether the card's
+  // description is long enough to truncate, and as the truncated preview
+  // text (which can't safely be a slice of raw HTML).
+  description: stripHtml(rawDescriptionHtml),
+  // Full HTML — rendered as-is (with real bullets) whenever the text isn't
+  // being truncated, and in the "more" popup when it is.
+  descriptionHtml: rawDescriptionHtml,
   icon: file?.attributes?.uri?.url
     ? `${API_BASE_URL}${file.attributes.uri.url}`
     : "",
