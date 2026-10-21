@@ -580,7 +580,9 @@ export default function SearchBar({
               </button>
             </div>
             <div className="mt-10 flex gap-4 items-center">
-              <Image src="/Facebook.svg" alt="Facebook" width={34} height={32} />
+              <a href="https://www.facebook.com/share/1K9cNDvzCQ/" target="_blank" rel="noopener noreferrer">
+                <Image src="/Facebook.svg" alt="Facebook" width={34} height={32} />
+              </a>
               <a
                 href="https://www.instagram.com/travelostyle1"
                 target="_blank"

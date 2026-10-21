@@ -113,7 +113,9 @@ export default function MobileMegaMenu({
           </Link>
 
           <div className="mt-10 flex items-center gap-5">
-            <Image src="/Facebook.svg" alt="Facebook" width={28} height={28} />
+            <a href="https://www.facebook.com/share/1K9cNDvzCQ/" target="_blank" rel="noopener noreferrer">
+              <Image src="/Facebook.svg" alt="Facebook" width={28} height={28} />
+            </a>
 
             <a
               href="https://www.instagram.com/travelostyle1"
