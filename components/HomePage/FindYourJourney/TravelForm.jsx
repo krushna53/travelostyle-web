@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { matchesDestinationSearch } from "@/lib/destinationSearch";
+import { sortMonthsFromCurrent } from "@/lib/months";
 
 const DropdownArrow = ({ open }) => (
   <svg
@@ -175,11 +176,13 @@ export default function TravelForm({
   // Drupal (so this only ever shows real terms, e.g. just the 4 that
   // exist today, never a full static 12-month list unless Drupal itself
   // is completely empty).
-  const monthOptions = popularMonths.length
-    ? popularMonths
-    : months.length
-      ? months
-      : FALLBACK_MONTHS;
+  const monthOptions = sortMonthsFromCurrent(
+    popularMonths.length
+      ? popularMonths
+      : months.length
+        ? months
+        : FALLBACK_MONTHS,
+  );
 
   // "Choose a way to travel" — the same "tags" taxonomy the itinerary
   // sidebar's own Travel Style filter reads from, so a selection here is

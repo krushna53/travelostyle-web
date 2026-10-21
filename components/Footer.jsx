@@ -7,8 +7,8 @@ const footer = {
   phone_unformatted: "+17735039742",
   email: "info@travelostyle.com",
   copyrightText: "© TravelOStyle 2026 | Designed by Eunoia Design House",
-  facebookUrl: "",
-  instagramUrl: "",
+  facebookUrl: "https://www.facebook.com/share/1K9cNDvzCQ/",
+  instagramUrl: "https://www.instagram.com/travelostyle1",
   linkGroups: [
     {
       title: "Company",
@@ -141,10 +141,20 @@ export default function Footer() {
             Connect With Us
           </h3>
           <div className="flex gap-4 mb-4">
-            <a href={footer.facebookUrl || "#"} aria-label="Facebook">
+            <a
+              href={footer.facebookUrl || "#"}
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaFacebookSquare className="text-[24px] md:text-[26px] text-white cursor-pointer" />
             </a>
-            <a href={footer.instagramUrl || "#"} aria-label="Instagram">
+            <a
+              href={footer.instagramUrl || "#"}
+              aria-label="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaInstagram className="text-[24px] md:text-[26px] text-white cursor-pointer" />
             </a>
           </div>

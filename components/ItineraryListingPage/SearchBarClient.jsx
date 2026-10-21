@@ -9,6 +9,7 @@ import { ChevronDown, ChevronUp, X } from "lucide-react";
 import FindJourneyMobile from "@/components/HomePage/FindYourJourney/FindYourJourneyMobile";
 import { BUDGET_RANGES } from "@/lib/budgetRanges";
 import { matchesDestinationSearch } from "@/lib/destinationSearch";
+import { sortMonthsFromCurrent } from "@/lib/months";
 
 // Same options as the homepage's TravelForm "How long do you want to
 // travel?" picker.
@@ -186,7 +187,9 @@ function ListingSearchForm({
 
   // Same curated "popular" months as the homepage's TravelForm, falling
   // back to the full month taxonomy only if none are flagged popular yet.
-  const monthOptions = popularMonths.length ? popularMonths : months;
+  const monthOptions = sortMonthsFromCurrent(
+    popularMonths.length ? popularMonths : months,
+  );
 
   const handleDurationSelect = (duration) => setSelectedDuration(duration);
 
@@ -577,8 +580,16 @@ export default function SearchBar({
               </button>
             </div>
             <div className="mt-10 flex gap-4 items-center">
-              <Image src="/Facebook.svg" alt="Facebook" width={34} height={32} />
-              <Image src="/Instagram.svg" alt="Instagram" width={34} height={32} />
+              <a href="https://www.facebook.com/share/1K9cNDvzCQ/" target="_blank" rel="noopener noreferrer">
+                <Image src="/Facebook.svg" alt="Facebook" width={34} height={32} />
+              </a>
+              <a
+                href="https://www.instagram.com/travelostyle1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Image src="/Instagram.svg" alt="Instagram" width={34} height={32} />
+              </a>
             </div>
           </div>
         </div>
