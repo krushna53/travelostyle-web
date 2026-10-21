@@ -547,6 +547,10 @@ export default function SearchBar({
     About
   </Link>
 
+  <Link href="/destination" className="text-left hover:underline">
+    Destinations
+  </Link>
+
   <Link href="/group-rtb-journeys" className="text-left hover:underline">
     Group Journeys
   </Link>
@@ -618,6 +622,10 @@ export default function SearchBar({
           <div className="hidden min-[1191px]:flex items-center whitespace-nowrap gap-[clamp(12px,1.875vw,36px)] text-[clamp(12px,0.73vw,14px)] font-medium text-[#1E1E1E]">
            <Link href="/about-us">About</Link>
 
+<Link href="/destination">
+  Destinations
+</Link>
+
 <Link href="/group-rtb-journeys">
   Group Journeys
 </Link>
@@ -632,10 +640,6 @@ export default function SearchBar({
 
 <Link href="/itinerary">
   All Journeys
-</Link>
-
-<Link href="/destination">
-  Destinations
 </Link>
 
 <Link href="/special-offers">

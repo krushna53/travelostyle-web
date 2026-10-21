@@ -48,6 +48,13 @@ export default function MobileMegaMenu({
             </Link>
 
             <Link
+              href="/destination"
+              className="text-left text-white text-[18px] font-medium"
+            >
+              Destinations
+            </Link>
+
+            <Link
               href="/group-rtb-journeys"
               className="text-left text-white text-[18px] font-medium"
             >
@@ -76,13 +83,6 @@ export default function MobileMegaMenu({
                 All Journeys
               </Link>
             )}
-
-            <Link
-              href="/destination"
-              className="text-left text-white text-[18px] font-medium"
-            >
-              Destinations
-            </Link>
 
             <Link
               href="/special-offers"

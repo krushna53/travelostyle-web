@@ -73,6 +73,8 @@ export default function SearchHeader({
             >
               <Link href="/about-us">About</Link>
 
+              <Link href="/destination">Destinations</Link>
+
               <Link href="/group-rtb-journeys">Group Journeys</Link>
 
               <Link href="/private-rtb-journeys">Private Journeys</Link>
@@ -80,8 +82,6 @@ export default function SearchHeader({
               <Link href="/tailor-made-journeys">Tailor-made Journeys</Link>
 
               {showAllJourneys && <Link href="/itinerary">All Journeys</Link>}
-
-              <Link href="/destination">Destinations</Link>
 
               <Link href="/special-offers">Offers</Link>
 
