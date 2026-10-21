@@ -7,11 +7,20 @@ import Image from "@/components/SafeImage";
 
 const DESCRIPTION_LIMIT = 250;
 
-// Shows the description as-is when it is <= 250 characters. Beyond that it is
-// cut at 250 characters with a "more" link at the end; clicking it opens a
-// popup (blurred page behind, cross on top) with the full description under
+// Shared across every HTML-bearing description below — Tailwind's preflight
+// strips the browser's default list-style/margins from <ul>/<ol>, so without
+// this a Drupal bullet list (<ul><li>…) renders with no bullets or spacing
+// at all, each item just running into the next.
+const RICH_TEXT_CLASS =
+    "[&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mt-1 [&_p]:mt-1 first:[&_p]:mt-0";
+
+// Shows the description as-is (as real HTML, so a Drupal bullet list renders
+// as actual bullets) when its plain-text length is <= 250 characters. Beyond
+// that, the plain-text version is cut at 250 characters with a "more" link —
+// a slice of raw HTML could land mid-tag — and clicking it opens a popup
+// (blurred page behind, cross on top) with the full HTML description under
 // the inclusion/exclusion title.
-function Description({ title, text = "", className = "", theme = "inclusion" }) {
+function Description({ title, text = "", html = "", className = "", theme = "inclusion" }) {
     const [open, setOpen] = useState(false);
     const isLong = text.length > DESCRIPTION_LIMIT;
 
@@ -27,20 +36,45 @@ function Description({ title, text = "", className = "", theme = "inclusion" }) 
         };
     }, [open]);
 
-    if (!isLong) return <p className={className}>{text}</p>;
+    if (!isLong) {
+        return html ? (
+            <div
+                className={`${className} ${RICH_TEXT_CLASS}`}
+                dangerouslySetInnerHTML={{ __html: html }}
+            />
+        ) : (
+            <p className={className}>{text}</p>
+        );
+    }
 
     return (
         <>
-            <p className={className}>
-                {text.slice(0, DESCRIPTION_LIMIT).trimEnd()}...{" "}
-                <button
-                    type="button"
-                    onClick={() => setOpen(true)}
-                    className="font-semibold text-black underline cursor-pointer"
-                >
-                    more
-                </button>
-            </p>
+            {html ? (
+                <div className={className}>
+                    <div
+                        className={`line-clamp-4 ${RICH_TEXT_CLASS}`}
+                        dangerouslySetInnerHTML={{ __html: html }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setOpen(true)}
+                        className="mt-1 font-semibold text-black underline cursor-pointer"
+                    >
+                        more
+                    </button>
+                </div>
+            ) : (
+                <p className={className}>
+                    {text.slice(0, DESCRIPTION_LIMIT).trimEnd()}...{" "}
+                    <button
+                        type="button"
+                        onClick={() => setOpen(true)}
+                        className="font-semibold text-black underline cursor-pointer"
+                    >
+                        more
+                    </button>
+                </p>
+            )}
 
             {open &&
                 createPortal(
@@ -68,9 +102,16 @@ function Description({ title, text = "", className = "", theme = "inclusion" }) 
                             <h3 className="mb-3 text-[18px] font-bold text-black">
                                 {title}
                             </h3>
-                            <p className="text-[14px] leading-[22px] text-gray-700 whitespace-pre-line">
-                                {text}
-                            </p>
+                            {html ? (
+                                <div
+                                    className={`text-[14px] leading-[22px] text-gray-700 ${RICH_TEXT_CLASS}`}
+                                    dangerouslySetInnerHTML={{ __html: html }}
+                                />
+                            ) : (
+                                <p className="text-[14px] leading-[22px] text-gray-700 whitespace-pre-line">
+                                    {text}
+                                </p>
+                            )}
                         </div>
                     </div>,
                     document.body
@@ -126,7 +167,7 @@ border-b-2
     border-b-2
     ${current.border}
     last:border-b-0
-    h-[140px]
+    min-h-[140px]
   `}
 >
 
@@ -191,7 +232,7 @@ border-r-2
         text-gray-600
       "
                     >
-                        <Description title={item.title} text={item.description} theme={theme} />
+                        <Description title={item.title} text={item.description} html={item.descriptionHtml} theme={theme} />
                     </div>
 
 
@@ -285,6 +326,7 @@ font-bold
         <Description
           title={item.title}
           text={item.description}
+          html={item.descriptionHtml}
           className="text-xs mt-2 text-black"
           theme="inclusion"
         />
@@ -358,6 +400,7 @@ font-bold
         <Description
           title={item.title}
           text={item.description}
+          html={item.descriptionHtml}
           className="text-xs mt-2 text-black"
           theme="exclusion"
         />
