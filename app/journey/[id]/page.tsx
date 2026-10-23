@@ -52,6 +52,7 @@ const INCLUDE = [
   // "field_journey_tabs_section.field_section_tabs.field_exclusions.field_exclusion.field_icon.field_media_image",
 
   "field_journey_tabs_section.field_section_tabs.field_days.field_stay",
+  "field_journey_tabs_section.field_section_tabs.field_days.field_stay.field_location",
   // Stays tab is built from the hotels picked on the itinerary days, so the
   // day hotels need their images too.
   "field_journey_tabs_section.field_section_tabs.field_days.field_stay.field_featured_image.field_media_image",
