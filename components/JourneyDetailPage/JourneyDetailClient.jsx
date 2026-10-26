@@ -153,6 +153,23 @@ function resolvePace(item, included) {
   return e?.attributes?.name || "";
 }
 
+// Geofield values come back from JSON:API with lat/lon keys directly on the
+// field object, so no WKT parsing is needed. `field_geolocation` lives
+// directly on the Hotel node's own attributes — node--hotel has no
+// `field_location` relationship to a separate node--location entity (Drupal
+// rejects it with "not a valid relationship field name" if you try), so
+// there's no indirection to resolve here, just read it off the hotel.
+function resolveStayGeoLocation(hotel) {
+  const geo = hotel?.attributes?.field_geolocation;
+  if (!geo) return null;
+
+  const lat = parseFloat(geo.lat);
+  const lon = parseFloat(geo.lon ?? geo.lng);
+  if (Number.isNaN(lat) || Number.isNaN(lon)) return null;
+
+  return { lat, lon };
+}
+
 // ── PRIVATE / TAILOR-MADE HOTELS ─────────────────────────────────────────
 // A hotel can be picked from the "Hotel Type" vocabulary (hotel_type) in the
 // paragraph field field_private_tailor_hotel — on each itinerary day, and
@@ -359,6 +376,11 @@ tabs.itinerary = {
           relRefs(day.relationships?.field_private_tailor_hotel)[0]?.id,
           hotelPool,
         );
+
+        // Missing stay/location/geolocation just means this day can't
+        // contribute a map point — it still renders in the day list.
+        const geo = hotel ? resolveStayGeoLocation(hotel) : null;
+
 return {
      day: a.field_day_number,
      cityPair: a.field_city_pair || "",
@@ -367,6 +389,8 @@ return {
      // otherwise show the regular hotel referenced by field_stay.
      stay: tailorCard?.name || hotel?.attributes?.title || "",
      description: stripHtml(a.field_description?.processed || ""),
+     lat: geo?.lat ?? null,
+     lon: geo?.lon ?? null,
         };
       })
       .filter(Boolean),
