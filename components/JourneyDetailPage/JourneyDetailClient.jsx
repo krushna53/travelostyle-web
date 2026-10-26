@@ -154,17 +154,13 @@ function resolvePace(item, included) {
 }
 
 // Geofield values come back from JSON:API with lat/lon keys directly on the
-// field object, so no WKT parsing is needed.
-function resolveStayGeoLocation(hotel, included) {
-  const locationId = hotel?.relationships?.field_location?.data?.id;
-  if (!locationId) return null;
-
-  const location = included.find(
-    (i) => i.type === "node--location" && i.id === locationId
-  );
-  if (!location) return null;
-
-  const geo = location?.attributes?.field_geolocation;
+// field object, so no WKT parsing is needed. `field_geolocation` lives
+// directly on the Hotel node's own attributes — node--hotel has no
+// `field_location` relationship to a separate node--location entity (Drupal
+// rejects it with "not a valid relationship field name" if you try), so
+// there's no indirection to resolve here, just read it off the hotel.
+function resolveStayGeoLocation(hotel) {
+  const geo = hotel?.attributes?.field_geolocation;
   if (!geo) return null;
 
   const lat = parseFloat(geo.lat);
@@ -383,7 +379,7 @@ tabs.itinerary = {
 
         // Missing stay/location/geolocation just means this day can't
         // contribute a map point — it still renders in the day list.
-        const geo = hotel ? resolveStayGeoLocation(hotel, included) : null;
+        const geo = hotel ? resolveStayGeoLocation(hotel) : null;
 
 return {
      day: a.field_day_number,

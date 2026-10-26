@@ -32,19 +32,18 @@ function hubIcon(active) {
   });
 }
 
-// icons8 "3D Fluency airplane" — despite the glossy 3D shading, the
-// silhouette itself is top-down with the nose resting at due west (pointing
-// left), not north. AnimatedPlane's rotation adds a +90deg baseline offset
-// to compensate, so a computed bearing of 0 (north) still displays nose-up.
-const PLANE_IMG_URL = "https://img.icons8.com/3d-fluency/94/airplane-1.png";
-
+// Inline SVG (Material "flight" glyph) instead of a hotlinked icons8.com
+// image — that external URL now 404s, so the plane showed as a browser
+// broken-image icon mid-route. Drawn nose-up (0deg = north) by default, which
+// matches the bearing convention computed below (0 = north, 90 = east), so
+// no rotation offset is needed before applying it.
 const PLANE_ICON = L.divIcon({
   className: "journey-plane-icon",
-  html: `<div class="journey-plane-rotate" style="width:32px;height:32px;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.4));">
-    <img src="${PLANE_IMG_URL}" alt="" width="32" height="32" style="display:block;width:100%;height:100%;" />
+  html: `<div class="journey-plane-rotate" style="width:28px;height:28px;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.4));">
+   
   </div>`,
-  iconSize: [32, 32],
-  iconAnchor: [16, 16],
+  iconSize: [28, 28],
+  iconAnchor: [14, 14],
 });
 
 // Samples a quadratic-bezier arc between two points so the route reads as a
@@ -137,8 +136,8 @@ function AnimatedPlane({ path }) {
       marker.setLatLng([lat, lng]);
 
       // Compass-style bearing: 0deg = north (increasing lat), 90deg = east
-      // (increasing lng). PLANE_ICON's artwork rests nose-west (-90deg), so
-      // +90 brings it to nose-north before the bearing rotation is applied.
+      // (increasing lng) — PLANE_ICON's artwork is drawn nose-up (north), so
+      // this rotation applies directly with no baseline offset.
       const bearing = (Math.atan2(p1[1] - p0[1], p1[0] - p0[0]) * 180) / Math.PI;
       const el = marker.getElement();
       const rotor = el?.querySelector(".journey-plane-rotate");
@@ -194,7 +193,7 @@ export default function JourneyMap({ markers, activeDay }) {
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          url={`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${process.env.NEXT_PUBLIC_CARTO_API_KEY}`}
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           maxZoom={20}
         />
