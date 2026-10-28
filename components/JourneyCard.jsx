@@ -2,8 +2,10 @@
 
 import Image from "@/components/SafeImage";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { CheckCircle2, CirclePlus, Info } from "lucide-react";
 import JourneyCardImage from "@/components/JourneyCardImage";
+import BookingModal from "@/components/BookingModal";
 import {
   COMPARE_CHANGED_EVENT,
   addTripToCompare,
@@ -34,7 +36,29 @@ const CARD_BASE =
 // fixes it everywhere.
 export default function JourneyCard({ trip, variant = "carousel", onCompare, mobileWidthClass }) {
   const [isSelected, setIsSelected] = useState(false);
+  const [showBooking, setShowBooking] = useState(false);
   const showFrom = trip.experienceType?.toLowerCase().includes("inspir");
+
+  const handleBookNow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!trip.isBookingOpen) return;
+    setShowBooking(true);
+  };
+
+  // BookingModal expects { title, image, destinationsList, location, date,
+  // duration, price } — destinationsList/location fall back to this card's
+  // region (no per-city list at the card level), and date to the nearest
+  // departure's start date when one was fetched for this journey.
+  const bookingJourney = {
+    title: trip.title,
+    image: trip.image,
+    destinationsList: trip.region,
+    location: trip.region,
+    date: trip.nearestDeparture?.startDate || "",
+    duration: trip.days,
+    price: trip.price,
+  };
   // Kept in sync with the cart so removing a trip in the compare modal
   // flips this card back to "Add to Compare".
   useEffect(() => {
@@ -187,14 +211,40 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
             </div>
           </div>
 
-          <a
-            href={trip.viewTripUrl}
-            onClick={(e) => e.stopPropagation()}
-            className="flex h-8 shrink-0 items-center justify-center rounded-full bg-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA] w-auto md:h-[29px] md:w-[93px] md:px-0 md:text-[11px] md:tracking-normal md:bg-[#2D3482]"
-          >
-            {trip.viewTripText || "View Trip"}
-          </a>
+          <div className="flex shrink-0 items-center gap-2">
+            <a
+              href={trip.viewTripUrl}
+              onClick={(e) => e.stopPropagation()}
+              className="flex h-8 shrink-0 items-center justify-center rounded-full bg-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA] w-auto md:h-[29px] md:w-[93px] md:px-0 md:text-[11px] md:tracking-normal md:bg-[#2D3482]"
+            >
+              {trip.viewTripText || "View Trip"}
+            </a>
+
+            {/* "Is booking open" (field_is_booking_open) lets an editor
+                remove this per journey — sold out, dates not published
+                yet, etc. */}
+            {trip.isBookingOpen && (
+              <button
+                type="button"
+                onClick={handleBookNow}
+                className="flex h-8 shrink-0 items-center justify-center rounded-full border border-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#2C3078] w-auto md:h-[29px] md:w-[93px] md:px-0 md:text-[11px] md:tracking-normal"
+              >
+                Book Now
+              </button>
+            )}
+          </div>
         </div>
+
+        {showBooking &&
+          createPortal(
+            // This card's root wrapper has `isolate` (own stacking context,
+            // for the scalloped-edge decoration), so nesting the modal here
+            // would trap its z-50 inside that context — another card
+            // elsewhere on the page could still render on top and steal
+            // its clicks. Portal straight to <body> to escape that.
+            <BookingModal journey={bookingJourney} onClose={() => setShowBooking(false)} />,
+            document.body
+          )}
 
         <div className="mt-2 md:mt-4 md:min-h-8">
           {trip.offer && (

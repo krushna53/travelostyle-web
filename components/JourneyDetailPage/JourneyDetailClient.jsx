@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import TestimonialSection from "@/components/HomePage/TestimonialSection";
 import { buildFileUrl } from "@/lib/config";
 import {
@@ -635,6 +636,18 @@ export default function JourneyDetailClient({
   const handleCheckAvailability = () => {
     detailTabsRef.current?.showDatesPricing();
   };
+
+  // "Book Now" on a journey card (home page / itinerary listing) links
+  // here with ?book=1 so the visitor lands straight on the "Dates &
+  // Pricing" tab instead of Highlights — same jump as the hero's "Check
+  // Dates & Availability" button, just triggered on arrival.
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    if (searchParams.get("book") === "1") {
+      detailTabsRef.current?.showDatesPricing();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main>

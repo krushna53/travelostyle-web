@@ -17,6 +17,7 @@ function mapJourneyToTrip(journey) {
     experienceType: journey.experienceType,
     viewTripUrl: journey.viewTripUrl,
     viewTripText: journey.viewTripText,
+    isBookingOpen: journey.isBookingOpen,
   };
 }
 
