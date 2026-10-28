@@ -3,11 +3,12 @@ import { FaFacebookSquare, FaInstagram } from "react-icons/fa";
 import FooterNewsletterForm from "./FooterNewsletterForm";
 
 const footer = {
-  phone: "+1773 983 8067",
+  phone: "+1773 503 9742",
+  phone_unformatted: "+17735039742",
   email: "info@travelostyle.com",
   copyrightText: "© TravelOStyle 2026 | Designed by Eunoia Design House",
-  facebookUrl: "",
-  instagramUrl: "",
+  facebookUrl: "https://www.facebook.com/share/1K9cNDvzCQ/",
+  instagramUrl: "https://www.instagram.com/travelostyle1",
   linkGroups: [
     {
       title: "Company",
@@ -15,7 +16,7 @@ const footer = {
         { label: "About Us", url: "/about-us" },
         { label: "FAQs", url: "/faqs" },
         { label: "Write To Us", url: "/write-us" },
-        { label: "Travel Journal", url: "//travel-journal" },
+        { label: "Travel Journal", url: "/travel-journal" },
       ],
     },
     {
@@ -25,7 +26,7 @@ const footer = {
         { label: "Group Journeys", url: "/group-rtb-journeys" },
         { label: "Private Journeys", url: "/private-rtb-journeys" },
         { label: "Tailor-Made Journey", url: "/tailor-made-journeys" },
-        { label: "Offers", url: "/special-offers-deals-discounts" },
+        { label: "Offers", url: "/special-offers" },
       ],
     },
     {
@@ -140,14 +141,24 @@ export default function Footer() {
             Connect With Us
           </h3>
           <div className="flex gap-4 mb-4">
-            <a href={footer.facebookUrl || "#"} aria-label="Facebook">
+            <a
+              href={footer.facebookUrl || "#"}
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaFacebookSquare className="text-[24px] md:text-[26px] text-white cursor-pointer" />
             </a>
-            <a href={footer.instagramUrl || "#"} aria-label="Instagram">
+            <a
+              href={footer.instagramUrl || "#"}
+              aria-label="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaInstagram className="text-[24px] md:text-[26px] text-white cursor-pointer" />
             </a>
           </div>
-          <p className="text-[13px] md:text-[14px] font-light">{footer.phone}</p>
+          <p className="text-[13px] md:text-[14px] font-light"><a href={`tel:${footer.phone_unformatted}`}>{footer.phone}</a></p>
           <p className="text-[13px] md:text-[14px] font-light mt-1 md:mt-2">{footer.email}</p>
         </div>
 

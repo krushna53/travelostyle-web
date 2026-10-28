@@ -17,8 +17,10 @@ function mapJourneysToTrips(drupalJourneys) {
     image: journey.image,
     region: journey.region,
     tags: journey.types,
+    experienceType: journey.experienceType,
     viewTripUrl: journey.viewTripUrl,
     viewTripText: journey.viewTripText,
+    isBookingOpen: journey.isBookingOpen,
     active: index === 0,
   }));
 }

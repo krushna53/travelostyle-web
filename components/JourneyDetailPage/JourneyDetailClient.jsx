@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import TestimonialSection from "@/components/HomePage/TestimonialSection";
 import { buildFileUrl } from "@/lib/config";
 import {
@@ -31,6 +32,7 @@ const MOCK_JOURNEY = {
   endCity: "",
   bestSeason: "",
   pace: "",
+  groupSize: "",
   offer: "",
   earlyBird: true,
   highlights: [
@@ -152,13 +154,31 @@ function resolvePace(item, included) {
   return e?.attributes?.name || "";
 }
 
+// Geofield values come back from JSON:API with lat/lon keys directly on the
+// field object, so no WKT parsing is needed. `field_geolocation` lives
+// directly on the Hotel node's own attributes — node--hotel has no
+// `field_location` relationship to a separate node--location entity (Drupal
+// rejects it with "not a valid relationship field name" if you try), so
+// there's no indirection to resolve here, just read it off the hotel.
+function resolveStayGeoLocation(hotel) {
+  const geo = hotel?.attributes?.field_geolocation;
+  if (!geo) return null;
+
+  const lat = parseFloat(geo.lat);
+  const lon = parseFloat(geo.lon ?? geo.lng);
+  if (Number.isNaN(lat) || Number.isNaN(lon)) return null;
+
+  return { lat, lon };
+}
+
 // ── PRIVATE / TAILOR-MADE HOTELS ─────────────────────────────────────────
-// Private and Tailor-made journeys can pick a hotel from the "Hotel Type"
-// vocabulary (hotel_type) in the paragraph field field_private_tailor_hotel
-// — on each itinerary day, and optionally on the Stays tab paragraph. When
-// one is picked it replaces the regular field_stay hotel; when none is
-// picked the regular stay is shown as before. Other journey types always
-// use field_stay.
+// A hotel can be picked from the "Hotel Type" vocabulary (hotel_type) in the
+// paragraph field field_private_tailor_hotel — on each itinerary day, and
+// optionally on the Stays tab paragraph. This is data-driven, not tied to the
+// Group / Inspirational selection: whenever Private / Tailor hotels are set
+// they are shown, and whenever regular hotels (field_stay / field_hotels)
+// are set they are shown too. On an itinerary day the Hotel Type pick wins
+// over field_stay for the "Stay:" line.
 
 // Journey Style tag labels (field_journey_tag) that count as Private /
 // Tailor-made, e.g. "Private Journey", "Tailor Made Journey".
@@ -250,11 +270,9 @@ function resolveHotelNodeCard(hotel, included) {
 
 
 
-function resolveTabSections(item, included, { useTailorHotels = false, hotelPool = [] } = {}) {
-  // Private / Tailor-made hotel overrides collected while walking the tabs,
-  // applied to the Stays list once every tab has been read (the Itinerary
-  // tab may come before or after the Stays tab).
-  const dayOverrides = []; // [{ hotelId, card }] in day order
+function resolveTabSections(item, included, { hotelPool = [] } = {}) {
+  // Stays tab hotel references are collected while walking tabs, then mapped
+  // after all tab paragraphs have been read.
   let staysTabOverride = null; // card from the Stays tab paragraph itself
   let stayHotels = null; // [{ hotelId, card }] from field_hotels
 
@@ -355,22 +373,25 @@ tabs.itinerary = {
 
         // Private / Tailor-made: the Hotel Type picked on this day wins
         // over field_stay; no pick → fall back to field_stay.
-        const tailorCard = useTailorHotels
-          ? resolveHotelTypeCard(
-              relRefs(day.relationships?.field_private_tailor_hotel)[0]?.id,
-              hotelPool,
-            )
-          : null;
-        if (tailorCard) dayOverrides.push({card: tailorCard });
+        const tailorCard = resolveHotelTypeCard(
+          relRefs(day.relationships?.field_private_tailor_hotel)[0]?.id,
+          hotelPool,
+        );
+
+        // Missing stay/location/geolocation just means this day can't
+        // contribute a map point — it still renders in the day list.
+        const geo = hotel ? resolveStayGeoLocation(hotel) : null;
+
 return {
      day: a.field_day_number,
+     cityPair: a.field_city_pair || "",
      title: a.field_day_title || "",
-     stay: useTailorHotels
-     ? tailorCard?.name || ""
-      : hotel?.attributes?.title || "",
-      description: stripHtml(
-      a.field_description?.processed
-          ),
+     // Prefer the day's Private/Tailor hotel type when one is configured;
+     // otherwise show the regular hotel referenced by field_stay.
+     stay: tailorCard?.name || hotel?.attributes?.title || "",
+     description: stripHtml(a.field_description?.processed || ""),
+     lat: geo?.lat ?? null,
+     lon: geo?.lon ?? null,
         };
       })
       .filter(Boolean),
@@ -398,7 +419,7 @@ return {
         );
 
         // Hotel Type picked directly on the Stays tab paragraph.
-        if (useTailorHotels && !staysTabOverride) {
+        if (!staysTabOverride) {
           staysTabOverride = resolveHotelTypeCard(
             relRefs(para.relationships?.field_private_tailor_hotel)[0]?.id,
             hotelPool,
@@ -434,21 +455,16 @@ return {
     }
   });
 
-  // ── STAYS: apply Private / Tailor-made hotels ───────────────────────────
-  // Each regular hotel that an itinerary day replaced with a Hotel Type is
-  // swapped for that Hotel Type card (same position); hotels with no pick
-  // stay as they are. A Hotel Type set on the Stays tab paragraph leads the
-  // list, and day picks not already shown are appended. Duplicates dropped.
-  if (stayHotels || dayOverrides.length || staysTabOverride) {
-    let cards;
-    if (useTailorHotels) {
-      cards = [staysTabOverride, ...dayOverrides.map((o) => o.card)];
-    } else {
-      cards = (stayHotels || []).map((s) => s.card);
-    }
-
+  // The Stays tab reflects only its own backend hotel and Hotel Type fields.
+  // Itinerary day hotel selections are rendered in the itinerary, not copied
+  // into this tab. De-duplicate while retaining Drupal's configured order.
+  const stayCards = [
+    ...(stayHotels || []).map((entry) => entry.card),
+    ...(staysTabOverride ? [staysTabOverride] : []),
+  ];
+  if (stayCards.length) {
     const seen = new Set();
-    tabs.stays = cards.filter((c) => {
+    tabs.stays = stayCards.filter((c) => {
       if (!c || seen.has(c.key)) return false;
       seen.add(c.key);
       return true;
@@ -507,10 +523,6 @@ function transformItem(item, included, departures = [], hotelTypeTerms = null) {
   const isInspirational = experienceTypeRaw.toLowerCase().includes("inspir");
   const experienceType = isInspirational ? "inspirational" : "group";
   const tabSections = resolveTabSections(item, included, {
-    // Always on: a Private & Tailor hotel is only ever picked for private /
-    // tailor-made journeys, so whenever one is set it should be shown —
-    // even if the journey's Journey Type tag doesn't say Private/Tailormade.
-    useTailorHotels: isInspirational,
     // Hotel Type terms (+ their media/files) come from a separate fetch;
     // the journey's own `included` is searched too in case they're there.
     hotelPool: [
@@ -579,8 +591,9 @@ originalPrice: item.attributes.field_original_price,
     tagIds: journeyTypeSubmissionIds,
     startCity: resolveLocation(item.attributes?.field_starts_in) || MOCK_JOURNEY.startCity,
     endCity: resolveLocation(item.attributes?.field_ends_in) || MOCK_JOURNEY.endCity,
-    bestSeason: resolveBestSeasons(item, included) || MOCK_JOURNEY.bestSeason,
-    pace: resolvePace(item, included) || MOCK_JOURNEY.pace,
+    bestSeason: resolveBestSeasons(item, included),
+    pace: resolvePace(item, included),
+    groupSize: item.attributes?.field_group_size ?? "",
     // Tab section data from field_journey_tabs_section paragraphs
     tabHighlights: tabSections.highlights || null,
    tabItinerary: tabSections.itinerary?.days || null,
@@ -623,6 +636,18 @@ export default function JourneyDetailClient({
   const handleCheckAvailability = () => {
     detailTabsRef.current?.showDatesPricing();
   };
+
+  // "Book Now" on a journey card (home page / itinerary listing) links
+  // here with ?book=1 so the visitor lands straight on the "Dates &
+  // Pricing" tab instead of Highlights — same jump as the hero's "Check
+  // Dates & Availability" button, just triggered on arrival.
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    if (searchParams.get("book") === "1") {
+      detailTabsRef.current?.showDatesPricing();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main>

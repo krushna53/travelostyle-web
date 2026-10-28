@@ -6,6 +6,7 @@ import CtaBanner from "./CtaBanner";
 
 export default function MobileItinerary({
   onBack,
+  onNext,
   itineraryRecord,
   mapImage,
   journey,
@@ -30,26 +31,31 @@ export default function MobileItinerary({
           Itinerary
         </h1>
 
-        <div className="w-12" />
+        {onNext ? (
+          <button
+            onClick={onNext}
+            aria-label="Next section"
+            className="flex h-6 w-12 items-center justify-center rounded-full bg-white transition active:scale-95"
+          >
+            <Image src="/RightArrow.svg" alt="" width={56} height={24} />
+          </button>
+        ) : (
+          <div className="w-12" aria-hidden="true" />
+        )}
       </div>
       <h2 className="text-sm font-bold text-neutral-800 mb-3 tracking-tight">
         Learn How Your Days Unfold
       </h2>
 
       <div className="relative w-full h-52 bg-white border-2 border-neutral-800 overflow-hidden flex items-center justify-center mb-4 shadow-[1px_1px_0px_rgba(0,0,0,1)]">
-        {mapImage ? (
-          <Image
-            src={mapImage}
-            alt="Journey Map"
-            fill
-            unoptimized
-            className="object-cover"
-          />
-        ) : (
-          <span className="text-xs font-semibold text-neutral-700 tracking-wide">
-            No map available
-          </span>
-        )}
+        {/* No map uploaded for this journey -> default "Journey Map Coming Soon" image */}
+        <Image
+          src={mapImage || "/journey-map-placeholder.jpg"}
+          alt="Journey Map"
+          fill
+          unoptimized
+          className="object-cover"
+        />
       </div>
       <div className="space-y-3 pb-8">
         {itinerary.length === 0 ? (
@@ -74,12 +80,15 @@ export default function MobileItinerary({
                     DAY {item.day}
                   </span>
                   <h3 className="text-[15px] font-extrabold text-neutral-900 leading-tight">
+                    {item.cityPair ? `${item.cityPair} - ` : ""}
                     {item.title}
                   </h3>
-                  <p className="text-xs text-neutral-600">
-                    <span className="font-bold text-neutral-900">Stay:</span>{" "}
-                    {item.stay}
-                  </p>
+                  {item.stay ? (
+                    <p className="text-xs text-neutral-600">
+                      <span className="font-bold text-neutral-900">Stay:</span>{" "}
+                      {item.stay}
+                    </p>
+                  ) : null}
                 </div>
                 <div className="flex-shrink-0 ml-2 w-6 h-6 rounded-full bg-[#F3EBE6] border border-neutral-400 flex items-center justify-center font-mono font-bold text-neutral-700 text-sm select-none">
                   {isOpen ? "−" : "+"}
@@ -94,7 +103,7 @@ export default function MobileItinerary({
                 }`}
               >
                 <div className="p-4 pt-2 text-[12.5px] text-neutral-800 leading-relaxed font-normal whitespace-pre-line">
-                  {item.description}
+                  {item.description || ""}
                 </div>
               </div>
             </div>

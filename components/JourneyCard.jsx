@@ -2,8 +2,10 @@
 
 import Image from "@/components/SafeImage";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { CheckCircle2, CirclePlus, Info } from "lucide-react";
 import JourneyCardImage from "@/components/JourneyCardImage";
+import BookingModal from "@/components/BookingModal";
 import {
   COMPARE_CHANGED_EVENT,
   addTripToCompare,
@@ -25,7 +27,7 @@ function getTagColor(tag) {
 // drop shadow. The scalloped bottom edge comes from the shared
 // .card-scallop-bottom class (card-bg.png), not from a card-shaped SVG.
 const CARD_BASE =
-  "card-scallop-bottom relative isolate flex shrink-0 cursor-pointer flex-col rounded-[16px]  px-[14px] pt-3 pb-4 max-md:snap-center md:h-[640px] md:pt-4 md:pb-11";
+  "card-scallop-bottom relative isolate flex shrink-0 flex-col rounded-[16px]  px-[14px] pt-3 pb-4 max-md:snap-center md:h-[640px] md:pt-4 md:pb-11";
 
 // Single journey card used across the site (home carousel, journey-type
 // listing grids, "other destinations" rail). `variant` only changes the
@@ -34,7 +36,29 @@ const CARD_BASE =
 // fixes it everywhere.
 export default function JourneyCard({ trip, variant = "carousel", onCompare, mobileWidthClass }) {
   const [isSelected, setIsSelected] = useState(false);
+  const [showBooking, setShowBooking] = useState(false);
   const showFrom = trip.experienceType?.toLowerCase().includes("inspir");
+
+  const handleBookNow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!trip.isBookingOpen) return;
+    setShowBooking(true);
+  };
+
+  // BookingModal expects { title, image, destinationsList, location, date,
+  // duration, price } — destinationsList/location fall back to this card's
+  // region (no per-city list at the card level), and date to the nearest
+  // departure's start date when one was fetched for this journey.
+  const bookingJourney = {
+    title: trip.title,
+    image: trip.image,
+    destinationsList: trip.region,
+    location: trip.region,
+    date: trip.nearestDeparture?.startDate || "",
+    duration: trip.days,
+    price: trip.price,
+  };
   // Kept in sync with the cart so removing a trip in the compare modal
   // flips this card back to "Add to Compare".
   useEffect(() => {
@@ -86,13 +110,19 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         ))}
       </div>
 
-      <div className="relative h-[128px] w-full shrink-0 overflow-hidden md:h-[213px] md:w-full">
+      <a
+        href={trip.viewTripUrl}
+        onClick={(e) => e.stopPropagation()}
+        className="relative block h-[128px] w-full shrink-0 overflow-hidden md:h-[213px] md:w-full"
+      >
         <JourneyCardImage src={trip.image} alt={trip.title} />
-      </div>
+      </a>
 
       <div className="flex flex-1 flex-col pt-2 text-left md:pt-4 justify-between">
         <h3 className="line-clamp-2 h-[48px] text-[16px] font-semibold leading-[24px] tracking-[0.05em] text-ink md:h-auto md:min-h-[2.6em] md:text-[21px] md:leading-[1.3] md:tracking-normal md:text-[#232323]">
-          {trip.title}
+          <a href={trip.viewTripUrl} onClick={(e) => e.stopPropagation()}>
+            {trip.title}
+          </a>
         </h3>
 
         <p className="mt-2 line-clamp-3 h-[48px] text-[10px] font-light leading-[16px] tracking-[0.05em] text-ink md:mt-2 md:line-clamp-2 md:h-auto md:min-h-[3.1em] md:text-[14px] md:font-normal md:leading-[1.55] md:tracking-normal md:text-[#666666]">
@@ -181,14 +211,40 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
             </div>
           </div>
 
-          <a
-            href={trip.viewTripUrl}
-            onClick={(e) => e.stopPropagation()}
-            className="flex h-8 shrink-0 items-center justify-center rounded-full bg-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA] w-auto md:h-[29px] md:w-[93px] md:px-0 md:text-[11px] md:tracking-normal md:bg-[#2D3482]"
-          >
-            {trip.viewTripText || "View Trip"}
-          </a>
+          <div className="flex shrink-0 items-center gap-2">
+            <a
+              href={trip.viewTripUrl}
+              onClick={(e) => e.stopPropagation()}
+              className="flex h-8 shrink-0 items-center justify-center rounded-full bg-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#FAFAFA] w-auto md:h-[29px] md:w-[93px] md:px-0 md:text-[11px] md:tracking-normal md:bg-[#2D3482]"
+            >
+              {trip.viewTripText || "View Trip"}
+            </a>
+
+            {/* "Is booking open" (field_is_booking_open) lets an editor
+                remove this per journey — sold out, dates not published
+                yet, etc. */}
+            {trip.isBookingOpen && (
+              <button
+                type="button"
+                onClick={handleBookNow}
+                className="flex h-8 shrink-0 items-center justify-center rounded-full border border-[#2C3078] px-6 text-[16px] font-semibold tracking-[0.05em] text-[#2C3078] w-auto md:h-[29px] md:w-[93px] md:px-0 md:text-[11px] md:tracking-normal"
+              >
+                Book Now
+              </button>
+            )}
+          </div>
         </div>
+
+        {showBooking &&
+          createPortal(
+            // This card's root wrapper has `isolate` (own stacking context,
+            // for the scalloped-edge decoration), so nesting the modal here
+            // would trap its z-50 inside that context — another card
+            // elsewhere on the page could still render on top and steal
+            // its clicks. Portal straight to <body> to escape that.
+            <BookingModal journey={bookingJourney} onClose={() => setShowBooking(false)} />,
+            document.body
+          )}
 
         <div className="mt-2 md:mt-4 md:min-h-8">
           {trip.offer && (
@@ -202,7 +258,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         <button
           type="button"
           onClick={handleAddToCompare}
-          className="mt-3 mb-6 md:mt-4 md:mb-5 flex items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E]"
+          className="mt-3 mb-6 md:mt-4 md:mb-5 flex cursor-pointer items-center gap-2 text-[14px] leading-[18px] tracking-[0.05em] text-ink md:gap-1.5 md:text-[11px] md:tracking-normal md:text-[#4E4E4E]"
         >
           {isSelected ? (
             <>

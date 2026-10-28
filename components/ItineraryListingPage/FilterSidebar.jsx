@@ -1,4 +1,5 @@
 "use client";
+import { matchesDestinationSearch } from "@/lib/destinationSearch";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Plus, Minus, ChevronDown, ChevronUp, Check } from "lucide-react";
@@ -132,7 +133,7 @@ export function getFilterCount(journeys, key, value) {
   return journeys.filter((item) => {
     switch (key) {
       case "region":
-        return item.region === value;
+        return matchesDestinationSearch(item, value);
 
       case "style":
         return item.tags?.includes(value);
@@ -195,13 +196,14 @@ export default function FilterSidebar({
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const regionParam = searchParams.get("region");
+    const regionParam = [searchParams.get("region"), searchParams.get("country")?.split(",").filter((value) => value.trim().length !== 2).join(",")].filter(Boolean).join(",");
 
     // Always sync from the URL (including clearing back to [] when the
     // param is gone) so re-running "Find Your Journey" with no region
     // selected doesn't leave a stale region filter from a previous search.
     setFilters((prev) => ({
       ...prev,
+      destinationSearch: searchParams.get("search") || "",
       region: regionParam
         ? regionParam.split(",").map((r) => r.trim()).filter(Boolean)
         : [],
@@ -257,17 +259,29 @@ export default function FilterSidebar({
         const sessionJourneyFilters =
           parsedJourneyData.filters || parsedJourneyData;
 
-        const selectedStyle =
+        // travelType is an array since TravelForm's "Choose a way of
+        // travel" became multi-select — still accepts a bare string too,
+        // for any older sessionStorage payload or caller that hasn't been
+        // updated (e.g. FindYourJourneyMobile).
+        const selectedStyleRaw =
           sessionJourneyFilters.travelType || sessionJourneyFilters.style || "";
+        const selectedStyles = Array.isArray(selectedStyleRaw)
+          ? selectedStyleRaw
+          : selectedStyleRaw
+            ? [selectedStyleRaw]
+            : [];
 
-        const matchingStyle =
-          typeof selectedStyle === "string" && selectedStyle
-            ? filterOptions.style?.find(
-                (opt) =>
-                  opt.toLowerCase().replace(/[^a-z0-9]/g, "") ===
-                  selectedStyle.toLowerCase().replace(/[^a-z0-9]/g, ""),
-              )
-            : null;
+        const matchingStyles = selectedStyles
+          .map((value) =>
+            typeof value === "string"
+              ? filterOptions.style?.find(
+                  (opt) =>
+                    opt.toLowerCase().replace(/[^a-z0-9]/g, "") ===
+                    value.toLowerCase().replace(/[^a-z0-9]/g, ""),
+                )
+              : null,
+          )
+          .filter(Boolean);
 
         // Month
         const selectedMonths =
@@ -300,6 +314,7 @@ export default function FilterSidebar({
         return {
           ...prev,
 
+          destinationSearch: searchParams.get("search") || sessionJourneyFilters.destinationSearch || "",
           // Region
           region: Array.isArray(selectedRegion)
             ? selectedRegion
@@ -308,11 +323,7 @@ export default function FilterSidebar({
               : prev.region,
 
           // Travel Style
-          style: matchingStyle
-            ? [matchingStyle]
-            : Array.isArray(selectedStyle)
-              ? selectedStyle
-              : prev.style,
+          style: matchingStyles.length ? matchingStyles : prev.style,
 
           // Month
           month: Array.isArray(selectedMonths)
@@ -387,16 +398,20 @@ export default function FilterSidebar({
     <>
       {/* REGION (Drupal: country) */}
       <FilterSection title="Region" mobile={mobile}>
-        {visibleOptions("region", filterOptions.region).map((item) => (
-          <CheckboxItem
-            key={item}
-            label={item}
-            count={getCount("region", item)}
-            checked={filters.region.includes(item)}
-            onChange={() => toggleFilter("region", item)}
-            mobile={mobile}
-          />
-        ))}
+        {/* Base list is real Region taxonomy terms only (filterOptions.region) —
+              it used to also union in whatever's currently in filters.region,
+              so a value that got into the URL/session some other way
+              without being a real taxonomy term still rendered as an extra
+              checkbox the moment it was "selected". */}
+            {(filterOptions.region || []).filter((item) => getCount("region", item) > 0 || filters.region.includes(item)).map((item) => (
+            <CheckboxItem
+              key={item}
+              label={item}
+              count={getCount("region", item)}
+              checked={filters.region.includes(item)}
+              onChange={() => toggleFilter("region", item)}
+            />
+          ))}
       </FilterSection>
 
       {/* TRAVEL STYLE (Drupal: tags) */}
@@ -611,7 +626,12 @@ export default function FilterSidebar({
       <div className="rounded-[4px] border-2 border-[#000000] px-[19px] py-[6px]">
         {/* REGION (Drupal: country) */}
         <FilterSection title="Region">
-          {visibleOptions("region", filterOptions.region).map((item) => (
+          {/* Base list is real Region taxonomy terms only (filterOptions.region) —
+              it used to also union in whatever's currently in filters.region,
+              so a value that got into the URL/session some other way
+              without being a real taxonomy term still rendered as an extra
+              checkbox the moment it was "selected". */}
+            {(filterOptions.region || []).filter((item) => getCount("region", item) > 0 || filters.region.includes(item)).map((item) => (
             <CheckboxItem
               key={item}
               label={item}

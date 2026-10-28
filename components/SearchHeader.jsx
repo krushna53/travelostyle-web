@@ -3,6 +3,7 @@
 import Image from "@/components/SafeImage";
 import MobileMegaMenu from "./MobileMegaMenu";
 import Link from "next/link";
+import TalkToAdvisorButton from "@/components/GeneralInquiryForm/TalkToAdvisorButton";
 
 export default function SearchHeader({
   menuOpen,
@@ -27,15 +28,17 @@ export default function SearchHeader({
           >
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
           </svg>
-          (773) 983-8067 | 10am-7pm CST
+           <a href="tel:+17735039742">+1773 503 9742</a> |  9am-5pm CST
         </p>
         <p className="hidden min-[1191px]:block truncate">
-          Speak to our travel advisor (773) 983-8067 | open 10am-7pm CST
+          Speak to our travel advisor   <a href="tel:+17735039742">+1773 503 9742</a> | open  9am-5pm CST
         </p>
 
         <div className="flex items-center gap-4 md:gap-6">
           <Link href="/faqs">FAQs</Link>
-          <button className="hidden min-[1191px]:block">Contact Us</button>
+          <TalkToAdvisorButton className="hidden min-[1191px]:block">
+            Contact Us
+          </TalkToAdvisorButton>
         </div>
       </div>
 
@@ -70,6 +73,8 @@ export default function SearchHeader({
             >
               <Link href="/about-us">About</Link>
 
+              <Link href="/destination">Destinations</Link>
+
               <Link href="/group-rtb-journeys">Group Journeys</Link>
 
               <Link href="/private-rtb-journeys">Private Journeys</Link>
@@ -78,11 +83,12 @@ export default function SearchHeader({
 
               {showAllJourneys && <Link href="/itinerary">All Journeys</Link>}
 
-              <Link href="/destination">Destinations</Link>
-
-              <Link href="/offers">Offers</Link>
+              <Link href="/special-offers">Offers</Link>
 
               <Link href="/faqs">FAQs</Link>
+               <Link href="https://buy.stripe.com/eVqeV630mf347Gwb3yfjG01" className="text-left hover:underline">
+                  Pay by Stripe
+                </Link>
             </div>
           </div>
           <div className="block min-[1191px]:hidden relative min-[750px]:pb-4 flex items-center justify-between max-[1190px]:pt-2">

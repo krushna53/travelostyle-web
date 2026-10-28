@@ -186,12 +186,24 @@ function getItinerary(journey, included, isInspirational) {
     .filter(Boolean)
     .map((day) => ({
       day: day.attributes?.field_day_number,
-      location: isInspirational
-        ? getTailorHotelName(
-            day.relationships?.field_private_tailor_hotel,
-            included,
-          )
-        : getStayCityCountry(day, included),
+      // Data-driven: the Private / Tailor hotel if one is set, otherwise
+      // the regular stay's city/country (not tied to Group / Inspirational).
+     
+      location:
+        getTailorHotelName(
+          day.relationships?.field_private_tailor_hotel,
+          included,
+        ) ||
+        getStayCityCountry(day, included) ||
+        // Keep a group's hotel visible even when its address has no city.
+        included.find(
+          (item) =>
+            item.type === "node--hotel" &&
+            item.id === relationshipRefs(day.relationships?.field_stay)[0]?.id &&
+            item.attributes?.status !== false,
+        )?.attributes?.title ||
+        day.attributes?.field_city_pair ||
+        "",
       }));
 }
 
@@ -251,42 +263,29 @@ function getStays(journey, included, isInspirational) {
   )
     .map((ref) => included.find((item) => item.id === ref.id))
     .filter(Boolean);
-  const tabRefs = containers.flatMap((container) =>
-    relationshipRefs(container.relationships?.field_section_tabs),
+  const dayRefs = containers.flatMap((container) =>
+    getItineraryDays(container, included),
   );
-  const tabs = tabRefs
-    .map((ref) => included.find((item) => item.id === ref.id))
+  // Only the hotels added on the itinerary days (same as the Stays tab on the
+  // journey page): the day's Private / Tailor hotel if set, else its field_stay.
+  const seen = new Set();
+  return dayRefs
+    .map((day) => {
+      const tailorRef = relationshipRefs(
+        day.relationships?.field_private_tailor_hotel,
+      )[0];
+      const stayId = day.relationships?.field_stay?.data?.id;
+      const key = tailorRef?.id || stayId;
+      if (!key || seen.has(key)) return null;
+      seen.add(key);
+      const name =
+        (tailorRef && getTailorHotelName({ data: tailorRef }, included)) ||
+        included.find((i) => i.id === stayId && i.attributes?.status !== false)
+          ?.attributes?.title ||
+        "";
+      return name ? { name } : null;
+    })
     .filter(Boolean);
-  const staysTabs = tabs.filter((tab) => tab.type === "paragraph--stays_tab");
-
-  if (isInspirational) {
-    const dayRefs = containers.flatMap((container) =>
-      getItineraryDays(container, included),
-    );
-    const dayHotels = dayRefs.flatMap((day) =>
-      relationshipRefs(day.relationships?.field_private_tailor_hotel),
-    );
-    const staysTabHotels = staysTabs.flatMap((tab) =>
-      relationshipRefs(tab.relationships?.field_private_tailor_hotel),
-    );
-    const seen = new Set();
-    return [...staysTabHotels, ...dayHotels]
-      .map((reference) => {
-        if (!reference?.id || seen.has(reference.id)) return null;
-        seen.add(reference.id);
-        const name = getTailorHotelName({ data: reference }, included);
-        return name ? { name } : null;
-      })
-      .filter(Boolean);
-  }
-
-  return staysTabs
-    .flatMap((tab) => relationshipRefs(tab.relationships?.field_hotels))
-    .map((h) => included.find((i) => i.id === h.id))
-    .filter((hotel) => hotel && hotel.attributes?.status !== false)
-    .map((hotel) => ({
-      name: hotel.attributes?.title || "",
-    }));
 }
 
 function getItineraryDays(container, included) {
@@ -538,6 +537,7 @@ export default function TripComparison() {
     return undefined;
   };
 
+
   /* Renders the content of one comparison row for a trip. The MOBILE
      label lives inside the cell (md:hidden), so on phones every value is
      self-explanatory without the side column. */
@@ -565,7 +565,9 @@ export default function TripComparison() {
             }}
             className="text-sm space-y-0.5 pr-1"
           >
-            {trip.tabItinerary?.map((day) => (
+            {trip.tabItinerary
+              ?.filter((day) => String(day.location || "").trim())
+              .map((day) => (
               <div
                 key={day.day}
                 className="break-words text-[14px] leading-5 tracking-[0.02em]"

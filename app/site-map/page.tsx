@@ -26,7 +26,7 @@ const STATIC_GROUPS = [
       { label: "Private Journeys", url: "/private-rtb-journeys" },
       { label: "Tailor-Made Journey", url: "/tailor-made-journeys" },
       { label: "Destinations", url: "/destination" },
-      { label: "Offers", url: "/special-offers-deals-discounts" },
+      { label: "Offers", url: "/special-offers" },
     ],
   },
   {
