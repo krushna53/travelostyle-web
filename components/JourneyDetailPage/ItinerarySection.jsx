@@ -72,6 +72,11 @@ function buildJourneyMarkers(days) {
         lon: d.lon,
         stayName: d.stay,
         days: [{ day: d.day, title: d.title }],
+        // How the traveller arrived here — Air/Road/Train/Water, from this
+        // day's Mode of Transport field. Picks the first when an editor
+        // selected more than one; falls back to Air (JourneyMap's default)
+        // when this day didn't set one at all.
+        mode: d.transportModes?.[0] || null,
       });
     }
   });
