@@ -45,13 +45,43 @@ const TRANSPORT_ICON_PATHS = {
   Water: "M20 21c-1.39 0-2.78-.47-4-1.32-2.44 1.71-5.56 1.71-8 0C6.78 20.53 5.39 21 4 21H2v2h2c1.38 0 2.74-.35 4-.99 2.52 1.29 5.48 1.29 8 0 1.26.65 2.62.99 4 .99h2v-2h-2zM3.95 19H4c1.6 0 3.02-.88 4-2 .98 1.12 2.4 2 4 2s3.02-.88 4-2c.98 1.12 2.4 2 4 2h.05l1.89-6.68c.08-.26.06-.54-.06-.78s-.34-.42-.6-.5L20 10.62V6c0-1.1-.9-2-2-2h-3V1H9v3H6c-1.1 0-2 .9-2 2v4.62l-1.29.42c-.26.08-.48.26-.6.5s-.15.52-.06.78L3.95 19zM6 6h12v3.97L12 8 6 9.97V6z",
 };
 
+function normalizeTransport(mode) {
+  const value = String(mode || "").trim().toLowerCase();
+  if (/road|ground|car|bus|coach/.test(value)) return "Road";
+  if (/rail|train/.test(value)) return "Train";
+  if (/water|ship|boat|ferry|cruise|sea/.test(value)) return "Water";
+  return "Air";
+}
+
+const ROUTE_COLORS = { Air: "#39396D", Road: "#343434", Train: "#343434", Water: "#078A99" };
+
+function TransportLeg({ positions, mode }) {
+  const color = ROUTE_COLORS[mode];
+  const midpoint = positions[Math.floor(positions.length / 2)];
+  return (
+    <>
+      {mode === "Train" ? (
+        <>
+          <Polyline positions={positions} pathOptions={{ color, weight: 9, dashArray: "2 10", lineCap: "butt", opacity: 0.9 }} interactive={false} />
+          <Polyline positions={positions} pathOptions={{ color, weight: 5 }} interactive={false} />
+          <Polyline positions={positions} pathOptions={{ color: "#FFFFFF", weight: 2 }} interactive={false} />
+        </>
+      ) : (
+        <Polyline positions={positions} pathOptions={{ color, weight: mode === "Air" ? 3 : 3.5, dashArray: mode === "Air" ? "1 9" : undefined, lineCap: "round", opacity: 0.9 }} interactive={false} />
+      )}
+      <Marker position={midpoint} icon={transportIcon(mode)} keyboard={false} zIndexOffset={500}>
+        <Popup>{mode === "Road" ? "Ground transfer" : mode === "Train" ? "Rail transfer" : mode === "Water" ? "Water transfer" : "Air transfer"}</Popup>
+      </Marker>
+    </>
+  );
+}
 function transportIcon(mode) {
   const path = TRANSPORT_ICON_PATHS[mode] || TRANSPORT_ICON_PATHS.Air;
   return L.divIcon({
     className: "journey-plane-icon",
     html: `<div class="journey-plane-rotate" style="width:28px;height:28px;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.4));">
       <svg viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-        <path d="${path}" fill="#1A1A1A"/>
+        <path d="${path}" fill="${ROUTE_COLORS[mode] || ROUTE_COLORS.Air}" stroke="#FFFFFF" stroke-width="0.5"/>
       </svg>
     </div>`,
     iconSize: [28, 28],
@@ -129,7 +159,7 @@ function AnimatedTransport({ path, legIndexes, markers }) {
   useEffect(() => {
     if (!path || path.length < 2) return undefined;
 
-    let currentMode = markers[1]?.mode || "Air";
+    let currentMode = normalizeTransport(markers[1]?.mode);
     const marker = L.marker(path[0], {
       icon: transportIcon(currentMode),
       interactive: false,
@@ -163,7 +193,7 @@ function AnimatedTransport({ path, legIndexes, markers }) {
       // than on every frame — setIcon() replaces the DOM node, so calling
       // it unconditionally would also reset the rotation transform below.
       const legIndex = legIndexes[i0] ?? 0;
-      const legMode = markers[legIndex + 1]?.mode || "Air";
+      const legMode = normalizeTransport(markers[legIndex + 1]?.mode);
       if (legMode !== currentMode) {
         currentMode = legMode;
         marker.setIcon(transportIcon(currentMode));
@@ -198,6 +228,10 @@ export default function JourneyMap({ markers, activeDay }) {
 
   const points = useMemo(() => markers.map((m) => [m.lat, m.lon]), [markers]);
   const { path, legIndexes } = useMemo(() => buildRoutePath(points), [points]);
+  const legs = useMemo(() => points.slice(1).map((point, index) => ({
+    positions: curvedSegment(points[index], point, index % 2 === 0 ? 1 : -1),
+    mode: normalizeTransport(markers[index + 1]?.mode),
+  })), [points, markers]);
 
   useEffect(() => {
     if (activeDay == null) return;
@@ -209,17 +243,6 @@ export default function JourneyMap({ markers, activeDay }) {
 
   return (
     <>
-      <style jsx global>{`
-        .journey-route-ant {
-          stroke-dasharray: 10 8;
-          animation: journey-route-dash 1.1s linear infinite;
-        }
-        @keyframes journey-route-dash {
-          to {
-            stroke-dashoffset: -18;
-          }
-        }
-      `}</style>
       <MapContainer
         center={points[0] || [20, 0]}
         zoom={4}
@@ -232,15 +255,7 @@ export default function JourneyMap({ markers, activeDay }) {
           maxZoom={20}
         />
         <FitToMarkers positions={points} />
-        <Polyline
-          positions={path}
-          pathOptions={{
-            color: "#1A1A1A",
-            weight: 2,
-            className: "journey-route-ant",
-          }}
-          interactive={false}
-        />
+        {legs.map((leg, index) => <TransportLeg key={index} positions={leg.positions} mode={leg.mode} />)}
         <AnimatedTransport path={path} legIndexes={legIndexes} markers={markers} />
         {markers.map((marker) => {
           const isActive = marker.days.some((d) => d.day === activeDay);
