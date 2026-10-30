@@ -37,12 +37,13 @@ const CARD_BASE =
 export default function JourneyCard({ trip, variant = "carousel", onCompare, mobileWidthClass }) {
   const [isSelected, setIsSelected] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
+  const isBookingOpen = trip.isBookingOpen === true;
   const showFrom = trip.experienceType?.toLowerCase().includes("inspir");
 
   const handleBookNow = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!trip.isBookingOpen) return;
+    if (!isBookingOpen) return;
     setShowBooking(true);
   };
 
@@ -84,6 +85,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
 
   return (
     <div
+      style={isBookingOpen ? { paddingTop: "44px" } : undefined}
       className={`${CARD_BASE} ${
         mobileWidthClass || "w-[293px] min-w-[293px]"
       } ${
@@ -99,6 +101,11 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
             : "mx-auto md:mx-0 md:w-full md:min-w-0 md:max-w-[390px] md:px-6 min-[1920px]:w-[390px] min-[1920px]:min-w-[390px] min-[1920px]:shrink-0 min-[1920px]:px-5"
       }`}
     >
+      {isBookingOpen && (
+        <div className="absolute inset-x-0 top-0 flex h-8 items-center justify-center rounded-t-[16px] border border-[#2F2E8B] bg-[#F1F3CE] text-[12px] font-medium tracking-[0.05em] text-[#2F2E8B] md:text-[14px]">
+          Bookings Open
+        </div>
+      )}
       <div className="mb-2 flex min-h-[16px] flex-wrap gap-2 md:mb-3 md:min-h-[28px] md:gap-2">
         {trip.tags?.map((tag) => (
           <span
@@ -223,7 +230,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
             {/* "Is booking open" (field_is_booking_open) lets an editor
                 remove this per journey — sold out, dates not published
                 yet, etc. */}
-            {trip.isBookingOpen && (
+            {isBookingOpen && (
               <button
                 type="button"
                 onClick={handleBookNow}
