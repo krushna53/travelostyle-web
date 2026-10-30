@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 
 // Answers stay plain strings (they also feed the page's JSON-LD), so
-// international numbers like "+1773 503 9742" become tel: links here.
+// international numbers like "+1773 896 0123" become tel: links here.
 const PHONE = /(\+\d[\d ]{8,}\d)/;
 
 function linkifyPhones(text) {

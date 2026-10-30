@@ -21,8 +21,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TraveloStyle",
-  description: "Experience unique journeys with TraveloStyle",
+  title: "TravelOStyle",
+  description: "Experience unique journeys with TravelOStyle",
 };
 
 export default function RootLayout({
