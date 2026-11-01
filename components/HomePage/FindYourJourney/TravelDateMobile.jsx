@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
+import { sortMonthsFromCurrent } from "@/lib/months";
 
 const months = [
   "January",
@@ -24,11 +25,13 @@ export default function TravelDateMobile({ onClose,selectedMonths,setSelectedMon
 
   // Months marked popular first; otherwise whatever Month terms actually
   // exist in Drupal; the static 12-month list is a last resort only.
-  const monthOptions = popularMonths.length
-    ? popularMonths
-    : monthsFromDrupal.length
-      ? monthsFromDrupal
-      : months;
+  const monthOptions = sortMonthsFromCurrent(
+    popularMonths.length
+      ? popularMonths
+      : monthsFromDrupal.length
+        ? monthsFromDrupal
+        : months,
+  );
 
   const toggleMonth = (month) => {
     setSelectedMonths((prev) =>

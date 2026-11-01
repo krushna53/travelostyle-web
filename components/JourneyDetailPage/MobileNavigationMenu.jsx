@@ -97,6 +97,7 @@ if (activeView === "highlights") {
   return (
     <MobileHighlightsPage
       onBack={() => setActiveView("menu")}
+      onNext={() => setActiveView("itinerary")}
       highlightsRecord={journey.tabHighlights}
       journey={journey}
     />
@@ -105,7 +106,8 @@ if (activeView === "highlights") {
 if (activeView === "itinerary") {
   return (
     <Itinerary
-      onBack={() => setActiveView("menu")}
+      onBack={() => setActiveView("highlights")}
+      onNext={() => setActiveView("stays")}
       itineraryRecord={journey.tabItinerary}
       mapImage={journey.mapImage}
       journey={journey}
@@ -115,7 +117,7 @@ if (activeView === "itinerary") {
 if (activeView === "additional-information") {
   return (
     <MobileAdditionalInformation
-      onBack={() => setActiveView("menu")}
+      onBack={() => setActiveView("stays")}
       drupalData={journey.tabAdditionalInfo}
     />
   );
@@ -124,7 +126,8 @@ if (activeView === "additional-information") {
 if (activeView === "stays") {
   return (
     <MobileStays
-      onBack={() => setActiveView("menu")}
+      onBack={() => setActiveView("itinerary")}
+      onNext={() => setActiveView("additional-information")}
        StaysRecord={journey.tabStays}
     />
   );

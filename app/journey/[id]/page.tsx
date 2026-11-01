@@ -52,6 +52,10 @@ const INCLUDE = [
   // "field_journey_tabs_section.field_section_tabs.field_exclusions.field_exclusion.field_icon.field_media_image",
 
   "field_journey_tabs_section.field_section_tabs.field_days.field_stay",
+  // Stays tab is built from the hotels picked on the itinerary days, so the
+  // day hotels need their images too.
+  "field_journey_tabs_section.field_section_tabs.field_days.field_stay.field_featured_image.field_media_image",
+  "field_journey_tabs_section.field_section_tabs.field_days.field_stay.field_gallery.field_media_image",
   "field_journey_tabs_section.field_section_tabs.field_hotels.field_featured_image.field_media_image",
   "field_journey_tabs_section.field_section_tabs.field_hotels.field_gallery.field_media_image",
   "field_journey_tabs_section.field_section_tabs.field_information_item",
@@ -178,17 +182,33 @@ export default async function JourneyDetailPage({
     // own description field (`field_descriptions`, confirmed in Structure >
     // Paragraph types > Inclusion Exclusion Item > Manage fields); fall
     // back to the term's shared description only if the paragraph didn't
-    // set one.
-    const paragraphDescription =
-      item.attributes?.field_descriptions?.value ??
-      item.attributes?.field_descriptions ??
+    // set one. `.processed` is Drupal's own filtered/sanitized HTML for a
+    // formatted-text field (bullet lists included) — preferred over `.value`
+    // (the raw unfiltered source) when present.
+    const paragraphDescriptionField = item.attributes?.field_descriptions;
+    const termDescriptionField = term.attributes?.description;
+    const rawDescriptionHtml =
+      paragraphDescriptionField?.processed ??
+      paragraphDescriptionField?.value ??
+      (typeof paragraphDescriptionField === "string" ? paragraphDescriptionField : "") ??
+      termDescriptionField?.processed ??
+      termDescriptionField?.value ??
       "";
+
+    // See where this lands wrong: if Drupal has a bulleted list here but the
+    // frontend shows it run together with no separators, check this log for
+    // the raw <ul>/<li> markup actually coming through JSON:API.
+    console.log(201,`[${relation}] "${term.attributes?.name}" raw description HTML:`, rawDescriptionHtml);
 
     targetArray.push({
   title: term.attributes?.name || "",
-  description: stripHtml(
-    paragraphDescription || term.attributes?.description?.value || ""
-  ),
+  // Plain-text version — used only to decide whether the card's
+  // description is long enough to truncate, and as the truncated preview
+  // text (which can't safely be a slice of raw HTML).
+  description: stripHtml(rawDescriptionHtml),
+  // Full HTML — rendered as-is (with real bullets) whenever the text isn't
+  // being truncated, and in the "more" popup when it is.
+  descriptionHtml: rawDescriptionHtml,
   icon: file?.attributes?.uri?.url
     ? `${API_BASE_URL}${file.attributes.uri.url}`
     : "",
@@ -265,7 +285,10 @@ const departures = departureData?.data
   // fetch this itself client-side, which always failed against the ddev
   // backend's self-signed cert (ERR_CERT_AUTHORITY_INVALID). Fetching it
   // here and passing it down avoids that browser fetch entirely.
-  const otherJourneys = await getJourneyCards();
+  // Leave out the journey being viewed so it doesn't suggest itself.
+  const otherJourneys = (await getJourneyCards()).filter(
+    (journey) => journey.id !== journeyId,
+  );
 
   // "Hotel Type" taxonomy terms — the hotels chosen in the paragraph field
   // field_private_tailor_hotel. Private / Tailor-made journeys show these in

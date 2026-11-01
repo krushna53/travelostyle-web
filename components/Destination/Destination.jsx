@@ -44,7 +44,7 @@ export default function Destination({ initialJourneys = [] }) {
   text-[16px] min-[500px]:text-[17px] md:text-[18px]
   leading-[24px] min-[500px]:leading-[28px] md:leading-[32px]
 ">
-      Choose from the locations that consistently deliver. These are places we know
+      Choose from the locations that consistently deliver. These are places we know{" "}
       <br className="hidden md:block" />
       well enough to recommend without reservation, and that our travelers reliably come home
       <br className="hidden md:block" />

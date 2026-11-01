@@ -20,7 +20,7 @@ export default function SortBar({
   const [sortOpen, setSortOpen] = useState(false);
 
   const hasActiveFilters = Object.entries(filters).some(
-    ([, v]) => Array.isArray(v) && v.length > 0
+    ([, v]) => (Array.isArray(v) && v.length > 0) || (typeof v === "string" && v.trim().length > 0)
   );
 
   return (

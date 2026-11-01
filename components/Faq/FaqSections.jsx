@@ -2,6 +2,22 @@
 
 import { useId, useState } from "react";
 
+// Answers stay plain strings (they also feed the page's JSON-LD), so
+// international numbers like "+1773 503 9742" become tel: links here.
+const PHONE = /(\+\d[\d ]{8,}\d)/;
+
+function linkifyPhones(text) {
+  return text.split(PHONE).map((part, i) =>
+    i % 2 ? (
+      <a key={i} href={`tel:${part.replace(/ /g, "")}`} className="underline">
+        {part}
+      </a>
+    ) : (
+      part
+    )
+  );
+}
+
 /*
  * Measurements are from the 1920 Figma board. The board sets this text in
  * Nohemi; the page uses the site's body font (Inter, from globals.css)
@@ -60,7 +76,7 @@ function FaqItem({ question, answer, defaultOpen = false }) {
       >
         <div className="min-h-0 overflow-hidden">
           <p className="px-5 pb-5 text-[14px] leading-[24px] font-light tracking-[0.05em] text-black md:pt-px md:pr-12 md:pb-[31px] md:pl-[52px] md:text-[18px] md:leading-[32px] lg:pr-[140px]">
-            {answer}
+            {linkifyPhones(answer)}
           </p>
         </div>
       </div>

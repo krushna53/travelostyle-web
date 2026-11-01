@@ -5,6 +5,9 @@ export default function ActiveFilters({
   setFilters,
 }) {
   const activeFilters = [];
+  if (filters.destinationSearch?.trim()) {
+    activeFilters.push({ key: "destinationSearch", value: filters.destinationSearch });
+  }
 
   Object.entries(filters).forEach(([key, values]) => {
   if (!Array.isArray(values)) return; // 👈 important fix
@@ -21,6 +24,10 @@ export default function ActiveFilters({
     filterKey,
     filterValue
   ) => {
+    if (filterKey === "destinationSearch") {
+      setFilters((prev) => ({ ...prev, destinationSearch: "" }));
+      return;
+    }
     setFilters((prev) => ({
       ...prev,
       [filterKey]: prev[

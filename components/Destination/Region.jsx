@@ -58,11 +58,17 @@ export default function Region({ regions = [] }) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 gap-4 md:gap-12">
+      <div className="grid grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3 gap-4 md:gap-12" >
         {regions.map((region) => (
          <div
   key={region.id}
+    onClick={() =>
+                      router.push(
+                        `/itinerary?region=${encodeURIComponent(region.name)}`
+                      )
+                    }
   className="group relative w-full max-w-[336px] mx-auto md:max-w-none aspect-square rounded-[10px] overflow-hidden bg-[#3A3A3A] shadow-sm border-2 border-[#1A1A1A] cursor-pointer"
+
 >
 
             <Image

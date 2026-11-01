@@ -5,6 +5,7 @@ import { X, Plus } from "lucide-react";
 import TravelTypeMobile from "./TravelTypeMobile";
 import DestinationMobile from "./DestinationMobile";
 import TravelDateMobile from "./TravelDateMobile";
+import { destinationParams } from "@/lib/destinationParams";
 import { useRouter } from "next/navigation";
 
 export default function FindJourneyMobile({
@@ -14,6 +15,8 @@ export default function FindJourneyMobile({
   styles = [],
   popularDestinations = [],
   popularMonths = [],
+  allDestinations = [],
+  journeys = [],
 }) {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -33,8 +36,8 @@ export default function FindJourneyMobile({
       duration: selectedDuration,
     };
     sessionStorage.setItem("journeyData", JSON.stringify(findYourJourneyData));
-    const region = selectedDestinations.join(",");
-    router.push(`/itinerary${region ? `?region=${encodeURIComponent(region)}` : ""}`);
+    const params = destinationParams(selectedDestinations, allDestinations);
+    router.push(`/itinerary${params.size ? `?${params.toString()}` : ""}`);
   };
 
   if (step === 1) {
@@ -60,6 +63,8 @@ export default function FindJourneyMobile({
         setOpenToPossibilities={setOpenToPossibilities}
         destinations={destinations}
         popularDestinations={popularDestinations}
+        allDestinations={allDestinations}
+        journeys={journeys}
       />
     );
   }

@@ -3,7 +3,7 @@
 import Image from "@/components/SafeImage";
 import CtaBanner from "./CtaBanner";
 
-export default function MobileHighlights({ onBack, highlightsRecord, journey }) {
+export default function MobileHighlights({ onBack, onNext, highlightsRecord, journey }) {
  const highlights = highlightsRecord?.length > 0 ? highlightsRecord : [];
 
   return (
@@ -27,7 +27,17 @@ export default function MobileHighlights({ onBack, highlightsRecord, journey }) 
               Highlights
             </h1>
 
-            <div className="w-12" />
+            {onNext ? (
+              <button
+                onClick={onNext}
+                aria-label="Next section"
+                className="flex h-6 w-12 items-center justify-center rounded-full bg-white transition active:scale-95"
+              >
+                <Image src="/RightArrow.svg" alt="" width={56} height={24} />
+              </button>
+            ) : (
+              <div className="w-12" aria-hidden="true" />
+            )}
           </div>
 
           {highlights.length === 0 ? (
