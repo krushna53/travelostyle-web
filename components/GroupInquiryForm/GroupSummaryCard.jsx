@@ -12,6 +12,7 @@ function formatDate(dateStr) {
     day: "numeric",
     month: "short",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
@@ -19,7 +20,7 @@ function formatDay(dateStr) {
   if (!dateStr) return "Monday";
   const d = new Date(dateStr);
   if (Number.isNaN(d.getTime())) return "Monday";
-  return d.toLocaleDateString("en-US", { weekday: "long" });
+  return d.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" });
 }
 
 // Journey + departure snapshot shown alongside the Group Trip Inquiry form.
