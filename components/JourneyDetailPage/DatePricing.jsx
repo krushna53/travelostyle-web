@@ -120,8 +120,12 @@ const hasEarlyBirdOffer = isEarlyBird && hasOffer;
     };
 });
     const filteredTrips = trips.filter((trip) => {
+        // Drupal sends a date-only string ("2026-12-20"), which JS parses as
+        // UTC midnight — getFullYear() reads that back in the *local*
+        // timezone, which can roll a Jan 1 UTC date into the previous year
+        // for anyone west of UTC. getUTCFullYear() reads the date as stored.
         const year = new Date(trip.startDate)
-            .getFullYear()
+            .getUTCFullYear()
             .toString();
 
         return year === selectedYear;
@@ -180,16 +184,24 @@ const hasEarlyBirdOffer = isEarlyBird && hasOffer;
 }
     console.log("Departures:", departures);
     console.log("Trips:", trips);
+    // Drupal sends a date-only string ("2026-12-20"), which JS parses as
+    // UTC midnight. Without an explicit timeZone, toLocaleDateString renders
+    // that instant in the *browser's/server's local* timezone — for anyone
+    // west of UTC (e.g. the +1 773 area code here, US Central) that's still
+    // the evening before, so "20 Dec" displayed as "19 Dec". Pinning
+    // timeZone: "UTC" reads the date back exactly as it was stored.
     const formatDate = (date) =>
         new Date(date).toLocaleDateString("en-GB", {
             day: "numeric",
             month: "short",
             year: "numeric",
+            timeZone: "UTC",
         });
 
     const getDay = (date) =>
         new Date(date).toLocaleDateString("en-GB", {
             weekday: "long",
+            timeZone: "UTC",
         });
        const formatPrice = (price) =>
     `$${Math.round(Number(price))}`;
