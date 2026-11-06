@@ -1,13 +1,14 @@
 "use client";
 
-import Image from "@/components/SafeImage";
-import MobileNavigationMenu from "./MobileNavigationMenu";
-import MobilePriceBar, { MobilePriceCard } from "./MobilePriceBar";
-import PrivateInquiryForm from "@/components/PrivateInquiryForm";
 import BuildYourJourneyForm from "@/components/BuildYourJourneyForm";
 import JourneyCardImage from "@/components/JourneyCardImage";
-import { useMemo, useState, useEffect, useRef } from "react";
+import PrivateInquiryForm from "@/components/PrivateInquiryForm";
+import Image from "@/components/SafeImage";
 import { pickPriorityDeparture } from "@/lib/departures";
+import Link from "next/link";
+import { useEffect, useMemo, useRef, useState } from "react";
+import MobileNavigationMenu from "./MobileNavigationMenu";
+import MobilePriceBar, { MobilePriceCard } from "./MobilePriceBar";
 
 // Fixed badge colors matching the design (Figma) reference:
 // Early Bird / offer = peach, tags (field_journey_tag, e.g. Group/Private
@@ -70,7 +71,10 @@ export default function HeroSection({
       setActiveView(view);
       // Restore after the menu view has rendered.
       requestAnimationFrame(() => {
-        window.scrollTo({ top: menuScrollPositionRef.current, behavior: "auto" });
+        window.scrollTo({
+          top: menuScrollPositionRef.current,
+          behavior: "auto",
+        });
       });
       return;
     }
@@ -80,11 +84,13 @@ export default function HeroSection({
     setActiveView(view);
   };
   useEffect(() => {
-  if (activeView !== "menu") {
-    window.scrollTo(0, 0);
-  }
-}, [activeView]);
-  const categories = rawItem ? resolveCategories(rawItem, included) : MOCK_CATEGORIES;
+    if (activeView !== "menu") {
+      window.scrollTo(0, 0);
+    }
+  }, [activeView]);
+  const categories = rawItem
+    ? resolveCategories(rawItem, included)
+    : MOCK_CATEGORIES;
   const isInspirational = Boolean(journey?.isInspirational);
   const showFrom = isInspirational;
   // Group journeys: "Request a Private Journey" from the summary card has
@@ -108,307 +114,329 @@ export default function HeroSection({
   };
   return (
     <>
-    <section className="w-full bg-white hidden md:block">
-      <div className="flex items-center justify-between border-t border-[#1A1A1A] bg-white px-[16px] py-[8px] md:px-[28px] md:py-[9px] lg:px-[36px] xl:px-[48px] xl:py-[10px]">
+      <section className="w-full bg-white hidden md:block">
+        <div className="flex items-center justify-between border-t border-[#1A1A1A] bg-white px-[16px] py-[8px] md:px-[28px] md:py-[9px] lg:px-[36px] xl:px-[48px] xl:py-[10px]">
+          <div className="flex items-center gap-[10px] flex-wrap">
+            {journey?.earlyBird && (
+              <span
+                className="cursor-pointer rounded-[5px] px-[10px] py-[6px] text-[10px] md:px-[12px] md:py-[7px] md:text-[11px] xl:py-[8px] xl:text-[12px] font-semibold tracking-[0.05em]"
+                style={{
+                  backgroundColor: "#F2E2DA",
+                  color: "#000000",
+                }}
+              >
+                Early Bird
+              </span>
+            )}
 
-<div className="flex items-center gap-[10px] flex-wrap">
-  {journey?.earlyBird && (
-    <span
-      className="cursor-pointer rounded-[5px] px-[10px] py-[6px] text-[10px] md:px-[12px] md:py-[7px] md:text-[11px] xl:py-[8px] xl:text-[12px] font-semibold tracking-[0.05em]"
-      style={{
-        backgroundColor: "#F2E2DA",
-        color: "#000000",
-      }}
-    >
-      Early Bird
-    </span>
-  )}
+            {categories?.map((category) => (
+              <span
+                key={category}
+                className="cursor-pointer rounded-[5px] px-[10px] py-[6px] text-[10px] md:px-[12px] md:py-[7px] md:text-[11px] xl:py-[8px] xl:text-[12px] font-semibold tracking-[0.05em]"
+                style={{
+                  backgroundColor: "#C2E5FF",
+                  color: "#000000",
+                }}
+              >
+                {category}
+              </span>
+            ))}
+            {journey?.tags?.map((tag) => (
+              <span
+                key={tag}
+                className="cursor-pointer rounded-[5px] px-[10px] py-[6px] text-[10px] md:px-[12px] md:py-[7px] md:text-[11px] xl:py-[8px] xl:text-[12px] font-semibold tracking-[0.05em]"
+                style={{
+                  backgroundColor: "#EFF3CF",
+                  color: "#000000",
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center gap-[4px] text-[10px] md:text-[11px] xl:text-[12px] text-[#888]">
+            <Link href={"/"} className="cursor-pointer hover:underline">
+              Home
+            </Link>
+            <span className="text-[#BBB]">&gt;</span>
 
-  
-
-  {categories?.map((category) => (
-    <span
-      key={category}
-      className="cursor-pointer rounded-[5px] px-[10px] py-[6px] text-[10px] md:px-[12px] md:py-[7px] md:text-[11px] xl:py-[8px] xl:text-[12px] font-semibold tracking-[0.05em]"
-      style={{
-        backgroundColor: "#C2E5FF",
-        color: "#000000",
-      }}
-    >
-      {category}
-    </span>
-  ))}
-   {journey?.tags?.map((tag) => (
-    <span
-      key={tag}
-      className="cursor-pointer rounded-[5px] px-[10px] py-[6px] text-[10px] md:px-[12px] md:py-[7px] md:text-[11px] xl:py-[8px] xl:text-[12px] font-semibold tracking-[0.05em]"
-      style={{
-        backgroundColor: "#EFF3CF",
-        color: "#000000",
-      }}
-    >
-      {tag}
-    </span>
-  ))}
-</div>
-        <div className="flex items-center gap-[4px] text-[10px] md:text-[11px] xl:text-[12px] text-[#888]">
-          <span className="cursor-pointer hover:underline">Home</span>
-          <span className="text-[#BBB]">&gt;</span>
-          <span className="cursor-pointer hover:underline">All Journeys</span>
-          <span className="text-[#BBB]">&gt;</span>
-          <span className="text-ink">{journey.title}</span>
-        </div>
-      </div>
-
-      <div className="relative grid w-full overflow-hidden min-h-[760px] ">
-        <div className="relative col-start-1 row-start-1 col-end-2 row-end-2">
-          <div className="absolute inset-0">
-            <JourneyCardImage
-              src={journey.image}
-              alt={journey.title || "Journey"}
-            />
+            <Link href="/itinerary" className="cursor-pointer hover:underline">
+              All Journeys
+            </Link>
+            <span className="text-[#BBB]">&gt;</span>
+            <span className="text-ink">{journey.title}</span>
           </div>
         </div>
 
-        <div
-          className="relative z-10 col-start-1 row-start-1 col-end-2 row-end-2 justify-self-start self-start h-auto rounded-[10px] border-2 border-[#1A1A1A] bg-white shadow-[0_6px_28px_rgba(0,0,0,0.22)] w-[260px] ml-[14px] mt-[14px] p-[14px] max-[900px]:w-[300px] max-[900px]:ml-[16px] max-[900px]:mt-[16px] max-[900px]:p-[16px] max-[1200px]:w-[300px] max-[1200px]:ml-[24px] max-[1200px]:mt-[20px] max-[1200px]:p-[18px] max-[1250px]:w-[320px] max-[1250px]:ml-[32px] max-[1250px]:mt-[24px] max-[1250px]:p-[18px] max-[1281px]:w-[350px] max-[1281px]:ml-[48px] max-[1281px]:mt-[32px] max-[1281px]:p-[20px] max-[1910px]:w-[390px] max-[1910px]:ml-[80px] max-[1910px]:mt-[42px] max-[1910px]:p-[22px] min-[1911px]:w-[414px] min-[1911px]:ml-[108px] min-[1911px]:mt-[50px] min-[1911px]:p-[25px]"
-        >
-          <h1 className="text-[18px] max-[900px]:text-[16px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-[1.3] text-ink pb-3 break-words">
-            {journey.title}
-          </h1>
-          <p className="mt-[8px] text-[14px] max-[1250px]:text-[16px] font-light max-[1910px]:text-[16px] min-[1911px]:text-[16px] leading-[1.5] text-[#000000] pb-2">
-           {trimByWords(journey.desc, 25)}
-          </p>
-          <div className="mt-[12px] flex items-center gap-[12px] xl:gap-[22px] font-light text-[16px] xl:text-[16px] text-[#000000]">
-            <div className="flex items-center gap-[10px]">
-              <Image src="/CalenderIcon.svg" alt="" width={24} height={24} className="shrink-0" />
-              <span>{journey.days || "13 Days | 12 Nights"}</span>
+        <div className="relative grid w-full overflow-hidden min-h-[760px] ">
+          <div className="relative col-start-1 row-start-1 col-end-2 row-end-2">
+            <div className="absolute inset-0">
+              <JourneyCardImage
+                src={journey.image}
+                alt={journey.title || "Journey"}
+              />
             </div>
-          
-           {journey?.destinations&&<div className="flex items-center gap-[10px]">
-              <Image src="/Destination.svg" alt="" width={24} height={24} className="shrink-0" />
-              <span>{journey.destinations}</span>
-            </div>}
           </div>
 
-          
+          <div className="relative z-10 col-start-1 row-start-1 col-end-2 row-end-2 justify-self-start self-start h-auto rounded-[10px] border-2 border-[#1A1A1A] bg-white shadow-[0_6px_28px_rgba(0,0,0,0.22)] w-[260px] ml-[14px] mt-[14px] p-[14px] max-[900px]:w-[300px] max-[900px]:ml-[16px] max-[900px]:mt-[16px] max-[900px]:p-[16px] max-[1200px]:w-[300px] max-[1200px]:ml-[24px] max-[1200px]:mt-[20px] max-[1200px]:p-[18px] max-[1250px]:w-[320px] max-[1250px]:ml-[32px] max-[1250px]:mt-[24px] max-[1250px]:p-[18px] max-[1281px]:w-[350px] max-[1281px]:ml-[48px] max-[1281px]:mt-[32px] max-[1281px]:p-[20px] max-[1910px]:w-[390px] max-[1910px]:ml-[80px] max-[1910px]:mt-[42px] max-[1910px]:p-[22px] min-[1911px]:w-[414px] min-[1911px]:ml-[108px] min-[1911px]:mt-[50px] min-[1911px]:p-[25px]">
+            <h1 className="text-[18px] max-[900px]:text-[16px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-[1.3] text-ink pb-3 break-words">
+              {journey.title}
+            </h1>
+            <p className="mt-[8px] text-[14px] max-[1250px]:text-[16px] font-light max-[1910px]:text-[16px] min-[1911px]:text-[16px] leading-[1.5] text-[#000000] pb-2">
+              {trimByWords(journey.desc, 25)}
+            </p>
+            <div className="mt-[12px] flex items-center gap-[12px] xl:gap-[22px] font-light text-[16px] xl:text-[16px] text-[#000000]">
+              <div className="flex items-center gap-[10px]">
+                <Image
+                  src="/CalenderIcon.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="shrink-0"
+                />
+                <span>{journey.days || "13 Days | 12 Nights"}</span>
+              </div>
 
-          <div className="flex pt-4 flex-col gap-[6px] text-[12px] xl:text-[16px]">
-            <div>
-              <span className="font-bold text-ink">Starts In: </span>
-              <span className="text-[#000000]">{journey.startCity}</span>
+              {journey?.destinations && (
+                <div className="flex items-center gap-[10px]">
+                  <Image
+                    src="/Destination.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="shrink-0"
+                  />
+                  <span>{journey.destinations}</span>
+                </div>
+              )}
             </div>
-            <div>
-              <span className="font-bold text-ink">Ends In: </span>
-              <span className="text-[#000000]">{journey.endCity}</span>
+
+            <div className="flex pt-4 flex-col gap-[6px] text-[12px] xl:text-[16px]">
+              <div>
+                <span className="font-bold text-ink">Starts In: </span>
+                <span className="text-[#000000]">{journey.startCity}</span>
+              </div>
+              <div>
+                <span className="font-bold text-ink">Ends In: </span>
+                <span className="text-[#000000]">{journey.endCity}</span>
+              </div>
+              {journey.bestSeason ? (
+                <div>
+                  <span className="font-bold text-ink">Best Seasons: </span>
+                  <span className="text-[#000000]">{journey.bestSeason}</span>
+                </div>
+              ) : null}
+              {journey.pace ? (
+                <div>
+                  <span className="font-bold text-ink">Pace: </span>
+                  <span className="text-[#000000]">{journey.pace}</span>
+                </div>
+              ) : null}
+              {Number(journey.groupSize) > 0 ? (
+                <div>
+                  <span className="font-bold text-ink">Group Size: </span>
+                  <span className="text-[#000000]">
+                    upto {journey.groupSize} guests
+                  </span>
+                </div>
+              ) : null}
             </div>
-            {journey.bestSeason ? (
-              <div>
-                <span className="font-bold text-ink">Best Seasons: </span>
-                <span className="text-[#000000]">{journey.bestSeason}</span>
-              </div>
-            ) : null}
-            {journey.pace ? (
-              <div>
-                <span className="font-bold text-ink">Pace: </span>
-                <span className="text-[#000000]">{journey.pace}</span>
-              </div>
-            ) : null}
-            {Number(journey.groupSize) > 0 ? (
-              <div>
-                <span className="font-bold text-ink">Group Size: </span>
-                <span className="text-[#000000]">upto {journey.groupSize} guests</span>
-              </div>
-            ) : null}
-          </div>
 
-          {/* Divider */}
-         <div className="mt-[30px] mb-[20px] flex items-center gap-[26px]">
-  <div className="shrink-0">
+            {/* Divider */}
+            <div className="mt-[30px] mb-[20px] flex items-center gap-[26px]">
+              <div className="shrink-0">
+                {/* From */}
+                {showFrom && (
+                  <p className="text-[12px] text-[#000000] font-light">from</p>
+                )}
 
-    {/* From */}
-   {showFrom && (
-<p className="text-[12px] text-[#000000] font-light">
-       from
-    </p>
-  )}
+                {/* Offer Price + per person */}
+                <p className="flex items-baseline gap-0 text-[18px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-none text-[#000000]">
+                  <span>
+                    ${Number(journey.offerPrice).toLocaleString()}
+                    <span className="relative -top-[1px] text-[12px] text-[#000000] font-light align-top">
+                      *
+                    </span>
+                  </span>
+                  <span className="relative -top-[2px] text-[12px] text-[#000000] font-light">
+                    /person
+                  </span>
+                </p>
 
-    {/* Offer Price + per person */}
-    <p className="flex items-baseline gap-0 text-[18px] max-[1250px]:text-[20px] max-[1910px]:text-[24px] min-[1911px]:text-[24px] font-bold leading-none text-[#000000]">
-      <span>
-        ${Number(journey.offerPrice).toLocaleString()}
-        <span className="relative -top-[1px] text-[12px] text-[#000000] font-light align-top">*</span>
-      </span>
-      <span className="relative -top-[2px] text-[12px] text-[#000000] font-light">/person</span>
-    </p>
-
-    {/* Original Price — Private/Tailor-made journeys don't commit to a
+                {/* Original Price — Private/Tailor-made journeys don't commit to a
         specific price up front the way Group journeys do, so a "0" value
         there is a real "not set yet" rather than a genuine $0 original
         price; hide the line entirely instead of showing "was $0". Group
         keeps the existing behavior unchanged. */}
-    {(isInspirational
-      ? Number(journey?.originalPrice) > 0
-      : journey?.originalPrice) && (
-      <p className="mt-[4px] text-[13px] font-medium text-[#777]">
-        was{" "}
-        <span className="line-through">
-          ${Number(journey.originalPrice).toLocaleString()}
-        </span>
-      </p>
-    )}
+                {(isInspirational
+                  ? Number(journey?.originalPrice) > 0
+                  : journey?.originalPrice) && (
+                  <p className="mt-[4px] text-[13px] font-medium text-[#777]">
+                    was{" "}
+                    <span className="line-through">
+                      ${Number(journey.originalPrice).toLocaleString()}
+                    </span>
+                  </p>
+                )}
 
-    {/* Double occupancy */}
-    <p className="mt-[2px] text-[12px] leading-[1.3] font-light text-[#000000]">
-      double occupancy*
-    </p>
-
-  </div>
-
-          {journey?.offer && (
-  <span
-    className="w-fit cursor-pointer rounded-[5px] px-[12px] py-[8px] text-[11px] font-semibold tracking-[0.02em]"
-    style={{
-      backgroundColor: "#F2E2DA",
-      color: "#000000",
-    }}
-  >
-    {journey.offer}
-  </span>
-)}
-          </div>
-
-          {isInspirational ? (
-            <>
-              <button
-                onClick={() => setIsPrivateFormOpen(true)}
-                className="mt-[16px] h-[44px] w-full md:w-[84%] rounded-full bg-[#2D3482] text-[18px] font-semibold text-white transition hover:bg-[#252b78]"
-              >
-                Request a Private Journey
-              </button>
-
-              <div className="mt-[12px] text-[16px] font-light text-[#000000]">
-                Want to make this itinerary entirely your own?
-                <br />
-                <button
-                  onClick={() => setIsCraftFormOpen(true)}
-                  className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
-                >
-                  Tailor This Journey For You
-                </button>
+                {/* Double occupancy */}
+                <p className="mt-[2px] text-[12px] leading-[1.3] font-light text-[#000000]">
+                  double occupancy*
+                </p>
               </div>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={onCheckAvailability}
-                className="mt-[16px] h-[44px] w-full md:w-[84%] rounded-full bg-[#2D3482] text-[18px] font-semibold text-white transition hover:bg-[#252b78]"
-              >
-                Check Dates & Availability
-              </button>
 
-              <div className="mt-[12px] text-[16px] font-light text-[#000000]">
-                Want to customize this itinerary?
-                <br />
+              {journey?.offer && (
+                <span
+                  className="w-fit cursor-pointer rounded-[5px] px-[12px] py-[8px] text-[11px] font-semibold tracking-[0.02em]"
+                  style={{
+                    backgroundColor: "#F2E2DA",
+                    color: "#000000",
+                  }}
+                >
+                  {journey.offer}
+                </span>
+              )}
+            </div>
+
+            {isInspirational ? (
+              <>
                 <button
                   onClick={() => setIsPrivateFormOpen(true)}
-                  className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
+                  className="mt-[16px] h-[44px] w-full md:w-[84%] rounded-full bg-[#2D3482] text-[18px] font-semibold text-white transition hover:bg-[#252b78]"
                 >
                   Request a Private Journey
                 </button>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </section>
 
-     {/* ================= MOBILE DESIGN ================= */}
-     <div className="block bg-[#F9F9F9] md:hidden border-t border-[#1A1A1A]">
+                <div className="mt-[12px] text-[16px] font-light text-[#000000]">
+                  Want to make this itinerary entirely your own?
+                  <br />
+                  <button
+                    onClick={() => setIsCraftFormOpen(true)}
+                    className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
+                  >
+                    Tailor This Journey For You
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={onCheckAvailability}
+                  className="mt-[16px] h-[44px] w-full md:w-[84%] rounded-full bg-[#2D3482] text-[18px] font-semibold text-white transition hover:bg-[#252b78]"
+                >
+                  Check Dates & Availability
+                </button>
+
+                <div className="mt-[12px] text-[16px] font-light text-[#000000]">
+                  Want to customize this itinerary?
+                  <br />
+                  <button
+                    onClick={() => setIsPrivateFormOpen(true)}
+                    className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
+                  >
+                    Request a Private Journey
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= MOBILE DESIGN ================= */}
+      <div className="block bg-[#F9F9F9] md:hidden border-t border-[#1A1A1A]">
         <div className="px-[27px] pt-[22px] pb-[18px] text-[12px] font-light leading-[20px] tracking-[0.05em] text-[#1A1A1A]">
           Home &gt; All Journeys &gt;
           <span> {journey.title}</span>
         </div>
-          
-       {activeView === "menu"&&<div className="relative">
-          <div className="relative h-[640px] w-full">
-            <JourneyCardImage
-              src={journey.image}
-              alt={journey.title}
-            />
-            <div className="absolute left-[27px] right-[27px] top-[20px] rounded-[5px] border-2 border-[#1A1A1A] bg-[#FAFAFA] px-[19px] py-[15px]">
-              <h1 className="text-[18px] font-semibold leading-[24px] tracking-[0.05em] text-black">
-                {journey.title}
-              </h1>
 
-              <p className="mt-[10px] text-[12px] font-light leading-[18px] tracking-[0.05em] text-black">
-              {trimByWords(journey.desc, 25)}
-              </p>
+        {activeView === "menu" && (
+          <div className="relative">
+            <div className="relative h-[640px] w-full">
+              <JourneyCardImage src={journey.image} alt={journey.title} />
+              <div className="absolute left-[27px] right-[27px] top-[20px] rounded-[5px] border-2 border-[#1A1A1A] bg-[#FAFAFA] px-[19px] py-[15px]">
+                <h1 className="text-[18px] font-semibold leading-[24px] tracking-[0.05em] text-black">
+                  {journey.title}
+                </h1>
 
-              <div className="mt-[14px] flex items-center gap-[16px] text-[12px] font-light leading-[18px] tracking-[0.05em] text-black">
-                <div className="flex items-center gap-[8px]">
-                  <Image src="/CalenderIcon.svg" alt="" width={16} height={16} className="shrink-0" />
-                  <span>{journey.days || "13 Days | 12 Nights"}</span>
-                </div>
+                <p className="mt-[10px] text-[12px] font-light leading-[18px] tracking-[0.05em] text-black">
+                  {trimByWords(journey.desc, 25)}
+                </p>
 
-                {journey?.destinations && (
+                <div className="mt-[14px] flex items-center gap-[16px] text-[12px] font-light leading-[18px] tracking-[0.05em] text-black">
                   <div className="flex items-center gap-[8px]">
-                    <Image src="/Destination.svg" alt="" width={16} height={16} className="shrink-0" />
-                    <span>{journey.destinations}</span>
+                    <Image
+                      src="/CalenderIcon.svg"
+                      alt=""
+                      width={16}
+                      height={16}
+                      className="shrink-0"
+                    />
+                    <span>{journey.days || "13 Days | 12 Nights"}</span>
                   </div>
-                )}
-              </div>
-              <div className="mt-[14px] space-y-[8px] text-[12px] font-light leading-[16px] tracking-[0.05em] text-black">
-                {journey.bestSeason ? (
-                  <div>
-                    <span className="font-semibold">Best Seasons:</span>{" "}
-                    {journey.bestSeason}
-                  </div>
-                ) : null}
 
-                {journey.pace ? (
-                  <div>
-                    <span className="font-semibold">Pace:</span>{" "}
-                    {journey.pace}
-                  </div>
-                ) : null}
+                  {journey?.destinations && (
+                    <div className="flex items-center gap-[8px]">
+                      <Image
+                        src="/Destination.svg"
+                        alt=""
+                        width={16}
+                        height={16}
+                        className="shrink-0"
+                      />
+                      <span>{journey.destinations}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="mt-[14px] space-y-[8px] text-[12px] font-light leading-[16px] tracking-[0.05em] text-black">
+                  {journey.bestSeason ? (
+                    <div>
+                      <span className="font-semibold">Best Seasons:</span>{" "}
+                      {journey.bestSeason}
+                    </div>
+                  ) : null}
 
-                {Number(journey.groupSize) > 0 ? (
-                  <div>
-                    <span className="font-semibold">Group Size:</span>{" "}
-                    upto {journey.groupSize} guests
-                  </div>
-                ) : null}
-              </div>
-              <div className="mt-[18px] flex flex-wrap gap-[8px]">
-                {categories?.map((category) => (
-                  <span
-                    key={category}
-                    className="rounded-[2px] px-[12px] py-[8px] text-[12px] font-medium leading-[9px] tracking-[0.05em]"
-                    style={{ backgroundColor: "#C2E5FF", color: "#000000" }}
-                  >
-                    {category}
-                  </span>
-                ))}
+                  {journey.pace ? (
+                    <div>
+                      <span className="font-semibold">Pace:</span>{" "}
+                      {journey.pace}
+                    </div>
+                  ) : null}
 
-                {journey?.tags?.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-[2px] px-[12px] py-[8px] text-[12px] font-medium leading-[9px] tracking-[0.05em]"
-                    style={{ backgroundColor: "#EFF3CF", color: "#000000" }}
-                  >
-                    {tag}
-                  </span>
-                ))}
+                  {Number(journey.groupSize) > 0 ? (
+                    <div>
+                      <span className="font-semibold">Group Size:</span> upto{" "}
+                      {journey.groupSize} guests
+                    </div>
+                  ) : null}
+                </div>
+                <div className="mt-[18px] flex flex-wrap gap-[8px]">
+                  {categories?.map((category) => (
+                    <span
+                      key={category}
+                      className="rounded-[2px] px-[12px] py-[8px] text-[12px] font-medium leading-[9px] tracking-[0.05em]"
+                      style={{ backgroundColor: "#C2E5FF", color: "#000000" }}
+                    >
+                      {category}
+                    </span>
+                  ))}
+
+                  {journey?.tags?.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-[2px] px-[12px] py-[8px] text-[12px] font-medium leading-[9px] tracking-[0.05em]"
+                      style={{ backgroundColor: "#EFF3CF", color: "#000000" }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          <MobilePriceCard
-            cardRef={setPriceCardEl}
-            {...mobilePriceProps}
-          />
-        </div>}
+            <MobilePriceCard cardRef={setPriceCardEl} {...mobilePriceProps} />
+          </div>
+        )}
       </div>
       {/* Compact price bar pinned to the bottom on every mobile view; on the
           menu view it only shows once the inline card above is off screen. */}
@@ -416,14 +444,14 @@ export default function HeroSection({
         anchor={activeView === "menu" ? priceCardEl : null}
         {...mobilePriceProps}
       />
-        <MobileNavigationMenu
-  journey={journey}
-  departures={departures}
-  activeView={activeView}
-  inclusions={inclusions}
-  exclusions={exclusions}
-  setActiveView={handleSetActiveView}
-/>
+      <MobileNavigationMenu
+        journey={journey}
+        departures={departures}
+        activeView={activeView}
+        inclusions={inclusions}
+        exclusions={exclusions}
+        setActiveView={handleSetActiveView}
+      />
       {/* Inspirational: same as before — the generic "Inspirational
           Itineraries" webform, no specific departure attached. Group: the
           standard private-journey webform, pre-filled with the soonest
@@ -431,7 +459,9 @@ export default function HeroSection({
       <PrivateInquiryForm
         isOpen={isPrivateFormOpen}
         onClose={() => setIsPrivateFormOpen(false)}
-        onSubmit={(data) => console.log("Private journey inquiry submitted:", data)}
+        onSubmit={(data) =>
+          console.log("Private journey inquiry submitted:", data)
+        }
         journey={journey}
         departure={isInspirational ? undefined : priorityDeparture}
         showDepartureDate={!isInspirational}
