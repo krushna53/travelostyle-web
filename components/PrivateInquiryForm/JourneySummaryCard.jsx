@@ -4,6 +4,11 @@ import { useState } from "react";
 import JourneyCardImage from "@/components/JourneyCardImage";
 import { MoveRight, Plus, Minus } from "lucide-react";
 
+// Drupal sends a date-only string ("2026-12-20"), which JS parses as UTC
+// midnight. Without an explicit timeZone, toLocaleDateString renders that
+// instant in the browser's/server's local timezone — for anyone west of
+// UTC that's still the evening before, so "20 Dec" displays as "19 Dec".
+// Pinning timeZone: "UTC" reads the date back exactly as it was stored.
 function formatDate(dateStr) {
   if (!dateStr) return "";
   const d = new Date(dateStr);
@@ -12,6 +17,7 @@ function formatDate(dateStr) {
     day: "numeric",
     month: "short",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
@@ -19,7 +25,7 @@ function formatDay(dateStr) {
   if (!dateStr) return "";
   const d = new Date(dateStr);
   if (Number.isNaN(d.getTime())) return "";
-  return d.toLocaleDateString("en-US", { weekday: "long" });
+  return d.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" });
 }
 
 export default function JourneySummaryCard({
