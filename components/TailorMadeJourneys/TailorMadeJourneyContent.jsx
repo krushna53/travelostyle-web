@@ -60,6 +60,9 @@ export default async function TailorMadeJourneyContent() {
   const [matrixResult, stepsResult] = await Promise.all([
     getBlock("journey_type_matrix", MATRIX_INCLUDE, {
       filter: { field_journey_type: "tailormade" },
+      // This is the Drupal section titled "Journeys made to fit your idea of
+      // travel"; don't hold CMS edits in Next's default one-hour data cache.
+      revalidate: 0,
     }),
     getBlock("booking_steps", STEPS_INCLUDE, {
       filter: { field_journey_type: "tailormade" },
