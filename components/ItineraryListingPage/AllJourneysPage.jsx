@@ -185,11 +185,7 @@ export default function AllJourneysPage({
       duration: [],
     });
     setCountryFilter(null);
-    if (
-      searchParams.get("country") ||
-      searchParams.get("search") ||
-      searchParams.get("region")
-    ) {
+    if (["country", "search", "region", "month", "pricing", "duration"].some((key) => searchParams.has(key))) {
       router.replace(pathname);
     }
   };

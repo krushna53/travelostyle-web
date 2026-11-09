@@ -226,7 +226,14 @@ function ListingSearchForm({
       }),
     );
     setActiveDropdown(null);
-    const params = destinationParams(selectedDestinations, allDestinations);
+    const params = destinationParams(
+      selectedDestinations,
+      allDestinations,
+      destinationQuery,
+    );
+    selectedMonths.forEach((month) => params.append("month", month));
+    if (selectedBudget) params.set("pricing", selectedBudget);
+    if (selectedDuration) params.set("duration", selectedDuration);
     router.push(`/itinerary${params.size ? `?${params.toString()}` : ""}`);
   };
 
@@ -571,9 +578,6 @@ export default function SearchBar({
     Offers
   </Link>
 
-  <Link href="/faqs" className="text-left hover:underline">
-    FAQs
-  </Link>
   <Link href="https://buy.stripe.com/eVqeV630mf347Gwb3yfjG01" className="text-left hover:underline">
     Pay by Stripe
   </Link>
@@ -646,9 +650,6 @@ export default function SearchBar({
   Offers
 </Link>
 
-<Link href="/faqs">
-  FAQs
-</Link>
 <Link href="https://buy.stripe.com/eVqeV630mf347Gwb3yfjG01">
   Pay by Stripe
 </Link>
