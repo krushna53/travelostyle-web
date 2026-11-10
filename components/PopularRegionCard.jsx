@@ -12,6 +12,11 @@ export default function PopularRegionCard({regions}) {
         {regions.map((region) => (
           <div
             key={region.id}
+             onClick={() =>
+                      router.push(
+                        `/itinerary?region=${encodeURIComponent(region.title)}`,
+                      )
+                    }
             className="group relative w-full max-w-[320px] aspect-square min-[640px]:w-[calc(50%-12px)] min-[640px]:max-w-none min-[1024px]:w-[calc(33.333%-16px)] rounded-[10px] overflow-hidden bg-[#3A3A3A] shadow-sm border-2 border-[#1A1A1A] cursor-pointer"
           >
             <Image

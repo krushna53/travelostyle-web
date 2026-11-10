@@ -29,6 +29,9 @@ function PriceDetails({
   journey,
   isInspirational,
   showFrom,
+  // Tailor-made-only journeys: no price and no "Request a Private Journey",
+  // so the remaining action becomes the only (primary) one.
+  tailorMadeOnly,
   onCheckDates,
   onRequestPrivate,
   onTailor,
@@ -36,12 +39,18 @@ function PriceDetails({
   const [open, setOpen] = useState(false);
   const panelId = useId();
 
-  const primary = isInspirational
-    ? { label: "Request Private Journey", onClick: onRequestPrivate }
-    : { label: "Check Departure Dates", onClick: onCheckDates };
-  const secondary = isInspirational
-    ? { label: "Tailor This Journey", onClick: onTailor }
-    : { label: "Request a Private Journey", onClick: onRequestPrivate };
+  const primary = tailorMadeOnly
+    ? isInspirational
+      ? { label: "Tailor This Journey", onClick: onTailor }
+      : { label: "Check Departure Dates", onClick: onCheckDates }
+    : isInspirational
+      ? { label: " Request a Quote for this Journey", onClick: onRequestPrivate }
+      : { label: "Check Departure Dates", onClick: onCheckDates };
+  const secondary = tailorMadeOnly
+    ? null
+    : isInspirational
+      ? { label: "Tailor This Journey", onClick: onTailor }
+      : { label: "Request a Private Journey", onClick: onRequestPrivate };
 
   return (
     <>
@@ -52,6 +61,7 @@ function PriceDetails({
         aria-controls={panelId}
         className="flex w-full items-center justify-between gap-[10px] px-[27px] py-[10px] text-left"
       >
+        {!tailorMadeOnly && (
         <div className="min-w-0">
           {showFrom && (
             <p className="text-[12px] font-light leading-[16px] tracking-[0.05em] text-[#1A1A1A]">
@@ -78,8 +88,9 @@ function PriceDetails({
             </p>
           )}
         </div>
+        )}
 
-        <span className="flex shrink-0 items-center gap-[12px] text-[14px] font-semibold tracking-[0.02em] text-[#1A1A1A]">
+        <span className="ml-auto flex shrink-0 items-center gap-[12px] text-[14px] font-semibold tracking-[0.02em] text-[#1A1A1A]">
           {open ? "Hide details" : "Tap for Details"}
           <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#F2E2DA]">
             {open ? (
@@ -117,16 +128,20 @@ function PriceDetails({
               >
                 {primary.label}
               </button>
-              <span className="mt-[8px] text-[12px] font-bold tracking-[0.05em] text-black">
-                OR
-              </span>
-              <button
-                type="button"
-                onClick={secondary.onClick}
-                className="mt-[6px] text-[14px] font-bold text-ink underline underline-offset-[3px]"
-              >
-                {secondary.label}
-              </button>
+              {secondary && (
+                <>
+                  <span className="mt-[8px] text-[12px] font-bold tracking-[0.05em] text-black">
+                    OR
+                  </span>
+                  <button
+                    type="button"
+                    onClick={secondary.onClick}
+                    className="mt-[6px] text-[14px] font-bold text-ink underline underline-offset-[3px]"
+                  >
+                    {secondary.label}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
