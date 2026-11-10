@@ -92,12 +92,6 @@ export default function MobileMegaMenu({
             </Link>
 
             <Link
-              href="/faqs"
-              className="text-left text-white text-[18px] font-medium"
-            >
-              FAQs
-            </Link>
-            <Link
               href="https://buy.stripe.com/eVqeV630mf347Gwb3yfjG01"
               className="text-left text-white text-[18px] font-medium"
             >

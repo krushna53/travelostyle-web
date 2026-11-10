@@ -197,6 +197,15 @@ export default function FilterSidebar({
 
   useEffect(() => {
     const regionParam = [searchParams.get("region"), searchParams.get("country")?.split(",").filter((value) => value.trim().length !== 2).join(",")].filter(Boolean).join(",");
+    const readListParam = (key) =>
+      searchParams
+        .getAll(key)
+        .flatMap((value) => value.split(","))
+        .map((value) => value.trim())
+        .filter(Boolean);
+    const hasMonthParam = searchParams.has("month");
+    const hasPricingParam = searchParams.has("pricing");
+    const hasDurationParam = searchParams.has("duration");
 
     // Always sync from the URL (including clearing back to [] when the
     // param is gone) so re-running "Find Your Journey" with no region
@@ -207,6 +216,9 @@ export default function FilterSidebar({
       region: regionParam
         ? regionParam.split(",").map((r) => r.trim()).filter(Boolean)
         : [],
+      month: hasMonthParam ? readListParam("month") : prev.month,
+      pricing: hasPricingParam ? readListParam("pricing") : prev.pricing,
+      duration: hasDurationParam ? readListParam("duration") : prev.duration,
     }));
   }, [searchParams, setFilters]);
 
