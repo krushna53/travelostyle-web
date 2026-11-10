@@ -29,6 +29,7 @@ export default function MobileFilters({
   setFilters,
   filterOptions,
   journeys,
+  countryFilter = null,
   sort,
   setSort,
   resultCount,
@@ -69,7 +70,8 @@ export default function MobileFilters({
     }));
   };
 
-  const getCount = (key, value) => getFilterCount(journeys, key, value);
+  const getCount = (key, value) =>
+    getFilterCount(journeys, key, value, { filters, countryFilter });
 
   // Hide options that currently match zero journeys — unless it's already
   // selected, so a live selection never silently disappears from the list.

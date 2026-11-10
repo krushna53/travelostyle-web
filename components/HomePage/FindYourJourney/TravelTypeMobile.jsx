@@ -11,14 +11,17 @@ const travelOptions = [
   "Private Jet Journey",
 ];
 
-export default function TravelTypeMobile({ onClose,onNext,selectedTravelType,setSelectedTravelType, styles = [] }) {
+export default function TravelTypeMobile({ onClose,onNext,selectedTravelType,setSelectedTravelType, styles = [], isAvailable = () => true }) {
 
   // Same "tags" taxonomy the itinerary sidebar's Travel Style filter
   // reads from, falling back to the static list if Drupal has none yet.
-  const travelTypeOptions = styles.length ? styles : travelOptions;
+  const travelTypeOptions = (styles.length ? styles : travelOptions).filter(
+    (item) => item === selectedTravelType || isAvailable("style", item),
+  );
 
  const handleTravelTypeSelect = (item) => {
-  setSelectedTravelType(item);
+  // Tapping the selected option again clears it, so "no preference" stays reachable.
+  setSelectedTravelType((prev) => (prev === item ? "" : item));
 };
   
   return (

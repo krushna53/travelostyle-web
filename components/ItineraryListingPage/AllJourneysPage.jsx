@@ -1,15 +1,14 @@
 "use client";
-import { matchesCountry } from "@/lib/destinationParams";
-import { matchesDestinationSearch } from "@/lib/destinationSearch";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import FilterSidebar from "./FilterSidebar";
 import SortBar from "./SortBar";
 import JourneyGrid from "./JourneyGrid";
 import Pagination from "./Pagination";
 import MobileFilters from "./MobileFilters";
-import { matchesBudget } from "@/lib/budgetRanges";
+import { applyJourneyFilters } from "@/lib/journeyFilters";
+import CurateJourneyButton from "@/components/CurateJourneyForm/CurateJourneyButton";
 
 const EMPTY_FILTER_OPTIONS = {
   region: [],
@@ -64,68 +63,35 @@ export default function AllJourneysPage({
   useEffect(() => {
     setCurrentPage(1);
   }, [filters]);
+  // The horizontal search bar above (SearchBarClient) is a sibling with its
+  // own state, so tell it whenever the sidebar filters change — that's what
+  // makes "Clear All" / unticking a sidebar option also reset the bar.
+  // The first run is skipped: on mount `filters` is still empty while the
+  // sidebar syncs from the URL/sessionStorage, and broadcasting that would
+  // wipe the bar's selection for a frame.
+  const isFirstFilterBroadcast = useRef(true);
+  useEffect(() => {
+    if (isFirstFilterBroadcast.current) {
+      isFirstFilterBroadcast.current = false;
+      return;
+    }
+    window.dispatchEvent(
+      new CustomEvent("travelo:listing-filters", {
+        detail: {
+          region: filters.region,
+          destinationSearch: filters.destinationSearch || "",
+          month: filters.month,
+          pricing: filters.pricing,
+          duration: filters.duration,
+        },
+      }),
+    );
+  }, [filters]);
+
   // ================= FILTER =================
 
   const filteredJourneys = useMemo(() => {
-    let data = journeys.filter((item) =>
-      matchesDestinationSearch(item, filters.destinationSearch),
-    );
-
-    if (countryFilter && !filters.region.length) {
-      data = data.filter((item) => matchesCountry(item, countryFilter));
-    }
-
-    if (!filters.displayAllOffers) {
-      data = data.filter((item) => !item.offer);
-    }
-
-    if (filters.region.length) {
-      data = data.filter((item) =>
-        filters.region.some((region) => matchesDestinationSearch(item, region)),
-      );
-    }
-
-    if (filters.style.length) {
-      data = data.filter((item) =>
-        item.tags?.some((t) => filters.style.includes(t)),
-      );
-    }
-
-    if (filters.offer.length) {
-      data = data.filter((item) => filters.offer.includes(item.offer));
-    }
-
-    if (filters.category.length) {
-      data = data.filter((item) =>
-        item.category?.some((c) => filters.category.includes(c)),
-      );
-    }
-
-    if (filters.month.length) {
-      data = data.filter((item) =>
-        item.month?.some((m) => filters.month.includes(m)),
-      );
-    }
-
-    if (filters.pricing.length) {
-      data = data.filter((item) =>
-        filters.pricing.some((range) => matchesBudget(item.price, range)),
-      );
-    }
-
-    if (filters.duration.length) {
-      data = data.filter((item) => {
-        const days = parseInt(item.days?.split(" ")[0] || 0);
-
-        return filters.duration.some((range) => {
-          if (range === "5–8 Days") return days >= 5 && days <= 8;
-          if (range === "8–15 Days") return days >= 8 && days <= 15;
-          if (range === "15–25 Days") return days >= 15 && days <= 25;
-          if (range === "25+ Days") return days >= 25;
-          return true;
-        });
-      });
-    }
+    const data = applyJourneyFilters(journeys, filters, { countryFilter });
 
     // SORTING
     if (sort === "Price: Low to High") {
@@ -292,6 +258,7 @@ export default function AllJourneysPage({
             setFilters={setFilters}
             filterOptions={filterOptions}
             journeys={journeys}
+            countryFilter={countryFilter}
             onClearAll={clearAllFilters}
           />
         </div>
@@ -363,12 +330,9 @@ export default function AllJourneysPage({
                 OR
               </div>
 
-              <button
-                onClick={clearAllFilters}
-                className="h-[37px] w-[224px] font-semibold tracking-[0.05em] text-[18px] md:w-auto md:font-normal md:tracking-normal md:px-6 md:h-[43px] md:min-w-[202px] rounded-full bg-[#2C3078] md:bg-[#2E348D] md:text-[17px] text-white transition hover:bg-[#252b78] mt-0 md:mt-2"
-              >
-                Explore All Journeys
-              </button>
+              <CurateJourneyButton className="h-auto min-h-[37px] w-auto px-6 py-2 font-semibold tracking-[0.05em] text-[16px] md:font-normal md:tracking-normal md:min-h-[43px] md:min-w-[202px] rounded-full bg-[#2C3078] md:bg-[#2E348D] md:text-[17px] text-white transition hover:bg-[#252b78] mt-0 md:mt-2">
+                Contact us to curate your journey
+              </CurateJourneyButton>
               <div className="w-full mt-[100px] md:mt-16">
                 <div className="border-b-2 border-ink mb-6">
                   <h2 className="text-left font-normal text-[16px] md:text-[21px] leading-[100%] tracking-[0.05em] pb-[14px] md:pb-2">
@@ -398,6 +362,7 @@ export default function AllJourneysPage({
         setFilters={setFilters}
         filterOptions={filterOptions}
         journeys={journeys}
+        countryFilter={countryFilter}
         sort={sort}
         setSort={setSort}
         resultCount={filteredJourneys.length}

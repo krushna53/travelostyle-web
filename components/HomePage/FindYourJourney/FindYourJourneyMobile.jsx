@@ -7,6 +7,7 @@ import DestinationMobile from "./DestinationMobile";
 import TravelDateMobile from "./TravelDateMobile";
 import { destinationParams } from "@/lib/destinationParams";
 import { useRouter } from "next/navigation";
+import { makeOptionAvailability } from "@/lib/journeyFilters";
 
 export default function FindJourneyMobile({
   onClose,
@@ -17,15 +18,26 @@ export default function FindJourneyMobile({
   popularMonths = [],
   allDestinations = [],
   journeys = [],
+  filterJourneys = [],
 }) {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [selectedTravelType, setSelectedTravelType] =
-    useState("Private Journey");
+  // Starts empty, same as the desktop TravelForm — a preselected style
+  // silently narrowed every other step's options.
+  const [selectedTravelType, setSelectedTravelType] = useState("");
   const [selectedDestinations, setSelectedDestinations] = useState([]);
   const [openToPossibilities, setOpenToPossibilities] = useState(false);
   const [selectedMonths, setSelectedMonths] = useState([]);
   const [selectedDuration, setSelectedDuration] = useState("");
+
+  // Hide options that would give zero results with what's already picked
+  // in the other steps (same rule as the desktop TravelForm).
+  const isAvailable = makeOptionAvailability(filterJourneys, {
+    region: selectedDestinations,
+    month: selectedMonths,
+    duration: selectedDuration,
+    style: selectedTravelType,
+  });
 
   const handleFindJourney = () => {
     const findYourJourneyData = {
@@ -48,6 +60,7 @@ export default function FindJourneyMobile({
         selectedTravelType={selectedTravelType}
         setSelectedTravelType={setSelectedTravelType}
         styles={styles}
+        isAvailable={isAvailable}
       />
     );
   }
@@ -65,6 +78,7 @@ export default function FindJourneyMobile({
         popularDestinations={popularDestinations}
         allDestinations={allDestinations}
         journeys={journeys}
+        isAvailable={isAvailable}
       />
     );
   }
@@ -79,6 +93,7 @@ export default function FindJourneyMobile({
         setSelectedDuration={setSelectedDuration}
         months={months}
         popularMonths={popularMonths}
+        isAvailable={isAvailable}
       />
     );
   }
