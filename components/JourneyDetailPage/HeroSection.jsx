@@ -1,6 +1,7 @@
 "use client";
 
 import BuildYourJourneyForm from "@/components/BuildYourJourneyForm";
+import CurateJourneyForm from "@/components/CurateJourneyForm";
 import JourneyCardImage from "@/components/JourneyCardImage";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";
 import Image from "@/components/SafeImage";
@@ -60,6 +61,7 @@ export default function HeroSection({
   const [activeView, setActiveView] = useState("menu");
   const [isPrivateFormOpen, setIsPrivateFormOpen] = useState(false);
   const [isCraftFormOpen, setIsCraftFormOpen] = useState(false);
+  const [isCurateFormOpen, setIsCurateFormOpen] = useState(false);
   // Inline mobile price card (menu view only); the floating bar hides while
   // it's on screen. State, not a ref, so the bar re-observes when it mounts.
   const [priceCardEl, setPriceCardEl] = useState(null);
@@ -96,6 +98,10 @@ export default function HeroSection({
   const showFrom = isInspirational;
   // Tailor-made-only journeys: no price and no "Request a Private Journey".
   const tailorMadeOnly = isTailorMadeOnly(journey?.tags);
+  // "Tailor This Journey For You": tailor-made-only journeys open the
+  // "Let Us Curate Your Journey" form; others keep the Craft Your Journey form.
+  const openTailorForm = () =>
+    tailorMadeOnly ? setIsCurateFormOpen(true) : setIsCraftFormOpen(true);
   // Group journeys: "Request a Private Journey" from the summary card has
   // no specific date attached, so it's pre-filled with whichever upcoming
   // departure is most relevant — the soonest one currently on offer, or
@@ -114,7 +120,7 @@ export default function HeroSection({
       window.scrollTo({ top: 0, behavior: "auto" });
     },
     onRequestPrivate: () => setIsPrivateFormOpen(true),
-    onTailor: () => setIsCraftFormOpen(true),
+    onTailor: openTailorForm,
   };
   return (
     <>
@@ -319,7 +325,7 @@ export default function HeroSection({
                   Want to make this itinerary entirely your own?
                   <br />
                   <button
-                    onClick={() => setIsCraftFormOpen(true)}
+                    onClick={openTailorForm}
                     className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
                   >
                     Tailor This Journey For You
@@ -484,6 +490,12 @@ export default function HeroSection({
           destination rather than leaving it blank for the visitor to
           search for again. */}
       {isInspirational && (
+        tailorMadeOnly ? (
+          <CurateJourneyForm
+            isOpen={isCurateFormOpen}
+            onClose={() => setIsCurateFormOpen(false)}
+          />
+        ) : (
         <BuildYourJourneyForm
           isOpen={isCraftFormOpen}
           onClose={() => setIsCraftFormOpen(false)}
@@ -494,6 +506,7 @@ export default function HeroSection({
             tagIds: journey?.tagIds,
           }}
         />
+        )
       )}
     </>
   );

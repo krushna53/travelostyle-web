@@ -22,7 +22,7 @@ const PHONE_PATTERN = /^\d{10}$/;
 
 // Multi-step "Request A Private Journey" inquiry form:
 // Step 1 - Guest Details
-// Step 2 - How would you like to customize this journey?
+// Step 2 - (removed) How would you like to customize this journey?
 // Step 3 - Stopover journeys
 // Step 4 - Travel information + submit
 export default function PrivateInquiryForm({
@@ -65,6 +65,10 @@ export default function PrivateInquiryForm({
   const hasStopovers =
     Array.isArray(journey?.stopoverJourneyIds) &&
     journey.stopoverJourneyIds.length > 0;
+
+  // Step 2 ("How would you like to customize this journey?") has been
+  // removed from the flow; step 3 is skipped when there are no stopovers.
+  const isSkipped = (s) => s === 2 || (s === 3 && !hasStopovers);
 
   const updateField = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -131,20 +135,16 @@ const goNext = () => {
   }
 
   setStep((prev) => {
-    const next = Math.min(prev + 1, TOTAL_STEPS);
-
-    return next === 3 && !hasStopovers
-      ? Math.min(next + 1, TOTAL_STEPS)
-      : next;
+    let next = Math.min(prev + 1, TOTAL_STEPS);
+    while (next < TOTAL_STEPS && isSkipped(next)) next += 1;
+    return next;
   });
 };
   const goPrevious = () =>
     setStep((prev) => {
-      const previous = Math.max(prev - 1, 1);
-      // Skip step 3 (stopovers) on the way back if this journey has none.
-      return previous === 3 && !hasStopovers
-        ? Math.max(previous - 1, 1)
-        : previous;
+      let previous = Math.max(prev - 1, 1);
+      while (previous > 1 && isSkipped(previous)) previous -= 1;
+      return previous;
     });
 
   const handleClose = () => {
