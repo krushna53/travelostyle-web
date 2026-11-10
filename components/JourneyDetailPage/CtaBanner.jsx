@@ -3,6 +3,7 @@
 import { useState } from "react";
 import BuildYourJourneyForm from "@/components/BuildYourJourneyForm";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";
+import { isTailorMadeOnly } from "@/lib/tailorMade";
 
 export default function CtaBanner({
   buttonText = "Craft Your Journey",
@@ -23,6 +24,15 @@ export default function CtaBanner({
   variant = "banner",
 }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  // Tailor-made-only journeys don't offer "Request A Private Journey".
+  if (
+    formType === "private" &&
+    /private journey/i.test(buttonText) &&
+    isTailorMadeOnly(journey?.tags)
+  ) {
+    return null;
+  }
 
   if (variant === "card") {
     return (

@@ -9,6 +9,7 @@ import {
   addTripToCompare,
   isTripInCompare,
 } from "@/lib/compareCart";
+import { isTailorMadeOnly } from "@/lib/tailorMade";
 
 const TAG_COLORS = {
   "group journey": "bg-[#E1EEDB] text-[#1A1A1A]",
@@ -35,6 +36,8 @@ const CARD_BASE =
 export default function JourneyCard({ trip, variant = "carousel", onCompare, mobileWidthClass }) {
   const [isSelected, setIsSelected] = useState(false);
   const showFrom = trip.experienceType?.toLowerCase().includes("inspir");
+  // Tailor-made-only journeys don't show a price.
+  const hidePrice = isTailorMadeOnly(trip.tags);
   // Kept in sync with the cart so removing a trip in the compare modal
   // flips this card back to "Add to Compare".
   useEffect(() => {
@@ -133,6 +136,10 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
         <div className="flex-0" />
 
         <div className="mt-3 md:mt-4 flex items-end justify-between">
+          {hidePrice ? (
+            // Keeps "View Trip" pinned to the right.
+            <div />
+          ) : (
           <div className="flex flex-col items-start md:flex-row md:items-end md:gap-1">
            {showFrom && (
  <span className="text-[10px] leading-[21px] tracking-[0.05em] text-ink md:hidden">
@@ -186,6 +193,7 @@ export default function JourneyCard({ trip, variant = "carousel", onCompare, mob
               </span>
             </div>
           </div>
+          )}
 
           <a
             href={trip.viewTripUrl}
