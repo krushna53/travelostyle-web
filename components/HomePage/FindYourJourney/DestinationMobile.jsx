@@ -31,6 +31,7 @@ export default function DestinationMobile({
   popularDestinations = [],
   allDestinations = [],
   journeys = [],
+  isAvailable = () => true,
 }) {
   const router = useRouter();
   // Popular Locations (city, labeled with their region) + popular Regions
@@ -59,14 +60,16 @@ export default function DestinationMobile({
         // Cities aren't shown as their own search result — only
         // country/region-level entries (which have no `city`), same as the
         // desktop TravelForm.
-        return matches.filter((item) => !item.city).filter((item) => {
+        return matches.filter((item) => !item.city).filter((item) => selectedDestinations.includes(item.value) || isAvailable("region", item.value)).filter((item) => {
           const key = item.label.toLowerCase();
           if (seen.has(key)) return false;
           seen.add(key);
           return true;
         });
       })()
-    : destinationOptions;
+    : destinationOptions.filter(
+        (item) => selectedDestinations.includes(item.value) || isAvailable("region", item.value),
+      );
 
   const handleSelect = (value) => {
     setSelectedDestinations((prev) =>

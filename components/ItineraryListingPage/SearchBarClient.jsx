@@ -10,6 +10,7 @@ import FindJourneyMobile from "@/components/HomePage/FindYourJourney/FindYourJou
 import { BUDGET_RANGES } from "@/lib/budgetRanges";
 import { matchesDestinationSearch } from "@/lib/destinationSearch";
 import { sortMonthsFromCurrent } from "@/lib/months";
+import { makeOptionAvailability } from "@/lib/journeyFilters";
 
 // Same options as the homepage's TravelForm "How long do you want to
 // travel?" picker.
@@ -42,6 +43,7 @@ function ListingSearchForm({
   popularDestinations = [],
   popularMonths = [],
   journeys = [],
+  filterJourneys = [],
 }) {
   const router = useRouter();
   const formRef = useRef(null);
@@ -75,6 +77,35 @@ function ListingSearchForm({
   // back off so the box goes back to being a live search box. Same pattern
   // as the homepage's TravelForm.
   const [showDestinationSelection, setShowDestinationSelection] = useState(false);
+
+  // Hide options that would give zero results with what's already picked
+  // in the other fields. Selected options always stay visible.
+  const isAvailable = makeOptionAvailability(filterJourneys, {
+    region: selectedDestinations,
+    month: selectedMonths,
+    duration: selectedDuration,
+    pricing: selectedBudget,
+  });
+  const showOption = (key, value, selected) => selected || isAvailable(key, value);
+
+  // Mirror the listing sidebar's filters (sent by AllJourneysPage), so
+  // "Clear All" or unticking an option in the sidebar also clears it here.
+  useEffect(() => {
+    const handleFiltersChange = (e) => {
+      const { region = [], destinationSearch = "", month = [], pricing = [], duration = [] } = e.detail || {};
+      if (region.length) {
+        setSelectedDestinations(region);
+      } else if (!destinationSearch) {
+        setSelectedDestinations([]);
+        setDestinationQuery("");
+      }
+      setSelectedMonths(month);
+      setSelectedBudget(pricing[0] || "");
+      setSelectedDuration(duration[0] || "");
+    };
+    window.addEventListener("travelo:listing-filters", handleFiltersChange);
+    return () => window.removeEventListener("travelo:listing-filters", handleFiltersChange);
+  }, []);
 
   const toggle = (key) => {
     setActiveDropdown((prev) => (prev === key ? null : key));
@@ -149,7 +180,9 @@ function ListingSearchForm({
 
       const seen = new Set();
 
-      return results.filter((item) => {
+      return results
+        .filter((item) => showOption("region", item.value, selectedDestinations.includes(item.value)))
+        .filter((item) => {
         const key = item.label.toLowerCase();
 
         if (seen.has(key)) return false;
@@ -158,7 +191,9 @@ function ListingSearchForm({
         return true;
       });
     })()
-  : popularDestinationOptions;
+  : popularDestinationOptions.filter((item) =>
+      showOption("region", item.value, selectedDestinations.includes(item.value)),
+    );
 
   // Journeys whose title/region/city/country/state match what's typed —
   // same matcher the results page itself uses, so a search that happens to
@@ -189,9 +224,10 @@ function ListingSearchForm({
   // back to the full month taxonomy only if none are flagged popular yet.
   const monthOptions = sortMonthsFromCurrent(
     popularMonths.length ? popularMonths : months,
-  );
+  ).filter((m) => showOption("month", m, selectedMonths.includes(m)));
 
-  const handleDurationSelect = (duration) => setSelectedDuration(duration);
+  const handleDurationSelect = (duration) =>
+    setSelectedDuration((prev) => (prev === duration ? "" : duration));
 
   const destLabel = selectedDestinations.length
     ? selectedDestinations.slice(0, 2).join(", ") +
@@ -442,7 +478,9 @@ function ListingSearchForm({
             How long do you want to travel?
           </h4>
           <div className="flex flex-wrap gap-6">
-            {durations.map((item) => (
+            {durations
+              .filter((item) => showOption("duration", item, selectedDuration === item))
+              .map((item) => (
               <label
                 key={item}
                 className="flex cursor-pointer items-center gap-2 text-[14px]"
@@ -466,7 +504,9 @@ function ListingSearchForm({
         <div className="absolute left-0 right-0 top-full z-40 mt-3 rounded-lg border border-gray-200 bg-white p-4 shadow-md">
           <h3 className="mb-3 text-[18px] font-semibold">Select Budget Range</h3>
           <div className="flex flex-wrap gap-2">
-            {BUDGET_RANGES.map((b) => (
+            {BUDGET_RANGES
+              .filter((b) => showOption("pricing", b.value, selectedBudget === b.value))
+              .map((b) => (
               <button
                 key={b.value}
                 onClick={() => { setSelectedBudget(b.value); setActiveDropdown(null); }}
@@ -493,6 +533,7 @@ export default function SearchBar({
   popularDestinations = [],
   popularMonths = [],
   journeys = [],
+  filterJourneys = [],
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showFindJourneyMobile, setShowFindJourneyMobile] = useState(false);
@@ -693,6 +734,7 @@ export default function SearchBar({
             popularDestinations={popularDestinations}
             popularMonths={popularMonths}
             journeys={journeys}
+            filterJourneys={filterJourneys}
           />
         </div>
       </div>
@@ -707,6 +749,7 @@ export default function SearchBar({
             popularDestinations={popularDestinations}
             popularMonths={popularMonths}
             journeys={journeys}
+            filterJourneys={filterJourneys}
           />
         </div>
       )}

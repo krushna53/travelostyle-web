@@ -7,6 +7,7 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import { matchesDestinationSearch } from "@/lib/destinationSearch";
 import { sortMonthsFromCurrent } from "@/lib/months";
+import { makeOptionAvailability } from "@/lib/journeyFilters";
 
 const DropdownArrow = ({ open }) => (
   <svg
@@ -73,6 +74,7 @@ export default function TravelForm({
   popularMonths = [],
   allDestinations = [],
   journeys = [],
+  filterJourneys = [],
 }) {
   // Multi-select — a visitor planning a trip often fits more than one
   // category (e.g. both "Private Journey" and "Tailor-Made Journey"), so
@@ -92,6 +94,16 @@ export default function TravelForm({
   // the selected-destinations summary (or the placeholder) like before.
   const [destinationQuery, setDestinationQuery] = useState("");
   const [showDestinationSelection, setShowDestinationSelection] = useState(false);
+
+  // Hide options that would give zero results with what's already picked
+  // in the other fields. Selected options always stay visible.
+  const isAvailable = makeOptionAvailability(filterJourneys, {
+    region: selectedDestinations,
+    month: selectedMonths,
+    duration: selectedDuration,
+    style: selectedTravelTypes,
+  });
+  const showOption = (key, value, selected) => selected || isAvailable(key, value);
 
   // Panels float over the page, so close them on an outside click.
   useEffect(() => {
@@ -138,6 +150,7 @@ export default function TravelForm({
         const seen = new Set();
         return matches
           .filter((item) => !item.city)
+          .filter((item) => showOption("region", item.value, selectedDestinations.includes(item.value)))
           .filter((item) => {
             const key = item.label.toLowerCase();
             if (seen.has(key)) return false;
@@ -145,7 +158,9 @@ export default function TravelForm({
             return true;
           });
       })()
-    : destinationOptions;
+    : destinationOptions.filter((item) =>
+        showOption("region", item.value, selectedDestinations.includes(item.value)),
+      );
 
   // Journeys whose title/region/city/country/state match what's typed —
   // shown mixed into the same results list (with their image) so a search
@@ -182,12 +197,14 @@ export default function TravelForm({
       : months.length
         ? months
         : FALLBACK_MONTHS,
-  );
+  ).filter((month) => showOption("month", month, selectedMonths.includes(month)));
 
   // "Choose a way to travel" — the same "tags" taxonomy the itinerary
   // sidebar's own Travel Style filter reads from, so a selection here is
   // guaranteed to match something the itinerary page can actually filter.
-  const travelTypeOptions = styles.length ? styles : travelOptions;
+  const travelTypeOptions = (styles.length ? styles : travelOptions).filter((item) =>
+    showOption("style", item, selectedTravelTypes.includes(item)),
+  );
 
   const handleTravelTypeSelect = (item) => {
     setSelectedTravelTypes((prev) =>
@@ -239,7 +256,7 @@ export default function TravelForm({
   };
 
   const handleDurationSelect = (duration) => {
-    setSelectedDuration(duration);
+    setSelectedDuration((prev) => (prev === duration ? "" : duration));
   };
 
   return (
@@ -532,7 +549,9 @@ export default function TravelForm({
           </h4>
 
           <div className="flex flex-wrap gap-6">
-            {durations.map((item) => (
+            {durations
+              .filter((item) => showOption("duration", item, selectedDuration === item))
+              .map((item) => (
               <label
                 key={item}
                 className="flex items-center gap-2 text-[13px] max-[1910px]:text-[13px] cursor-pointer"

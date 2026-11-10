@@ -4,6 +4,7 @@ import {
   getPopularDestinations,
 } from "@/lib/getPopularDestinations";
 import { getJourneyCards } from "@/lib/journeyCard";
+import { getAllJourneysList } from "@/lib/allJourneys";
 import SearchBarClient from "./SearchBarClient";
 
 export default async function SearchBar() {
@@ -12,11 +13,15 @@ export default async function SearchBar() {
     allDestinations,
     { popularDestinations, popularMonths },
     journeys,
+    filterJourneys,
   ] = await Promise.all([
     getFilterOptions(),
     getAllDestinationSearchOptions(),
     getPopularDestinations(),
     getJourneyCards(),
+    // Full journey data (month, tags, duration, price) — used only to hide
+    // search options that would lead to zero results.
+    getAllJourneysList().catch(() => []),
   ]);
 
   return (
@@ -27,6 +32,7 @@ export default async function SearchBar() {
       popularDestinations={popularDestinations}
       popularMonths={popularMonths}
       journeys={journeys}
+      filterJourneys={filterJourneys}
     />
   );
 }
