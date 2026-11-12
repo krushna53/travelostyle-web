@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import {
@@ -9,8 +9,10 @@ import {
   Marker,
   Polyline,
   Popup,
+  Tooltip,
   useMap,
 } from "react-leaflet";
+import { Plane, Car, TrainFront, Ship } from "lucide-react";
 
 // Classic map-pin silhouette (Material "place" glyph geometry — a plain
 // teardrop + punched-out circle, both closed sub-paths with opposing
@@ -32,19 +34,84 @@ function hubIcon(active) {
   });
 }
 
-// Inline SVG (Material "flight" glyph) instead of a hotlinked icons8.com
-// image — that external URL now 404s, so the plane showed as a browser
-// broken-image icon mid-route. Drawn nose-up (0deg = north) by default, which
-// matches the bearing convention computed below (0 = north, 90 = east), so
-// no rotation offset is needed before applying it.
-const PLANE_ICON = L.divIcon({
-  className: "journey-plane-icon",
-  html: `<div class="journey-plane-rotate" style="width:28px;height:28px;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.4));">
-   
-  </div>`,
-  iconSize: [28, 28],
-  iconAnchor: [14, 14],
-});
+// Line colour per "Mode of Transport" taxonomy term (Drupal vocabulary
+// mode_of_transport: Air/Road/Train/Water — see each itinerary day's
+// field_mode_of_transport).
+const ROUTE_COLORS = { Air: "#39396D", Road: "#343434", Train: "#343434", Water: "#078A99" };
+const TRANSPORT_LABELS = {
+  Air: { Icon: Plane, label: "Flight" },
+  Road: { Icon: Car, label: "Drive" },
+  Train: { Icon: TrainFront, label: "Train" },
+  Water: { Icon: Ship, label: "Ferry" },
+};
+
+// Google-Maps-style highlight for the leg the user clicked.
+const SELECTED_COLOR = "#3D1DF3";
+const SELECTED_BORDER = "#1E0FB0";
+
+function normalizeTransport(mode) {
+  const value = String(mode || "").trim().toLowerCase();
+  if (/road|ground|car|bus|coach/.test(value)) return "Road";
+  if (/rail|train/.test(value)) return "Train";
+  if (/water|ship|boat|ferry|cruise|sea/.test(value)) return "Water";
+  return "Air";
+}
+
+// Great-circle distance between the two stops. The itinerary data has no
+// real route/flight distance or duration, so the label shows this as
+// approximate.
+function distanceKm(from, to) {
+  const toRad = (deg) => (deg * Math.PI) / 180;
+  const dLat = toRad(to[0] - from[0]);
+  const dLng = toRad(to[1] - from[1]);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(from[0])) * Math.cos(toRad(to[0])) * Math.sin(dLng / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function TransportLeg({ positions, mode, km, selected, dimmed, onSelect, onDeselect }) {
+  const color = ROUTE_COLORS[mode];
+  const { Icon, label } = TRANSPORT_LABELS[mode];
+  const opacity = dimmed ? 0.35 : 0.9;
+
+  return (
+    <>
+      {selected ? (
+        <>
+          <Polyline positions={positions} pathOptions={{ color: SELECTED_BORDER, weight: 10, lineCap: "round", lineJoin: "round" }} interactive={false} />
+          <Polyline positions={positions} pathOptions={{ color: SELECTED_COLOR, weight: 7, lineCap: "round", lineJoin: "round" }} interactive={false}>
+            <Tooltip permanent direction="top" offset={[0, -10]} opacity={1} className="journey-leg-chip">
+              <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 13, fontWeight: 700, lineHeight: "16px" }}>
+                <Icon size={15} color="#fff" strokeWidth={2.5} />
+                {label}
+              </div>
+              <div style={{ fontSize: 12, fontWeight: 500, lineHeight: "15px" }}>
+                ≈ {Math.round(km).toLocaleString("en-US")} km
+              </div>
+            </Tooltip>
+          </Polyline>
+        </>
+      ) : mode === "Train" ? (
+        <>
+          <Polyline positions={positions} pathOptions={{ color, weight: 9, dashArray: "2 10", lineCap: "butt", opacity }} interactive={false} />
+          <Polyline positions={positions} pathOptions={{ color, weight: 5, opacity }} interactive={false} />
+          <Polyline positions={positions} pathOptions={{ color: "#FFFFFF", weight: 2, opacity }} interactive={false} />
+        </>
+      ) : (
+        <Polyline positions={positions} pathOptions={{ color, weight: mode === "Air" ? 3 : 3.5, dashArray: mode === "Air" ? "1 9" : undefined, lineCap: "round", opacity }} interactive={false} />
+      )}
+      {/* Invisible, wider hit area so the thin dotted lines are easy to
+          click. Click highlights the leg; moving the mouse off it restores
+          the normal style. */}
+      <Polyline
+        positions={positions}
+        pathOptions={{ color: "#000", weight: 18, opacity: 0 }}
+        eventHandlers={{ click: onSelect, mouseout: onDeselect }}
+      />
+    </>
+  );
+}
 
 // Samples a quadratic-bezier arc between two points so the route reads as a
 // curved flight path rather than a straight line, alternating the bulge
@@ -78,15 +145,6 @@ function curvedSegment(from, to, bend) {
   return points;
 }
 
-function buildRoutePath(points) {
-  const path = [];
-  for (let i = 0; i < points.length - 1; i++) {
-    const segment = curvedSegment(points[i], points[i + 1], i % 2 === 0 ? 1 : -1);
-    path.push(...(i === 0 ? segment : segment.slice(1)));
-  }
-  return path;
-}
-
 function FitToMarkers({ positions }) {
   const map = useMap();
   useEffect(() => {
@@ -100,70 +158,19 @@ function FitToMarkers({ positions }) {
   return null;
 }
 
-function AnimatedPlane({ path }) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (!path || path.length < 2) return undefined;
-
-    const marker = L.marker(path[0], {
-      icon: PLANE_ICON,
-      interactive: false,
-      zIndexOffset: 1000,
-      keyboard: false,
-    });
-    marker.addTo(map);
-
-    const totalPoints = path.length;
-    const durationPerLoop = Math.max(24000, totalPoints * 240);
-    let frameId;
-    let startTime = null;
-
-    function step(time) {
-      if (startTime === null) startTime = time;
-      const elapsed = (time - startTime) % durationPerLoop;
-      const progress = elapsed / durationPerLoop;
-
-      const idx = progress * (totalPoints - 1);
-      const i0 = Math.floor(idx);
-      const i1 = Math.min(i0 + 1, totalPoints - 1);
-      const t = idx - i0;
-
-      const p0 = path[i0];
-      const p1 = path[i1];
-      const lat = p0[0] + (p1[0] - p0[0]) * t;
-      const lng = p0[1] + (p1[1] - p0[1]) * t;
-      marker.setLatLng([lat, lng]);
-
-      // Compass-style bearing: 0deg = north (increasing lat), 90deg = east
-      // (increasing lng) — PLANE_ICON's artwork is drawn nose-up (north), so
-      // this rotation applies directly with no baseline offset.
-      const bearing = (Math.atan2(p1[1] - p0[1], p1[0] - p0[0]) * 180) / Math.PI;
-      const el = marker.getElement();
-      const rotor = el?.querySelector(".journey-plane-rotate");
-      if (rotor) {
-        rotor.style.transform = `rotate(${bearing}deg)`;
-      }
-
-      frameId = requestAnimationFrame(step);
-    }
-
-    frameId = requestAnimationFrame(step);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-      marker.remove();
-    };
-  }, [map, path]);
-
-  return null;
-}
-
 export default function JourneyMap({ markers, activeDay }) {
   const markerRefs = useRef({});
+  const [selectedLeg, setSelectedLeg] = useState(null);
 
   const points = useMemo(() => markers.map((m) => [m.lat, m.lon]), [markers]);
-  const path = useMemo(() => buildRoutePath(points), [points]);
+  // `markers[i].mode` is how the traveller arrives AT marker i (from the day
+  // whose stay is marker i) — so leg (marker i -> marker i+1) is travelled by
+  // markers[i + 1]'s mode, same logic as "how did we get to today's city".
+  const legs = useMemo(() => points.slice(1).map((point, index) => ({
+    positions: curvedSegment(points[index], point, index % 2 === 0 ? 1 : -1),
+    mode: normalizeTransport(markers[index + 1]?.mode),
+    km: distanceKm(points[index], point),
+  })), [points, markers]);
 
   useEffect(() => {
     if (activeDay == null) return;
@@ -175,17 +182,6 @@ export default function JourneyMap({ markers, activeDay }) {
 
   return (
     <>
-      <style jsx global>{`
-        .journey-route-ant {
-          stroke-dasharray: 10 8;
-          animation: journey-route-dash 1.1s linear infinite;
-        }
-        @keyframes journey-route-dash {
-          to {
-            stroke-dashoffset: -18;
-          }
-        }
-      `}</style>
       <MapContainer
         center={points[0] || [20, 0]}
         zoom={4}
@@ -198,16 +194,18 @@ export default function JourneyMap({ markers, activeDay }) {
           maxZoom={20}
         />
         <FitToMarkers positions={points} />
-        <Polyline
-          positions={path}
-          pathOptions={{
-            color: "#1A1A1A",
-            weight: 2,
-            className: "journey-route-ant",
-          }}
-          interactive={false}
-        />
-        <AnimatedPlane path={path} />
+        {legs.map((leg, index) => (
+          <TransportLeg
+            key={index}
+            positions={leg.positions}
+            mode={leg.mode}
+            km={leg.km}
+            selected={index === selectedLeg}
+            dimmed={selectedLeg != null && index !== selectedLeg}
+            onSelect={() => setSelectedLeg(index)}
+            onDeselect={() => setSelectedLeg((current) => (current === index ? null : current))}
+          />
+        ))}
         {markers.map((marker) => {
           const isActive = marker.days.some((d) => d.day === activeDay);
           return (

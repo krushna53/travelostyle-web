@@ -52,6 +52,9 @@ const INCLUDE = [
   // "field_journey_tabs_section.field_section_tabs.field_exclusions.field_exclusion.field_icon.field_media_image",
 
   "field_journey_tabs_section.field_section_tabs.field_days.field_stay",
+  // Resolves each day's "Mode of Transport" taxonomy terms (Air/Road/Train/
+  // Water) so JourneyMap can pick the matching route icon per leg.
+  "field_journey_tabs_section.field_section_tabs.field_days.field_mode_of_transport",
   // Stays tab is built from the hotels picked on the itinerary days, so the
   // day hotels need their images too.
   "field_journey_tabs_section.field_section_tabs.field_days.field_stay.field_featured_image.field_media_image",
@@ -66,6 +69,15 @@ const INCLUDE = [
   // "field_journey_tabs_section.field_section_tabs.field_exclusions.field_exclusion.field_icon.field_media_image",
 
 ].join(",");
+// field_mode_of_transport only exists on backends that have the Mode of
+// Transport field deployed. Where it doesn't, Drupal rejects the whole
+// request with a 400 ("not a valid include path"), so the page retries
+// without it rather than 404ing — the map then falls back to Air.
+const TRANSPORT_INCLUDE =
+  "field_journey_tabs_section.field_section_tabs.field_days.field_mode_of_transport";
+const INCLUDE_WITHOUT_TRANSPORT = INCLUDE.split(",")
+  .filter((path) => path !== TRANSPORT_INCLUDE)
+  .join(",");
 const TESTIMONIAL_INCLUDE =
   "field_testimonial_image.field_media_image,field_testimonial_journey";
 
@@ -104,6 +116,12 @@ export default async function JourneyDetailPage({
     res = await fetch(`${API_BASE_URL}/api/journey/${id}?include=${INCLUDE}`, {
       next: { revalidate: 60 },
     });
+    if (res.status === 400) {
+      res = await fetch(
+        `${API_BASE_URL}/api/journey/${id}?include=${INCLUDE_WITHOUT_TRANSPORT}`,
+        { next: { revalidate: 60 } },
+      );
+    }
   } catch {
     // Connection failure (backend truly unreachable) — fall back to mock
     // data below rather than a hard 404.

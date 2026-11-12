@@ -381,6 +381,17 @@ tabs.itinerary = {
         // contribute a map point — it still renders in the day list.
         const geo = hotel ? resolveStayGeoLocation(hotel) : null;
 
+        // How the traveller moves ON this day (Air/Road/Train/Water,
+        // multi-value) — used by JourneyMap to swap the animated route icon
+        // (plane/car/train/boat) for the leg arriving at this day's stop.
+        const transportModes = relRefs(day.relationships?.field_mode_of_transport)
+          .map((ref) =>
+            included.find(
+              (inc) => inc.type === "taxonomy_term--mode_of_transport" && inc.id === ref.id,
+            )?.attributes?.name,
+          )
+          .filter(Boolean);
+
 return {
      day: a.field_day_number,
      cityPair: a.field_city_pair || "",
@@ -391,6 +402,7 @@ return {
      description: stripHtml(a.field_description?.processed || ""),
      lat: geo?.lat ?? null,
      lon: geo?.lon ?? null,
+     transportModes,
         };
       })
       .filter(Boolean),
