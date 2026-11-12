@@ -19,9 +19,9 @@ const months = [
   "December",
 ];
 
-const durations = ["2–5 Days", "6–10 Days", "11–20 Days", "20+ Days"];
+const durations = ["5–8 Days", "8–15 Days", "15–25 Days", "25+ Days"];
 
-export default function TravelDateMobile({ onClose,selectedMonths,setSelectedMonths,selectedDuration,setSelectedDuration, months: monthsFromDrupal = [], popularMonths = [] }) {
+export default function TravelDateMobile({ onClose,selectedMonths,setSelectedMonths,selectedDuration,setSelectedDuration, months: monthsFromDrupal = [], popularMonths = [], isAvailable = () => true }) {
 
   // Months marked popular first; otherwise whatever Month terms actually
   // exist in Drupal; the static 12-month list is a last resort only.
@@ -31,7 +31,7 @@ export default function TravelDateMobile({ onClose,selectedMonths,setSelectedMon
       : monthsFromDrupal.length
         ? monthsFromDrupal
         : months,
-  );
+  ).filter((month) => selectedMonths.includes(month) || isAvailable("month", month));
 
   const toggleMonth = (month) => {
     setSelectedMonths((prev) =>
@@ -83,7 +83,9 @@ export default function TravelDateMobile({ onClose,selectedMonths,setSelectedMon
         </h3>
 
         <div className="space-y-3">
-          {durations.map((item) => (
+          {durations
+            .filter((item) => item === selectedDuration || isAvailable("duration", item))
+            .map((item) => (
             <label
               key={item}
               className="flex items-center gap-3 cursor-pointer"

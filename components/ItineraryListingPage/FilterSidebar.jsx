@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Plus, Minus, ChevronDown, ChevronUp, Check } from "lucide-react";
 import { BUDGET_RANGES, matchesBudget } from "@/lib/budgetRanges";
+import { applyJourneyFilters, matchesDuration } from "@/lib/journeyFilters";
 
 const FilterSection = ({ title, children, defaultOpen = true, mobile = false, last = false }) => {
   const [open, setOpen] = useState(defaultOpen);
@@ -127,51 +128,33 @@ export const MonthPill = ({ label, active, onClick, mobile = false }) => {
 export const DURATION_OPTIONS = ["5–8 Days", "8–15 Days", "15–25 Days", "25+ Days"];
 
 // Shared with MobileFilters.jsx (the tabbed mobile filter/sort sheet) so both
-// surfaces compute "(count)" badges identically without duplicating the
-// switch logic.
-export function getFilterCount(journeys, key, value) {
-  return journeys.filter((item) => {
+// surfaces compute "(count)" badges identically.
+//
+// When `filters` is passed the counts are faceted: each option's count is
+// the number of journeys matching every *other* active filter plus that
+// option. So selecting "Africa" makes "Adventure (n)" show only African
+// adventure trips, while the other regions still show their own counts.
+export function getFilterCount(journeys, key, value, { filters, countryFilter } = {}) {
+  const pool = filters
+    ? applyJourneyFilters(journeys, filters, { countryFilter, exclude: key })
+    : journeys;
+
+  return pool.filter((item) => {
     switch (key) {
       case "region":
         return matchesDestinationSearch(item, value);
-
       case "style":
         return item.tags?.includes(value);
-
       case "offer":
         return item.offer === value;
-
       case "category":
         return item.category?.includes(value);
-
       case "month":
         return item.month?.includes(value);
-
       case "pricing":
         return matchesBudget(item.price, value);
-
-      case "duration": {
-        const days = parseInt(item.days?.split(" ")[0] || 0);
-
-        if (value === "5–8 Days") {
-          return days >= 5 && days <= 8;
-        }
-
-        if (value === "8–15 Days") {
-          return days >= 8 && days <= 15;
-        }
-
-        if (value === "15–25 Days") {
-          return days >= 15 && days <= 25;
-        }
-
-        if (value === "25+ Days") {
-          return days >= 25;
-        }
-
-        return false;
-      }
-
+      case "duration":
+        return matchesDuration(item, value);
       default:
         return false;
     }
@@ -183,6 +166,7 @@ export default function FilterSidebar({
   setFilters,
   filterOptions,
   journeys = [],
+  countryFilter = null,
   variant = "desktop",
   onClose,
   resultCount,
@@ -246,7 +230,8 @@ export default function FilterSidebar({
         : [...prev[key], value],
     }));
   };
-  const getCount = (key, value) => getFilterCount(journeys, key, value);
+  const getCount = (key, value) =>
+    getFilterCount(journeys, key, value, { filters, countryFilter });
 
   // Hide options that currently match zero journeys — unless it's already
   // selected (e.g. arrived here with ?region= from the homepage map/search,
@@ -524,7 +509,7 @@ export default function FilterSidebar({
       {/* MONTH */}
       <FilterSection title="Month" mobile={mobile} last>
         <div className={mobile ? "flex flex-wrap gap-2" : "flex flex-wrap gap-[8px]"}>
-          {(filterOptions.month || []).map((month) => (
+          {visibleOptions("month", filterOptions.month).map((month) => (
             <MonthPill
               key={month}
               label={month}
@@ -747,7 +732,7 @@ export default function FilterSidebar({
         {/* MONTH */}
         <FilterSection title="Month" last>
           <div className="flex flex-wrap gap-[8px]">
-            {(filterOptions.month || []).map((month) => (
+            {visibleOptions("month", filterOptions.month).map((month) => (
               <MonthPill
                 key={month}
                 label={month}

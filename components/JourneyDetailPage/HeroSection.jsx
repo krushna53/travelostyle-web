@@ -1,10 +1,12 @@
 "use client";
 
 import BuildYourJourneyForm from "@/components/BuildYourJourneyForm";
+import CurateJourneyForm from "@/components/CurateJourneyForm";
 import JourneyCardImage from "@/components/JourneyCardImage";
 import PrivateInquiryForm from "@/components/PrivateInquiryForm";
 import Image from "@/components/SafeImage";
 import { pickPriorityDeparture } from "@/lib/departures";
+import { isTailorMadeOnly } from "@/lib/tailorMade";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import MobileNavigationMenu from "./MobileNavigationMenu";
@@ -59,6 +61,7 @@ export default function HeroSection({
   const [activeView, setActiveView] = useState("menu");
   const [isPrivateFormOpen, setIsPrivateFormOpen] = useState(false);
   const [isCraftFormOpen, setIsCraftFormOpen] = useState(false);
+  const [isCurateFormOpen, setIsCurateFormOpen] = useState(false);
   // Inline mobile price card (menu view only); the floating bar hides while
   // it's on screen. State, not a ref, so the bar re-observes when it mounts.
   const [priceCardEl, setPriceCardEl] = useState(null);
@@ -93,6 +96,12 @@ export default function HeroSection({
     : MOCK_CATEGORIES;
   const isInspirational = Boolean(journey?.isInspirational);
   const showFrom = isInspirational;
+  // Tailor-made-only journeys: no price and no "Request a Private Journey".
+  const tailorMadeOnly = isTailorMadeOnly(journey?.tags);
+  // "Tailor This Journey For You": tailor-made-only journeys open the
+  // "Let Us Curate Your Journey" form; others keep the Craft Your Journey form.
+  const openTailorForm = () =>
+    tailorMadeOnly ? setIsCurateFormOpen(true) : setIsCraftFormOpen(true);
   // Group journeys: "Request a Private Journey" from the summary card has
   // no specific date attached, so it's pre-filled with whichever upcoming
   // departure is most relevant — the soonest one currently on offer, or
@@ -105,12 +114,13 @@ export default function HeroSection({
     journey,
     isInspirational,
     showFrom,
+    tailorMadeOnly,
     onCheckDates: () => {
       handleSetActiveView("dates-pricing");
       window.scrollTo({ top: 0, behavior: "auto" });
     },
     onRequestPrivate: () => setIsPrivateFormOpen(true),
-    onTailor: () => setIsCraftFormOpen(true),
+    onTailor: openTailorForm,
   };
   return (
     <>
@@ -244,6 +254,7 @@ export default function HeroSection({
 
             {/* Divider */}
             <div className="mt-[30px] mb-[20px] flex items-center gap-[26px]">
+              {!tailorMadeOnly && (
               <div className="shrink-0">
                 {/* From */}
                 {showFrom && (
@@ -284,6 +295,7 @@ export default function HeroSection({
                   double occupancy*
                 </p>
               </div>
+              )}
 
               {journey?.offer && (
                 <span
@@ -300,18 +312,20 @@ export default function HeroSection({
 
             {isInspirational ? (
               <>
-                <button
-                  onClick={() => setIsPrivateFormOpen(true)}
-                  className="mt-[16px] h-[44px] w-full md:w-[84%] rounded-full bg-[#2D3482] text-[18px] font-semibold text-white transition hover:bg-[#252b78]"
-                >
-                  Request a Private Journey
-                </button>
+                {!tailorMadeOnly && (
+                  <button
+                    onClick={() => setIsPrivateFormOpen(true)}
+                    className="mt-[16px] h-[44px] w-full md:w-[88%] rounded-full bg-[#2D3482] text-[18px] font-semibold text-white transition hover:bg-[#252b78]"
+                  >
+                   Request a Quote for this Journey
+                  </button>
+                )}
 
                 <div className="mt-[12px] text-[16px] font-light text-[#000000]">
                   Want to make this itinerary entirely your own?
                   <br />
                   <button
-                    onClick={() => setIsCraftFormOpen(true)}
+                    onClick={openTailorForm}
                     className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
                   >
                     Tailor This Journey For You
@@ -327,16 +341,18 @@ export default function HeroSection({
                   Check Dates & Availability
                 </button>
 
-                <div className="mt-[12px] text-[16px] font-light text-[#000000]">
-                  Want to customize this itinerary?
-                  <br />
-                  <button
-                    onClick={() => setIsPrivateFormOpen(true)}
-                    className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
-                  >
-                    Request a Private Journey
-                  </button>
-                </div>
+                {!tailorMadeOnly && (
+                  <div className="mt-[12px] text-[16px] font-light text-[#000000]">
+                    Want to customize this itinerary?
+                    <br />
+                    <button
+                      onClick={() => setIsPrivateFormOpen(true)}
+                      className="mt-[2px] font-bold text-ink underline underline-offset-[2px]"
+                    >
+                      Request a Private Journey
+                    </button>
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -474,6 +490,12 @@ export default function HeroSection({
           destination rather than leaving it blank for the visitor to
           search for again. */}
       {isInspirational && (
+        tailorMadeOnly ? (
+          <CurateJourneyForm
+            isOpen={isCurateFormOpen}
+            onClose={() => setIsCurateFormOpen(false)}
+          />
+        ) : (
         <BuildYourJourneyForm
           isOpen={isCraftFormOpen}
           onClose={() => setIsCraftFormOpen(false)}
@@ -484,6 +506,7 @@ export default function HeroSection({
             tagIds: journey?.tagIds,
           }}
         />
+        )
       )}
     </>
   );
