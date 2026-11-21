@@ -99,33 +99,27 @@ export default async function JourneyDetailPage({
 
   // Custom Drupal endpoint: resolves the /journey/{slug} alias to its node
   // internally and returns the same JSON:API shape for that node.
-  let res: Response | null = null;
-  try {
-    res = await fetch(`${API_BASE_URL}/api/journey/${id}?include=${INCLUDE}`, {
-      next: { revalidate: 60 },
-    });
-  } catch {
-    // Connection failure (backend truly unreachable) — fall back to mock
-    // data below rather than a hard 404.
+  // A connection failure is left to throw: only Drupal answering 404 means
+  // the journey doesn't exist. Anything else (unreachable, 5xx, timeout)
+  // must throw, so Next keeps serving the last good cached page instead of
+  // caching a 404 that visitors and search engines would then see.
+  const res = await fetch(`${API_BASE_URL}/api/journey/${id}?include=${INCLUDE}`, {
+    next: { revalidate: 60 },
+  });
+
+  if (res.status === 404) {
+    notFound();
   }
 
-  if (res) {
-    // The backend answered at all, so any non-2xx here is Drupal genuinely
-    // saying this alias doesn't resolve — a real 404. notFound() throws, so
-    // it must stay outside the try/catch above or it'd be swallowed as a
-    // network failure.
-    if (!res.ok) {
-      console.error(`[journey] Drupal ${res.status} for /api/journey/${id}:`, (await res.text()).slice(0, 500));
-      notFound();
-    }
+  if (!res.ok) {
+    console.error(`[journey] Drupal ${res.status} for /api/journey/${id}:`, (await res.text()).slice(0, 500));
+    throw new Error(`Drupal returned ${res.status} for journey "${id}"`);
   }
 
-  const journeyData = res ? await res.json() : null;
+  const journeyData = await res.json();
 
   if (!journeyData?.data) {
-    // Backend was unreachable, or returned a payload with no node data.
-    // There's no mock-data fallback in place, so treat this the same as
-    // a real 404 rather than crashing on journeyData.data.id below.
+    // Drupal answered successfully but has no node for this alias.
     notFound();
   }
 

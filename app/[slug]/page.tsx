@@ -28,17 +28,15 @@ export async function generateStaticParams() {
 export default async function PolicyDetails({ params }: PageProps) {
   const { slug } = await params;
 
-  let res: Response | null = null;
-  try {
-    res = await fetch(`${API_BASE_URL}/jsonapi/node/page?filter[status][value]=1`, {
-      next: { revalidate: 60 },
-    });
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
+  // This lists every page, so a failed fetch says nothing about whether this
+  // slug exists — throw (Next keeps serving the last good cached page) and
+  // leave notFound() to the "no matching node" check below.
+  const res = await fetch(`${API_BASE_URL}/jsonapi/node/page?filter[status][value]=1`, {
+    next: { revalidate: 60 },
+  });
 
-  if (!res || !res.ok) {
-    notFound();
+  if (!res.ok) {
+    throw new Error(`Drupal returned ${res.status} for the page list`);
   }
 
   const data = await res.json();
